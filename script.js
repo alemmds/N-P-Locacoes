@@ -22,6 +22,7 @@ document.getElementById("maquinaForm").addEventListener("submit", function (e) {
     const maquinaHorasTrabalhadas = document.getElementById("maquinaHorasTrabalhadas").value;
     maquinas.push({ nome: maquinaNome, serie: maquinaSerie, anosUso: maquinaAnosUso, horasTrabalhadas: maquinaHorasTrabalhadas });
     this.reset();
+    showList('maquinas');
 });
 
 // Função para mostrar lista de máquinas
