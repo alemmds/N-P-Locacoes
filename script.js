@@ -1,79 +1,71 @@
-const maquinas = [];
-const recebimentos = [];
-const contratos = [];
-const contas = [];
-const empresas = [];
+document.getElementById('formMaquina').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const form = event.target;
+    const nome = form[0].value;
+    const serie = form[1].value;
+    const anosUso = form[2].value;
+    const horasTrabalhadas = form[3].value;
 
-// Função para exibir a seção correta
-function showSection(section) {
-    const sections = document.querySelectorAll("main > section");
-    sections.forEach((sec) => {
-        sec.classList.add("hidden");
-    });
-    document.getElementById(section).classList.remove("hidden");
-}
-
-// Função para cadastrar máquinas
-document.getElementById("maquinaForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const maquinaNome = document.getElementById("maquinaNome").value;
-    const maquinaSerie = document.getElementById("maquinaSerie").value;
-    const maquinaAnosUso = document.getElementById("maquinaAnosUso").value;
-    const maquinaHorasTrabalhadas = document.getElementById("maquinaHorasTrabalhadas").value;
-    maquinas.push({ nome: maquinaNome, serie: maquinaSerie, anosUso: maquinaAnosUso, horasTrabalhadas: maquinaHorasTrabalhadas });
-    this.reset();
-    showList('maquinas');
+    addMaquina({ nome, serie, anosUso, horasTrabalhadas });
+    form.reset();
 });
 
-// Função para mostrar lista de máquinas
-function showList(section) {
-    let list = [];
-    switch (section) {
-        case 'maquinas':
-            list = maquinas;
-            break;
-        case 'recebimentos':
-            list = recebimentos;
-            break;
-        case 'contratos':
-            list = contratos;
-            break;
-        case 'contas':
-            list = contas;
-            break;
-        case 'empresas':
-            list = empresas;
-            break;
-    }
+function addMaquina(maquina) {
+    const tableBody = document.querySelector('#tableMaquinas tbody');
+    const newRow = document.createElement('tr');
 
-    const tableBody = document.getElementById(`${section}TableBody`);
-    tableBody.innerHTML = ""; // Limpa a tabela
+    newRow.innerHTML = `
+        <td>${maquina.nome}</td>
+        <td>${maquina.serie}</td>
+        <td>${maquina.anosUso}</td>
+        <td>${maquina.horasTrabalhadas}</td>
+        <td>
+            <button onclick="editMaquina(this)">Alterar</button>
+            <button onclick="deleteMaquina(this)">Excluir</button>
+        </td>
+    `;
+    tableBody.appendChild(newRow);
+}
 
-    list.forEach((item, index) => {
-        const row = document.createElement("tr");
-        for (const key in item) {
-            const cell = document.createElement("td");
-            cell.textContent = item[key];
-            row.appendChild(cell);
-        }
-        const actionsCell = document.createElement("td");
-        actionsCell.innerHTML = `<button onclick="edit${section.charAt(0).toUpperCase() + section.slice(1)}(${index})">Alterar</button>
-                                 <button onclick="delete${section.charAt(0).toUpperCase() + section.slice(1)}(${index})">Excluir</button>`;
-        row.appendChild(actionsCell);
-        tableBody.appendChild(row);
+function showSection(sectionId) {
+    const sections = document.querySelectorAll('.content-section');
+    sections.forEach(section => {
+        section.classList.remove('active');
     });
-
-    document.getElementById(`${section}List`).classList.remove("hidden");
+    document.getElementById(sectionId).classList.add('active');
 }
 
-// Funções para editar e excluir
-function editMaquina(index) {
-    // Implementar a lógica de edição
+function back() {
+    const forms = document.querySelectorAll('.form-container');
+    forms.forEach(form => {
+        form.style.display = 'none';
+    });
 }
 
-function deleteMaquina(index) {
-    maquinas.splice(index, 1);
-    showList('maquinas');
+function showForm(formId) {
+    const forms = document.querySelectorAll('.form-container');
+    forms.forEach(form => {
+        form.style.display = 'none';
+    });
+    document.getElementById(formId).style.display = 'block';
 }
 
-// Repita as funções de editar e excluir para os outros tipos de dados (recebimentos, contratos, etc.)...
+function showList(listId) {
+    const lists = document.querySelectorAll('.list-container');
+    lists.forEach(list => {
+        list.style.display = 'none';
+    });
+    document.getElementById(listId).style.display = 'block';
+}
+
+// Funções para editar e excluir devem ser implementadas
+function editMaquina(button) {
+    // Implementar lógica de edição
+}
+
+function deleteMaquina(button) {
+    const row = button.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+}
+
+// Continuar para Recebimentos, Contratos, Contas e Empresas
