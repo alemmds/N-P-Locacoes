@@ -4,16 +4,12 @@ const contratos = [];
 const contas = [];
 const empresas = [];
 
-// Função para exibir a seção correta
 function showSection(section) {
     const sections = document.querySelectorAll("main > section");
-    sections.forEach((sec) => {
-        sec.classList.add("hidden");
-    });
+    sections.forEach((sec) => sec.classList.add("hidden"));
     document.getElementById(section).classList.remove("hidden");
 }
 
-// Funções para cadastrar máquinas
 document.getElementById("maquinaForm").addEventListener("submit", function (e) {
     e.preventDefault();
     const maquinaNome = document.getElementById("maquinaNome").value;
@@ -24,7 +20,6 @@ document.getElementById("maquinaForm").addEventListener("submit", function (e) {
     this.reset();
 });
 
-// Função para mostrar lista de máquinas
 function showList(section) {
     let list = [];
     switch (section) {
@@ -46,7 +41,7 @@ function showList(section) {
     }
 
     const tableBody = document.getElementById(`${section}TableBody`);
-    tableBody.innerHTML = ""; // Limpa a tabela
+    tableBody.innerHTML = "";
 
     list.forEach((item, index) => {
         const row = document.createElement("tr");
@@ -56,7 +51,7 @@ function showList(section) {
             row.appendChild(cell);
         }
         const actionsCell = document.createElement("td");
-        actionsCell.innerHTML = `<button onclick="edit${section.charAt(0).toUpperCase() + section.slice(1)}(${index})">Alterar</button>
+        actionsCell.innerHTML = `<button onclick="edit${section.charAt(0).toUpperCase() + section.slice(1)}(${index})">Editar</button>
                                  <button onclick="delete${section.charAt(0).toUpperCase() + section.slice(1)}(${index})">Excluir</button>`;
         row.appendChild(actionsCell);
         tableBody.appendChild(row);
@@ -65,35 +60,12 @@ function showList(section) {
     document.getElementById(`${section}List`).classList.remove("hidden");
 }
 
-// Funções para editar e excluir
+// Funções para editar e excluir (exemplo para máquinas)
 function editMaquina(index) {
-    // Implementar a lógica de edição
+    // Lógica para edição de máquina
 }
 
 function deleteMaquina(index) {
     maquinas.splice(index, 1);
     showList('maquinas');
 }
-
-// Repita as funções de editar e excluir para os outros tipos de dados...
-
-// Event Listeners para os botões do menu lateral
-document.getElementById("btnMaquinas").addEventListener("click", function() {
-    showList('maquinas');
-});
-
-document.getElementById("btnRecebimentos").addEventListener("click", function() {
-    showList('recebimentos');
-});
-
-document.getElementById("btnContratos").addEventListener("click", function() {
-    showList('contratos');
-});
-
-document.getElementById("btnContas").addEventListener("click", function() {
-    showList('contas');
-});
-
-document.getElementById("btnEmpresas").addEventListener("click", function() {
-    showList('empresas');
-});
