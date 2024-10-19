@@ -1,67 +1,62 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="manifest" href="manifest.json">
     <title>N Pontes Locações</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <nav class="sidebar">
-            <h2>N Pontes Locações</h2>
-            <ul>
-                <li onclick="showSection('maquinas')">Máquinas</li>
-                <li onclick="showSection('recebimentos')">Recebimentos</li>
-                <li onclick="showSection('contratos')">Contratos</li>
-                <li onclick="showSection('contas')">Contas</li>
-                <li onclick="showSection('empresas')">Empresas</li>
-            </ul>
-        </nav>
-        <main class="main-content">
-            <!-- Seção para Cadastro de Máquinas -->
-            <section id="maquinas" class="hidden">
-                <h3>Cadastrar Máquina</h3>
-                <form id="maquinaForm">
-                    <input type="text" id="maquinaNome" placeholder="Nome" required>
-                    <input type="text" id="maquinaSerie" placeholder="Série" required>
-                    <input type="number" id="maquinaAnosUso" placeholder="Anos de Uso" required>
-                    <input type="number" id="maquinaHorasTrabalhadas" placeholder="Horas Trabalhadas" required>
-                    <button type="submit">Cadastrar Máquina</button>
-                </form>
-                <button onclick="showList('maquinas')">Lista de Máquinas</button>
-                <div id="maquinaList" class="hidden">
-                    <h4>Lista de Máquinas</h4>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Série</th>
-                                <th>Anos de Uso</th>
-                                <th>Horas Trabalhadas</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="maquinaTableBody"></tbody>
-                    </table>
-                </div>
-            </section>
-            <!-- Outras Seções seguem o mesmo padrão... -->
-        </main>
-    </div>
+    <nav>
+        <ul>
+            <li><a href="#" onclick="showSection('maquinas')">Máquinas</a></li>
+            <li><a href="#" onclick="showSection('recebimentos')">Recebimentos</a></li>
+            <li><a href="#" onclick="showSection('contratos')">Contratos</a></li>
+            <li><a href="#" onclick="showSection('contas')">Contas</a></li>
+            <li><a href="#" onclick="showSection('empresas')">Empresas</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="maquinas" class="hidden">
+            <h2>Cadastro de Máquinas</h2>
+            <form id="maquinaForm">
+                <input type="text" id="maquinaNome" placeholder="Nome da Máquina" required>
+                <input type="text" id="maquinaSerie" placeholder="Série" required>
+                <input type="number" id="maquinaAnosUso" placeholder="Anos de Uso" required>
+                <input type="number" id="maquinaHorasTrabalhadas" placeholder="Horas Trabalhadas" required>
+                <button type="submit">Cadastrar Máquina</button>
+            </form>
+            <button onclick="showList('maquinas')">Listar Máquinas</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Série</th>
+                        <th>Anos de Uso</th>
+                        <th>Horas Trabalhadas</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="maquinasTableBody"></tbody>
+            </table>
+        </section>
+        <!-- Outras seções para Recebimentos, Contratos, Contas e Empresas -->
+    </main>
+
+    <script src="script.js"></script>
 
     <!-- Registro do Service Worker -->
     <script>
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('service-worker.js').then(function(registration) {
-                console.log('Service Worker registrado com sucesso:', registration);
-            }).catch(function(error) {
-                console.log('Falha ao registrar o Service Worker:', error);
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+                    console.log('Service Worker registrado com sucesso:', registration.scope);
+                }, function(err) {
+                    console.log('Falha ao registrar o Service Worker:', err);
+                });
             });
         }
     </script>
-
-    <script src="script.js"></script>
 </body>
 </html>
