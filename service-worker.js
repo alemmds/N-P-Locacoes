@@ -1,41 +1,37 @@
-const CACHE_NAME = 'n-pontes-locacoes-cache-v1';
+const CACHE_NAME = 'n-pontes-locacoes-v1';
 const urlsToCache = [
     '/',
     '/index.html',
-    '/style.css',
+    '/styles.css',
     '/script.js',
-    '/manifest.json',
-    '/icon.png'
+    '/manifest.json'
 ];
 
-self.addEventListener('install', (event) => {
+self.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then((cache) => {
-                console.log('Cache aberto');
+            .then(function(cache) {
+                console.log('Arquivos em cache');
                 return cache.addAll(urlsToCache);
             })
     );
 });
 
-self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', function(event) {
     event.respondWith(
         caches.match(event.request)
-            .then((response) => {
-                if (response) {
-                    return response; // Retorna do cache
-                }
-                return fetch(event.request); // Faz o fetch se não estiver no cache
+            .then(function(response) {
+                return response || fetch(event.request);
             })
     );
 });
 
-self.addEventListener('activate', (event) => {
+self.addEventListener('activate', function(event) {
     const cacheWhitelist = [CACHE_NAME];
     event.waitUntil(
-        caches.keys().then((cacheNames) => {
+        caches.keys().then(function(cacheNames) {
             return Promise.all(
-                cacheNames.map((cacheName) => {
+                cacheNames.map(function(cacheName) {
                     if (cacheWhitelist.indexOf(cacheName) === -1) {
                         return caches.delete(cacheName);
                     }
