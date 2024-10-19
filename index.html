@@ -1,40 +1,196 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>N Pontes Locações</title>
-    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+    <link rel="manifest" href="manifest.json">
+    <title>N Pontes Locações</title>
 </head>
 <body>
-    <div id="menu">
-        <h1>N Pontes Locações</h1>
-        <ul>
-            <li><a href="#" onclick="loadPage('maquinas')">Máquinas</a></li>
-            <li><a href="#" onclick="loadPage('recebimentos')">Recebimentos</a></li>
-            <li><a href="#" onclick="loadPage('contratos')">Contratos</a></li>
-            <li><a href="#" onclick="loadPage('contas')">Contas</a></li>
-            <li><a href="#" onclick="loadPage('empresas')">Empresas</a></li>
-        </ul>
-    </div>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>N Pontes Locações</h2>
+            <ul>
+                <li onclick="showSection('maquinas')">Máquinas</li>
+                <li onclick="showSection('recebimentos')">Recebimentos</li>
+                <li onclick="showSection('contratos')">Contratos</li>
+                <li onclick="showSection('contas')">Contas</li>
+                <li onclick="showSection('empresas')">Empresas</li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <section id="maquinas" class="hidden">
+                <h3>Cadastrar Máquina</h3>
+                <form id="maquinaForm">
+                    <input type="text" id="maquinaNome" placeholder="Nome" required>
+                    <input type="text" id="maquinaSerie" placeholder="Série" required>
+                    <input type="number" id="maquinaAnosUso" placeholder="Anos de Uso" required>
+                    <input type="number" id="maquinaHorasTrabalhadas" placeholder="Horas Trabalhadas" required>
+                    <button type="submit">Cadastrar Máquina</button>
+                </form>
+                <button onclick="showList('maquinas')">Lista de Máquinas</button>
+                <div id="maquinaList" class="hidden">
+                    <h4>Lista de Máquinas</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Série</th>
+                                <th>Anos de Uso</th>
+                                <th>Horas Trabalhadas</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="maquinaTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
 
-    <div id="content">
-        <h2>Bem-vindo ao Sistema N Pontes Locações</h2>
-        <p>Utilize o menu lateral para navegar pelas categorias e gerenciar os dados.</p>
-    </div>
+            <section id="recebimentos" class="hidden">
+                <h3>Cadastrar Recebimento</h3>
+                <form id="recebimentoForm">
+                    <input type="text" id="recebimentoEmpresa" placeholder="Empresa" required>
+                    <input type="number" id="recebimentoValor" placeholder="Valor" required>
+                    <input type="date" id="recebimentoPagamento" placeholder="Data de Pagamento" required>
+                    <input type="date" id="recebimentoTermino" placeholder="Data de Término" required>
+                    <select id="recebimentoStatus" required>
+                        <option value="PAGO">Pago</option>
+                        <option value="A RECEBER">A Receber</option>
+                    </select>
+                    <button type="submit">Cadastrar Recebimento</button>
+                </form>
+                <button onclick="showList('recebimentos')">Lista de Recebimentos</button>
+                <div id="recebimentoList" class="hidden">
+                    <h4>Lista de Recebimentos</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Empresa</th>
+                                <th>Valor</th>
+                                <th>Pagamento</th>
+                                <th>Término</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recebimentoTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
 
-    <!-- Script para registrar o service worker -->
+            <section id="contratos" class="hidden">
+                <h3>Cadastrar Contrato</h3>
+                <form id="contratoForm">
+                    <input type="text" id="contratoEmpresa" placeholder="Empresa" required>
+                    <input type="text" id="contratoLocatario" placeholder="Locatário" required>
+                    <input type="text" id="contratoCNPJ" placeholder="CNPJ" required>
+                    <input type="text" id="contratoRepresentante" placeholder="Representante" required>
+                    <input type="text" id="contratoEquipamento" placeholder="Equipamento" required>
+                    <input type="date" id="contratoDataTermino" placeholder="Data de Término" required>
+                    <select id="contratoOperador" required>
+                        <option value="Pela empresa">Pela empresa</option>
+                        <option value="Pela N Pontes">Pela N Pontes</option>
+                    </select>
+                    <button type="submit">Cadastrar Contrato</button>
+                </form>
+                <button onclick="showList('contratos')">Lista de Contratos</button>
+                <div id="contratoList" class="hidden">
+                    <h4>Lista de Contratos</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Empresa</th>
+                                <th>Locatário</th>
+                                <th>CNPJ</th>
+                                <th>Representante</th>
+                                <th>Equipamento</th>
+                                <th>Data de Término</th>
+                                <th>Operador</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contratoTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="contas" class="hidden">
+                <h3>Cadastrar Conta</h3>
+                <form id="contaForm">
+                    <select id="contaTipo" required>
+                        <option value="Água">Água</option>
+                        <option value="Luz">Luz</option>
+                        <option value="Telefone">Telefone</option>
+                        <option value="Internet">Internet</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                    <input type="date" id="contaDataVencimento" placeholder="Data de Vencimento" required>
+                    <input type="number" id="contaValor" placeholder="Valor" required>
+                    <button type="submit">Cadastrar Conta</button>
+                </form>
+                <button onclick="showList('contas')">Lista de Contas</button>
+                <div id="contaList" class="hidden">
+                    <h4>Lista de Contas</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Data de Vencimento</th>
+                                <th>Valor</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contaTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="empresas" class="hidden">
+                <h3>Cadastrar Empresa</h3>
+                <form id="empresaForm">
+                    <input type="text" id="empresaNome" placeholder="Nome" required>
+                    <input type="text" id="empresaCNPJ" placeholder="CNPJ" required>
+                    <input type="text" id="empresaAreaAtuacao" placeholder="Área de Atuação" required>
+                    <input type="text" id="empresaRepresentante" placeholder="Representante" required>
+                    <input type="tel" id="empresaTelefone" placeholder="Telefone" required>
+                    <input type="email" id="empresaEmail" placeholder="E-mail" required>
+                    <button type="submit">Cadastrar Empresa</button>
+                </form>
+                <button onclick="showList('empresas')">Lista de Empresas</button>
+                <div id="empresaList" class="hidden">
+                    <h4>Lista de Empresas</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>CNPJ</th>
+                                <th>Área de Atuação</th>
+                                <th>Representante</th>
+                                <th>Telefone</th>
+                                <th>E-mail</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="empresaTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
     <script>
+        // Registrar o service worker
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('service-worker.js')
-                .then(function(registration) {
-                    console.log('Service Worker registrado com sucesso:', registration.scope);
-                })
-                .catch(function(error) {
-                    console.log('Falha ao registrar o Service Worker:', error);
-                });
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then((registration) => {
+                        console.log('Service Worker registrado com sucesso:', registration);
+                    })
+                    .catch((error) => {
+                        console.log('Falha ao registrar o Service Worker:', error);
+                    });
+            });
         }
     </script>
 </body>
