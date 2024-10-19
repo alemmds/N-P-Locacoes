@@ -1,91 +1,62 @@
-/* Estilo geral da página */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f5f5f5;
 }
 
-/* Estilo do menu lateral */
-nav {
+.container {
+    display: flex;
+}
+
+.sidebar {
     width: 200px;
-    background-color: #333;
-    height: 100vh;
-    position: fixed;
-    left: 0;
-    top: 0;
-    padding-top: 20px;
+    background: #333;
+    color: #fff;
+    padding: 10px;
 }
 
-nav ul {
-    list-style-type: none;
+.sidebar ul {
+    list-style: none;
     padding: 0;
 }
 
-nav ul li {
-    margin: 20px 0;
+.sidebar li {
+    cursor: pointer;
+    padding: 10px;
 }
 
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    display: block;
-    padding: 10px 20px;
-    background-color: #444;
-    border-radius: 5px;
+.sidebar li:hover {
+    background: #555;
 }
 
-nav ul li a:hover {
-    background-color: #555;
-}
-
-/* Estilo do conteúdo principal */
-main {
-    margin-left: 220px;
+.main {
+    flex-grow: 1;
     padding: 20px;
 }
 
-h2 {
-    color: #333;
-}
-
-/* Estilo das tabelas */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-table th, table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-.hidden {
+.content-section {
     display: none;
 }
 
-/* Estilo dos formulários */
-form {
-    display: flex;
-    flex-direction: column;
+.content-section.active {
+    display: block;
 }
 
-form input, form button {
-    margin-bottom: 10px;
-    padding: 10px;
-    font-size: 16px;
+.form-container, .list-container {
+    margin-top: 20px;
 }
 
-button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-button:hover {
-    background-color: #218838;
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background: #f2f2f2;
 }
