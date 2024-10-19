@@ -18,15 +18,6 @@ function showSection(sectionId) {
     document.getElementById(sectionId).classList.add('active');
 }
 
-// Função para mostrar um formulário específico
-function showForm(formId) {
-    const forms = document.querySelectorAll('.form-container');
-    forms.forEach(form => {
-        form.style.display = 'none';
-    });
-    document.getElementById(formId).style.display = 'block';
-}
-
 // Função para mostrar uma lista específica
 function showList(listId) {
     const lists = document.querySelectorAll('.list-container');
@@ -34,19 +25,6 @@ function showList(listId) {
         list.style.display = 'none';
     });
     document.getElementById(listId).style.display = 'block';
-}
-
-// Função para voltar
-function back() {
-    const forms = document.querySelectorAll('.form-container');
-    forms.forEach(form => {
-        form.style.display = 'none';
-    });
-
-    const lists = document.querySelectorAll('.list-container');
-    lists.forEach(list => {
-        list.style.display = 'none';
-    });
 }
 
 // Funções para manipulação de máquinas
@@ -70,7 +48,7 @@ function handleFormMaquina(event) {
 
 function updateMaquinaList() {
     const tableBody = document.querySelector('#tableMaquinas tbody');
-    tableBody.innerHTML = '';
+    tableBody.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
     maquinas.forEach(maquina => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -94,7 +72,7 @@ function editMaquina(id) {
         document.querySelector('#formMaquina input[name="serie"]').value = maquina.serie;
         document.querySelector('#formMaquina input[name="anosUso"]').value = maquina.anosUso;
         document.querySelector('#formMaquina input[name="horasTrabalhadas"]').value = maquina.horasTrabalhadas;
-        showForm('cadastrarMaquina');
+        showForm('cadastrarMaquina'); // Mostra o formulário para edição
         deleteMaquina(id); // Remove a máquina para permitir alteração
     }
 }
@@ -113,7 +91,7 @@ function handleFormRecebimento(event) {
     const recebimento = {
         id: Date.now(),
         empresa: formData.get('empresa'),
-        valor: parseFloat(formData.get('valor')),
+        valor: parseFloat(formData.get('valor')) || 0,
         pagamento: formData.get('pagamento'),
         termino: formData.get('termino'),
         status: formData.get('status')
@@ -126,7 +104,7 @@ function handleFormRecebimento(event) {
 
 function updateRecebimentoList() {
     const tableBody = document.querySelector('#tableRecebimentos tbody');
-    tableBody.innerHTML = '';
+    tableBody.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
     recebimentos.forEach(recebimento => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -152,7 +130,7 @@ function editRecebimento(id) {
         document.querySelector('#formRecebimento input[name="pagamento"]').value = recebimento.pagamento;
         document.querySelector('#formRecebimento input[name="termino"]').value = recebimento.termino;
         document.querySelector('#formRecebimento select[name="status"]').value = recebimento.status;
-        showForm('cadastrarRecebimento');
+        showForm('cadastrarRecebimento'); // Mostra o formulário para edição
         deleteRecebimento(id); // Remove o recebimento para permitir alteração
     }
 }
@@ -187,7 +165,7 @@ function handleFormContrato(event) {
 
 function updateContratoList() {
     const tableBody = document.querySelector('#tableContratos tbody');
-    tableBody.innerHTML = '';
+    tableBody.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
     contratos.forEach(contrato => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -216,7 +194,7 @@ function editContrato(id) {
         document.querySelector('#formContrato input[name="equipamento"]').value = contrato.equipamento;
         document.querySelector('#formContrato input[name="dataTermino"]').value = contrato.dataTermino;
         document.querySelector('#formContrato select[name="tipo"]').value = contrato.tipo;
-        showForm('cadastrarContrato');
+        showForm('cadastrarContrato'); // Mostra o formulário para edição
         deleteContrato(id); // Remove o contrato para permitir alteração
     }
 }
@@ -246,7 +224,7 @@ function handleFormConta(event) {
 
 function updateContaList() {
     const tableBody = document.querySelector('#tableContas tbody');
-    tableBody.innerHTML = '';
+    tableBody.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
     contas.forEach(conta => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -268,7 +246,7 @@ function editConta(id) {
         document.querySelector('#formConta input[name="tipo"]').value = conta.tipo;
         document.querySelector('#formConta input[name="dataVencimento"]').value = conta.dataVencimento;
         document.querySelector('#formConta input[name="valor"]').value = conta.valor;
-        showForm('cadastrarConta');
+        showForm('cadastrarConta'); // Mostra o formulário para edição
         deleteConta(id); // Remove a conta para permitir alteração
     }
 }
@@ -299,7 +277,7 @@ function handleFormEmpresa(event) {
 
 function updateEmpresaList() {
     const tableBody = document.querySelector('#tableEmpresas tbody');
-    tableBody.innerHTML = '';
+    tableBody.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
     empresas.forEach(empresa => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -323,7 +301,7 @@ function editEmpresa(id) {
         document.querySelector('#formEmpresa input[name="cnpj"]').value = empresa.cnpj;
         document.querySelector('#formEmpresa input[name="telefone"]').value = empresa.telefone;
         document.querySelector('#formEmpresa input[name="endereco"]').value = empresa.endereco;
-        showForm('cadastrarEmpresa');
+        showForm('cadastrarEmpresa'); // Mostra o formulário para edição
         deleteEmpresa(id); // Remove a empresa para permitir alteração
     }
 }
@@ -332,3 +310,11 @@ function deleteEmpresa(id) {
     empresas = empresas.filter(empresa => empresa.id !== id);
     updateEmpresaList();
 }
+
+// Função para voltar a uma seção anterior
+function back() {
+    // Implementação para voltar à seção anterior
+    showSection('maquinas'); // Mostra a seção de Máquinas novamente
+}
+
+// Certifique-se de que os IDs e os nomes dos campos nos formulários HTML correspondem aos usados no JavaScript.
