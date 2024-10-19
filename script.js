@@ -4,12 +4,16 @@ const contratos = [];
 const contas = [];
 const empresas = [];
 
+// Função para exibir a seção correta
 function showSection(section) {
     const sections = document.querySelectorAll("main > section");
-    sections.forEach((sec) => sec.classList.add("hidden"));
+    sections.forEach((sec) => {
+        sec.classList.add("hidden");
+    });
     document.getElementById(section).classList.remove("hidden");
 }
 
+// Função para cadastrar máquinas
 document.getElementById("maquinaForm").addEventListener("submit", function (e) {
     e.preventDefault();
     const maquinaNome = document.getElementById("maquinaNome").value;
@@ -20,6 +24,7 @@ document.getElementById("maquinaForm").addEventListener("submit", function (e) {
     this.reset();
 });
 
+// Função para mostrar lista de máquinas
 function showList(section) {
     let list = [];
     switch (section) {
@@ -41,7 +46,7 @@ function showList(section) {
     }
 
     const tableBody = document.getElementById(`${section}TableBody`);
-    tableBody.innerHTML = "";
+    tableBody.innerHTML = ""; // Limpa a tabela
 
     list.forEach((item, index) => {
         const row = document.createElement("tr");
@@ -51,7 +56,7 @@ function showList(section) {
             row.appendChild(cell);
         }
         const actionsCell = document.createElement("td");
-        actionsCell.innerHTML = `<button onclick="edit${section.charAt(0).toUpperCase() + section.slice(1)}(${index})">Editar</button>
+        actionsCell.innerHTML = `<button onclick="edit${section.charAt(0).toUpperCase() + section.slice(1)}(${index})">Alterar</button>
                                  <button onclick="delete${section.charAt(0).toUpperCase() + section.slice(1)}(${index})">Excluir</button>`;
         row.appendChild(actionsCell);
         tableBody.appendChild(row);
@@ -60,12 +65,14 @@ function showList(section) {
     document.getElementById(`${section}List`).classList.remove("hidden");
 }
 
-// Funções para editar e excluir (exemplo para máquinas)
+// Funções para editar e excluir
 function editMaquina(index) {
-    // Lógica para edição de máquina
+    // Implementar a lógica de edição
 }
 
 function deleteMaquina(index) {
     maquinas.splice(index, 1);
     showList('maquinas');
 }
+
+// Repita as funções de editar e excluir para os outros tipos de dados (recebimentos, contratos, etc.)...
