@@ -1,20 +1,21 @@
 {
-  "short_name": "N Pontes Locações",
-  "name": "N Pontes Locações - Gerenciamento de Equipamentos",
-  "start_url": "index.html",
+  "name": "N Pontes Locações",
+  "short_name": "NPLocações",
+  "description": "Sistema de gerenciamento para a empresa N Pontes Locações.",
+  "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#f4f4f4",
-  "theme_color": "#007BFF",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "icons": [
     {
-      "src": "icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "src": "/icons/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
     },
     {
-      "src": "icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "/icons/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ]
 }
