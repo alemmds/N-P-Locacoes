@@ -1,28 +1,23 @@
-const CACHE_NAME = 'v1';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/script.js',
-  '/images/logo.png'
-];
-
-// Instalando o Service Worker e cacheando arquivos estáticos
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        return cache.addAll(urlsToCache);
-      })
-  );
+self.addEventListener('install', (event) => {
+    event.waitUntil(
+        caches.open('v1').then((cache) => {
+            return cache.addAll([
+                'index.html',
+                'styles.css',
+                'script.js',
+                'manifest.json',
+                // Adicione outros arquivos que você deseja armazenar em cache
+            ]);
+        })
+    );
 });
 
-// Buscando recursos do cache
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        return response || fetch(event.request);
-      })
-  );
+self.addEventListener('fetch', (event) => {
+    event.respondWith(
+        caches.match(event.request
+
+).then((response) => {
+            return response || fetch(event.request);
+        })
+    );
 });
