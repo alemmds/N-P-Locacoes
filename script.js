@@ -57,10 +57,10 @@ function handleFormMaquina(event) {
     const formData = new FormData(event.target);
     const maquina = {
         id: Date.now(),
-        nome: formData.get('nome'),
-        serie: formData.get('serie'),
-        anosUso: formData.get('anosUso'),
-        horasTrabalhadas: formData.get('horasTrabalhadas')
+        nome: formData.get('nome') || '', // Garantindo que não seja null
+        serie: formData.get('serie') || '',
+        anosUso: formData.get('anosUso') || '',
+        horasTrabalhadas: formData.get('horasTrabalhadas') || ''
     };
     maquinas.push(maquina);
     event.target.reset(); // Limpa o formulário
@@ -112,11 +112,11 @@ function handleFormRecebimento(event) {
     const formData = new FormData(event.target);
     const recebimento = {
         id: Date.now(),
-        empresa: formData.get('empresa'),
-        valor: parseFloat(formData.get('valor')),
-        pagamento: formData.get('pagamento'),
-        termino: formData.get('termino'),
-        status: formData.get('status')
+        empresa: formData.get('empresa') || '',
+        valor: parseFloat(formData.get('valor')) || 0,
+        pagamento: formData.get('pagamento') || '',
+        termino: formData.get('termino') || '',
+        status: formData.get('status') || ''
     };
     recebimentos.push(recebimento);
     event.target.reset(); // Limpa o formulário
@@ -170,14 +170,14 @@ function handleFormContrato(event) {
     const formData = new FormData(event.target);
     const contrato = {
         id: Date.now(),
-        empresa: formData.get('empresa'),
-        locatario: formData.get('locatario'),
-        cnpj: formData.get('cnpj'),
-        representante: formData.get('representante'),
-        periodo: formData.get('periodo'),
-        equipamento: formData.get('equipamento'),
-        dataTermino: formData.get('dataTermino'),
-        tipo: formData.get('tipo')
+        empresa: formData.get('empresa') || '',
+        locatario: formData.get('locatario') || '',
+        cnpj: formData.get('cnpj') || '',
+        representante: formData.get('representante') || '',
+        periodo: formData.get('periodo') || '',
+        equipamento: formData.get('equipamento') || '',
+        dataTermino: formData.get('dataTermino') || '',
+        tipo: formData.get('tipo') || ''
     };
     contratos.push(contrato);
     event.target.reset(); // Limpa o formulário
@@ -234,9 +234,9 @@ function handleFormConta(event) {
     const formData = new FormData(event.target);
     const conta = {
         id: Date.now(),
-        tipo: formData.get('tipo'),
-        dataVencimento: formData.get('dataVencimento'),
-        valor: parseFloat(formData.get('valor'))
+        tipo: formData.get('tipo') || '',
+        dataVencimento: formData.get('dataVencimento') || '',
+        valor: parseFloat(formData.get('valor')) || 0
     };
     contas.push(conta);
     event.target.reset(); // Limpa o formulário
@@ -286,10 +286,10 @@ function handleFormEmpresa(event) {
     const formData = new FormData(event.target);
     const empresa = {
         id: Date.now(),
-        nome: formData.get('nome'),
-        cnpj: formData.get('cnpj'),
-        telefone: formData.get('telefone'),
-        endereco: formData.get('endereco')
+        nome: formData.get('nome') || '',
+        cnpj: formData.get('cnpj') || '',
+        telefone: formData.get('telefone') || '',
+        endereco: formData.get('endereco') || ''
     };
     empresas.push(empresa);
     event.target.reset(); // Limpa o formulário
