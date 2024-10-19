@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N Pontes Locações - Sistema de Gerenciamento</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <h1>N Pontes Locações</h1>
+            <nav>
+                <ul>
+                    <li id="menu-maquinas" class="menu-item">Máquinas</li>
+                    <li id="menu-recebimentos" class="menu-item">Recebimentos</li>
+                    <li id="menu-contratos" class="menu-item">Contratos</li>
+                    <li id="menu-contas" class="menu-item">Contas</li>
+                    <li id="menu-empresas" class="menu-item">Empresas</li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <section id="content">
+                <h2>Bem-vindo ao Sistema N Pontes Locações</h2>
+                <p>Utilize o menu lateral para navegar pelas categorias e gerenciar os dados.</p>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+
+    <!-- Registro do Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+                    console.log('Service Worker registrado com sucesso:', registration.scope);
+                }, function(err) {
+                    console.log('Falha ao registrar o Service Worker:', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
