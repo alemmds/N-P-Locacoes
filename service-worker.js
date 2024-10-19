@@ -1,50 +1,37 @@
-// Nome do cache
-const CACHE_NAME = 'n-pontes-locacoes-cache-v1';
-// Arquivos para cachear
+const CACHE_NAME = 'npontes-locacoes-v1';
 const urlsToCache = [
     '/',
     '/index.html',
     '/styles.css',
     '/script.js',
-    '/manifest.json',
-    '/icons/icon-192x192.png', // Se houver ícones de PWA
-    '/icons/icon-512x512.png'
+    '/manifest.json'
 ];
 
-// Evento de instalação do Service Worker
-self.addEventListener('install', function (event) {
+self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then(function (cache) {
-                console.log('Cache aberto');
+            .then(cache => {
                 return cache.addAll(urlsToCache);
             })
     );
 });
 
-// Evento de busca
-self.addEventListener('fetch', function (event) {
+self.addEventListener('fetch', event => {
     event.respondWith(
         caches.match(event.request)
-            .then(function (response) {
-                // Se o recurso estiver em cache, usa-o
-                if (response) {
-                    return response;
-                }
-                // Caso contrário, faz a requisição à rede
-                return fetch(event.request);
+            .then(response => {
+                return response || fetch(event.request);
             })
     );
 });
 
-// Evento de ativação e atualização de cache
-self.addEventListener('activate', function (event) {
+self.addEventListener('activate', event => {
     const cacheWhitelist = [CACHE_NAME];
     event.waitUntil(
-        caches.keys().then(function (cacheNames) {
+        caches.keys().then(cacheNames => {
             return Promise.all(
-                cacheNames.map(function (cacheName) {
-                    if (cacheWhitelist.indexOf(cacheName) === -1) {
+                cacheNames.map(cacheName => {
+                    if (!cacheWhitelist.includes(cacheName)) {
                         return caches.delete(cacheName);
                     }
                 })
