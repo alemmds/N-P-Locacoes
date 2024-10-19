@@ -53,10 +53,6 @@
                 </div>
             </section>
 
-            <!-- Seções para Recebimentos, Contratos, Contas e Empresas serão semelhantes à seção de Máquinas -->
-            <!-- Adicione as seções correspondentes aqui -->
-
-            <!-- Exemplo para Recebimentos -->
             <section id="recebimentos" class="content-section">
                 <h2>Recebimentos</h2>
                 <button onclick="showForm('cadastrarRecebimento')">Cadastrar Recebimento</button>
@@ -69,9 +65,9 @@
                         <input type="number" placeholder="Valor" required>
                         <input type="date" placeholder="Pagamento" required>
                         <input type="date" placeholder="Término" required>
-                        <select>
-                            <option>PAGO</option>
-                            <option>A RECEBER</option>
+                        <select required>
+                            <option value="PAGO">PAGO</option>
+                            <option value="A RECEBER">A RECEBER</option>
                         </select>
                         <button type="submit">Confirmar</button>
                     </form>
@@ -95,9 +91,127 @@
                     </table>
                 </div>
             </section>
-            <!-- Continue com as seções de Contratos, Contas e Empresas -->
+
+            <section id="contratos" class="content-section">
+                <h2>Contratos</h2>
+                <button onclick="showForm('cadastrarContrato')">Cadastrar Contrato</button>
+                <button onclick="showList('listaContratos')">Listas de Contratos</button>
+                
+                <div id="cadastrarContrato" class="form-container">
+                    <h3>Cadastrar Contrato</h3>
+                    <form id="formContrato">
+                        <input type="text" placeholder="Empresa" required>
+                        <input type="text" placeholder="Locatário" required>
+                        <input type="text" placeholder="CNPJ" required>
+                        <input type="text" placeholder="Representante" required>
+                        <input type="text" placeholder="Período da Locação" required>
+                        <input type="text" placeholder="Equipamento" required>
+                        <input type="date" placeholder="Data de Término" required>
+                        <select required>
+                            <option value="Pela Empresa">Pela Empresa</option>
+                            <option value="Pela N Pontes">Pela N Pontes</option>
+                        </select>
+                        <button type="submit">Confirmar</button>
+                    </form>
+                    <button onclick="back()">Voltar</button>
+                </div>
+
+                <div id="listaContratos" class="list-container">
+                    <h3>Listas de Contratos</h3>
+                    <table id="tableContratos">
+                        <thead>
+                            <tr>
+                                <th>Empresa</th>
+                                <th>Locatário</th>
+                                <th>CNPJ</th>
+                                <th>Representante</th>
+                                <th>Equipamento</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="contas" class="content-section">
+                <h2>Contas</h2>
+                <button onclick="showForm('cadastrarConta')">Cadastrar Conta</button>
+                <button onclick="showList('listaContas')">Listas de Contas</button>
+
+                <div id="cadastrarConta" class="form-container">
+                    <h3>Cadastrar Conta</h3>
+                    <form id="formConta">
+                        <select required>
+                            <option value="Água">Água</option>
+                            <option value="Luz">Luz</option>
+                            <option value="Telefone">Telefone</option>
+                            <option value="Internet">Internet</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                        <input type="date" placeholder="Data de Vencimento" required>
+                        <input type="number" placeholder="Valor" required>
+                        <button type="submit">Confirmar</button>
+                    </form>
+                    <button onclick="back()">Voltar</button>
+                </div>
+
+                <div id="listaContas" class="list-container">
+                    <h3>Listas de Contas</h3>
+                    <table id="tableContas">
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Data de Vencimento</th>
+                                <th>Valor</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="empresas" class="content-section">
+                <h2>Empresas</h2>
+                <button onclick="showForm('cadastrarEmpresa')">Cadastrar Empresa</button>
+                <button onclick="showList('listaEmpresas')">Listas de Empresas</button>
+
+                <div id="cadastrarEmpresa" class="form-container">
+                    <h3>Cadastrar Empresa</h3>
+                    <form id="formEmpresa">
+                        <input type="text" placeholder="Nome" required>
+                        <input type="text" placeholder="Área de CNPJ" required>
+                        <input type="text" placeholder="Área de Atuação" required>
+                        <input type="text" placeholder="Representante" required>
+                        <input type="text" placeholder="Telefone" required>
+                        <input type="email" placeholder="E-mail" required>
+                        <button type="submit">Confirmar</button>
+                    </form>
+                    <button onclick="back()">Voltar</button>
+                </div>
+
+                <div id="listaEmpresas" class="list-container">
+                    <h3>Listas de Empresas</h3>
+                    <table id="tableEmpresas">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Área de CNPJ</th>
+                                <th>Área de Atuação</th>
+                                <th>Representante</th>
+                                <th>Telefone</th>
+                                <th>E-mail</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
         </main>
     </div>
     <script src="script.js"></script>
+    <script src="service-worker.js"></script>
 </body>
 </html>
