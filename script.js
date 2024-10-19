@@ -1,153 +1,191 @@
-// Função para mostrar uma seção específica
-function showSection(sectionId) {
-    const sections = document.querySelectorAll('main > section');
-    sections.forEach(section => {
-        section.classList.add('hidden');
+const maquinas = [];
+const recebimentos = [];
+const contratos = [];
+const contas = [];
+const empresas = [];
+
+// Função para exibir a seção correta
+function showSection(section) {
+    const sections = document.querySelectorAll("main > section");
+    sections.forEach((sec) => {
+        sec.classList.add("hidden");
+    });
+    document.getElementById(section).classList.remove("hidden");
+}
+
+// Funções para cadastrar máquinas
+document.getElementById("maquinaForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const maquinaNome = document.getElementById("maquinaNome").value;
+    const maquinaSerie = document.getElementById("maquinaSerie").value;
+    const maquinaAnosUso = document.getElementById("maquinaAnosUso").value;
+    const maquinaHorasTrabalhadas = document.getElementById("maquinaHorasTrabalhadas").value;
+    maquinas.push({ nome: maquinaNome, serie: maquinaSerie, anosUso: maquinaAnosUso, horasTrabalhadas: maquinaHorasTrabalhadas });
+    this.reset();
+    showList('maquinas'); // Atualiza a lista após o cadastro
+});
+
+// Função para mostrar lista de máquinas
+function showList(section) {
+    let list = [];
+    switch (section) {
+        case 'maquinas':
+            list = maquinas;
+            break;
+        case 'recebimentos':
+            list = recebimentos;
+            break;
+        case 'contratos':
+            list = contratos;
+            break;
+        case 'contas':
+            list = contas;
+            break;
+        case 'empresas':
+            list = empresas;
+            break;
+    }
+
+    const tableBody = document.getElementById(`${section}TableBody`);
+    tableBody.innerHTML = ""; // Limpa a tabela
+
+    list.forEach((item, index) => {
+        const row = document.createElement("tr");
+        for (const key in item) {
+            const cell = document.createElement("td");
+            cell.textContent = item[key];
+            row.appendChild(cell);
+        }
+        const actionsCell = document.createElement("td");
+        actionsCell.innerHTML = `<button onclick="edit${section.charAt(0).toUpperCase() + section.slice(1)}(${index})">Alterar</button>
+                                 <button onclick="delete${section.charAt(0).toUpperCase() + section.slice(1)}(${index})">Excluir</button>`;
+        row.appendChild(actionsCell);
+        tableBody.appendChild(row);
     });
 
-    const selectedSection = document.getElementById(sectionId);
-    selectedSection.classList.remove('hidden');
+    document.getElementById(`${section}List`).classList.remove("hidden");
 }
 
-// Função para mostrar a lista de um tipo específico
-function showList(type) {
-    const listId = type + 'List';
-    const lists = document.querySelectorAll('div[id$="List"]');
-    lists.forEach(list => {
-        list.classList.add('hidden');
-    });
+// Funções para editar e excluir máquinas
+function editMaquina(index) {
+    const maquina = maquinas[index];
+    document.getElementById("maquinaNome").value = maquina.nome;
+    document.getElementById("maquinaSerie").value = maquina.serie;
+    document.getElementById("maquinaAnosUso").value = maquina.anosUso;
+    document.getElementById("maquinaHorasTrabalhadas").value = maquina.horasTrabalhadas;
 
-    const selectedList = document.getElementById(listId);
-    selectedList.classList.remove('hidden');
+    // Remove a máquina original
+    maquinas.splice(index, 1);
+    showList('maquinas'); // Atualiza a lista após a edição
 }
 
-// Função para cadastrar uma máquina
-function cadastrarMaquina(event) {
-    event.preventDefault();
-    
-    const nome = document.getElementById('maquinaNome').value;
-    const serie = document.getElementById('maquinaSerie').value;
-    const anosUso = document.getElementById('maquinaAnosUso').value;
-    const horasTrabalhadas = document.getElementById('maquinaHorasTrabalhadas').value;
-
-    const tableBody = document.getElementById('maquinaTableBody');
-    const newRow = tableBody.insertRow();
-    newRow.innerHTML = `
-        <td>${nome}</td>
-        <td>${serie}</td>
-        <td>${anosUso}</td>
-        <td>${horasTrabalhadas}</td>
-        <td><button onclick="deleteRow(this)">Excluir</button></td>
-    `;
-    
-    // Limpa o formulário
-    event.target.reset();
+function deleteMaquina(index) {
+    maquinas.splice(index, 1);
+    showList('maquinas');
 }
 
-// Função para cadastrar um recebimento
-function cadastrarRecebimento(event) {
-    event.preventDefault();
+// Funções para cadastro de recebimentos
+document.getElementById("recebimentoForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const recebimentoValor = document.getElementById("recebimentoValor").value;
+    const recebimentoData = document.getElementById("recebimentoData").value;
+    recebimentos.push({ valor: recebimentoValor, data: recebimentoData });
+    this.reset();
+    showList('recebimentos'); // Atualiza a lista após o cadastro
+});
 
-    const empresa = document.getElementById('recebimentoEmpresa').value;
-    const valor = document.getElementById('recebimentoValor').value;
-    const pagamento = document.getElementById('recebimentoPagamento').value;
-    const termino = document.getElementById('recebimentoTermino').value;
-    const status = document.getElementById('recebimentoStatus').value;
+// Funções para editar e excluir recebimentos
+function editRecebimento(index) {
+    const recebimento = recebimentos[index];
+    document.getElementById("recebimentoValor").value = recebimento.valor;
+    document.getElementById("recebimentoData").value = recebimento.data;
 
-    const tableBody = document.getElementById('recebimentoTableBody');
-    const newRow = tableBody.insertRow();
-    newRow.innerHTML = `
-        <td>${empresa}</td>
-        <td>${valor}</td>
-        <td>${pagamento}</td>
-        <td>${termino}</td>
-        <td>${status}</td>
-        <td><button onclick="deleteRow(this)">Excluir</button></td>
-    `;
-    
-    // Limpa o formulário
-    event.target.reset();
+    // Remove o recebimento original
+    recebimentos.splice(index, 1);
+    showList('recebimentos'); // Atualiza a lista após a edição
 }
 
-// Função para cadastrar um contrato
-function cadastrarContrato(event) {
-    event.preventDefault();
-
-    const empresa = document.getElementById('contratoEmpresa').value;
-    const locatario = document.getElementById('contratoLocatario').value;
-    const cnpj = document.getElementById('contratoCNPJ').value;
-    const representante = document.getElementById('contratoRepresentante').value;
-    const equipamento = document.getElementById('contratoEquipamento').value;
-    const dataTermino = document.getElementById('contratoDataTermino').value;
-    const operador = document.getElementById('contratoOperador').value;
-
-    const tableBody = document.getElementById('contratoTableBody');
-    const newRow = tableBody.insertRow();
-    newRow.innerHTML = `
-        <td>${empresa}</td>
-        <td>${locatario}</td>
-        <td>${cnpj}</td>
-        <td>${representante}</td>
-        <td>${equipamento}</td>
-        <td>${dataTermino}</td>
-        <td>${operador}</td>
-        <td><button onclick="deleteRow(this)">Excluir</button></td>
-    `;
-    
-    // Limpa o formulário
-    event.target.reset();
+function deleteRecebimento(index) {
+    recebimentos.splice(index, 1);
+    showList('recebimentos');
 }
 
-// Função para cadastrar uma conta
-function cadastrarConta(event) {
-    event.preventDefault();
+// Funções para cadastro de contratos
+document.getElementById("contratoForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const contratoDescricao = document.getElementById("contratoDescricao").value;
+    const contratoValor = document.getElementById("contratoValor").value;
+    const contratoData = document.getElementById("contratoData").value;
+    contratos.push({ descricao: contratoDescricao, valor: contratoValor, data: contratoData });
+    this.reset();
+    showList('contratos'); // Atualiza a lista após o cadastro
+});
 
-    const tipo = document.getElementById('contaTipo').value;
-    const dataVencimento = document.getElementById('contaDataVencimento').value;
-    const valor = document.getElementById('contaValor').value;
+// Funções para editar e excluir contratos
+function editContrato(index) {
+    const contrato = contratos[index];
+    document.getElementById("contratoDescricao").value = contrato.descricao;
+    document.getElementById("contratoValor").value = contrato.valor;
+    document.getElementById("contratoData").value = contrato.data;
 
-    const tableBody = document.getElementById('contaTableBody');
-    const newRow = tableBody.insertRow();
-    newRow.innerHTML = `
-        <td>${tipo}</td>
-        <td>${dataVencimento}</td>
-        <td>${valor}</td>
-        <td><button onclick="deleteRow(this)">Excluir</button></td>
-    `;
-    
-    // Limpa o formulário
-    event.target.reset();
+    // Remove o contrato original
+    contratos.splice(index, 1);
+    showList('contratos'); // Atualiza a lista após a edição
 }
 
-// Função para cadastrar uma empresa
-function cadastrarEmpresa(event) {
-    event.preventDefault();
-
-    const nome = document.getElementById('empresaNome').value;
-    const cnpj = document.getElementById('empresaCNPJ').value;
-    const areaAtuacao = document.getElementById('empresaAreaAtuacao').value;
-    const representante = document.getElementById('empresaRepresentante').value;
-    const telefone = document.getElementById('empresaTelefone').value;
-    const email = document.getElementById('empresaEmail').value;
-
-    const tableBody = document.getElementById('empresaTableBody');
-    const newRow = tableBody.insertRow();
-    newRow.innerHTML = `
-        <td>${nome}</td>
-        <td>${cnpj}</td>
-        <td>${areaAtuacao}</td>
-        <td>${representante}</td>
-        <td>${telefone}</td>
-        <td>${email}</td>
-        <td><button onclick="deleteRow(this)">Excluir</button></td>
-    `;
-    
-    // Limpa o formulário
-    event.target.reset();
+function deleteContrato(index) {
+    contratos.splice(index, 1);
+    showList('contratos');
 }
 
-// Função para excluir uma linha da tabela
-function deleteRow(button) {
-    const row = button.parentNode.parentNode;
-    row.parentNode.removeChild(row);
+// Funções para cadastro de contas
+document.getElementById("contaForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const contaNome = document.getElementById("contaNome").value;
+    const contaValor = document.getElementById("contaValor").value;
+    contas.push({ nome: contaNome, valor: contaValor });
+    this.reset();
+    showList('contas'); // Atualiza a lista após o cadastro
+});
+
+// Funções para editar e excluir contas
+function editConta(index) {
+    const conta = contas[index];
+    document.getElementById("contaNome").value = conta.nome;
+    document.getElementById("contaValor").value = conta.valor;
+
+    // Remove a conta original
+    contas.splice(index, 1);
+    showList('contas'); // Atualiza a lista após a edição
+}
+
+function deleteConta(index) {
+    contas.splice(index, 1);
+    showList('contas');
+}
+
+// Funções para cadastro de empresas
+document.getElementById("empresaForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const empresaNome = document.getElementById("empresaNome").value;
+    const empresaCnpj = document.getElementById("empresaCnpj").value;
+    empresas.push({ nome: empresaNome, cnpj: empresaCnpj });
+    this.reset();
+    showList('empresas'); // Atualiza a lista após o cadastro
+});
+
+// Funções para editar e excluir empresas
+function editEmpresa(index) {
+    const empresa = empresas[index];
+    document.getElementById("empresaNome").value = empresa.nome;
+    document.getElementById("empresaCnpj").value = empresa.cnpj;
+
+    // Remove a empresa original
+    empresas.splice(index, 1);
+    showList('empresas'); // Atualiza a lista após a edição
+}
+
+function deleteEmpresa(index) {
+    empresas.splice(index, 1);
+    showList('empresas');
 }
