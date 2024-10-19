@@ -1,46 +1,40 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>N Pontes Locações - Sistema de Gerenciamento</title>
-    <link rel="stylesheet" href="style.css">
+    <title>N Pontes Locações</title>
     <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="app-container">
-        <aside class="sidebar">
-            <h1>N Pontes Locações</h1>
-            <nav>
-                <ul>
-                    <li id="menu-maquinas" class="menu-item">Máquinas</li>
-                    <li id="menu-recebimentos" class="menu-item">Recebimentos</li>
-                    <li id="menu-contratos" class="menu-item">Contratos</li>
-                    <li id="menu-contas" class="menu-item">Contas</li>
-                    <li id="menu-empresas" class="menu-item">Empresas</li>
-                </ul>
-            </nav>
-        </aside>
-        <main class="main-content">
-            <section id="content">
-                <h2>Bem-vindo ao Sistema N Pontes Locações</h2>
-                <p>Utilize o menu lateral para navegar pelas categorias e gerenciar os dados.</p>
-            </section>
-        </main>
+    <div id="menu">
+        <h1>N Pontes Locações</h1>
+        <ul>
+            <li><a href="#" onclick="loadPage('maquinas')">Máquinas</a></li>
+            <li><a href="#" onclick="loadPage('recebimentos')">Recebimentos</a></li>
+            <li><a href="#" onclick="loadPage('contratos')">Contratos</a></li>
+            <li><a href="#" onclick="loadPage('contas')">Contas</a></li>
+            <li><a href="#" onclick="loadPage('empresas')">Empresas</a></li>
+        </ul>
     </div>
 
-    <script src="script.js"></script>
+    <div id="content">
+        <h2>Bem-vindo ao Sistema N Pontes Locações</h2>
+        <p>Utilize o menu lateral para navegar pelas categorias e gerenciar os dados.</p>
+    </div>
 
-    <!-- Registro do Service Worker -->
+    <!-- Script para registrar o service worker -->
     <script>
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(function(registration) {
                     console.log('Service Worker registrado com sucesso:', registration.scope);
-                }, function(err) {
-                    console.log('Falha ao registrar o Service Worker:', err);
+                })
+                .catch(function(error) {
+                    console.log('Falha ao registrar o Service Worker:', error);
                 });
-            });
         }
     </script>
 </body>
