@@ -1,94 +1,60 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #f5f5f5; /* Cor de fundo suave */
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
 }
 
 .container {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .sidebar {
     width: 250px;
-    background: #3b3b3b;
+    background-color: #4CAF50; /* Cor da sidebar */
     color: white;
     padding: 20px;
 }
 
 .sidebar h2 {
-    margin: 0 0 20px;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar ul li {
-    padding: 10px;
-    cursor: pointer;
-}
-
-.sidebar ul li:hover {
-    background: #575757;
+    text-align: center;
 }
 
 .main-content {
-    flex: 1;
+    flex-grow: 1;
     padding: 20px;
-    overflow-y: auto;
 }
 
 .hidden {
     display: none;
 }
 
-form {
-    margin-bottom: 20px;
-}
-
-input, select {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin: 10px 0;
-}
-
+/* Estilo adicional para botões e tabelas */
 button {
-    background: #007bff;
+    background-color: #4CAF50;
     color: white;
-    padding: 10px;
     border: none;
+    padding: 10px;
     cursor: pointer;
-    width: 100%;
 }
 
 button:hover {
-    background: #0056b3;
+    background-color: #45a049;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
 }
 
 th, td {
     border: 1px solid #ddd;
     padding: 8px;
-    text-align: left;
 }
 
 th {
-    background-color: #007bff;
+    background-color: #4CAF50;
     color: white;
-}
-
-tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-tbody tr:hover {
-    background-color: #ddd;
+    text-align: left;
 }
