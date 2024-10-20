@@ -1,85 +1,131 @@
-/* Layout do app */
-body {
-    font-family: Arial, sans-serif;
+/* Estilos gerais */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
     background-color: #f4f4f9;
-}
-
-.container {
+    color: #333;
     display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
+    margin: 0;
 }
 
-.sidebar {
-    background-color: #0d3b66;
-    padding: 10px;
-    width: 200px;
-}
-
-.sidebar button {
-    background-color: #00509e;
-    border: none;
-    color: white;
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    text-align: left;
-}
-
-.sidebar button:hover {
-    background-color: #003f7d;
-}
-
-.main-content {
-    flex: 1;
-    padding: 20px;
+/* Container do app */
+#app {
+    width: 95%;
+    max-width: 1200px;
     background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
 }
 
-h2, h3 {
-    color: #0d3b66;
+/* Menu lateral */
+#menu {
+    width: 20%;
+    background-color: #007bff;
+    border-radius: 10px 0 0 10px;
+    padding: 20px;
+}
+
+#menu ul {
+    list-style: none;
+}
+
+#menu ul li {
+    padding: 15px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#menu ul li:hover {
+    background-color: #0056b3;
+}
+
+#menu ul li.active {
+    background-color: #0056b3;
+}
+
+/* Conteúdo principal */
+#content {
+    width: 80%;
+    padding: 30px;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #007bff;
 }
 
 form {
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
-label {
-    display: block;
+form label {
     margin-bottom: 5px;
+    font-weight: bold;
 }
 
-input, select {
-    width: 100%;
+form input,
+form select {
+    margin-bottom: 20px;
     padding: 10px;
-    margin-bottom: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 100%;
 }
 
 button {
-    background-color: #00509e;
-    color: white;
     padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
-    margin-right: 5px;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #003f7d;
+    background-color: #0056b3;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+/* Estilos da lista */
+.lista {
+    margin-top: 30px;
 }
 
-table, th, td {
-    border: 1px solid #ddd;
+.lista div {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
 }
 
-th, td {
-    padding: 10px;
-    text-align: left;
+.lista div:last-child {
+    border-bottom: none;
+}
+
+.lista div button {
+    margin-left: 10px;
+    background-color: #dc3545;
+}
+
+.lista div button:hover {
+    background-color: #c82333;
 }
