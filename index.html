@@ -4,45 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>N Pontes Locações</title>
-    
-    <!-- Para o Manifest -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Manifest -->
     <link rel="manifest" href="manifest.json">
-
-    <!-- Para o CSS -->
-    <link rel="stylesheet" href="styles.css">
-    
-    <!-- Para registrar o Service Worker -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js')
-                    .then(registration => {
-                        console.log('Service Worker registrado com sucesso:', registration);
-                    })
-                    .catch(error => {
-                        console.error('Falha ao registrar o Service Worker:', error);
-                    });
-            });
-        }
-    </script>
 </head>
 <body>
     <div class="container">
-        <div class="menu-lateral">
-            <h2>N Pontes Locações</h2>
-            <button onclick="mostrarCadastroMaquinas()">Máquinas</button>
-            <button onclick="mostrarCadastroRecebimentos()">Recebimentos</button>
-            <button onclick="mostrarCadastroContratos()">Contratos</button>
-            <button onclick="mostrarCadastroContas()">Contas</button>
-            <button onclick="mostrarCadastroEmpresas()">Empresas</button>
-        </div>
-        <div id="conteudo">
-            <h1>Bem-vindo ao N Pontes Locações!</h1>
-            <p>Selecione uma opção no menu para começar.</p>
-        </div>
+        <aside class="sidebar">
+            <button id="maquinasMenu">Máquinas</button>
+            <button id="recebimentosMenu">Recebimentos</button>
+            <button id="contratosMenu">Contratos</button>
+            <button id="contasMenu">Contas</button>
+            <button id="empresasMenu">Empresas</button>
+        </aside>
+
+        <main class="main-content">
+            <!-- Máquinas -->
+            <section id="maquinasSection" class="section">
+                <h2>Cadastrar Máquina</h2>
+                <form id="maquinasForm">
+                    <label for="nomeMaquina">Nome da Máquina:</label>
+                    <input type="text" id="nomeMaquina" name="nomeMaquina">
+                    <label for="serieMaquina">Série:</label>
+                    <input type="text" id="serieMaquina" name="serieMaquina">
+                    <label for="anosUso">Anos de Uso:</label>
+                    <input type="number" id="anosUso" name="anosUso">
+                    <label for="horasTrabalhadas">Horas Trabalhadas:</label>
+                    <input type="number" id="horasTrabalhadas" name="horasTrabalhadas">
+                    <button type="submit">Confirmar</button>
+                    <button type="button" id="voltarMaquinas">Voltar</button>
+                </form>
+                <h3>Lista de Máquinas</h3>
+                <table id="maquinasTable">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Série</th>
+                            <th>Anos de Uso</th>
+                            <th>Horas</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <!-- Recebimentos -->
+            <section id="recebimentosSection" class="section">
+                <h2>Cadastrar Recebimento</h2>
+                <form id="recebimentosForm">
+                    <label for="empresaRecebimento">Empresa:</label>
+                    <input type="text" id="empresaRecebimento" name="empresaRecebimento">
+                    <label for="valorRecebimento">Valor:</label>
+                    <input type="number" id="valorRecebimento" name="valorRecebimento">
+                    <label for="pagamentoRecebimento">Pagamento:</label>
+                    <input type="date" id="pagamentoRecebimento" name="pagamentoRecebimento">
+                    <label for="terminoRecebimento">Término:</label>
+                    <input type="date" id="terminoRecebimento" name="terminoRecebimento">
+                    <label for="statusRecebimento">Status:</label>
+                    <select id="statusRecebimento">
+                        <option value="Pago">Pago</option>
+                        <option value="A Receber">A Receber</option>
+                    </select>
+                    <button type="submit">Confirmar</button>
+                    <button type="button" id="voltarRecebimentos">Voltar</button>
+                </form>
+                <h3>Lista de Recebimentos</h3>
+                <table id="recebimentosTable">
+                    <thead>
+                        <tr>
+                            <th>Empresa</th>
+                            <th>Valor</th>
+                            <th>Pagamento</th>
+                            <th>Término</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <!-- Contratos, Contas e Empresas seguem a mesma estrutura acima -->
+        </main>
     </div>
-    
-    <!-- Para o JavaScript -->
+
+    <!-- Script para manipulação -->
     <script src="script.js"></script>
 </body>
 </html>
