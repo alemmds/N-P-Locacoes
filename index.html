@@ -42,24 +42,7 @@
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>Escavadeira</td>
-                                <td>12345</td>
-                                <td>5</td>
-                                <td>1000</td>
-                                <td><button onclick="toggleDetails(this)">Maximizar</button></td>
-                            </tr>
-                            <tr class="machine-details" style="display:none;">
-                                <td colspan="5">
-                                    <p><strong>Descrição Detalhada:</strong></p>
-                                    <p>Anos de Uso: 5</p>
-                                    <p>Horas Trabalhadas: 1000 horas</p>
-                                    <p>Manutenções Recentes: Nenhuma</p>
-                                    <!-- Outras informações adicionais sobre a máquina -->
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
                 <button onclick="goBack('maquinas')">Voltar</button>
@@ -200,49 +183,17 @@
             </div>
         </main>
     </div>
-
     <script src="script.js"></script>
     <script>
-        function showSection(sectionId) {
-            // Esconder todas as seções
-            var sections = document.querySelectorAll('.section');
-            sections.forEach(function(section) {
-                section.style.display = 'none';
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+                console.log('Service Worker registrado com sucesso:', registration.scope);
+            }).catch(function(error) {
+                console.log('Falha ao registrar Service Worker:', error);
             });
-
-            // Mostrar a seção desejada
-            var section = document.getElementById(sectionId);
-            if (section) {
-                section.style.display = 'block';
-            }
-        }
-
-        function showList(sectionId) {
-            var listId = sectionId + 'List';
-            var list = document.getElementById(listId);
-            if (list) {
-                list.style.display = 'block';
-            }
-        }
-
-        function goBack(sectionId) {
-            var listId = sectionId + 'List';
-            var list = document.getElementById(listId);
-            if (list) {
-                list.style.display = 'none';
-            }
-        }
-
-        function toggleDetails(button) {
-            var detailsRow = button.closest('tr').nextElementSibling;
-            if (detailsRow.style.display === 'none') {
-                detailsRow.style.display = 'table-row';
-                button.textContent = 'Minimizar';
-            } else {
-                detailsRow.style.display = 'none';
-                button.textContent = 'Maximizar';
-            }
         }
     </script>
 </body>
 </html>
+
+Acrescente neste código 
