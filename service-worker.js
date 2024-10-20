@@ -1,25 +1,26 @@
-const cacheName = 'npontes-v1';
-const assets = [
-    '/',
-    '/index.html',
-    '/css/styles.css',
-    '/js/script.js',
-    '/images/icon-192.png',
-    '/images/icon-512.png'
+const CACHE_NAME = 'n-pontes-locacoes-v1';
+const urlsToCache = [
+    './',
+    './index.html',
+    './css/styles.css',
+    './js/script.js',
+    './manifest.json'
 ];
 
-self.addEventListener('install', e => {
-    e.waitUntil(
-        caches.open(cacheName).then(cache => {
-            return cache.addAll(assets);
-        })
+self.addEventListener('install', function(event) {
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then(function(cache) {
+                return cache.addAll(urlsToCache);
+            })
     );
 });
 
-self.addEventListener('fetch', e => {
-    e.respondWith(
-        caches.match(e.request).then(response => {
-            return response || fetch(e.request);
-        })
+self.addEventListener('fetch', function(event) {
+    event.respondWith(
+        caches.match(event.request)
+            .then(function(response) {
+                return response || fetch(event.request);
+            })
     );
 });
