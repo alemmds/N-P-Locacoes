@@ -1,55 +1,39 @@
-document.addEventListener('DOMContentLoaded', function () {
-    showSection('maquinas'); // Mostra a seção de Máquinas por padrão
-
-    // Adiciona event listeners para os formulários
-    document.getElementById('formMaquina').onsubmit = handleFormMaquina;
-    document.getElementById('formRecebimento').onsubmit = handleFormRecebimento;
-    document.getElementById('formContrato').onsubmit = handleFormContrato;
-    document.getElementById('formConta').onsubmit = handleFormConta;
-    document.getElementById('formEmpresa').onsubmit = handleFormEmpresa;
-});
-
-// Função para mostrar uma seção específica
-function showSection(sectionId) {
-    const sections = document.querySelectorAll('.content-section');
-    sections.forEach(section => {
-        section.classList.remove('active');
-    });
-    document.getElementById(sectionId).classList.add('active');
-}
-
-// Função para mostrar uma lista específica
-function showList(listId) {
-    const lists = document.querySelectorAll('.list-container');
-    lists.forEach(list => {
-        list.style.display = 'none';
-    });
-    document.getElementById(listId).style.display = 'block';
-}
-
-// Funções para manipulação de máquinas
 let maquinas = [];
+let recebimentos = [];
+let contratos = [];
+let contas = [];
+let empresas = [];
+
+function showList(section) {
+    const sections = ['maquinas', 'recebimentos', 'contratos', 'contas', 'empresas'];
+    sections.forEach(s => {
+        document.getElementById(s).style.display = (s === section) ? 'block' : 'none';
+    });
+    if (section === 'maquinas') loadMaquinas();
+    else if (section === 'recebimentos') loadRecebimentos();
+    else if (section === 'contratos') loadContratos();
+    else if (section === 'contas') loadContas();
+    else if (section === 'empresas') loadEmpresas();
+}
 
 function handleFormMaquina(event) {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    const maquina = {
-        id: Date.now(),
-        nome: formData.get('nome'),
-        serie: formData.get('serie'),
-        anosUso: formData.get('anosUso'),
-        horasTrabalhadas: formData.get('horasTrabalhadas')
+    const form = event.target;
+    const newMaquina = {
+        nome: form.nome.value,
+        serie: form.serie.value,
+        anosUso: form.anosUso.value,
+        horasTrabalhadas: form.horasTrabalhadas.value,
     };
-    maquinas.push(maquina);
-    event.target.reset(); // Limpa o formulário
-    updateMaquinaList();
-    back();
+    maquinas.push(newMaquina);
+    form.reset();
+    loadMaquinas();
 }
 
-function updateMaquinaList() {
+function loadMaquinas() {
     const tableBody = document.querySelector('#tableMaquinas tbody');
-    tableBody.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
-    maquinas.forEach(maquina => {
+    tableBody.innerHTML = '';
+    maquinas.forEach((maquina, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${maquina.nome}</td>
@@ -57,55 +41,48 @@ function updateMaquinaList() {
             <td>${maquina.anosUso}</td>
             <td>${maquina.horasTrabalhadas}</td>
             <td>
-                <button onclick="editMaquina(${maquina.id})">Alterar</button>
-                <button onclick="deleteMaquina(${maquina.id})">Excluir</button>
+                <button onclick="editMaquina(${index})">Editar</button>
+                <button onclick="deleteMaquina(${index})">Excluir</button>
             </td>
         `;
         tableBody.appendChild(row);
     });
 }
 
-function editMaquina(id) {
-    const maquina = maquinas.find(m => m.id === id);
-    if (maquina) {
-        document.querySelector('#formMaquina input[name="nome"]').value = maquina.nome;
-        document.querySelector('#formMaquina input[name="serie"]').value = maquina.serie;
-        document.querySelector('#formMaquina input[name="anosUso"]').value = maquina.anosUso;
-        document.querySelector('#formMaquina input[name="horasTrabalhadas"]').value = maquina.horasTrabalhadas;
-        showForm('cadastrarMaquina'); // Mostra o formulário para edição
-        deleteMaquina(id); // Remove a máquina para permitir alteração
-    }
+function editMaquina(index) {
+    const maquina = maquinas[index];
+    const form = document.getElementById('formMaquina');
+    form.nome.value = maquina.nome;
+    form.serie.value = maquina.serie;
+    form.anosUso.value = maquina.anosUso;
+    form.horasTrabalhadas.value = maquina.horasTrabalhadas;
+    deleteMaquina(index); // Remove do array antes de adicionar novamente
 }
 
-function deleteMaquina(id) {
-    maquinas = maquinas.filter(maquina => maquina.id !== id);
-    updateMaquinaList();
+function deleteMaquina(index) {
+    maquinas.splice(index, 1);
+    loadMaquinas();
 }
-
-// Funções para manipulação de recebimentos
-let recebimentos = [];
 
 function handleFormRecebimento(event) {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    const recebimento = {
-        id: Date.now(),
-        empresa: formData.get('empresa'),
-        valor: parseFloat(formData.get('valor')) || 0,
-        pagamento: formData.get('pagamento'),
-        termino: formData.get('termino'),
-        status: formData.get('status')
+    const form = event.target;
+    const newRecebimento = {
+        empresa: form.empresa.value,
+        valor: form.valor.value,
+        pagamento: form.pagamento.value,
+        termino: form.termino.value,
+        status: form.status.value,
     };
-    recebimentos.push(recebimento);
-    event.target.reset(); // Limpa o formulário
-    updateRecebimentoList();
-    back();
+    recebimentos.push(newRecebimento);
+    form.reset();
+    loadRecebimentos();
 }
 
-function updateRecebimentoList() {
+function loadRecebimentos() {
     const tableBody = document.querySelector('#tableRecebimentos tbody');
-    tableBody.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
-    recebimentos.forEach(recebimento => {
+    tableBody.innerHTML = '';
+    recebimentos.forEach((recebimento, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${recebimento.empresa}</td>
@@ -114,207 +91,188 @@ function updateRecebimentoList() {
             <td>${recebimento.termino}</td>
             <td>${recebimento.status}</td>
             <td>
-                <button onclick="editRecebimento(${recebimento.id})">Alterar</button>
-                <button onclick="deleteRecebimento(${recebimento.id})">Excluir</button>
+                <button onclick="editRecebimento(${index})">Editar</button>
+                <button onclick="deleteRecebimento(${index})">Excluir</button>
             </td>
         `;
         tableBody.appendChild(row);
     });
 }
 
-function editRecebimento(id) {
-    const recebimento = recebimentos.find(r => r.id === id);
-    if (recebimento) {
-        document.querySelector('#formRecebimento input[name="empresa"]').value = recebimento.empresa;
-        document.querySelector('#formRecebimento input[name="valor"]').value = recebimento.valor;
-        document.querySelector('#formRecebimento input[name="pagamento"]').value = recebimento.pagamento;
-        document.querySelector('#formRecebimento input[name="termino"]').value = recebimento.termino;
-        document.querySelector('#formRecebimento select[name="status"]').value = recebimento.status;
-        showForm('cadastrarRecebimento'); // Mostra o formulário para edição
-        deleteRecebimento(id); // Remove o recebimento para permitir alteração
-    }
+function editRecebimento(index) {
+    const recebimento = recebimentos[index];
+    const form = document.getElementById('formRecebimento');
+    form.empresa.value = recebimento.empresa;
+    form.valor.value = recebimento.valor;
+    form.pagamento.value = recebimento.pagamento;
+    form.termino.value = recebimento.termino;
+    form.status.value = recebimento.status;
+    deleteRecebimento(index);
 }
 
-function deleteRecebimento(id) {
-    recebimentos = recebimentos.filter(recebimento => recebimento.id !== id);
-    updateRecebimentoList();
+function deleteRecebimento(index) {
+    recebimentos.splice(index, 1);
+    loadRecebimentos();
 }
-
-// Funções para manipulação de contratos
-let contratos = [];
 
 function handleFormContrato(event) {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    const contrato = {
-        id: Date.now(),
-        empresa: formData.get('empresa'),
-        locatario: formData.get('locatario'),
-        cnpj: formData.get('cnpj'),
-        representante: formData.get('representante'),
-        periodo: formData.get('periodo'),
-        equipamento: formData.get('equipamento'),
-        dataTermino: formData.get('dataTermino'),
-        tipo: formData.get('tipo')
+    const form = event.target;
+    const newContrato = {
+        empresa: form.empresa.value,
+        locatario: form.locatario.value,
+        cnpj: form.cnpj.value,
+        representante: form.representante.value,
+        periodo: form.periodo.value,
+        equipamento: form.equipamento.value,
+        dataTermino: form.dataTermino.value,
+        operador: form.operador.value,
     };
-    contratos.push(contrato);
-    event.target.reset(); // Limpa o formulário
-    updateContratoList();
-    back();
+    contratos.push(newContrato);
+    form.reset();
+    loadContratos();
 }
 
-function updateContratoList() {
+function loadContratos() {
     const tableBody = document.querySelector('#tableContratos tbody');
-    tableBody.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
-    contratos.forEach(contrato => {
+    tableBody.innerHTML = '';
+    contratos.forEach((contrato, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${contrato.empresa}</td>
             <td>${contrato.locatario}</td>
             <td>${contrato.cnpj}</td>
             <td>${contrato.representante}</td>
+            <td>${contrato.periodo}</td>
             <td>${contrato.equipamento}</td>
+            <td>${contrato.dataTermino}</td>
+            <td>${contrato.operador}</td>
             <td>
-                <button onclick="editContrato(${contrato.id})">Alterar</button>
-                <button onclick="deleteContrato(${contrato.id})">Excluir</button>
+                <button onclick="editContrato(${index})">Editar</button>
+                <button onclick="deleteContrato(${index})">Excluir</button>
             </td>
         `;
         tableBody.appendChild(row);
     });
 }
 
-function editContrato(id) {
-    const contrato = contratos.find(c => c.id === id);
-    if (contrato) {
-        document.querySelector('#formContrato input[name="empresa"]').value = contrato.empresa;
-        document.querySelector('#formContrato input[name="locatario"]').value = contrato.locatario;
-        document.querySelector('#formContrato input[name="cnpj"]').value = contrato.cnpj;
-        document.querySelector('#formContrato input[name="representante"]').value = contrato.representante;
-        document.querySelector('#formContrato input[name="periodo"]').value = contrato.periodo;
-        document.querySelector('#formContrato input[name="equipamento"]').value = contrato.equipamento;
-        document.querySelector('#formContrato input[name="dataTermino"]').value = contrato.dataTermino;
-        document.querySelector('#formContrato select[name="tipo"]').value = contrato.tipo;
-        showForm('cadastrarContrato'); // Mostra o formulário para edição
-        deleteContrato(id); // Remove o contrato para permitir alteração
-    }
+function editContrato(index) {
+    const contrato = contratos[index];
+    const form = document.getElementById('formContrato');
+    form.empresa.value = contrato.empresa;
+    form.locatario.value = contrato.locatario;
+    form.cnpj.value = contrato.cnpj;
+    form.representante.value = contrato.representante;
+    form.periodo.value = contrato.periodo;
+    form.equipamento.value = contrato.equipamento;
+    form.dataTermino.value = contrato.dataTermino;
+    form.operador.value = contrato.operador;
+    deleteContrato(index);
 }
 
-function deleteContrato(id) {
-    contratos = contratos.filter(contrato => contrato.id !== id);
-    updateContratoList();
+function deleteContrato(index) {
+    contratos.splice(index, 1);
+    loadContratos();
 }
-
-// Funções para manipulação de contas
-let contas = [];
 
 function handleFormConta(event) {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    const conta = {
-        id: Date.now(),
-        tipo: formData.get('tipo'),
-        dataVencimento: formData.get('dataVencimento'),
-        valor: parseFloat(formData.get('valor')) || 0
+    const form = event.target;
+    const newConta = {
+        tipo: form.tipo.value,
+        dataVencimento: form.dataVencimento.value,
+        valor: form.valor.value,
     };
-    contas.push(conta);
-    event.target.reset(); // Limpa o formulário
-    updateContaList();
-    back();
+    contas.push(newConta);
+    form.reset();
+    loadContas();
 }
 
-function updateContaList() {
+function loadContas() {
     const tableBody = document.querySelector('#tableContas tbody');
-    tableBody.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
-    contas.forEach(conta => {
+    tableBody.innerHTML = '';
+    contas.forEach((conta, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${conta.tipo}</td>
             <td>${conta.dataVencimento}</td>
             <td>${conta.valor}</td>
             <td>
-                <button onclick="editConta(${conta.id})">Alterar</button>
-                <button onclick="deleteConta(${conta.id})">Excluir</button>
+                <button onclick="editConta(${index})">Editar</button>
+                <button onclick="deleteConta(${index})">Excluir</button>
             </td>
         `;
         tableBody.appendChild(row);
     });
 }
 
-function editConta(id) {
-    const conta = contas.find(c => c.id === id);
-    if (conta) {
-        document.querySelector('#formConta input[name="tipo"]').value = conta.tipo;
-        document.querySelector('#formConta input[name="dataVencimento"]').value = conta.dataVencimento;
-        document.querySelector('#formConta input[name="valor"]').value = conta.valor;
-        showForm('cadastrarConta'); // Mostra o formulário para edição
-        deleteConta(id); // Remove a conta para permitir alteração
-    }
+function editConta(index) {
+    const conta = contas[index];
+    const form = document.getElementById('formConta');
+    form.tipo.value = conta.tipo;
+    form.dataVencimento.value = conta.dataVencimento;
+    form.valor.value = conta.valor;
+    deleteConta(index);
 }
 
-function deleteConta(id) {
-    contas = contas.filter(conta => conta.id !== id);
-    updateContaList();
+function deleteConta(index) {
+    contas.splice(index, 1);
+    loadContas();
 }
-
-// Funções para manipulação de empresas
-let empresas = [];
 
 function handleFormEmpresa(event) {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    const empresa = {
-        id: Date.now(),
-        nome: formData.get('nome'),
-        cnpj: formData.get('cnpj'),
-        telefone: formData.get('telefone'),
-        endereco: formData.get('endereco')
+    const form = event.target;
+    const newEmpresa = {
+        nome: form.nome.value,
+        cnpj: form.cnpj.value,
+        areaAtuacao: form.areaAtuacao.value,
+        representante: form.representante.value,
+        telefone: form.telefone.value,
+        email: form.email.value,
     };
-    empresas.push(empresa);
-    event.target.reset(); // Limpa o formulário
-    updateEmpresaList();
-    back();
+    empresas.push(newEmpresa);
+    form.reset();
+    loadEmpresas();
 }
 
-function updateEmpresaList() {
+function loadEmpresas() {
     const tableBody = document.querySelector('#tableEmpresas tbody');
-    tableBody.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
-    empresas.forEach(empresa => {
+    tableBody.innerHTML = '';
+    empresas.forEach((empresa, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${empresa.nome}</td>
             <td>${empresa.cnpj}</td>
+            <td>${empresa.areaAtuacao}</td>
+            <td>${empresa.representante}</td>
             <td>${empresa.telefone}</td>
-            <td>${empresa.endereco}</td>
+            <td>${empresa.email}</td>
             <td>
-                <button onclick="editEmpresa(${empresa.id})">Alterar</button>
-                <button onclick="deleteEmpresa(${empresa.id})">Excluir</button>
+                <button onclick="editEmpresa(${index})">Editar</button>
+                <button onclick="deleteEmpresa(${index})">Excluir</button>
             </td>
         `;
         tableBody.appendChild(row);
     });
 }
 
-function editEmpresa(id) {
-    const empresa = empresas.find(e => e.id === id);
-    if (empresa) {
-        document.querySelector('#formEmpresa input[name="nome"]').value = empresa.nome;
-        document.querySelector('#formEmpresa input[name="cnpj"]').value = empresa.cnpj;
-        document.querySelector('#formEmpresa input[name="telefone"]').value = empresa.telefone;
-        document.querySelector('#formEmpresa input[name="endereco"]').value = empresa.endereco;
-        showForm('cadastrarEmpresa'); // Mostra o formulário para edição
-        deleteEmpresa(id); // Remove a empresa para permitir alteração
-    }
+function editEmpresa(index) {
+    const empresa = empresas[index];
+    const form = document.getElementById('formEmpresa');
+    form.nome.value = empresa.nome;
+    form.cnpj.value = empresa.cnpj;
+    form.areaAtuacao.value = empresa.areaAtuacao;
+    form.representante.value = empresa.representante;
+    form.telefone.value = empresa.telefone;
+    form.email.value = empresa.email;
+    deleteEmpresa(index);
 }
 
-function deleteEmpresa(id) {
-    empresas = empresas.filter(empresa => empresa.id !== id);
-    updateEmpresaList();
+function deleteEmpresa(index) {
+    empresas.splice(index, 1);
+    loadEmpresas();
 }
 
-// Função para voltar a uma seção anterior
-function back() {
-    // Implementação para voltar à seção anterior
-    showSection('maquinas'); // Mostra a seção de Máquinas novamente
-}
-
-// Certifique-se de que os IDs e os nomes dos campos nos formulários HTML correspondem aos usados no JavaScript.
+// Inicializa com a seção de máquinas visível
+showList('maquinas');
