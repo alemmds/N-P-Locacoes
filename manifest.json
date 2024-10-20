@@ -1,21 +1,16 @@
-self.addEventListener('install', function(event) {
-    event.waitUntil(
-        caches.open('n-pontes-cache').then(function(cache) {
-            return cache.addAll([
-                '/',
-                '/index.html',
-                '/styles.css',
-                '/script.js',
-                '/manifest.json'
-            ]);
-        })
-    );
-});
-
-self.addEventListener('fetch', function(event) {
-    event.respondWith(
-        caches.match(event.request).then(function(response) {
-            return response || fetch(event.request);
-        })
-    );
-});
+{
+  "name": "N Pontes Locações",
+  "short_name": "N Pontes",
+  "description": "Gerenciamento de aluguel de equipamentos pesados.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#333333",
+  "icons": [
+    {
+      "src": "assets/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
