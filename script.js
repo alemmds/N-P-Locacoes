@@ -1,4 +1,92 @@
+// Função para alternar as abas do menu e exibir as seções de cadastro e lista
+function showSection(sectionId) {
+    // Esconde todas as seções de cadastro e listas
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => section.style.display = 'none');
+    
+    // Exibe a seção correspondente ao menu clicado
+    document.getElementById(sectionId).style.display = 'block';
+}
+
+// Adiciona evento de clique para cada item do menu lateral
+document.getElementById('menuMaquinas').addEventListener('click', function() {
+    showSection('maquinasSection');
+});
+
+document.getElementById('menuRecebimentos').addEventListener('click', function() {
+    showSection('recebimentosSection');
+});
+
+document.getElementById('menuContratos').addEventListener('click', function() {
+    showSection('contratosSection');
+});
+
+document.getElementById('menuContas').addEventListener('click', function() {
+    showSection('contasSection');
+});
+
+document.getElementById('menuEmpresas').addEventListener('click', function() {
+    showSection('empresasSection');
+});
+
+// Função para adicionar dados a tabela de máquinas
+function addMachine() {
+    const nome = document.getElementById('machineName').value;
+    const serie = document.getElementById('machineSerie').value;
+    const anosUso = document.getElementById('machineAnosUso').value;
+    const horasTrabalhadas = document.getElementById('machineHoras').value;
+
+    if (nome && serie && anosUso && horasTrabalhadas) {
+        const table = document.getElementById('maquinasTableBody');
         const row = table.insertRow();
+
+        row.insertCell(0).textContent = nome;
+        row.insertCell(1).textContent = serie;
+        row.insertCell(2).textContent = anosUso;
+        row.insertCell(3).textContent = horasTrabalhadas;
+
+        const actionsCell = row.insertCell(4);
+        actionsCell.innerHTML = '<button onclick="editRow(this)">ALTERAR</button> <button onclick="deleteRow(this)">EXCLUIR</button>';
+    }
+}
+
+// Função para adicionar dados a tabela de recebimentos
+function addRecebimento() {
+    const empresa = document.getElementById('recebimentoEmpresa').value;
+    const valor = document.getElementById('recebimentoValor').value;
+    const pagamento = document.getElementById('recebimentoPagamento').value;
+    const termino = document.getElementById('recebimentoTermino').value;
+    const status = document.getElementById('recebimentoStatus').value;
+
+    if (empresa && valor && pagamento && termino && status) {
+        const table = document.getElementById('recebimentosTableBody');
+        const row = table.insertRow();
+
+        row.insertCell(0).textContent = empresa;
+        row.insertCell(1).textContent = valor;
+        row.insertCell(2).textContent = pagamento;
+        row.insertCell(3).textContent = termino;
+        row.insertCell(4).textContent = status;
+
+        const actionsCell = row.insertCell(5);
+        actionsCell.innerHTML = '<button onclick="editRow(this)">ALTERAR</button> <button onclick="deleteRow(this)">EXCLUIR</button>';
+    }
+}
+
+// Função para adicionar dados a tabela de contratos
+function addContrato() {
+    const empresa = document.getElementById('contratoEmpresa').value;
+    const locatario = document.getElementById('contratoLocatario').value;
+    const cnpj = document.getElementById('contratoCNPJ').value;
+    const representante = document.getElementById('contratoRepresentante').value;
+    const periodo = document.getElementById('contratoPeriodo').value;
+    const equipamento = document.getElementById('contratoEquipamento').value;
+    const termino = document.getElementById('contratoTermino').value;
+    const operador = document.querySelector('input[name="contratoOperador"]:checked').value;
+
+    if (empresa && locatario && cnpj && representante && periodo && equipamento && termino && operador) {
+        const table = document.getElementById('contratosTableBody');
+             const row = table.insertRow();
 
         row.insertCell(0).textContent = empresa;
         row.insertCell(1).textContent = locatario;
