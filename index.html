@@ -45,20 +45,6 @@
                         <tbody></tbody>
                     </table>
                 </div>
-
-                                <!-- Nova Div para Mostrar ou Esconder Informações da Máquina -->
-                <div id="infoMaquinas" class="machine-details" style="display:none;">
-                    <h3>Detalhes da Máquina</h3>
-                    <p><strong>Nome:</strong> <span id="detalheNomeMaquina"></span></p>
-                    <p><strong>Série:</strong> <span id="detalheSerieMaquina"></span></p>
-                    <p><strong>Anos de Uso:</strong> <span id="detalheAnosUso"></span></p>
-                    <p><strong>Horas Trabalhadas:</strong> <span id="detalheHorasTrabalhadas"></span></p>
-                    <button onclick="toggleDetails()">Ocultar Detalhes</button>
-                </div>
-
-                <!-- Botão para Maximizar ou Minimizar -->
-                <button onclick="toggleDetails()">Maximizar/Minimizar Detalhes</button>
-
                 <button onclick="goBack('maquinas')">Voltar</button>
             </div>
 
@@ -206,12 +192,7 @@
                 console.log('Falha ao registrar Service Worker:', error);
             });
         }
-
-        function toggleDetails() {
-            const details = document.getElementById('infoMaquinas');
-            details.style.display = (details.style.display === 'none' || details.style.display === '') ? 'block' : 'none';
-        }
     </script>
 </body>
 </html>
-                
+
