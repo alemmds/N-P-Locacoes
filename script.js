@@ -13,6 +13,27 @@ function showSection(section) {
 }
 
 // --------- Funções de Cadastro ---------
+function mostrarLista(tipo) {
+    let tabelaBody = '';
+    if (tipo === 'empresas') {
+        empresas.forEach((empresa, index) => {
+            tabelaBody += `
+                <tr>
+                    <td>${empresa.nome}</td>
+                    <td>${empresa.cnpj}</td>
+                    <td>${empresa.areaAtuacao}</td>
+                    <td>${empresa.representante}</td>
+                    <td>${empresa.telefone}</td>
+                    <td class="actions">
+                        <button onclick="alterarItem('empresas', ${index})">Alterar</button>
+                        <button onclick="excluirItem('empresas', ${index})">Excluir</button>
+                    </td>
+                </tr>
+            `;
+        });
+        document.getElementById('empresaLista').innerHTML = tabelaBody;
+    }
+}
 
 // Cadastrar Máquina
 function cadastrarMaquina() {
