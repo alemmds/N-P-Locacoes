@@ -320,6 +320,144 @@ function deleteEmpresa(index) {
     saveToLocalStorage();
     showList('empresas');
 }
+
+// Função para exibir a lista com base no tipo e incluir setas para maximizar/minimizar
+function showList(type) {
+    if (type === 'maquinas') {
+        const maquinasList = document.querySelector('#maquinasList tbody');
+        maquinasList.innerHTML = ''; // Limpar tabela
+
+        maquinas.forEach((maquina, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${maquina.nome}</td>
+                <td>
+                    <button onclick="toggleDetails(${index}, 'maquina')">⯆</button>
+                </td>
+                <tr id="details-maquina-${index}" style="display:none;">
+                    <td colspan="2">
+                        Série: ${maquina.serie}<br>
+                        Anos de uso: ${maquina.anosUso}<br>
+                        Horas trabalhadas: ${maquina.horasTrabalhadas}
+                    </td>
+                </tr>
+            `;
+            maquinasList.appendChild(row);
+        });
+
+        document.getElementById('maquinasList').style.display = 'block';
+    }
+
+    if (type === 'contas') {
+        const contasList = document.querySelector('#contasList tbody');
+        contasList.innerHTML = ''; // Limpar tabela
+
+        contas.forEach((conta, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${conta.nome}</td>
+                <td>
+                    <button onclick="toggleDetails(${index}, 'conta')">⯆</button>
+                </td>
+                <tr id="details-conta-${index}" style="display:none;">
+                    <td colspan="2">
+                        Valor: ${conta.valor}<br>
+                        Vencimento: ${conta.vencimento}<br>
+                        Status: ${conta.status}
+                    </td>
+                </tr>
+            `;
+            contasList.appendChild(row);
+        });
+
+        document.getElementById('contasList').style.display = 'block';
+    }
+
+    if (type === 'contratos') {
+        const contratosList = document.querySelector('#contratosList tbody');
+        contratosList.innerHTML = ''; // Limpar tabela
+
+        contratos.forEach((contrato, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${contrato.nome}</td>
+                <td>
+                    <button onclick="toggleDetails(${index}, 'contrato')">⯆</button>
+                </td>
+                <tr id="details-contrato-${index}" style="display:none;">
+                    <td colspan="2">
+                        Data Início: ${contrato.dataInicio}<br>
+                        Data Fim: ${contrato.dataFim}<br>
+                        Valor: ${contrato.valor}
+                    </td>
+                </tr>
+            `;
+            contratosList.appendChild(row);
+        });
+
+        document.getElementById('contratosList').style.display = 'block';
+    }
+
+    if (type === 'empresas') {
+        const empresasList = document.querySelector('#empresasList tbody');
+        empresasList.innerHTML = ''; // Limpar tabela
+
+        empresas.forEach((empresa, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${empresa.nome}</td>
+                <td>
+                    <button onclick="toggleDetails(${index}, 'empresa')">⯆</button>
+                </td>
+                <tr id="details-empresa-${index}" style="display:none;">
+                    <td colspan="2">
+                        CNPJ: ${empresa.cnpj}<br>
+                        Endereço: ${empresa.endereco}<br>
+                        Telefone: ${empresa.telefone}
+                    </td>
+                </tr>
+            `;
+            empresasList.appendChild(row);
+        });
+
+        document.getElementById('empresasList').style.display = 'block';
+    }
+
+    if (type === 'recebimentos') {
+        const recebimentosList = document.querySelector('#recebimentosList tbody');
+        recebimentosList.innerHTML = ''; // Limpar tabela
+
+        recebimentos.forEach((recebimento, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${recebimento.nome}</td>
+                <td>
+                    <button onclick="toggleDetails(${index}, 'recebimento')">⯆</button>
+                </td>
+                <tr id="details-recebimento-${index}" style="display:none;">
+                    <td colspan="2">
+                        Valor: ${recebimento.valor}<br>
+                        Data Recebimento: ${recebimento.dataRecebimento}<br>
+                        Status: ${recebimento.status}
+                    </td>
+                </tr>
+            `;
+            recebimentosList.appendChild(row);
+        });
+
+        document.getElementById('recebimentosList').style.display = 'block';
+    }
+}
+
+// Função para alternar entre maximizar e minimizar os detalhes de cada item
+function toggleDetails(index, type) {
+    const detailsRow = document.getElementById(`details-${type}-${index}`);
+    if (detailsRow.style.display === 'none') {
+        detailsRow.style.display = 'table-row'; // Maximizar
+    } else {
+        detailsRow.style.display = 'none'; // Minimizar
+    }
+}
 // --- Service Worker para Cache ---
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
