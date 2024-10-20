@@ -1,112 +1,111 @@
-/* Estilo geral */
+/* Layout básico */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
     margin: 0;
     padding: 0;
+    display: flex;
 }
 
-h1, h2 {
-    color: #333;
-    text-align: center;
-    margin-top: 20px;
+/* Barra lateral */
+.sidebar {
+    background-color: #2c3e50;
+    color: white;
+    width: 200px;
+    padding: 15px;
+    height: 100vh;
 }
 
-ul {
+.sidebar ul {
     list-style: none;
     padding: 0;
+}
+
+.sidebar ul li {
     margin: 20px 0;
-    text-align: center;
 }
 
-ul li {
-    display: inline;
-    margin: 0 10px;
-}
-
-ul li a {
+.sidebar ul li a {
+    color: white;
     text-decoration: none;
-    color: #4a90e2;
     font-weight: bold;
 }
 
-ul li a:hover {
-    color: #1a73e8;
+.sidebar ul li a:hover {
+    color: #1abc9c;
 }
 
-.container {
-    width: 90%;
-    max-width: 600px;
-    margin: 20px auto;
-    background-color: white;
+/* Conteúdo principal */
+.content {
+    flex-grow: 1;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #ecf0f1;
 }
 
-label {
+.section {
+    display: none;
+}
+
+.section.active {
     display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
 }
 
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.button-group {
+    margin-bottom: 20px;
 }
 
 button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4a90e2;
-    border: none;
+    padding: 10px 15px;
+    margin-right: 10px;
+    background-color: #3498db;
     color: white;
-    font-size: 16px;
-    border-radius: 5px;
+    border: none;
     cursor: pointer;
-    margin-bottom: 15px;
 }
 
 button:hover {
-    background-color: #1a73e8;
+    background-color: #2980b9;
 }
 
-/* Tabela */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
+    margin-top: 20px;
 }
 
-table th, table td {
-    border: 1px solid #ddd;
+table, th, td {
+    border: 1px solid #bdc3c7;
+}
+
+th, td {
     padding: 10px;
     text-align: left;
 }
 
-table th {
-    background-color: #4a90e2;
-    color: white;
+/* Formulários */
+.formulario {
+    margin-top: 20px;
 }
 
-table td {
-    background-color: #f9f9f9;
+.formulario input {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #bdc3c7;
 }
 
-.actions button {
-    margin: 5px;
-    padding: 5px 10px;
-    font-size: 14px;
-    background-color: #f44336;
-    border: none;
-    color: white;
-    cursor: pointer;
-}
+/* Responsividade */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 150px;
+    }
 
-.actions button:hover {
-    background-color: #d32f2f;
+    .content {
+        padding: 10px;
+    }
+
+    button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
 }
