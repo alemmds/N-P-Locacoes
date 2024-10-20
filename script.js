@@ -1,77 +1,162 @@
-// Script para manipular exibição das seções
-function showSection(sectionId) {
-    const sections = document.querySelectorAll('.content-section');
-    sections.forEach(section => section.style.display = 'none');
-    document.getElementById(sectionId).style.display = 'block';
+const maquinas = [];
+const recebimentos = [];
+const contratos = [];
+const contas = [];
+const empresas = [];
+
+function showSection(section) {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(sec => sec.style.display = 'none');
+    document.getElementById(section).style.display = 'block';
 }
 
-function showForm(formId) {
-    const forms = document.querySelectorAll('.form-container');
-    forms.forEach(form => form.style.display = 'none');
-    document.getElementById(formId).style.display = 'block';
+function showList(type) {
+    let list = [];
+    let listElementId = '';
+
+    switch (type) {
+        case 'maquinas':
+            list = maquinas;
+            listElementId = 'maquinasList';
+            break;
+        case 'recebimentos':
+            list = recebimentos;
+            listElementId = 'recebimentosList';
+            break;
+        case 'contratos':
+            list = contratos;
+            listElementId = 'contratosList';
+            break;
+        case 'contas':
+            list = contas;
+            listElementId = 'contasList';
+            break;
+        case 'empresas':
+            list = empresas;
+            listElementId = 'empresasList';
+            break;
+    }
+
+    const listElement = document.getElementById(listElementId);
+    listElement.innerHTML = '';
+
+    if (list.length === 0) {
+        listElement.innerHTML = 'Nenhum item cadastrado.';
+        return;
+    }
+
+    list.forEach((item, index) => {
+        const itemElement = document.createElement('div');
+        itemElement.innerHTML = JSON.stringify(item);
+        itemElement.appendChild(createButton('Alterar', () => editItem(type, index)));
+        itemElement.appendChild(createButton('Excluir', () => deleteItem(type, index)));
+        listElement.appendChild(itemElement);
+    });
 }
 
-function showList(listId) {
-    const lists = document.querySelectorAll('.table-container');
-    lists.forEach(list => list.style.display = 'none');
-    document.getElementById(listId).style.display = 'block';
+function createButton(text, onClick) {
+    const button = document.createElement('button');
+    button.innerText = text;
+    button.onclick = onClick;
+    return button;
 }
 
-// Funções de cadastro de dados
-function cadastrarMaquina() {
-    const nome = document.getElementById('nomeMaquina').value;
-    const serie = document.getElementById('serieMaquina').value;
-    const anosUso = document.getElementById('anosUsoMaquina').value;
-    const horasTrabalhadas = document.getElementById('horasTrabalhadasMaquina').value;
-
-    const table = document.getElementById('maquinasTableBody');
-    const row = table.insertRow();
-    row.innerHTML = `<td>${nome}</td><td>${serie}</td><td>${anosUso}</td><td>${horasTrabalhadas}</td><td><button onclick="excluirLinha(this)">Excluir</button></td>`;
+function editItem(type, index) {
+    // Logic to edit item
 }
 
-function cadastrarRecebimento() {
-    const nome = document.getElementById('nomeCliente').value;
-    const valor = document.getElementById('valorRecebido').value;
-    const data = document.getElementById('dataRecebimento').value;
-
-    const table = document.getElementById('recebimentosTableBody');
-    const row = table.insertRow();
-    row.innerHTML = `<td>${nome}</td><td>${valor}</td><td>${data}</td><td><button onclick="excluirLinha(this)">Excluir</button></td>`;
+function deleteItem(type, index) {
+    switch (type) {
+        case 'maquinas':
+            maquinas.splice(index, 1);
+            break;
+        case 'recebimentos':
+            recebimentos.splice(index, 1);
+            break;
+        case 'contratos':
+            contratos.splice(index, 1);
+            break;
+        case 'contas':
+            contas.splice(index, 1);
+            break;
+        case 'empresas':
+            empresas.splice(index, 1);
+            break;
+    }
+    showList(type);
 }
 
-function cadastrarContrato() {
-    const nome = document.getElementById('nomeContrato').value;
-    const equipamento = document.getElementById('tipoEquipamento').value;
-    const dataInicio = document.getElementById('dataInicio').value;
-    const dataFim = document.getElementById('dataFim').value;
+document.getElementById('formMaquina').onsubmit = (e) => {
+    e.preventDefault();
+    const novaMaquina = {
+        nome: e.target.nomeMaquina.value,
+        serie: e.target.serieMaquina.value,
+        anosUso: e.target.anosUso.value,
+        horasTrabalhadas: e.target.horasTrabalhadas.value
+    };
+    maquinas.push(novaMaquina);
+    e.target.reset();
+    showList('maquinas');
+};
 
-    const table = document.getElementById('contratosTableBody');
-    const row = table.insertRow();
-    row.innerHTML = `<td>${nome}</td><td>${equipamento}</td><td>${dataInicio}</td><td>${dataFim}</td><td><button onclick="excluirLinha(this)">Excluir</button></td>`;
-}
+document.getElementById('formRecebimento').onsubmit = (e) => {
+    e.preventDefault();
+    const novoRecebimento = {
+        empresa: e.target.empresaRecebimento.value,
+        valor: e.target.valorRecebimento.value,
+        pagamento: e.target.dataPagamento.value,
+        termino: e.target.dataTermino.value,
+        status: e.target.statusRecebimento.value
+    };
+    recebimentos.push(novoRecebimento);
+    e.target.reset();
+    showList('recebimentos');
+};
 
-function cadastrarConta() {
-    const descricao = document.getElementById('descricaoConta').value;
-    const valor = document.getElementById('valorConta').value;
-    const vencimento = document.getElementById('vencimentoConta').value;
+document.getElementById('formContrato').onsubmit = (e) => {
+    e.preventDefault();
+    const novoContrato = {
+        empresa: e.target.empresaContrato.value,
+        locatario: e.target.locatarioContrato.value,
+        cnpj: e.target.cnpjContrato.value,
+        representante: e.target.representanteContrato.value,
+        periodo: e.target.periodoContrato.value,
+        equipamento: e.target.equipamentoContrato.value,
+        dataTermino: e.target.dataTerminoContrato.value,
+        operador: e.target.operadorContrato.value
+    };
+    contratos.push(novoContrato);
+    e.target.reset();
+    showList('contratos');
+};
 
-    const table = document.getElementById('contasTableBody');
-    const row = table.insertRow();
-    row.innerHTML = `<td>${descricao}</td><td>${valor}</td><td>${vencimento}</td><td><button onclick="excluirLinha(this)">Excluir</button></td>`;
-}
+document.getElementById('formConta').onsubmit = (e) => {
+    e.preventDefault();
+    const novaConta = {
+        tipo: e.target.tipoConta.value,
+        vencimento: e.target.dataVencimentoConta.value,
+        valor: e.target.valorConta.value
+    };
+    contas.push(novaConta);
+    e.target.reset();
+    showList('contas');
+};
 
-function cadastrarEmpresa() {
-    const nome = document.getElementById('nomeEmpresa').value;
-    const cnpj = document.getElementById('cnpjEmpresa').value;
-    const endereco = document.getElementById('enderecoEmpresa').value;
+document.getElementById('formEmpresa').onsubmit = (e) => {
+    e.preventDefault();
+    const novaEmpresa = {
+        nome: e.target.nomeEmpresa.value,
+        areaCnpj: e.target.areaCnpj.value,
+        areaAtuacao: e.target.areaAtuacao.value,
+        representante: e.target.representanteEmpresa.value,
+        telefone: e.target.telefoneEmpresa.value,
+        email: e.target.emailEmpresa.value
+    };
+    empresas.push(novaEmpresa);
+    e.target.reset();
+    showList('empresas');
+};
 
-    const table = document.getElementById('empresasTableBody');
-    const row = table.insertRow();
-    row.innerHTML = `<td>${nome}</td><td>${cnpj}</td><td>${endereco}</td><td><button onclick="excluirLinha(this)">Excluir</button></td>`;
-}
-
-// Função para excluir linhas das tabelas
-function excluirLinha(button) {
-    const row = button.parentElement.parentElement;
-    row.parentElement.removeChild(row);
+function goBack(section) {
+    showSection(section);
 }
