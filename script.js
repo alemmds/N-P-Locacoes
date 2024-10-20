@@ -4,18 +4,14 @@ let contratos = [];
 let contas = [];
 let empresas = [];
 
-function showList(section) {
-    const sections = ['maquinas', 'recebimentos', 'contratos', 'contas', 'empresas'];
-    sections.forEach(s => {
-        document.getElementById(s).style.display = (s === section) ? 'block' : 'none';
+function showSection(section) {
+    document.querySelectorAll('.section').forEach(sec => {
+        sec.style.display = 'none';
     });
-    if (section === 'maquinas') loadMaquinas();
-    else if (section === 'recebimentos') loadRecebimentos();
-    else if (section === 'contratos') loadContratos();
-    else if (section === 'contas') loadContas();
-    else if (section === 'empresas') loadEmpresas();
+    document.getElementById(section).style.display = 'block';
 }
 
+// Função para cadastrar e exibir Máquinas
 function handleFormMaquina(event) {
     event.preventDefault();
     const form = event.target;
@@ -25,9 +21,11 @@ function handleFormMaquina(event) {
         anosUso: form.anosUso.value,
         horasTrabalhadas: form.horasTrabalhadas.value,
     };
-    maquinas.push(newMaquina);
-    form.reset();
-    loadMaquinas();
+    if (newMaquina.nome && newMaquina.serie && newMaquina.anosUso && newMaquina.horasTrabalhadas) {
+        maquinas.push(newMaquina);
+        form.reset();
+        loadMaquinas();
+    }
 }
 
 function loadMaquinas() {
@@ -41,7 +39,7 @@ function loadMaquinas() {
             <td>${maquina.anosUso}</td>
             <td>${maquina.horasTrabalhadas}</td>
             <td>
-                <button onclick="editMaquina(${index})">Editar</button>
+                <button onclick="editMaquina(${index})">Alterar</button>
                 <button onclick="deleteMaquina(${index})">Excluir</button>
             </td>
         `;
@@ -56,7 +54,7 @@ function editMaquina(index) {
     form.serie.value = maquina.serie;
     form.anosUso.value = maquina.anosUso;
     form.horasTrabalhadas.value = maquina.horasTrabalhadas;
-    deleteMaquina(index);
+    deleteMaquina(index); // Remove a máquina para ser atualizada
 }
 
 function deleteMaquina(index) {
@@ -64,4 +62,58 @@ function deleteMaquina(index) {
     loadMaquinas();
 }
 
-// Outras funções (recebimentos, contratos, contas, empresas) seguem o mesmo padrão acima, com ajustes nos campos
+// Recebimentos (Segue o mesmo padrão)
+function handleFormRecebimento(event) {
+    event.preventDefault();
+    const form = event.target;
+    const newRecebimento = {
+        empresa: form.empresa.value,
+        valor: form.valor.value,
+        dataPagamento: form.dataPagamento.value,
+        dataTermino: form.dataTermino.value,
+        status: form.status.value
+    };
+    if (newRecebimento.empresa && newRecebimento.valor) {
+        recebimentos.push(newRecebimento);
+        form.reset();
+        loadRecebimentos();
+    }
+}
+
+function loadRecebimentos() {
+    const tableBody = document.querySelector('#tableRecebimentos tbody');
+    tableBody.innerHTML = '';
+    recebimentos.forEach((recebimento, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${recebimento.empresa}</td>
+            <td>${recebimento.valor}</td>
+            <td>${recebimento.dataPagamento}</td>
+            <td>${recebimento.dataTermino}</td>
+            <td>${recebimento.status}</td>
+            <td>
+                <button onclick="editRecebimento(${index})">Alterar</button>
+                <button onclick="deleteRecebimento(${index})">Excluir</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+function editRecebimento(index) {
+    const recebimento = recebimentos[index];
+    const form = document.getElementById('formRecebimento');
+    form.empresa.value = recebimento.empresa;
+    form.valor.value = recebimento.valor;
+    form.dataPagamento.value = recebimento.dataPagamento;
+    form.dataTermino.value = recebimento.dataTermino;
+    form.status.value = recebimento.status;
+    deleteRecebimento(index);
+}
+
+function deleteRecebimento(index) {
+    recebimentos.splice(index, 1);
+    loadRecebimentos();
+}
+
+// Contratos, Contas e Empresas seguem o mesmo padrão
