@@ -1,103 +1,200 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>N Pontes Locações</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-            <h2>N Pontes Locações</h2>
-            <ul>
-                <li><button onclick="showSection('maquinas')">Máquinas</button></li>
-                <li><button onclick="showSection('recebimentos')">Recebimentos</button></li>
-                <li><button onclick="showSection('contratos')">Contratos</button></li>
-                <li><button onclick="showSection('contas')">Contas</button></li>
-                <li><button onclick="showSection('empresas')">Empresas</button></li>
-            </ul>
-        </aside>
-
-        <main class="content">
-            <!-- Máquinas -->
-            <section id="maquinas" class="section">
-                <h2>Máquinas</h2>
-                <button onclick="showForm('maquina')">Cadastrar Máquina</button>
-                <button onclick="showList('maquina')">Listas de Máquinas</button>
-
-                <!-- Formulário Cadastrar Máquina -->
-                <div id="form-maquina" class="formulario">
-                    <h3>Cadastrar Máquina</h3>
-                    <input type="text" id="maquina-nome" placeholder="Nome">
-                    <input type="text" id="maquina-serie" placeholder="Série">
-                    <input type="text" id="maquina-anos" placeholder="Anos de Uso">
-                    <input type="text" id="maquina-horas" placeholder="Horas Trabalhadas">
-                    <button onclick="cadastrarMaquina()">Confirmar</button>
-                </div>
-
-                <!-- Lista de Máquinas -->
-                <div id="list-maquina" class="lista">
-                    <h3>Lista de Máquinas</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Série</th>
-                                <th>Anos de Uso</th>
-                                <th>Horas Trabalhadas</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="maquina-list"></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Recebimentos -->
-            <section id="recebimentos" class="section">
-                <h2>Recebimentos</h2>
-                <button onclick="showForm('recebimento')">Cadastrar Recebimento</button>
-                <button onclick="showList('recebimento')">Listas de Recebimentos</button>
-
-                <!-- Formulário Cadastrar Recebimento -->
-                <div id="form-recebimento" class="formulario">
-                    <h3>Cadastrar Recebimento</h3>
-                    <input type="text" id="recebimento-empresa" placeholder="Empresa">
-                    <input type="number" id="recebimento-valor" placeholder="Valor">
-                    <input type="date" id="recebimento-pagamento" placeholder="Data de Pagamento">
-                    <input type="date" id="recebimento-termino" placeholder="Data de Término">
-                    <select id="recebimento-status">
-                        <option value="Pago">Pago</option>
-                        <option value="A Receber">A Receber</option>
-                    </select>
-                    <button onclick="cadastrarRecebimento()">Confirmar</button>
-                </div>
-
-                <!-- Lista de Recebimentos -->
-                <div id="list-recebimento" class="lista">
-                    <h3>Lista de Recebimentos</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Empresa</th>
-                                <th>Valor</th>
-                                <th>Pagamento</th>
-                                <th>Término</th>
-                                <th>Status</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="recebimento-list"></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Outras seções seguem a mesma estrutura acima -->
-        </main>
+    <div class="menu">
+        <h1>N Pontes Locações</h1>
+        <ul>
+            <li><a href="#" onclick="showSection('maquinas')">Máquinas</a></li>
+            <li><a href="#" onclick="showSection('recebimentos')">Recebimentos</a></li>
+            <li><a href="#" onclick="showSection('contratos')">Contratos</a></li>
+            <li><a href="#" onclick="showSection('contas')">Contas</a></li>
+            <li><a href="#" onclick="showSection('empresas')">Empresas</a></li>
+        </ul>
     </div>
 
-    <script src="js/script.js"></script>
-</body>
-</html>
+    <div class="main-content">
+        <!-- Máquinas -->
+        <section id="maquinas" class="content-section">
+            <h2>Máquinas</h2>
+            <button onclick="showForm('cadastroMaquina')">Cadastrar Máquina</button>
+            <button onclick="showList('listaMaquinas')">Listas de Máquinas</button>
+
+            <!-- Formulário de Cadastro de Máquina -->
+            <div id="cadastroMaquina" class="form-container" style="display: none;">
+                <h3>Cadastrar Máquina</h3>
+                <form id="maquinaForm">
+                    <input type="text" id="nomeMaquina" placeholder="Nome">
+                    <input type="text" id="serieMaquina" placeholder="Série">
+                    <input type="number" id="anosUsoMaquina" placeholder="Anos de Uso">
+                    <input type="number" id="horasTrabalhadasMaquina" placeholder="Horas Trabalhadas">
+                    <button type="button" onclick="cadastrarMaquina()">Confirmar</button>
+                </form>
+            </div>
+
+            <!-- Lista de Máquinas -->
+            <div id="listaMaquinas" class="table-container" style="display: none;">
+                <h3>Lista de Máquinas</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Série</th>
+                            <th>Anos de Uso</th>
+                            <th>Horas Trabalhadas</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="maquinasTableBody">
+                        <!-- Linhas de máquinas serão adicionadas dinamicamente aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Recebimentos -->
+        <section id="recebimentos" class="content-section" style="display:none;">
+            <h2>Recebimentos</h2>
+            <button onclick="showForm('cadastroRecebimento')">Cadastrar Recebimento</button>
+            <button onclick="showList('listaRecebimentos')">Listas de Recebimentos</button>
+
+            <!-- Formulário de Cadastro de Recebimento -->
+            <div id="cadastroRecebimento" class="form-container" style="display: none;">
+                <h3>Cadastrar Recebimento</h3>
+                <form id="recebimentoForm">
+                    <input type="text" id="nomeCliente" placeholder="Nome do Cliente">
+                    <input type="text" id="valorRecebido" placeholder="Valor Recebido">
+                    <input type="date" id="dataRecebimento" placeholder="Data">
+                    <button type="button" onclick="cadastrarRecebimento()">Confirmar</button>
+                </form>
+            </div>
+
+            <!-- Lista de Recebimentos -->
+            <div id="listaRecebimentos" class="table-container" style="display: none;">
+                <h3>Lista de Recebimentos</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Valor</th>
+                            <th>Data</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recebimentosTableBody">
+                        <!-- Linhas de recebimentos serão adicionadas dinamicamente aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Contratos -->
+        <section id="contratos" class="content-section" style="display:none;">
+            <h2>Contratos</h2>
+            <button onclick="showForm('cadastroContrato')">Cadastrar Contrato</button>
+            <button onclick="showList('listaContratos')">Listas de Contratos</button>
+
+            <!-- Formulário de Cadastro de Contrato -->
+            <div id="cadastroContrato" class="form-container" style="display: none;">
+                <h3>Cadastrar Contrato</h3>
+                <form id="contratoForm">
+                    <input type="text" id="nomeContrato" placeholder="Nome do Cliente">
+                    <input type="text" id="tipoEquipamento" placeholder="Tipo de Equipamento">
+                    <input type="date" id="dataInicio" placeholder="Data de Início">
+                    <input type="date" id="dataFim" placeholder="Data de Término">
+                    <button type="button" onclick="cadastrarContrato()">Confirmar</button>
+                </form>
+            </div>
+
+            <!-- Lista de Contratos -->
+            <div id="listaContratos" class="table-container" style="display: none;">
+                <h3>Lista de Contratos</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Equipamento</th>
+                            <th>Data de Início</th>
+                            <th>Data de Término</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contratosTableBody">
+                        <!-- Linhas de contratos serão adicionadas dinamicamente aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Contas -->
+        <section id="contas" class="content-section" style="display:none;">
+            <h2>Contas</h2>
+            <button onclick="showForm('cadastroConta')">Cadastrar Conta</button>
+            <button onclick="showList('listaContas')">Listas de Contas</button>
+
+            <!-- Formulário de Cadastro de Conta -->
+            <div id="cadastroConta" class="form-container" style="display: none;">
+                <h3>Cadastrar Conta</h3>
+                <form id="contaForm">
+                    <input type="text" id="descricaoConta" placeholder="Descrição">
+                    <input type="number" id="valorConta" placeholder="Valor">
+                    <input type="date" id="vencimentoConta" placeholder="Vencimento">
+                    <button type="button" onclick="cadastrarConta()">Confirmar</button>
+                </form>
+            </div>
+
+            <!-- Lista de Contas -->
+            <div id="listaContas" class="table-container" style="display: none;">
+                <h3>Lista de Contas</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Valor</th>
+                            <th>Vencimento</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contasTableBody">
+                        <!-- Linhas de contas serão adicionadas dinamicamente aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Empresas -->
+        <section id="empresas" class="content-section" style="display:none;">
+            <h2>Empresas</h2>
+            <button onclick="showForm('cadastroEmpresa')">Cadastrar Empresa</button>
+            <button onclick="showList('listaEmpresas')">Listas de Empresas</button>
+
+            <!-- Formulário de Cadastro de Empresa -->
+            <div id="cadastroEmpresa" class="form-container" style="display: none;">
+                <h3>Cadastrar Empresa</h3>
+                <form id="empresaForm">
+                    <input type="text" id="nomeEmpresa" placeholder="Nome da Empresa">
+                    <input type="text" id="cnpjEmpresa" placeholder="CNPJ">
+                    <input type="text" id="enderecoEmpresa" placeholder="Endereço">
+                    <button type="button" onclick="cadastrarEmpresa()">Confirmar</button>
+                </form>
+            </div>
+
+            <!-- Lista de Empresas -->
+            <div id="listaEmpresas" class="table-container" style="display: none;">
+                <h3>Lista de Empresas</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>CNPJ</th>
+                            <th>Endereço</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="emp
