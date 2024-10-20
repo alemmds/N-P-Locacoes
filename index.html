@@ -33,6 +33,50 @@
                 <button onclick="mostrarLista('maquinas')">Listas de Máquinas</button>
                 <div id="listaMaquinas"></div>
             </div>
+            
+<div id="empresasSection" class="container">
+    <h1>Cadastrar Empresa</h1>
+    <form id="empresaForm">
+        <label for="nomeEmpresa">Nome</label>
+        <input type="text" id="nomeEmpresa" placeholder="Nome da empresa">
+
+        <label for="areaAtuacao">Área de Atuação</label>
+        <input type="text" id="areaAtuacao" placeholder="Área de Atuação">
+
+        <label for="cnpjEmpresa">CNPJ</label>
+        <input type="text" id="cnpjEmpresa" placeholder="CNPJ">
+
+        <label for="representanteEmpresa">Representante</label>
+        <input type="text" id="representanteEmpresa" placeholder="Representante">
+
+        <label for="telefoneEmpresa">Telefone</label>
+        <input type="text" id="telefoneEmpresa" placeholder="Telefone">
+
+        <label for="emailEmpresa">E-mail</label>
+        <input type="text" id="emailEmpresa" placeholder="E-mail">
+
+        <button type="button" onclick="adicionarEmpresa()">Cadastrar</button>
+        <button type="button" onclick="mostrarLista('empresas')">Listas de Empresas</button>
+    </form>
+
+    <!-- Tabela de Empresas -->
+    <h2>Lista de Empresas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CNPJ</th>
+                <th>Área</th>
+                <th>Representante</th>
+                <th>Telefone</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="empresaLista">
+            <!-- Aqui serão adicionadas as empresas -->
+        </tbody>
+    </table>
+</div>
 
             <!-- Recebimentos -->
             <div id="recebimentos" class="section">
