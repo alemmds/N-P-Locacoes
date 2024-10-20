@@ -2,121 +2,75 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    height: 100vh;
+    background-color: #f4f4f4;
 }
 
 .container {
     display: flex;
-    width: 100%;
 }
 
 .sidebar {
     width: 200px;
-    background-color: #2C3E50;
-    color: white;
-    padding: 15px;
-}
-
-.sidebar h2 {
-    text-align: center;
+    background: #333;
+    color: #fff;
 }
 
 .sidebar ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
 }
 
-.sidebar li {
-    padding: 10px;
-    cursor: pointer;
+.sidebar ul li {
+    padding: 15px;
 }
 
-.sidebar li:hover {
-    background-color: #34495E;
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
 }
 
-.content {
-    flex-grow: 1;
+.main-content {
     padding: 20px;
-    overflow-y: auto;
+    flex-grow: 1;
 }
 
-.section {
-    display: none;
-}
-
-.list {
-    margin-top: 20px;
-    border-top: 1px solid #ccc;
-    padding-top: 10px;
+h2, h3 {
+    margin-top: 0;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
+    margin-bottom: 20px;
 }
 
-input, select, button {
-    margin-bottom: 10px;
+input, select {
+    margin: 5px 0;
     padding: 10px;
+    width: 100%;
 }
 
-/* CSS Adicionado */
-.maquina {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    margin-bottom: 15px;
-    padding: 15px;
-    border-radius: 5px;
-}
-
-.maquina-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.maquina-nome {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.toggle-info {
+button {
+    padding: 10px;
     background-color: #28a745;
-    color: #fff;
+    color: white;
     border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
     cursor: pointer;
 }
 
-.toggle-info:hover {
+button:hover {
     background-color: #218838;
 }
 
-.maquina-info {
+table {
+    width: 100%;
+    border-collapse: collapse;
     margin-top: 10px;
 }
 
-.editar, .excluir {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 10px;
+table, th, td {
+    border: 1px solid #ccc;
 }
 
-.editar:hover {
-    background-color: #218838;
-}
-
-.excluir {
-    background-color: #dc3545;
-}
-
-.excluir:hover {
-    background-color: #c82333;
+th, td {
+    padding: 10px;
+    text-align: left;
 }
