@@ -1,44 +1,62 @@
-// Show and Hide Sections
-function showSection(section) {
-    const sections = document.querySelectorAll('.section');
-    sections.forEach(sec => sec.classList.remove('active'));
-    document.getElementById(section).classList.add('active');
+document.addEventListener('DOMContentLoaded', function() {
+    showSection('maquinas'); // Mostrar a primeira seção de máquinas ao carregar
+});
+
+function showSection(sectionId) {
+    const sections = document.querySelectorAll('.content-section');
+    sections.forEach(section => section.style.display = 'none');
+    document.getElementById(sectionId).style.display = 'block';
 }
 
-// Cadastrar Máquina
-function cadastrarMaquina() {
-    const nome = document.getElementById('maquina-nome').value;
-    const serie = document.getElementById('maquina-serie').value;
-    const anos = document.getElementById('maquina-anos').value;
-    const horas = document.getElementById('maquina-horas').value;
+function showForm(formId) {
+    document.getElementById(formId).style.display = 'block';
+    document.querySelector('.table-container').style.display = 'none';
+}
 
-    const tbody = document.getElementById('maquina-list');
+function showList(listId) {
+    document.getElementById(listId).style.display = 'block';
+    document.querySelector('.form-container').style.display = 'none';
+}
+
+// Função para cadastrar máquinas
+function cadastrarMaquina() {
+    const nome = document.getElementById('nomeMaquina').value;
+    const serie = document.getElementById('serieMaquina').value;
+    const anosUso = document.getElementById('anosUsoMaquina').value;
+    const horasTrabalhadas = document.getElementById('horasTrabalhadasMaquina').value;
+
+    if (!nome || !serie || !anosUso || !horasTrabalhadas) {
+        alert('Preencha todos os campos!');
+        return;
+    }
+
+    const tableBody = document.getElementById('maquinasTableBody');
     const row = document.createElement('tr');
 
     row.innerHTML = `
         <td>${nome}</td>
         <td>${serie}</td>
-        <td>${anos}</td>
-        <td>${horas}</td>
-        <td>
-            <button onclick="alterarMaquina(this)">Alterar</button>
-            <button onclick="excluirMaquina(this)">Excluir</button>
+        <td>${anosUso}</td>
+        <td>${horasTrabalhadas}</td>
+        <td class="table-actions">
+            <button class="edit" onclick="editarMaquina(this)">Editar</button>
+            <button class="delete" onclick="excluirMaquina(this)">Excluir</button>
         </td>
     `;
 
-    tbody.appendChild(row);
+    tableBody.appendChild(row);
+    alert('Máquina cadastrada com sucesso!');
+
+    // Limpar os campos
+    document.getElementById('maquinaForm').reset();
 }
 
-// Alterar e Excluir Máquina
-function alterarMaquina(button) {
-    const row = button.parentNode.parentNode;
-    const nome = prompt('Novo nome:', row.cells[0].innerText);
-    if (nome) row.cells[0].innerText = nome;
+function editarMaquina(button) {
+    // Implementar função de editar aqui
 }
 
 function excluirMaquina(button) {
     const row = button.parentNode.parentNode;
     row.remove();
+    alert('Máquina excluída com sucesso!');
 }
-
-// Funções semelhantes para Recebimentos, Contratos, Contas, Empresas...
