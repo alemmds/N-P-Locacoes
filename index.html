@@ -132,5 +132,14 @@
         </main>
     </div>
     <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
+                console.log('Service Worker registrado com sucesso', reg);
+            }).catch(function(err) {
+                console.warn('Erro ao registrar o Service Worker', err);
+            });
+        }
+    </script>
 </body>
 </html>
