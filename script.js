@@ -1,126 +1,77 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Seção Máquinas
-    const maquinasSection = document.getElementById('maquinas-section');
-    const cadastrarMaquinaTab = document.getElementById('tab-cadastrar-maquina');
-    const listaMaquinasTab = document.getElementById('tab-lista-maquinas');
-    const cadastrarMaquinaContent = document.getElementById('cadastrar-maquina');
-    const listaMaquinasContent = document.getElementById('lista-maquinas');
+// Script para manipular exibição das seções
+function showSection(sectionId) {
+    const sections = document.querySelectorAll('.content-section');
+    sections.forEach(section => section.style.display = 'none');
+    document.getElementById(sectionId).style.display = 'block';
+}
 
-    cadastrarMaquinaTab.addEventListener('click', () => {
-        cadastrarMaquinaTab.classList.add('active');
-        listaMaquinasTab.classList.remove('active');
-        cadastrarMaquinaContent.classList.add('active');
-        listaMaquinasContent.classList.remove('active');
-    });
+function showForm(formId) {
+    const forms = document.querySelectorAll('.form-container');
+    forms.forEach(form => form.style.display = 'none');
+    document.getElementById(formId).style.display = 'block';
+}
 
-    listaMaquinasTab.addEventListener('click', () => {
-        listaMaquinasTab.classList.add('active');
-        cadastrarMaquinaTab.classList.remove('active');
-        listaMaquinasContent.classList.add('active');
-        cadastrarMaquinaContent.classList.remove('active');
-    });
+function showList(listId) {
+    const lists = document.querySelectorAll('.table-container');
+    lists.forEach(list => list.style.display = 'none');
+    document.getElementById(listId).style.display = 'block';
+}
 
-    document.getElementById('voltar').addEventListener('click', () => {
-        maquinasSection.classList.remove('active');
-    });
+// Funções de cadastro de dados
+function cadastrarMaquina() {
+    const nome = document.getElementById('nomeMaquina').value;
+    const serie = document.getElementById('serieMaquina').value;
+    const anosUso = document.getElementById('anosUsoMaquina').value;
+    const horasTrabalhadas = document.getElementById('horasTrabalhadasMaquina').value;
 
-    // Seção Recebimentos
-    const recebimentosSection = document.getElementById('recebimentos-section');
-    const cadastrarRecebimentoTab = document.getElementById('tab-cadastrar-recebimento');
-    const listaRecebimentosTab = document.getElementById('tab-lista-recebimentos');
-    const cadastrarRecebimentoContent = document.getElementById('cadastrar-recebimento');
-    const listaRecebimentosContent = document.getElementById('lista-recebimentos');
+    const table = document.getElementById('maquinasTableBody');
+    const row = table.insertRow();
+    row.innerHTML = `<td>${nome}</td><td>${serie}</td><td>${anosUso}</td><td>${horasTrabalhadas}</td><td><button onclick="excluirLinha(this)">Excluir</button></td>`;
+}
 
-    cadastrarRecebimentoTab.addEventListener('click', () => {
-        cadastrarRecebimentoTab.classList.add('active');
-        listaRecebimentosTab.classList.remove('active');
-        cadastrarRecebimentoContent.classList.add('active');
-        listaRecebimentosContent.classList.remove('active');
-    });
+function cadastrarRecebimento() {
+    const nome = document.getElementById('nomeCliente').value;
+    const valor = document.getElementById('valorRecebido').value;
+    const data = document.getElementById('dataRecebimento').value;
 
-    listaRecebimentosTab.addEventListener('click', () => {
-        listaRecebimentosTab.classList.add('active');
-        cadastrarRecebimentoTab.classList.remove('active');
-        listaRecebimentosContent.classList.add('active');
-        cadastrarRecebimentoContent.classList.remove('active');
-    });
+    const table = document.getElementById('recebimentosTableBody');
+    const row = table.insertRow();
+    row.innerHTML = `<td>${nome}</td><td>${valor}</td><td>${data}</td><td><button onclick="excluirLinha(this)">Excluir</button></td>`;
+}
 
-    document.getElementById('voltar-recebimentos').addEventListener('click', () => {
-        recebimentosSection.classList.remove('active');
-    });
+function cadastrarContrato() {
+    const nome = document.getElementById('nomeContrato').value;
+    const equipamento = document.getElementById('tipoEquipamento').value;
+    const dataInicio = document.getElementById('dataInicio').value;
+    const dataFim = document.getElementById('dataFim').value;
 
-    // Seção Contratos
-    const contratosSection = document.getElementById('contratos-section');
-    const cadastrarContratoTab = document.getElementById('tab-cadastrar-contrato');
-    const listaContratosTab = document.getElementById('tab-lista-contratos');
-    const cadastrarContratoContent = document.getElementById('cadastrar-contrato');
-    const listaContratosContent = document.getElementById('lista-contratos');
+    const table = document.getElementById('contratosTableBody');
+    const row = table.insertRow();
+    row.innerHTML = `<td>${nome}</td><td>${equipamento}</td><td>${dataInicio}</td><td>${dataFim}</td><td><button onclick="excluirLinha(this)">Excluir</button></td>`;
+}
 
-    cadastrarContratoTab.addEventListener('click', () => {
-        cadastrarContratoTab.classList.add('active');
-        listaContratosTab.classList.remove('active');
-        cadastrarContratoContent.classList.add('active');
-        listaContratosContent.classList.remove('active');
-    });
+function cadastrarConta() {
+    const descricao = document.getElementById('descricaoConta').value;
+    const valor = document.getElementById('valorConta').value;
+    const vencimento = document.getElementById('vencimentoConta').value;
 
-    listaContratosTab.addEventListener('click', () => {
-        listaContratosTab.classList.add('active');
-        cadastrarContratoTab.classList.remove('active');
-        listaContratosContent.classList.add('active');
-        cadastrarContratoContent.classList.remove('active');
-    });
+    const table = document.getElementById('contasTableBody');
+    const row = table.insertRow();
+    row.innerHTML = `<td>${descricao}</td><td>${valor}</td><td>${vencimento}</td><td><button onclick="excluirLinha(this)">Excluir</button></td>`;
+}
 
-    document.getElementById('voltar-contratos').addEventListener('click', () => {
-        contratosSection.classList.remove('active');
-    });
+function cadastrarEmpresa() {
+    const nome = document.getElementById('nomeEmpresa').value;
+    const cnpj = document.getElementById('cnpjEmpresa').value;
+    const endereco = document.getElementById('enderecoEmpresa').value;
 
-    // Seção Contas
-    const contasSection = document.getElementById('contas-section');
-    const cadastrarContaTab = document.getElementById('tab-cadastrar-conta');
-    const listaContasTab = document.getElementById('tab-lista-contas');
-    const cadastrarContaContent = document.getElementById('cadastrar-conta');
-    const listaContasContent = document.getElementById('lista-contas');
+    const table = document.getElementById('empresasTableBody');
+    const row = table.insertRow();
+    row.innerHTML = `<td>${nome}</td><td>${cnpj}</td><td>${endereco}</td><td><button onclick="excluirLinha(this)">Excluir</button></td>`;
+}
 
-    cadastrarContaTab.addEventListener('click', () => {
-        cadastrarContaTab.classList.add('active');
-        listaContasTab.classList.remove('active');
-        cadastrarContaContent.classList.add('active');
-        listaContasContent.classList.remove('active');
-    });
-
-    listaContasTab.addEventListener('click', () => {
-        listaContasTab.classList.add('active');
-        cadastrarContaTab.classList.remove('active');
-        listaContasContent.classList.add('active');
-        cadastrarContaContent.classList.remove('active');
-    });
-
-    document.getElementById('voltar-contas').addEventListener('click', () => {
-        contasSection.classList.remove('active');
-    });
-
-    // Seção Empresas
-    const empresasSection = document.getElementById('empresas-section');
-    const cadastrarEmpresaTab = document.getElementById('tab-cadastrar-empresa');
-    const listaEmpresasTab = document.getElementById('tab-lista-empresas');
-    const cadastrarEmpresaContent = document.getElementById('cadastrar-empresa');
-    const listaEmpresasContent = document.getElementById('lista-empresas');
-
-    cadastrarEmpresaTab.addEventListener('click', () => {
-        cadastrarEmpresaTab.classList.add('active');
-        listaEmpresasTab.classList.remove('active');
-        cadastrarEmpresaContent.classList.add('active');
-        listaEmpresasContent.classList.remove('active');
-    });
-
-    listaEmpresasTab.addEventListener('click', () => {
-        listaEmpresasTab.classList.add('active');
-        cadastrarEmpresaTab.classList.remove('active');
-        listaEmpresasContent.classList.add('active');
-        cadastrarEmpresaContent.classList.remove('active');
-    });
-
-    document.getElementById('voltar-empresas').addEventListener('click', () => {
-        empresasSection.classList.remove('active');
-    });
-});
+// Função para excluir linhas das tabelas
+function excluirLinha(button) {
+    const row = button.parentElement.parentElement;
+    row.parentElement.removeChild(row);
+}
