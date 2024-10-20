@@ -1,14 +1,19 @@
 {
     "name": "N Pontes Locações",
-    "short_name": "NP Locações",
-    "start_url": "/",
+    "short_name": "NPontes",
+    "start_url": "/index.html",
     "display": "standalone",
-    "background_color": "#f4f4f9",
-    "theme_color": "#3498db",
+    "background_color": "#ffffff",
+    "theme_color": "#34495e",
     "icons": [
         {
-            "src": "icon.png",
+            "src": "/images/icon-192.png",
             "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/images/icon-512.png",
+            "sizes": "512x512",
             "type": "image/png"
         }
     ]
