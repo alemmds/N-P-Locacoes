@@ -8,57 +8,66 @@
     <title>N Pontes Locações</title>
 </head>
 <body>
+    <header>
+        <h1>N Pontes Locações</h1>
+    </header>
     <div class="container">
         <nav class="sidebar">
             <ul>
-                <li><a href="#maquinas">Máquinas</a></li>
-                <li><a href="#recebimentos">Recebimentos</a></li>
-                <li><a href="#contratos">Contratos</a></li>
-                <li><a href="#contas">Contas</a></li>
-                <li><a href="#empresas">Empresas</a></li>
+                <li><button onclick="showSection('maquinas')">Máquinas</button></li>
+                <li><button onclick="showSection('recebimentos')">Recebimentos</button></li>
+                <li><button onclick="showSection('contratos')">Contratos</button></li>
+                <li><button onclick="showSection('contas')">Contas</button></li>
+                <li><button onclick="showSection('empresas')">Empresas</button></li>
             </ul>
         </nav>
         <main class="main-content">
-            <div id="maquinas" class="tab">
-                <h2>MÁQUINAS</h2>
-                <div>
-                    <h3>CADASTRAR MÁQUINA</h3>
-                    <form id="maquina-form">
-                        <input type="text" id="maquina-nome" placeholder="Nome da Máquina" required>
-                        <input type="text" id="maquina-serie" placeholder="Série" required>
-                        <input type="number" id="maquina-anos" placeholder="Anos de Uso" required>
-                        <input type="number" id="maquina-horas" placeholder="Horas Trabalhadas" required>
-                        <button type="submit">CONFIRMAR</button>
-                    </form>
-                    <h3>LISTAS DE MÁQUINAS</h3>
-                    <table id="maquinas-lista">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nome</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="recebimentos" class="tab" style="display:none;">
-                <h2>RECEBIMENTOS</h2>
-                <h3>CADASTRAR RECEBIMENTO</h3>
+            <section id="maquinas" class="section active">
+                <h2>Máquinas</h2>
+                <form id="maquina-form">
+                    <h3>Cadastrar Máquina</h3>
+                    <label for="maquina-nome">Nome:</label>
+                    <input type="text" id="maquina-nome" required>
+                    <label for="maquina-serie">Série:</label>
+                    <input type="text" id="maquina-serie" required>
+                    <label for="maquina-anos">Anos de Uso:</label>
+                    <input type="number" id="maquina-anos" required>
+                    <label for="maquina-horas">Horas Trabalhadas:</label>
+                    <input type="number" id="maquina-horas" required>
+                    <button type="submit">Confirmar</button>
+                </form>
+                <h3>Lista de Máquinas</h3>
+                <table id="maquinas-lista">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+            <section id="recebimentos" class="section">
+                <h2>Recebimentos</h2>
                 <form id="recebimento-form">
-                    <input type="text" id="recebimento-empresa" placeholder="Empresa" required>
-                    <input type="number" id="recebimento-valor" placeholder="Valor" required>
+                    <h3>Cadastrar Recebimento</h3>
+                    <label for="recebimento-empresa">Empresa:</label>
+                    <input type="text" id="recebimento-empresa" required>
+                    <label for="recebimento-valor">Valor:</label>
+                    <input type="number" id="recebimento-valor" required>
+                    <label for="recebimento-data">Data:</label>
                     <input type="date" id="recebimento-data" required>
+                    <label for="recebimento-termino">Termino:</label>
                     <input type="date" id="recebimento-termino" required>
+                    <label for="recebimento-status">Status:</label>
                     <select id="recebimento-status">
                         <option value="PAGO">PAGO</option>
                         <option value="A RECEBER">A RECEBER</option>
                     </select>
-                    <button type="submit">CONFIRMAR</button>
+                    <button type="submit">Confirmar</button>
                 </form>
-                <h3>LISTAS DE RECEBIMENTO</h3>
+                <h3>Lista de Recebimentos</h3>
                 <table id="recebimentos-lista">
                     <thead>
                         <tr>
@@ -69,26 +78,33 @@
                     </thead>
                     <tbody></tbody>
                 </table>
-            </div>
-
-            <div id="contratos" class="tab" style="display:none;">
-                <h2>CONTRATOS</h2>
-                <h3>CADASTRAR CONTRATO</h3>
+            </section>
+            <section id="contratos" class="section">
+                <h2>Contratos</h2>
                 <form id="contrato-form">
-                    <input type="text" id="contrato-empresa" placeholder="Empresa" required>
-                    <input type="text" id="contrato-locatario" placeholder="Locatário" required>
-                    <input type="text" id="contrato-cnpj" placeholder="CNPJ" required>
-                    <input type="text" id="contrato-representante" placeholder="Representante" required>
-                    <input type="text" id="contrato-periodo" placeholder="Período da Locação" required>
-                    <input type="text" id="contrato-equipamento" placeholder="Equipamento" required>
+                    <h3>Cadastrar Contrato</h3>
+                    <label for="contrato-empresa">Empresa:</label>
+                    <input type="text" id="contrato-empresa" required>
+                    <label for="contrato-locatario">Locatário:</label>
+                    <input type="text" id="contrato-locatario" required>
+                    <label for="contrato-cnpj">CNPJ:</label>
+                    <input type="text" id="contrato-cnpj" required>
+                    <label for="contrato-representante">Representante:</label>
+                    <input type="text" id="contrato-representante" required>
+                    <label for="contrato-periodo">Período da Locação:</label>
+                    <input type="text" id="contrato-periodo" required>
+                    <label for="contrato-equipamento">Equipamento:</label>
+                    <input type="text" id="contrato-equipamento" required>
+                    <label for="contrato-data">Data de Término:</label>
                     <input type="date" id="contrato-data" required>
+                    <label for="contrato-operador">Operador:</label>
                     <select id="contrato-operador">
                         <option value="Pela empresa">Pela empresa</option>
-                        <option value="Pela N pontes">Pela N pontes</option>
+                        <option value="Pela N Pontes">Pela N Pontes</option>
                     </select>
-                    <button type="submit">CONFIRMAR</button>
+                    <button type="submit">Confirmar</button>
                 </form>
-                <h3>LISTA DE CONTRATOS</h3>
+                <h3>Lista de Contratos</h3>
                 <table id="contratos-lista">
                     <thead>
                         <tr>
@@ -99,25 +115,26 @@
                     </thead>
                     <tbody></tbody>
                 </table>
-            </div>
-
-            <div id="contas" class="tab" style="display:none;">
-                <h2>CONTAS</h2>
-                <h3>CADASTRAR CONTA</h3>
+            </section>
+            <section id="contas" class="section">
+                <h2>Contas</h2>
                 <form id="conta-form">
-                    <select id="conta-tipo" required>
-                        <option value="">Selecione o tipo</option>
+                    <h3>Cadastrar Conta</h3>
+                    <label for="conta-tipo">Tipo:</label>
+                    <select id="conta-tipo">
                         <option value="Água">Água</option>
                         <option value="Luz">Luz</option>
                         <option value="Telefone">Telefone</option>
                         <option value="Internet">Internet</option>
                         <option value="Outros">Outros</option>
                     </select>
+                    <label for="conta-data">Data de Vencimento:</label>
                     <input type="date" id="conta-data" required>
-                    <input type="number" id="conta-valor" placeholder="Valor" required>
-                    <button type="submit">CONFIRMAR</button>
+                    <label for="conta-valor">Valor:</label>
+                    <input type="number" id="conta-valor" required>
+                    <button type="submit">Confirmar</button>
                 </form>
-                <h3>LISTA DE CONTAS</h3>
+                <h3>Lista de Contas</h3>
                 <table id="contas-lista">
                     <thead>
                         <tr>
@@ -128,21 +145,26 @@
                     </thead>
                     <tbody></tbody>
                 </table>
-            </div>
-
-            <div id="empresas" class="tab" style="display:none;">
-                <h2>EMPRESAS</h2>
-                <h3>CADASTRAR EMPRESA</h3>
+            </section>
+            <section id="empresas" class="section">
+                <h2>Empresas</h2>
                 <form id="empresa-form">
-                    <input type="text" id="empresa-nome" placeholder="Nome" required>
-                    <input type="text" id="empresa-cnpj" placeholder="CNPJ" required>
-                    <input type="text" id="empresa-atuacao" placeholder="Área de Atuação" required>
-                    <input type="text" id="empresa-representante" placeholder="Representante" required>
-                    <input type="text" id="empresa-telefone" placeholder="Telefone" required>
-                    <input type="email" id="empresa-email" placeholder="E-mail" required>
-                    <button type="submit">CONFIRMAR</button>
+                    <h3>Cadastrar Empresa</h3>
+                    <label for="empresa-nome">Nome:</label>
+                    <input type="text" id="empresa-nome" required>
+                    <label for="empresa-cnpj">CNPJ:</label>
+                    <input type="text" id="empresa-cnpj" required>
+                    <label for="empresa-area">Área de Atuação:</label>
+                    <input type="text" id="empresa-area" required>
+                    <label for="empresa-representante">Representante:</label>
+                    <input type="text" id="empresa-representante" required>
+                    <label for="empresa-telefone">Telefone:</label>
+                    <input type="text" id="empresa-telefone" required>
+                    <label for="empresa-email">E-mail:</label>
+                    <input type="email" id="empresa-email" required>
+                    <button type="submit">Confirmar</button>
                 </form>
-                <h3>LISTA DE EMPRESAS</h3>
+                <h3>Lista de Empresas</h3>
                 <table id="empresas-lista">
                     <thead>
                         <tr>
@@ -153,9 +175,19 @@
                     </thead>
                     <tbody></tbody>
                 </table>
-            </div>
+            </section>
         </main>
     </div>
     <script src="script.js"></script>
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+        showSection('maquinas'); // Exibe a seção de Máquinas por padrão
+    </script>
 </body>
 </html>
