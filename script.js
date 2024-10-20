@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('.section');
     const menuItems = document.querySelectorAll('.menu-item');
 
-    // Função para alternar entre as seções do menu
     menuItems.forEach((item, index) => {
         item.addEventListener('click', () => {
             sections.forEach(section => section.classList.remove('active'));
@@ -12,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Função genérica para adicionar itens às listas
     function addItemToList(formId, listId, fields) {
         const form = document.querySelector(formId);
         form.addEventListener('submit', (e) => {
@@ -28,24 +26,21 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             lista.appendChild(div);
 
-            // Adicionar funcionalidade aos botões Alterar e Excluir
             div.querySelector('.alterar').addEventListener('click', () => alterarItem(div, fields));
             div.querySelector('.excluir').addEventListener('click', () => excluirItem(div));
-            
-            form.reset(); // Limpa o formulário após o envio
+
+            form.reset();
         });
     }
 
-    // Função para alterar um item da lista
     function alterarItem(div, fields) {
         const valoresAtuais = div.innerText.split(' - ');
         fields.forEach((field, index) => {
             document.querySelector(field).value = valoresAtuais[index];
         });
-        div.remove(); // Remove o item da lista para ser atualizado
+        div.remove();
     }
 
-    // Função para excluir um item da lista
     function excluirItem(div) {
         div.remove();
     }
