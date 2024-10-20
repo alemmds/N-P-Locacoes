@@ -1,223 +1,297 @@
-function showSection(sectionId) {
-    // Esconde todas as seções de cadastro e listas
-    const sections = document.querySelectorAll('.section');
-    sections.forEach(section => section.style.display = 'none');
-    
-    // Exibe a seção correspondente ao menu clicado
-    document.getElementById(sectionId).style.display = 'block';
+// Dados simulados para listas
+let maquinas = [];
+let contas = [];
+let recebimentos = [];
+let contratos = [];
+let empresas = [];
+
+// Função para alternar seções
+function showSection(section) {
+    document.querySelectorAll('.section').forEach(sec => {
+        sec.style.display = 'none';
+    });
+    document.getElementById(section).style.display = 'block';
 }
 
-// Funções para adicionar dados e atualizar as tabelas de cada aba
+// Função para retornar ao menu principal
+function goBack(section) {
+    document.getElementById(section).style.display = 'none';
+}
 
-// Função para adicionar os dados para Máquinas
-function addMaquina() {
+// Função para exibir a lista com base no tipo
+function showList(type) {
+    if (type === 'maquinas') {
+        const maquinasList = document.querySelector('#maquinasList tbody');
+        maquinasList.innerHTML = ''; // Limpar tabela
+
+        maquinas.forEach((maquina, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${maquina.nome}</td>
+                <td>${maquina.serie}</td>
+                <td>${maquina.anosUso}</td>
+                <td>${maquina.horasTrabalhadas}</td>
+                <td>
+                    <button onclick="editMaquina(${index})">Editar</button>
+                    <button onclick="deleteMaquina(${index})">Excluir</button>
+                </td>
+            `;
+            maquinasList.appendChild(row);
+        });
+
+        document.getElementById('maquinasList').style.display = 'block';
+    } else if (type === 'contas') {
+        const contasList = document.querySelector('#contasList tbody');
+        contasList.innerHTML = ''; // Limpar tabela
+
+        contas.forEach((conta, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${conta.tipo}</td>
+                <td>${conta.dataVencimento}</td>
+                <td>${conta.valor}</td>
+                <td>
+                    <button onclick="editConta(${index})">Editar</button>
+                    <button onclick="deleteConta(${index})">Excluir</button>
+                </td>
+            `;
+            contasList.appendChild(row);
+        });
+
+        document.getElementById('contasList').style.display = 'block';
+    } else if (type === 'recebimentos') {
+        const recebimentosList = document.querySelector('#recebimentosList tbody');
+        recebimentosList.innerHTML = ''; // Limpar tabela
+
+        recebimentos.forEach((recebimento, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${recebimento.empresa}</td>
+                <td>${recebimento.valor}</td>
+                <td>${recebimento.dataPagamento}</td>
+                <td>${recebimento.dataTermino}</td>
+                <td>${recebimento.status}</td>
+                <td>
+                    <button onclick="editRecebimento(${index})">Editar</button>
+                    <button onclick="deleteRecebimento(${index})">Excluir</button>
+                </td>
+            `;
+            recebimentosList.appendChild(row);
+        });
+
+        document.getElementById('recebimentosList').style.display = 'block';
+    } else if (type === 'contratos') {
+        const contratosList = document.querySelector('#contratosList tbody');
+        contratosList.innerHTML = ''; // Limpar tabela
+
+        contratos.forEach((contrato, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${contrato.empresa}</td>
+                <td>${contrato.locatario}</td>
+                <td>${contrato.cnpj}</td>
+                <td>${contrato.equipamento}</td>
+                <td>
+                    <button onclick="editContrato(${index})">Editar</button>
+                    <button onclick="deleteContrato(${index})">Excluir</button>
+                </td>
+            `;
+            contratosList.appendChild(row);
+        });
+
+        document.getElementById('contratosList').style.display = 'block';
+    } else if (type === 'empresas') {
+        const empresasList = document.querySelector('#empresasList tbody');
+        empresasList.innerHTML = ''; // Limpar tabela
+
+        empresas.forEach((empresa, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${empresa.nome}</td>
+                <td>${empresa.areaCnpj}</td>
+                <td>${empresa.areaAtuacao}</td>
+                <td>${empresa.representante}</td>
+                <td>${empresa.telefone}</td>
+                <td>
+                    <button onclick="editEmpresa(${index})">Editar</button>
+                    <button onclick="deleteEmpresa(${index})">Excluir</button>
+                </td>
+            `;
+            empresasList.appendChild(row);
+        });
+
+        document.getElementById('empresasList').style.display = 'block';
+    }
+}
+
+// Funções de adicionar novos registros para cada categoria
+
+// Máquinas
+document.getElementById('formMaquina').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
     const nome = document.getElementById('nomeMaquina').value;
     const serie = document.getElementById('serieMaquina').value;
     const anosUso = document.getElementById('anosUso').value;
     const horasTrabalhadas = document.getElementById('horasTrabalhadas').value;
 
-    if (nome && serie && anosUso && horasTrabalhadas) {
-        const table = document.getElementById('maquinasList');
-        const row = document.createElement('tr');
+    maquinas.push({ nome, serie, anosUso, horasTrabalhadas });
+    document.getElementById('formMaquina').reset();
+    showList('maquinas');
+});
 
-        row.innerHTML = `
-            <td>${nome}</td>
-            <td>${serie}</td>
-            <td>${anosUso}</td>
-            <td>${horasTrabalhadas}</td>
-            <td>
-                <button onclick="editRow(this)">ALTERAR</button>
-                <button onclick="deleteRow(this)">EXCLUIR</button>
-            </td>
-        `;
-        
-        table.appendChild(row);
+// Contas
+document.getElementById('formConta').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-        // Limpar os campos após o cadastro
-        document.getElementById('formMaquina').reset();
+    const tipo = document.getElementById('tipoConta').value;
+    const dataVencimento = document.getElementById('dataVencimentoConta').value;
+    const valor = document.getElementById('valorConta').value;
 
-        showSection('maquinas');
-    }
-}
+    contas.push({ tipo, dataVencimento, valor });
+    document.getElementById('formConta').reset();
+    showList('contas');
+});
 
-// Função para adicionar os dados para Recebimentos
-function addRecebimento() {
+// Recebimentos
+document.getElementById('formRecebimento').addEventListener('submit', function(e) {
+    e.preventDefault();
+
     const empresa = document.getElementById('empresaRecebimento').value;
     const valor = document.getElementById('valorRecebimento').value;
-    const pagamento = document.getElementById('dataPagamento').value;
-    const termino = document.getElementById('dataTermino').value;
+    const dataPagamento = document.getElementById('dataPagamento').value;
+    const dataTermino = document.getElementById('dataTermino').value;
     const status = document.getElementById('statusRecebimento').value;
 
-    if (empresa && valor && pagamento && termino && status) {
-        const table = document.getElementById('recebimentosList');
-        const row = document.createElement('tr');
+    recebimentos.push({ empresa, valor, dataPagamento, dataTermino, status });
+    document.getElementById('formRecebimento').reset();
+    showList('recebimentos');
+});
 
-        row.innerHTML = `
-            <td>${empresa}</td>
-            <td>${valor}</td>
-            <td>${pagamento}</td>
-            <td>${termino}</td>
-            <td>${status}</td>
-            <td>
-                <button onclick="editRow(this)">ALTERAR</button>
-                <button onclick="deleteRow(this)">EXCLUIR</button>
-            </td>
-        `;
-        
-        table.appendChild(row);
+// Contratos
+document.getElementById('formContrato').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-        // Limpar os campos após o cadastro
-        document.getElementById('formRecebimento').reset();
-
-        showSection('recebimentos');
-    }
-}
-
-// Função para adicionar os dados para Contratos
-function addContrato() {
     const empresa = document.getElementById('empresaContrato').value;
     const locatario = document.getElementById('locatarioContrato').value;
     const cnpj = document.getElementById('cnpjContrato').value;
     const representante = document.getElementById('representanteContrato').value;
     const periodo = document.getElementById('periodoContrato').value;
     const equipamento = document.getElementById('equipamentoContrato').value;
-    const dataTermino = document.getElementById('dataTerminoContrato').value;
-    const operador = document.getElementById('operadorContrato').value;
 
-    if (empresa && locatario && cnpj && representante && periodo && equipamento && dataTermino && operador) {
-        const table = document.getElementById('contratosList');
-        const row = document.createElement('tr');
+    contratos.push({ empresa, locatario, cnpj, representante, periodo, equipamento });
+    document.getElementById('formContrato').reset();
+    showList('contratos');
+});
 
-        row.innerHTML = `
-            <td>${empresa}</td>
-            <td>${locatario}</td>
-            <td>${cnpj}</td>
-            <td>${representante}</td>
-            <td>${periodo}</td>
-            <td>${equipamento}</td>
-            <td>${dataTermino}</td>
-            <td>${operador}</td>
-            <td>
-                <button onclick="editRow(this)">ALTERAR</button>
-                <button onclick="deleteRow(this)">EXCLUIR</button>
-            </td>
-        `;
-        
-        table.appendChild(row);
+// Empresas
+document.getElementById('formEmpresa').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-        // Limpar os campos após o cadastro
-        document.getElementById('formContrato').reset();
-
-        showSection('contratos');
-    }
-}
-
-// Função para adicionar os dados para Contas
-function addConta() {
-    const tipo = document.getElementById('tipoConta').value;
-    const vencimento = document.getElementById('dataVencimentoConta').value;
-    const valor = document.getElementById('valorConta').value;
-
-    if (tipo && vencimento && valor) {
-        const table = document.getElementById('contasList');
-        const row = document.createElement('tr');
-
-        row.innerHTML = `
-            <td>${tipo}</td>
-            <td>${vencimento}</td>
-            <td>${valor}</td>
-            <td>
-                <button onclick="editRow(this)">ALTERAR</button>
-                <button onclick="deleteRow(this)">EXCLUIR</button>
-            </td>
-        `;
-        
-        table.appendChild(row);
-
-        // Limpar os campos após o cadastro
-        document.getElementById('formConta').reset();
-
-        showSection('contas');
-    }
-}
-
-// Função para adicionar os dados para Empresas
-function addEmpresa() {
     const nome = document.getElementById('nomeEmpresa').value;
-    const cnpj = document.getElementById('areaCnpj').value;
-    const area = document.getElementById('areaAtuacao').value;
+    const areaCnpj = document.getElementById('areaCnpj').value;
+    const areaAtuacao = document.getElementById('areaAtuacao').value;
     const representante = document.getElementById('representanteEmpresa').value;
     const telefone = document.getElementById('telefoneEmpresa').value;
-    const email = document.getElementById('emailEmpresa').value;
 
-    if (nome && cnpj && area && representante && telefone && email) {
-        const table = document.getElementById('empresasList');
-        const row = document.createElement('tr');
+    empresas.push({ nome, areaCnpj, areaAtuacao, representante, telefone });
+    document.getElementById('formEmpresa').reset();
+    showList('empresas');
+});
 
-        row.innerHTML = `
-            <td>${nome}</td>
-            <td>${cnpj}</td>
-            <td>${area}</td>
-            <td>${representante}</td>
-            <td>${telefone}</td>
-            <td>${email}</td>
-            <td>
-                <button onclick="editRow(this)">ALTERAR</button>
-                <button onclick="deleteRow(this)">EXCLUIR</button>
-            </td>
-        `;
-        
-        table.appendChild(row);
+// Funções para editar e excluir registros seguem a mesma lógica de "maquinas"
+// Funções para editar e excluir registros para cada categoria
 
-        // Limpar os campos após o cadastro
-        document.getElementById('formEmpresa').reset();
+// Editar e excluir Máquinas (já implementado)
+// Função para editar uma máquina
+function editMaquina(index) {
+    const maquina = maquinas[index];
+    document.getElementById('nomeMaquina').value = maquina.nome;
+    document.getElementById('serieMaquina').value = maquina.serie;
+    document.getElementById('anosUso').value = maquina.anosUso;
+    document.getElementById('horasTrabalhadas').value = maquina.horasTrabalhadas;
 
-        showSection('empresas');
-    }
+    // Remover a máquina original para que seja substituída pela nova versão
+    maquinas.splice(index, 1);
 }
 
-// Função para editar uma linha
-function editRow(button) {
-    const row = button.parentNode.parentNode;
-    const cells = row.querySelectorAll('td');
-
-    // Exemplo: Para edição de dados, você poderia implementar inputs dinâmicos aqui.
-    // Este exemplo simplifica removendo e adicionando o conteúdo direto.
-    for (let i = 0; i < cells.length - 1; i++) {
-        const newValue = prompt("Editar valor:", cells[i].textContent);
-        if (newValue) {
-            cells[i].textContent = newValue;
-        }
-    }
+// Função para excluir uma máquina
+function deleteMaquina(index) {
+    maquinas.splice(index, 1);
+    showList('maquinas');
 }
 
-// Função para excluir uma linha
-function deleteRow(button) {
-    const row = button.parentNode.parentNode;
-    row.parentNode.removeChild(row);
+// Função para editar uma conta
+function editConta(index) {
+    const conta = contas[index];
+    document.getElementById('tipoConta').value = conta.tipo;
+    document.getElementById('dataVencimentoConta').value = conta.dataVencimento;
+    document.getElementById('valorConta').value = conta.valor;
+
+    // Remover a conta original para que seja substituída pela nova versão
+    contas.splice(index, 1);
 }
 
-// Função para mostrar a lista de cada categoria
-function showList(section) {
-    const listId = `${section}List`;
-    const listSection = document.getElementById(listId);
-    
-    // Exibe a lista correspondente
-    if (listSection) {
-        listSection.style.display = 'block';
-    }
+// Função para excluir uma conta
+function deleteConta(index) {
+    contas.splice(index, 1);
+    showList('contas');
 }
 
-// Função para voltar à seção de cadastro
-function goBack(section) {
-    const listId = `${section}List`;
-    const listSection = document.getElementById(listId);
+// Função para editar um recebimento
+function editRecebimento(index) {
+    const recebimento = recebimentos[index];
+    document.getElementById('empresaRecebimento').value = recebimento.empresa;
+    document.getElementById('valorRecebimento').value = recebimento.valor;
+    document.getElementById('dataPagamento').value = recebimento.dataPagamento;
+    document.getElementById('dataTermino').value = recebimento.dataTermino;
+    document.getElementById('statusRecebimento').value = recebimento.status;
 
-    // Esconde a lista correspondente
-    if (listSection) {
-        listSection.style.display = 'none';
-    }
+    // Remover o recebimento original para que seja substituído pela nova versão
+    recebimentos.splice(index, 1);
+}
 
-    // Retorna à seção de cadastro
-    showSection(section);
+// Função para excluir um recebimento
+function deleteRecebimento(index) {
+    recebimentos.splice(index, 1);
+    showList('recebimentos');
+}
+
+// Função para editar um contrato
+function editContrato(index) {
+    const contrato = contratos[index];
+    document.getElementById('empresaContrato').value = contrato.empresa;
+    document.getElementById('locatarioContrato').value = contrato.locatario;
+    document.getElementById('cnpjContrato').value = contrato.cnpj;
+    document.getElementById('representanteContrato').value = contrato.representante;
+    document.getElementById('periodoContrato').value = contrato.periodo;
+    document.getElementById('equipamentoContrato').value = contrato.equipamento;
+
+    // Remover o contrato original para que seja substituído pela nova versão
+    contratos.splice(index, 1);
+}
+
+// Função para excluir um contrato
+function deleteContrato(index) {
+    contratos.splice(index, 1);
+    showList('contratos');
+}
+
+// Função para editar uma empresa
+function editEmpresa(index) {
+    const empresa = empresas[index];
+    document.getElementById('nomeEmpresa').value = empresa.nome;
+    document.getElementById('areaCnpj').value = empresa.areaCnpj;
+    document.getElementById('areaAtuacao').value = empresa.areaAtuacao;
+    document.getElementById('representanteEmpresa').value = empresa.representante;
+    document.getElementById('telefoneEmpresa').value = empresa.telefone;
+
+    // Remover a empresa original para que seja substituída pela nova versão
+    empresas.splice(index, 1);
+}
+
+// Função para excluir uma empresa
+function deleteEmpresa(index) {
+    empresas.splice(index, 1);
+    showList('empresas');
 }
