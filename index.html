@@ -20,6 +20,7 @@
             </ul>
         </nav>
         <main class="content">
+            <!-- Máquinas -->
             <div id="maquinas" class="section">
                 <h2>Cadastrar Máquina</h2>
                 <form id="formMaquina">
@@ -30,8 +31,6 @@
                     <button type="submit">Confirmar</button>
                 </form>
                 <button onclick="showList('maquinas')">Listas de Máquinas</button>
-                
-                <!-- Adição do código solicitado -->
                 <div id="maquinasList" class="list" style="display:none;">
                     <table>
                         <thead>
@@ -43,16 +42,13 @@
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <!-- Linhas serão adicionadas aqui -->
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
-                <!-- Fim da adição -->
-                
                 <button onclick="goBack('maquinas')">Voltar</button>
             </div>
 
+            <!-- Recebimentos -->
             <div id="recebimentos" class="section" style="display:none;">
                 <h2>Cadastrar Recebimento</h2>
                 <form id="formRecebimento">
@@ -68,10 +64,25 @@
                     <button type="submit">Confirmar</button>
                 </form>
                 <button onclick="showList('recebimentos')">Listas de Recebimentos</button>
-                <div id="recebimentosList" class="list"></div>
+                <div id="recebimentosList" class="list" style="display:none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Empresa</th>
+                                <th>Valor</th>
+                                <th>Data de Pagamento</th>
+                                <th>Data de Término</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
                 <button onclick="goBack('recebimentos')">Voltar</button>
             </div>
 
+            <!-- Contratos -->
             <div id="contratos" class="section" style="display:none;">
                 <h2>Cadastrar Contrato</h2>
                 <form id="formContrato">
@@ -90,10 +101,24 @@
                     <button type="submit">Confirmar</button>
                 </form>
                 <button onclick="showList('contratos')">Listas de Contratos</button>
-                <div id="contratosList" class="list"></div>
+                <div id="contratosList" class="list" style="display:none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Empresa</th>
+                                <th>Locatário</th>
+                                <th>CNPJ</th>
+                                <th>Equipamento</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
                 <button onclick="goBack('contratos')">Voltar</button>
             </div>
 
+            <!-- Contas -->
             <div id="contas" class="section" style="display:none;">
                 <h2>Cadastrar Conta</h2>
                 <form id="formConta">
@@ -110,10 +135,23 @@
                     <button type="submit">Confirmar</button>
                 </form>
                 <button onclick="showList('contas')">Listas de Contas</button>
-                <div id="contasList" class="list"></div>
+                <div id="contasList" class="list" style="display:none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Data de Vencimento</th>
+                                <th>Valor</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
                 <button onclick="goBack('contas')">Voltar</button>
             </div>
 
+            <!-- Empresas -->
             <div id="empresas" class="section" style="display:none;">
                 <h2>Cadastrar Empresa</h2>
                 <form id="formEmpresa">
@@ -126,7 +164,21 @@
                     <button type="submit">Confirmar</button>
                 </form>
                 <button onclick="showList('empresas')">Listas de Empresas</button>
-                <div id="empresasList" class="list"></div>
+                <div id="empresasList" class="list" style="display:none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Área de CNPJ</th>
+                                <th>Área de Atuação</th>
+                                <th>Representante</th>
+                                <th>Telefone</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
                 <button onclick="goBack('empresas')">Voltar</button>
             </div>
         </main>
@@ -134,10 +186,10 @@
     <script src="script.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
-                console.log('Service Worker registrado com sucesso', reg);
-            }).catch(function(err) {
-                console.warn('Erro ao registrar o Service Worker', err);
+            navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+                console.log('Service Worker registrado com sucesso:', registration.scope);
+            }).catch(function(error) {
+                console.log('Falha ao registrar Service Worker:', error);
             });
         }
     </script>
