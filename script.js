@@ -20,24 +20,7 @@ function mostrarCadastroMaquinas() {
     mostrarListaMaquinas(); // Mostrar a lista de máquinas
 }
 
-// Função para cadastrar uma máquina
-function cadastrarMaquina() {
-    const nome = document.getElementById('nome-maquina').value;
-    const serie = document.getElementById('serie-maquina').value;
-    const anosUso = document.getElementById('anos-uso').value;
-    const horasTrabalhadas = document.getElementById('horas-trabalhadas').value;
-
-    // Aqui você pode armazenar os dados em um array ou localStorage
-    const maquinas = JSON.parse(localStorage.getItem('maquinas')) || [];
-    maquinas.push({ nome, serie, anosUso, horasTrabalhadas });
-    localStorage.setItem('maquinas', JSON.stringify(maquinas));
-
-    // Limpar o formulário
-    document.getElementById('form-maquina').reset();
-
-    // Atualizar a lista de máquinas
-    mostrarListaMaquinas();
-}
+// Resto do código permanece o mesmo...
 
 // Função para mostrar a lista de máquinas
 function mostrarListaMaquinas() {
@@ -73,50 +56,4 @@ function mostrarListaMaquinas() {
         `;
         listaMaquinas.innerHTML += tabela;
     }
-}
-
-// Função para alterar uma máquina (exemplo)
-function alterarMaquina(index) {
-    const maquinas = JSON.parse(localStorage.getItem('maquinas')) || [];
-    const maquina = maquinas[index];
-
-    document.getElementById('nome-maquina').value = maquina.nome;
-    document.getElementById('serie-maquina').value = maquina.serie;
-    document.getElementById('anos-uso').value = maquina.anosUso;
-    document.getElementById('horas-trabalhadas').value = maquina.horasTrabalhadas;
-
-    // Remover a máquina do localStorage antes de alterar
-    maquinas.splice(index, 1);
-    localStorage.setItem('maquinas', JSON.stringify(maquinas));
-
-    // Mostrar a lista novamente após a alteração
-    mostrarListaMaquinas();
-}
-
-// Função para excluir uma máquina
-function excluirMaquina(index) {
-    const maquinas = JSON.parse(localStorage.getItem('maquinas')) || [];
-    maquinas.splice(index, 1);
-    localStorage.setItem('maquinas', JSON.stringify(maquinas));
-    mostrarListaMaquinas();
-}
-
-// Função para mostrar o cadastro de recebimentos (similar a mostrarCadastroMaquinas)
-function mostrarCadastroRecebimentos() {
-    // Implemente aqui as funcionalidades para a aba de recebimentos
-}
-
-// Função para mostrar o cadastro de contratos (similar a mostrarCadastroMaquinas)
-function mostrarCadastroContratos() {
-    // Implemente aqui as funcionalidades para a aba de contratos
-}
-
-// Função para mostrar o cadastro de contas (similar a mostrarCadastroMaquinas)
-function mostrarCadastroContas() {
-    // Implemente aqui as funcionalidades para a aba de contas
-}
-
-// Função para mostrar o cadastro de empresas (similar a mostrarCadastroMaquinas)
-function mostrarCadastroEmpresas() {
-    // Implemente aqui as funcionalidades para a aba de empresas
 }
