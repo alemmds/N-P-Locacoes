@@ -5,6 +5,24 @@ let recebimentos = JSON.parse(localStorage.getItem('recebimentos')) || [];
 let contratos = JSON.parse(localStorage.getItem('contratos')) || [];
 let empresas = JSON.parse(localStorage.getItem('empresas')) || [];
 
+// Função para exibir a aba correspondente do menu, junto com os botões Confirmar, Lista e Voltar
+function showSection(section) {
+    // Esconde todas as seções
+    document.querySelectorAll('.section').forEach(sec => {
+        sec.style.display = 'none';
+    });
+    
+    // Exibe a seção correta com os botões
+    const currentSection = document.getElementById(section);
+    currentSection.style.display = 'block';
+    
+    // Exibe os botões de "Confirmar", "Listar" e "Voltar" para cada aba de cadastro
+    const buttonsSection = document.querySelector(`#${section} .buttons`);
+    if (buttonsSection) {
+        buttonsSection.style.display = 'block';
+    }
+}
+
 // Função para salvar dados no LocalStorage
 function saveToLocalStorage() {
     localStorage.setItem('maquinas', JSON.stringify(maquinas));
