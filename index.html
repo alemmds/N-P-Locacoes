@@ -30,13 +30,18 @@
                     <input type="number" id="horasTrabalhadas" placeholder="Horas Trabalhadas" required>
                     <button type="submit">Confirmar</button>
                 </form>
-                
-                <!-- Aqui está a nova div para a lista de máquinas -->
-                <div id="machineList">
-                    <!-- As máquinas cadastradas aparecerão aqui -->
-                </div>
-
                 <button onclick="showList('maquinas')">Listas de Máquinas</button>
+                <div id="lista-maquinas">
+    <!-- Exemplo de como será exibido -->
+    <div class="maquina-item">
+        <span id="maquina-nome">Retroescavadeira</span>
+        <button onclick="toggleInfo('info-retroescavadeira')">Expandir</button>
+        <div id="info-retroescavadeira" class="maquina-info" style="display: none;">
+            <p>Série: 1234</p>
+            <p>Anos de uso: 4</p>
+            <p>Horas trabalhadas: 126</p>
+        </div>
+    </div>
                 <div id="maquinasList" class="list" style="display:none;">
                     <table>
                         <thead>
@@ -55,8 +60,138 @@
             </div>
 
             <!-- Recebimentos -->
-            <!-- Mantém o código original das outras seções... -->
+            <div id="recebimentos" class="section" style="display:none;">
+                <h2>Cadastrar Recebimento</h2>
+                <form id="formRecebimento">
+                    <input type="text" id="empresaRecebimento" placeholder="Empresa" required>
+                    <input type="number" id="valorRecebimento" placeholder="Valor" required>
+                    <input type="date" id="dataPagamento" required>
+                    <input type="date" id="dataTermino" required>
+                    <label>Status:</label>
+                    <select id="statusRecebimento">
+                        <option value="PAGO">PAGO</option>
+                        <option value="A RECEBER">A RECEBER</option>
+                    </select>
+                    <button type="submit">Confirmar</button>
+                </form>
+                <button onclick="showList('recebimentos')">Listas de Recebimentos</button>
+                <div id="recebimentosList" class="list" style="display:none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Empresa</th>
+                                <th>Valor</th>
+                                <th>Data de Pagamento</th>
+                                <th>Data de Término</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <button onclick="goBack('recebimentos')">Voltar</button>
+            </div>
 
+            <!-- Contratos -->
+            <div id="contratos" class="section" style="display:none;">
+                <h2>Cadastrar Contrato</h2>
+                <form id="formContrato">
+                    <input type="text" id="empresaContrato" placeholder="Empresa" required>
+                    <input type="text" id="locatarioContrato" placeholder="Locatário" required>
+                    <input type="text" id="cnpjContrato" placeholder="CNPJ" required>
+                    <input type="text" id="representanteContrato" placeholder="Representante" required>
+                    <input type="text" id="periodoContrato" placeholder="Período da Locação" required>
+                    <input type="text" id="equipamentoContrato" placeholder="Equipamento" required>
+                    <input type="date" id="dataTerminoContrato" required>
+                    <label>Operador:</label>
+                    <select id="operadorContrato">
+                        <option value="Pela empresa">Pela empresa</option>
+                        <option value="Pela N Pontes">Pela N Pontes</option>
+                    </select>
+                    <button type="submit">Confirmar</button>
+                </form>
+                <button onclick="showList('contratos')">Listas de Contratos</button>
+                <div id="contratosList" class="list" style="display:none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Empresa</th>
+                                <th>Locatário</th>
+                                <th>CNPJ</th>
+                                <th>Equipamento</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <button onclick="goBack('contratos')">Voltar</button>
+            </div>
+
+            <!-- Contas -->
+            <div id="contas" class="section" style="display:none;">
+                <h2>Cadastrar Conta</h2>
+                <form id="formConta">
+                    <label>Tipo:</label>
+                    <select id="tipoConta">
+                        <option value="Água">Água</option>
+                        <option value="Luz">Luz</option>
+                        <option value="Telefone">Telefone</option>
+                        <option value="Internet">Internet</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                    <input type="date" id="dataVencimentoConta" required>
+                    <input type="number" id="valorConta" placeholder="Valor" required>
+                    <button type="submit">Confirmar</button>
+                </form>
+                <button onclick="showList('contas')">Listas de Contas</button>
+                <div id="contasList" class="list" style="display:none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Data de Vencimento</th>
+                                <th>Valor</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <button onclick="goBack('contas')">Voltar</button>
+            </div>
+
+            <!-- Empresas -->
+            <div id="empresas" class="section" style="display:none;">
+                <h2>Cadastrar Empresa</h2>
+                <form id="formEmpresa">
+                    <input type="text" id="nomeEmpresa" placeholder="Nome" required>
+                    <input type="text" id="areaCnpj" placeholder="Área de CNPJ" required>
+                    <input type="text" id="areaAtuacao" placeholder="Área de Atuação" required>
+                    <input type="text" id="representanteEmpresa" placeholder="Representante" required>
+                    <input type="text" id="telefoneEmpresa" placeholder="Telefone" required>
+                    <input type="email" id="emailEmpresa" placeholder="E-mail" required>
+                    <button type="submit">Confirmar</button>
+                </form>
+                <button onclick="showList('empresas')">Listas de Empresas</button>
+                <div id="empresasList" class="list" style="display:none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Área de CNPJ</th>
+                                <th>Área de Atuação</th>
+                                <th>Representante</th>
+                                <th>Telefone</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <button onclick="goBack('empresas')">Voltar</button>
+            </div>
         </main>
     </div>
     <script src="script.js"></script>
@@ -71,3 +206,4 @@
     </script>
 </body>
 </html>
+
