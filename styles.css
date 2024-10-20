@@ -1,18 +1,27 @@
-/* Layout básico */
-body {
-    font-family: Arial, sans-serif;
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    display: flex;
 }
 
-/* Barra lateral */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
 .sidebar {
-    background-color: #2c3e50;
+    width: 250px;
+    background-color: #34495e;
     color: white;
-    width: 200px;
-    padding: 15px;
-    height: 100vh;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    text-align: center;
 }
 
 .sidebar ul {
@@ -20,25 +29,26 @@ body {
     padding: 0;
 }
 
-.sidebar ul li {
-    margin: 20px 0;
+.sidebar li {
+    margin-bottom: 20px;
 }
 
-.sidebar ul li a {
+.sidebar button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3498db;
+    border: none;
     color: white;
-    text-decoration: none;
-    font-weight: bold;
+    cursor: pointer;
 }
 
-.sidebar ul li a:hover {
-    color: #1abc9c;
+.sidebar button:hover {
+    background-color: #2980b9;
 }
 
-/* Conteúdo principal */
 .content {
-    flex-grow: 1;
+    flex: 1;
     padding: 20px;
-    background-color: #ecf0f1;
 }
 
 .section {
@@ -49,16 +59,21 @@ body {
     display: block;
 }
 
-.button-group {
-    margin-bottom: 20px;
+.formulario, .lista {
+    margin-top: 20px;
+}
+
+input, select, button {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #bdc3c7;
 }
 
 button {
-    padding: 10px 15px;
-    margin-right: 10px;
     background-color: #3498db;
     color: white;
-    border: none;
     cursor: pointer;
 }
 
@@ -69,7 +84,6 @@ button:hover {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
 }
 
 table, th, td {
@@ -79,33 +93,4 @@ table, th, td {
 th, td {
     padding: 10px;
     text-align: left;
-}
-
-/* Formulários */
-.formulario {
-    margin-top: 20px;
-}
-
-.formulario input {
-    display: block;
-    margin-bottom: 10px;
-    padding: 10px;
-    width: 100%;
-    border: 1px solid #bdc3c7;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 150px;
-    }
-
-    .content {
-        padding: 10px;
-    }
-
-    button {
-        width: 100%;
-        margin-bottom: 10px;
-    }
 }
