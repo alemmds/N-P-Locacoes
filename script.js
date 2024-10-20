@@ -321,6 +321,14 @@ function deleteEmpresa(index) {
     showList('empresas');
 }
 
+function toggleInfo(id) {
+    var element = document.getElementById(id);
+    if (element.style.display === "none") {
+        element.style.display = "block"; // Exibe as informações
+    } else {
+        element.style.display = "none"; // Oculta as informações
+    }
+}
 // --- Service Worker para Cache ---
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
