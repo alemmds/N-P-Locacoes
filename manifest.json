@@ -1,15 +1,21 @@
-{
-    "short_name": "N Pontes Locações",
-    "name": "N Pontes Locações - Aluguel de Equipamentos Pesados",
-    "icons": [
-        {
-            "src": "images/icon.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        }
-    ],
-    "start_url": "/index.html",
-    "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#000000"
-}
+self.addEventListener('install', function(event) {
+    event.waitUntil(
+        caches.open('n-pontes-cache').then(function(cache) {
+            return cache.addAll([
+                '/',
+                '/index.html',
+                '/styles.css',
+                '/script.js',
+                '/manifest.json'
+            ]);
+        })
+    );
+});
+
+self.addEventListener('fetch', function(event) {
+    event.respondWith(
+        caches.match(event.request).then(function(response) {
+            return response || fetch(event.request);
+        })
+    );
+});
