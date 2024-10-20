@@ -9,36 +9,38 @@
 </head>
 <body>
     <div class="container">
-        <nav class="sidebar">
+        <header>
+            <h1>N Pontes Locações</h1>
+        </header>
+        
+        <nav>
             <ul>
-                <li onclick="showSection('maquinas')">Máquinas</li>
-                <li onclick="showSection('recebimentos')">Recebimentos</li>
-                <li onclick="showSection('contratos')">Contratos</li>
-                <li onclick="showSection('contas')">Contas</li>
-                <li onclick="showSection('empresas')">Empresas</li>
+                <li onclick="showList('maquinas')">Máquinas</li>
+                <li onclick="showList('recebimentos')">Recebimentos</li>
+                <li onclick="showList('contratos')">Contratos</li>
+                <li onclick="showList('contas')">Contas</li>
+                <li onclick="showList('empresas')">Empresas</li>
             </ul>
         </nav>
+
         <main>
-            <section id="maquinas" class="content-section active">
+            <!-- Seção Máquinas -->
+            <div id="maquinas" class="section">
                 <h2>Máquinas</h2>
-                <button onclick="showForm('cadastrarMaquina')">Cadastrar Máquina</button>
-                <button onclick="showList('listaMaquinas')">Listas de Máquinas</button>
                 
                 <div id="cadastrarMaquina" class="form-container">
-                    <h3>Cadastrar Máquina</h3>
-                    <form id="formMaquina">
-                        <input type="text" placeholder="Nome" required>
-                        <input type="text" placeholder="Série" required>
-                        <input type="number" placeholder="Anos de Uso" required>
-                        <input type="number" placeholder="Horas Trabalhadas" required>
-                        <button type="submit">Confirmar</button>
+                    <form id="formMaquina" onsubmit="handleFormMaquina(event)">
+                        <input type="text" name="nome" placeholder="Nome da Máquina" required>
+                        <input type="text" name="serie" placeholder="Série" required>
+                        <input type="number" name="anosUso" placeholder="Anos de Uso" required>
+                        <input type="number" name="horasTrabalhadas" placeholder="Horas Trabalhadas" required>
+                        <button type="submit">Cadastrar</button>
+                        <button type="button" onclick="showList('maquinas')">Listas de Máquinas</button>
                     </form>
-                    <button onclick="back()">Voltar</button>
                 </div>
 
-                <div id="listaMaquinas" class="list-container">
-                    <h3>Listas de Máquinas</h3>
-                    <table id="tableMaquinas">
+                <div id="tableMaquinas" class="list-container">
+                    <table>
                         <thead>
                             <tr>
                                 <th>Nome</th>
@@ -48,35 +50,34 @@
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            <!-- Linhas serão adicionadas aqui pelo JavaScript -->
+                        </tbody>
                     </table>
                 </div>
-            </section>
+            </div>
 
-            <section id="recebimentos" class="content-section">
+            <!-- Seção Recebimentos -->
+            <div id="recebimentos" class="section" style="display:none;">
                 <h2>Recebimentos</h2>
-                <button onclick="showForm('cadastrarRecebimento')">Cadastrar Recebimento</button>
-                <button onclick="showList('listaRecebimentos')">Listas de Recebimentos</button>
-                
+
                 <div id="cadastrarRecebimento" class="form-container">
-                    <h3>Cadastrar Recebimento</h3>
-                    <form id="formRecebimento">
-                        <input type="text" placeholder="Empresa" required>
-                        <input type="number" placeholder="Valor" required>
-                        <input type="date" placeholder="Pagamento" required>
-                        <input type="date" placeholder="Término" required>
-                        <select required>
+                    <form id="formRecebimento" onsubmit="handleFormRecebimento(event)">
+                        <input type="text" name="empresa" placeholder="Empresa" required>
+                        <input type="number" name="valor" placeholder="Valor" required>
+                        <input type="date" name="pagamento" required>
+                        <input type="date" name="termino" required>
+                        <select name="status" required>
                             <option value="PAGO">PAGO</option>
                             <option value="A RECEBER">A RECEBER</option>
                         </select>
-                        <button type="submit">Confirmar</button>
+                        <button type="submit">Cadastrar</button>
+                        <button type="button" onclick="showList('recebimentos')">Listas de Recebimentos</button>
                     </form>
-                    <button onclick="back()">Voltar</button>
                 </div>
 
-                <div id="listaRecebimentos" class="list-container">
-                    <h3>Listas de Recebimentos</h3>
-                    <table id="tableRecebimentos">
+                <div id="tableRecebimentos" class="list-container">
+                    <table>
                         <thead>
                             <tr>
                                 <th>Empresa</th>
@@ -87,117 +88,117 @@
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            <!-- Linhas serão adicionadas aqui pelo JavaScript -->
+                        </tbody>
                     </table>
                 </div>
-            </section>
+            </div>
 
-            <section id="contratos" class="content-section">
+            <!-- Seção Contratos -->
+            <div id="contratos" class="section" style="display:none;">
                 <h2>Contratos</h2>
-                <button onclick="showForm('cadastrarContrato')">Cadastrar Contrato</button>
-                <button onclick="showList('listaContratos')">Listas de Contratos</button>
-                
+
                 <div id="cadastrarContrato" class="form-container">
-                    <h3>Cadastrar Contrato</h3>
-                    <form id="formContrato">
-                        <input type="text" placeholder="Empresa" required>
-                        <input type="text" placeholder="Locatário" required>
-                        <input type="text" placeholder="CNPJ" required>
-                        <input type="text" placeholder="Representante" required>
-                        <input type="text" placeholder="Período da Locação" required>
-                        <input type="text" placeholder="Equipamento" required>
-                        <input type="date" placeholder="Data de Término" required>
-                        <select required>
-                            <option value="Pela Empresa">Pela Empresa</option>
+                    <form id="formContrato" onsubmit="handleFormContrato(event)">
+                        <input type="text" name="empresa" placeholder="Empresa" required>
+                        <input type="text" name="locatario" placeholder="Locatário" required>
+                        <input type="text" name="cnpj" placeholder="CNPJ" required>
+                        <input type="text" name="representante" placeholder="Representante" required>
+                        <input type="text" name="periodo" placeholder="Período da Locação" required>
+                        <input type="text" name="equipamento" placeholder="Equipamento" required>
+                        <input type="date" name="dataTermino" required>
+                        <select name="operador" required>
+                            <option value="Pela empresa">Pela empresa</option>
                             <option value="Pela N Pontes">Pela N Pontes</option>
                         </select>
-                        <button type="submit">Confirmar</button>
+                        <button type="submit">Cadastrar</button>
+                        <button type="button" onclick="showList('contratos')">Listas de Contratos</button>
                     </form>
-                    <button onclick="back()">Voltar</button>
                 </div>
 
-                <div id="listaContratos" class="list-container">
-                    <h3>Listas de Contratos</h3>
-                    <table id="tableContratos">
+                <div id="tableContratos" class="list-container">
+                    <table>
                         <thead>
                             <tr>
                                 <th>Empresa</th>
                                 <th>Locatário</th>
                                 <th>CNPJ</th>
                                 <th>Representante</th>
+                                <th>Período</th>
                                 <th>Equipamento</th>
+                                <th>Data Término</th>
+                                <th>Operador</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            <!-- Linhas serão adicionadas aqui pelo JavaScript -->
+                        </tbody>
                     </table>
                 </div>
-            </section>
+            </div>
 
-            <section id="contas" class="content-section">
+            <!-- Seção Contas -->
+            <div id="contas" class="section" style="display:none;">
                 <h2>Contas</h2>
-                <button onclick="showForm('cadastrarConta')">Cadastrar Conta</button>
-                <button onclick="showList('listaContas')">Listas de Contas</button>
 
                 <div id="cadastrarConta" class="form-container">
-                    <h3>Cadastrar Conta</h3>
-                    <form id="formConta">
-                        <select required>
+                    <form id="formConta" onsubmit="handleFormConta(event)">
+                        <select name="tipo" required>
                             <option value="Água">Água</option>
                             <option value="Luz">Luz</option>
                             <option value="Telefone">Telefone</option>
                             <option value="Internet">Internet</option>
                             <option value="Outros">Outros</option>
                         </select>
-                        <input type="date" placeholder="Data de Vencimento" required>
-                        <input type="number" placeholder="Valor" required>
-                        <button type="submit">Confirmar</button>
+                        <input type="date" name="dataVencimento" required>
+                        <input type="number" name="valor" placeholder="Valor" required>
+                        <button type="submit">Cadastrar</button>
+                        <button type="button" onclick="showList('contas')">Listas de Contas</button>
                     </form>
-                    <button onclick="back()">Voltar</button>
                 </div>
 
-                <div id="listaContas" class="list-container">
-                    <h3>Listas de Contas</h3>
-                    <table id="tableContas">
+                <div id="tableContas" class="list-container">
+                    <table>
                         <thead>
                             <tr>
                                 <th>Tipo</th>
-                                <th>Data de Vencimento</th>
+                                <th>Data Vencimento</th>
                                 <th>Valor</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            <!-- Linhas serão adicionadas aqui pelo JavaScript -->
+                        </tbody>
                     </table>
                 </div>
-            </section>
+            </div>
 
-            <section id="empresas" class="content-section">
+            <!-- Seção Empresas -->
+            <div id="empresas" class="section" style="display:none;">
                 <h2>Empresas</h2>
-                <button onclick="showForm('cadastrarEmpresa')">Cadastrar Empresa</button>
-                <button onclick="showList('listaEmpresas')">Listas de Empresas</button>
 
                 <div id="cadastrarEmpresa" class="form-container">
-                    <h3>Cadastrar Empresa</h3>
-                    <form id="formEmpresa">
-                        <input type="text" placeholder="Nome" required>
-                        <input type="text" placeholder="Área de CNPJ" required>
-                        <input type="text" placeholder="Área de Atuação" required>
-                        <input type="text" placeholder="Representante" required>
-                        <input type="text" placeholder="Telefone" required>
-                        <input type="email" placeholder="E-mail" required>
-                        <button type="submit">Confirmar</button>
+                    <form id="formEmpresa" onsubmit="handleFormEmpresa(event)">
+                        <input type="text" name="nome" placeholder="Nome" required>
+                        <input type="text" name="cnpj" placeholder="CNPJ" required>
+                        <input type="text" name="areaAtuacao" placeholder="Área de Atuação" required>
+                        <input type="text" name="representante" placeholder="Representante" required>
+                        <input type="text" name="telefone" placeholder="Telefone" required>
+                        <input type="email" name="email" placeholder="E-mail" required>
+                        <button type="submit">Cadastrar</button>
+                        <button type="button" onclick="showList('empresas')">Listas de Empresas</button>
                     </form>
-                    <button onclick="back()">Voltar</button>
                 </div>
 
-                <div id="listaEmpresas" class="list-container">
-                    <h3>Listas de Empresas</h3>
-                    <table id="tableEmpresas">
+                <div id="tableEmpresas" class="list-container">
+                    <table>
                         <thead>
                             <tr>
                                 <th>Nome</th>
-                                <th>Área de CNPJ</th>
+                                <th>CNPJ</th>
                                 <th>Área de Atuação</th>
                                 <th>Representante</th>
                                 <th>Telefone</th>
@@ -205,13 +206,16 @@
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            <!-- Linhas serão adicionadas aqui pelo JavaScript -->
+                        </tbody>
                     </table>
                 </div>
-            </section>
+            </div>
         </main>
     </div>
+
     <script src="script.js"></script>
-    <script src="service-worker.js"></script>
+    <script src="db.js"></script>
 </body>
 </html>
