@@ -1,71 +1,98 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const maquinasSection = document.getElementById('maquinasSection');
-    const recebimentosSection = document.getElementById('recebimentosSection');
-    
-    document.getElementById('maquinasMenu').addEventListener('click', function () {
-        showSection(maquinasSection);
+document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('.section');
+    const menuItems = document.querySelectorAll('.menu-item');
+
+    // Função para alternar entre as seções do menu
+    menuItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            sections.forEach(section => section.classList.remove('active'));
+            sections[index].classList.add('active');
+            menuItems.forEach(menu => menu.classList.remove('active'));
+            item.classList.add('active');
+        });
     });
 
-    document.getElementById('recebimentosMenu').addEventListener('click', function () {
-        showSection(recebimentosSection);
-    });
+    // Função genérica para adicionar itens às listas
+    function addItemToList(formId, listId, fields) {
+        const form = document.querySelector(formId);
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const values = fields.map(field => document.querySelector(field).value);
+            const lista = document.querySelector(listId);
 
-    function showSection(section) {
-        const allSections = document.querySelectorAll('.section');
-        allSections.forEach(sec => sec.style.display = 'none');
-        section.style.display = 'block';
-    }
+            const div = document.createElement('div');
+            div.innerHTML = `
+                ${values.join(' - ')}
+                <button class="alterar">Alterar</button>
+                <button class="excluir">Excluir</button>
+            `;
+            lista.appendChild(div);
 
-    // Inicializar máquinas
-    const maquinasForm = document.getElementById('maquinasForm');
-    const maquinasTable = document.querySelector('#maquinasTable tbody');
-    let maquinas = JSON.parse(localStorage.getItem('maquinas')) || [];
-
-    maquinasForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const maquina = {
-            nome: document.getElementById('nomeMaquina').value,
-            serie: document.getElementById('serieMaquina').value,
-            anosUso: document.getElementById('anosUso').value,
-            horasTrabalhadas: document.getElementById('horasTrabalhadas').value,
-        };
-        maquinas.push(maquina);
-        localStorage.setItem('maquinas', JSON.stringify(maquinas));
-        renderMaquinas();
-        maquinasForm.reset();
-    });
-
-    function renderMaquinas() {
-        maquinasTable.innerHTML = '';
-        maquinas.forEach((maquina, index) => {
-            const row = `<tr>
-                <td>${maquina.nome}</td>
-                <td>${maquina.serie}</td>
-                <td>${maquina.anosUso}</td>
-                <td>${maquina.horasTrabalhadas}</td>
-                <td>
-                    <button onclick="editarMaquina(${index})">Alterar</button>
-                    <button onclick="excluirMaquina(${index})">Excluir</button>
-                </td>
-            </tr>`;
-            maquinasTable.insertAdjacentHTML('beforeend', row);
+            // Adicionar funcionalidade aos botões Alterar e Excluir
+            div.querySelector('.alterar').addEventListener('click', () => alterarItem(div, fields));
+            div.querySelector('.excluir').addEventListener('click', () => excluirItem(div));
+            
+            form.reset(); // Limpa o formulário após o envio
         });
     }
 
-    window.editarMaquina = function (index) {
-        const maquina = maquinas[index];
-        document.getElementById('nomeMaquina').value = maquina.nome;
-        document.getElementById('serieMaquina').value = maquina.serie;
-        document.getElementById('anosUso').value = maquina.anosUso;
-        document.getElementById('horasTrabalhadas').value = maquina.horasTrabalhadas;
-        maquinas.splice(index, 1);  // Remover temporariamente para edição
-    };
+    // Função para alterar um item da lista
+    function alterarItem(div, fields) {
+        const valoresAtuais = div.innerText.split(' - ');
+        fields.forEach((field, index) => {
+            document.querySelector(field).value = valoresAtuais[index];
+        });
+        div.remove(); // Remove o item da lista para ser atualizado
+    }
 
-    window.excluirMaquina = function (index) {
-        maquinas.splice(index, 1);
-        localStorage.setItem('maquinas', JSON.stringify(maquinas));
-        renderMaquinas();
-    };
+    // Função para excluir um item da lista
+    function excluirItem(div) {
+        div.remove();
+    }
 
-    renderMaquinas();
+    // Cadastro de Máquinas
+    addItemToList('#maquinas-form', '#lista-maquinas', [
+        '#nome-maquina', 
+        '#serie-maquina', 
+        '#anos-uso-maquina', 
+        '#horas-trabalhadas-maquina'
+    ]);
+
+    // Cadastro de Recebimentos
+    addItemToList('#recebimentos-form', '#lista-recebimentos', [
+        '#empresa-recebimento', 
+        '#valor-recebimento', 
+        '#pagamento-recebimento', 
+        '#termino-recebimento', 
+        '#status-recebimento'
+    ]);
+
+    // Cadastro de Contratos
+    addItemToList('#contratos-form', '#lista-contratos', [
+        '#empresa-contrato', 
+        '#locatario-contrato', 
+        '#cnpj-contrato', 
+        '#representante-contrato', 
+        '#periodo-contrato', 
+        '#equipamento-contrato', 
+        '#termino-contrato', 
+        '#operador-contrato'
+    ]);
+
+    // Cadastro de Contas
+    addItemToList('#contas-form', '#lista-contas', [
+        '#tipo-conta', 
+        '#vencimento-conta', 
+        '#valor-conta'
+    ]);
+
+    // Cadastro de Empresas
+    addItemToList('#empresas-form', '#lista-empresas', [
+        '#nome-empresa', 
+        '#cnpj-empresa', 
+        '#area-empresa', 
+        '#representante-empresa', 
+        '#telefone-empresa', 
+        '#email-empresa'
+    ]);
 });
