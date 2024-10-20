@@ -30,7 +30,26 @@
                     <button type="submit">Confirmar</button>
                 </form>
                 <button onclick="showList('maquinas')">Listas de Máquinas</button>
-                <div id="maquinasList" class="list"></div>
+                
+                <!-- Adição do código solicitado -->
+                <div id="maquinasList" class="list" style="display:none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Série</th>
+                                <th>Anos de Uso</th>
+                                <th>Horas Trabalhadas</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Linhas serão adicionadas aqui -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Fim da adição -->
+                
                 <button onclick="goBack('maquinas')">Voltar</button>
             </div>
 
