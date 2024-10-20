@@ -3,28 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Gerenciamento de aluguel de equipamentos - N Pontes Locações">
-    <link rel="stylesheet" href="html.css">
-    <link rel="manifest" href="manifest.json">
     <title>N Pontes Locações</title>
+    
+    <!-- Para o Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Para o CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Para registrar o Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registrado com sucesso:', registration);
+                    })
+                    .catch(error => {
+                        console.error('Falha ao registrar o Service Worker:', error);
+                    });
+            });
+        }
+    </script>
 </head>
 <body>
     <div class="container">
-        <aside class="menu-lateral">
-            <h2>N Pontes</h2>
-            <button id="menu-maquinas">Máquinas</button>
-            <button id="menu-recebimentos">Recebimentos</button>
-            <button id="menu-contratos">Contratos</button>
-            <button id="menu-contas">Contas</button>
-            <button id="menu-empresas">Empresas</button>
-        </aside>
-
-        <section id="conteudo">
-            <h1>Bem-vindo ao Sistema N Pontes Locações</h1>
-            <div id="pagina"></div>
-        </section>
+        <div class="menu-lateral">
+            <h2>N Pontes Locações</h2>
+            <button onclick="mostrarCadastroMaquinas()">Máquinas</button>
+            <button onclick="mostrarCadastroRecebimentos()">Recebimentos</button>
+            <button onclick="mostrarCadastroContratos()">Contratos</button>
+            <button onclick="mostrarCadastroContas()">Contas</button>
+            <button onclick="mostrarCadastroEmpresas()">Empresas</button>
+        </div>
+        <div id="conteudo">
+            <h1>Bem-vindo ao N Pontes Locações!</h1>
+            <p>Selecione uma opção no menu para começar.</p>
+            <!-- O conteúdo será atualizado aqui com base na seleção do menu -->
+        </div>
     </div>
-
+    
+    <!-- Para o JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
