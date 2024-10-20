@@ -7,173 +7,217 @@ function showSection(sectionId) {
     document.getElementById(sectionId).style.display = 'block';
 }
 
-// Adiciona evento de clique para cada item do menu lateral
-document.getElementById('menuMaquinas').addEventListener('click', function() {
-    showSection('maquinasSection');
-});
+// Funções para adicionar dados e atualizar as tabelas de cada aba
 
-document.getElementById('menuRecebimentos').addEventListener('click', function() {
-    showSection('recebimentosSection');
-});
-
-document.getElementById('menuContratos').addEventListener('click', function() {
-    showSection('contratosSection');
-});
-
-document.getElementById('menuContas').addEventListener('click', function() {
-    showSection('contasSection');
-});
-
-document.getElementById('menuEmpresas').addEventListener('click', function() {
-    showSection('empresasSection');
-});
-
-// Função para adicionar dados à tabela de máquinas
+// Função para adicionar os dados para Máquinas
 function addMaquina() {
-    const nome = document.getElementById('machineName').value;
-    const serie = document.getElementById('machineSerie').value;
-    const anosUso = document.getElementById('machineAnosUso').value;
-    const horasTrabalhadas = document.getElementById('machineHorasTrabalhadas').value;
+    const nome = document.getElementById('nomeMaquina').value;
+    const serie = document.getElementById('serieMaquina').value;
+    const anosUso = document.getElementById('anosUso').value;
+    const horasTrabalhadas = document.getElementById('horasTrabalhadas').value;
 
     if (nome && serie && anosUso && horasTrabalhadas) {
-        const table = document.getElementById('maquinasTableBody');
-        const row = table.insertRow();
+        const table = document.getElementById('maquinasList');
+        const row = document.createElement('tr');
 
-        row.insertCell(0).textContent = nome;
-                row.insertCell(1).textContent = serie;
-        row.insertCell(2).textContent = anosUso;
-        row.insertCell(3).textContent = horasTrabalhadas;
+        row.innerHTML = `
+            <td>${nome}</td>
+            <td>${serie}</td>
+            <td>${anosUso}</td>
+            <td>${horasTrabalhadas}</td>
+            <td>
+                <button onclick="editRow(this)">ALTERAR</button>
+                <button onclick="deleteRow(this)">EXCLUIR</button>
+            </td>
+        `;
+        
+        table.appendChild(row);
 
-        const actionsCell = row.insertCell(4);
-        actionsCell.innerHTML = '<button onclick="editRow(this)">ALTERAR</button> <button onclick="deleteRow(this)">EXCLUIR</button>';
-        
-        // Limpa os campos após o cadastro
-        document.getElementById('machineName').value = '';
-        document.getElementById('machineSerie').value = '';
-        document.getElementById('machineAnosUso').value = '';
-        document.getElementById('machineHorasTrabalhadas').value = '';
-        
-        // Mantém a seção atual visível
-        showSection('maquinasSection');
+        // Limpar os campos após o cadastro
+        document.getElementById('formMaquina').reset();
+
+        showSection('maquinas');
     }
 }
 
-// Função para adicionar dados à tabela de recebimentos
+// Função para adicionar os dados para Recebimentos
 function addRecebimento() {
-    const empresa = document.getElementById('recebimentoEmpresa').value;
-    const valor = document.getElementById('recebimentoValor').value;
-    const pagamento = document.getElementById('recebimentoPagamento').value;
-    const termino = document.getElementById('recebimentoTermino').value;
-    const status = document.getElementById('recebimentoStatus').value;
+    const empresa = document.getElementById('empresaRecebimento').value;
+    const valor = document.getElementById('valorRecebimento').value;
+    const pagamento = document.getElementById('dataPagamento').value;
+    const termino = document.getElementById('dataTermino').value;
+    const status = document.getElementById('statusRecebimento').value;
 
     if (empresa && valor && pagamento && termino && status) {
-        const table = document.getElementById('recebimentosTableBody');
-        const row = table.insertRow();
+        const table = document.getElementById('recebimentosList');
+        const row = document.createElement('tr');
 
-        row.insertCell(0).textContent = empresa;
-        row.insertCell(1).textContent = valor;
-        row.insertCell(2).textContent = pagamento;
-        row.insertCell(3).textContent = termino;
-        row.insertCell(4).textContent = status;
+        row.innerHTML = `
+            <td>${empresa}</td>
+            <td>${valor}</td>
+            <td>${pagamento}</td>
+            <td>${termino}</td>
+            <td>${status}</td>
+            <td>
+                <button onclick="editRow(this)">ALTERAR</button>
+                <button onclick="deleteRow(this)">EXCLUIR</button>
+            </td>
+        `;
+        
+        table.appendChild(row);
 
-        const actionsCell = row.insertCell(5);
-        actionsCell.innerHTML = '<button onclick="editRow(this)">ALTERAR</button> <button onclick="deleteRow(this)">EXCLUIR</button>';
-        
-        // Limpa os campos após o cadastro
-        document.getElementById('recebimentoEmpresa').value = '';
-        document.getElementById('recebimentoValor').value = '';
-        document.getElementById('recebimentoPagamento').value = '';
-        document.getElementById('recebimentoTermino').value = '';
-        document.getElementById('recebimentoStatus').value = '';
-        
-        // Mantém a seção atual visível
-        showSection('recebimentosSection');
+        // Limpar os campos após o cadastro
+        document.getElementById('formRecebimento').reset();
+
+        showSection('recebimentos');
     }
 }
 
-// Função para adicionar dados à tabela de contratos
+// Função para adicionar os dados para Contratos
 function addContrato() {
-    const empresa = document.getElementById('contratoEmpresa').value;
-    const valor = document.getElementById('contratoValor').value;
-    const inicio = document.getElementById('contratoInicio').value;
-    const fim = document.getElementById('contratoFim').value;
+    const empresa = document.getElementById('empresaContrato').value;
+    const locatario = document.getElementById('locatarioContrato').value;
+    const cnpj = document.getElementById('cnpjContrato').value;
+    const representante = document.getElementById('representanteContrato').value;
+    const periodo = document.getElementById('periodoContrato').value;
+    const equipamento = document.getElementById('equipamentoContrato').value;
+    const dataTermino = document.getElementById('dataTerminoContrato').value;
+    const operador = document.getElementById('operadorContrato').value;
 
-    if (empresa && valor && inicio && fim) {
-        const table = document.getElementById('contratosTableBody');
-        const row = table.insertRow();
+    if (empresa && locatario && cnpj && representante && periodo && equipamento && dataTermino && operador) {
+        const table = document.getElementById('contratosList');
+        const row = document.createElement('tr');
 
-        row.insertCell(0).textContent = empresa;
-        row.insertCell(1).textContent = valor;
-        row.insertCell(2).textContent = inicio;
-        row.insertCell(3).textContent = fim;
-
-        const actionsCell = row.insertCell(4);
-        actionsCell.innerHTML = '<button onclick="editRow(this)">ALTERAR</button> <button onclick="deleteRow(this)">EXCLUIR</button>';
+        row.innerHTML = `
+            <td>${empresa}</td>
+            <td>${locatario}</td>
+            <td>${cnpj}</td>
+            <td>${representante}</td>
+            <td>${periodo}</td>
+            <td>${equipamento}</td>
+            <td>${dataTermino}</td>
+            <td>${operador}</td>
+            <td>
+                <button onclick="editRow(this)">ALTERAR</button>
+                <button onclick="deleteRow(this)">EXCLUIR</button>
+            </td>
+        `;
         
-        // Limpa os campos após o cadastro
-        document.getElementById('contratoEmpresa').value = '';
-        document.getElementById('contratoValor').value = '';
-        document.getElementById('contratoInicio').value = '';
-        document.getElementById('contratoFim').value = '';
-        
-        // Mantém a seção atual visível
-        showSection('contratosSection');
+        table.appendChild(row);
+
+        // Limpar os campos após o cadastro
+        document.getElementById('formContrato').reset();
+
+        showSection('contratos');
     }
 }
 
-// Função para adicionar dados à tabela de contas
+// Função para adicionar os dados para Contas
 function addConta() {
-    const descricao = document.getElementById('contaDescricao').value;
-    const valor = document.getElementById('contaValor').value;
-    const vencimento = document.getElementById('contaVencimento').value;
-    const status = document.getElementById('contaStatus').value;
+    const tipo = document.getElementById('tipoConta').value;
+    const vencimento = document.getElementById('dataVencimentoConta').value;
+    const valor = document.getElementById('valorConta').value;
 
-    if (descricao && valor && vencimento && status) {
-        const table = document.getElementById('contasTableBody');
-        const row = table.insertRow();
+    if (tipo && vencimento && valor) {
+        const table = document.getElementById('contasList');
+        const row = document.createElement('tr');
 
-        row.insertCell(0).textContent = descricao;
-        row.insertCell(1).textContent = valor;
-        row.insertCell(2).textContent = vencimento;
-        row.insertCell(3).textContent = status;
-
-        const actionsCell = row.insertCell(4);
-        actionsCell.innerHTML = '<button onclick="editRow(this)">ALTERAR</button> <button onclick="deleteRow(this)">EXCLUIR</button>';
+        row.innerHTML = `
+            <td>${tipo}</td>
+            <td>${vencimento}</td>
+            <td>${valor}</td>
+            <td>
+                <button onclick="editRow(this)">ALTERAR</button>
+                <button onclick="deleteRow(this)">EXCLUIR</button>
+            </td>
+        `;
         
-        // Limpa os campos após o cadastro
-        document.getElementById('contaDescricao').value = '';
-        document.getElementById('contaValor').value = '';
-        document.getElementById('contaVencimento').value = '';
-        document.getElementById('contaStatus').value = '';
-        
-        // Mantém a seção atual visível
-        showSection('contasSection');
+        table.appendChild(row);
+
+        // Limpar os campos após o cadastro
+        document.getElementById('formConta').reset();
+
+        showSection('contas');
     }
 }
 
-// Função para adicionar dados à tabela de empresas
+// Função para adicionar os dados para Empresas
 function addEmpresa() {
-    const nome = document.getElementById('empresaNome').value;
-    const cnpj = document.getElementById('empresaCnpj').value;
-    const contato = document.getElementById('empresaContato').value;
+    const nome = document.getElementById('nomeEmpresa').value;
+    const cnpj = document.getElementById('areaCnpj').value;
+    const area = document.getElementById('areaAtuacao').value;
+    const representante = document.getElementById('representanteEmpresa').value;
+    const telefone = document.getElementById('telefoneEmpresa').value;
+    const email = document.getElementById('emailEmpresa').value;
 
-    if (nome && cnpj && contato) {
-        const table = document.getElementById('empresasTableBody');
-        const row = table.insertRow();
+    if (nome && cnpj && area && representante && telefone && email) {
+        const table = document.getElementById('empresasList');
+        const row = document.createElement('tr');
 
-        row.insertCell(0).textContent = nome;
-        row.insertCell(1).textContent = cnpj;
-        row.insertCell(2).textContent = contato;
-
-        const actionsCell = row.insertCell(3);
-        actionsCell.innerHTML = '<button onclick="editRow(this)">ALTERAR</button> <button onclick="deleteRow(this)">EXCLUIR</button>';
+        row.innerHTML = `
+            <td>${nome}</td>
+            <td>${cnpj}</td>
+            <td>${area}</td>
+            <td>${representante}</td>
+            <td>${telefone}</td>
+            <td>${email}</td>
+            <td>
+                <button onclick="editRow(this)">ALTERAR</button>
+                <button onclick="deleteRow(this)">EXCLUIR</button>
+            </td>
+        `;
         
-        // Limpa os campos após o cadastro
-        document.getElementById('empresaNome').value = '';
-        document.getElementById('empresaCnpj').value = '';
-        document.getElementById('empresaContato').value = '';
-        
-        // Mantém a seção atual visível
-        showSection('empresasSection');
+        table.appendChild(row);
+
+        // Limpar os campos após o cadastro
+        document.getElementById('formEmpresa').reset();
+
+        showSection('empresas');
     }
+}
+
+// Função para editar uma linha
+function editRow(button) {
+    const row = button.parentNode.parentNode;
+    const cells = row.querySelectorAll('td');
+
+    // Exemplo: Para edição de dados, você poderia implementar inputs dinâmicos aqui.
+    // Este exemplo simplifica removendo e adicionando o conteúdo direto.
+    for (let i = 0; i < cells.length - 1; i++) {
+        const newValue = prompt("Editar valor:", cells[i].textContent);
+        if (newValue) {
+            cells[i].textContent = newValue;
+        }
+    }
+}
+
+// Função para excluir uma linha
+function deleteRow(button) {
+    const row = button.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+}
+
+// Função para mostrar a lista de cada categoria
+function showList(section) {
+    const listId = `${section}List`;
+    const listSection = document.getElementById(listId);
+    
+    // Exibe a lista correspondente
+    if (listSection) {
+        listSection.style.display = 'block';
+    }
+}
+
+// Função para voltar à seção de cadastro
+function goBack(section) {
+    const listId = `${section}List`;
+    const listSection = document.getElementById(listId);
+
+    // Esconde a lista correspondente
+    if (listSection) {
+        listSection.style.display = 'none';
+    }
+
+    // Retorna à seção de cadastro
+    showSection(section);
 }
