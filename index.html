@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>N Pontes Locações</title>
+    <title>N Pontes Construções</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
-    <div class="menu">
-        <h1>N Pontes Locações</h1>
+    <header>
+        <h1>N Pontes Construções</h1>
+    </header>
+
+    <nav>
         <ul>
             <li><a href="#" onclick="showSection('maquinas')">Máquinas</a></li>
             <li><a href="#" onclick="showSection('recebimentos')">Recebimentos</a></li>
@@ -17,16 +20,15 @@
             <li><a href="#" onclick="showSection('contas')">Contas</a></li>
             <li><a href="#" onclick="showSection('empresas')">Empresas</a></li>
         </ul>
-    </div>
+    </nav>
 
-    <div class="main-content">
+    <main>
         <!-- Máquinas -->
         <section id="maquinas" class="content-section">
             <h2>Máquinas</h2>
             <button onclick="showForm('cadastroMaquina')">Cadastrar Máquina</button>
-            <button onclick="showList('listaMaquinas')">Listas de Máquinas</button>
+            <button onclick="showList('listaMaquinas')">Listar Máquinas</button>
 
-            <!-- Formulário de Cadastro de Máquina -->
             <div id="cadastroMaquina" class="form-container" style="display: none;">
                 <h3>Cadastrar Máquina</h3>
                 <form id="maquinaForm">
@@ -38,10 +40,9 @@
                 </form>
             </div>
 
-            <!-- Lista de Máquinas -->
             <div id="listaMaquinas" class="table-container" style="display: none;">
                 <h3>Lista de Máquinas</h3>
-                <table class="table">
+                <table>
                     <thead>
                         <tr>
                             <th>Nome</th>
@@ -51,9 +52,7 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="maquinasTableBody">
-                        <!-- Linhas de máquinas serão adicionadas dinamicamente aqui -->
-                    </tbody>
+                    <tbody id="maquinasTableBody"></tbody>
                 </table>
             </div>
         </section>
@@ -62,23 +61,21 @@
         <section id="recebimentos" class="content-section" style="display:none;">
             <h2>Recebimentos</h2>
             <button onclick="showForm('cadastroRecebimento')">Cadastrar Recebimento</button>
-            <button onclick="showList('listaRecebimentos')">Listas de Recebimentos</button>
+            <button onclick="showList('listaRecebimentos')">Listar Recebimentos</button>
 
-            <!-- Formulário de Cadastro de Recebimento -->
             <div id="cadastroRecebimento" class="form-container" style="display: none;">
                 <h3>Cadastrar Recebimento</h3>
                 <form id="recebimentoForm">
                     <input type="text" id="nomeCliente" placeholder="Nome do Cliente">
                     <input type="text" id="valorRecebido" placeholder="Valor Recebido">
-                    <input type="date" id="dataRecebimento" placeholder="Data">
+                    <input type="date" id="dataRecebimento">
                     <button type="button" onclick="cadastrarRecebimento()">Confirmar</button>
                 </form>
             </div>
 
-            <!-- Lista de Recebimentos -->
             <div id="listaRecebimentos" class="table-container" style="display: none;">
                 <h3>Lista de Recebimentos</h3>
-                <table class="table">
+                <table>
                     <thead>
                         <tr>
                             <th>Cliente</th>
@@ -87,9 +84,7 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="recebimentosTableBody">
-                        <!-- Linhas de recebimentos serão adicionadas dinamicamente aqui -->
-                    </tbody>
+                    <tbody id="recebimentosTableBody"></tbody>
                 </table>
             </div>
         </section>
@@ -98,24 +93,22 @@
         <section id="contratos" class="content-section" style="display:none;">
             <h2>Contratos</h2>
             <button onclick="showForm('cadastroContrato')">Cadastrar Contrato</button>
-            <button onclick="showList('listaContratos')">Listas de Contratos</button>
+            <button onclick="showList('listaContratos')">Listar Contratos</button>
 
-            <!-- Formulário de Cadastro de Contrato -->
             <div id="cadastroContrato" class="form-container" style="display: none;">
                 <h3>Cadastrar Contrato</h3>
                 <form id="contratoForm">
                     <input type="text" id="nomeContrato" placeholder="Nome do Cliente">
                     <input type="text" id="tipoEquipamento" placeholder="Tipo de Equipamento">
-                    <input type="date" id="dataInicio" placeholder="Data de Início">
-                    <input type="date" id="dataFim" placeholder="Data de Término">
+                    <input type="date" id="dataInicio">
+                    <input type="date" id="dataFim">
                     <button type="button" onclick="cadastrarContrato()">Confirmar</button>
                 </form>
             </div>
 
-            <!-- Lista de Contratos -->
             <div id="listaContratos" class="table-container" style="display: none;">
                 <h3>Lista de Contratos</h3>
-                <table class="table">
+                <table>
                     <thead>
                         <tr>
                             <th>Cliente</th>
@@ -125,9 +118,7 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="contratosTableBody">
-                        <!-- Linhas de contratos serão adicionadas dinamicamente aqui -->
-                    </tbody>
+                    <tbody id="contratosTableBody"></tbody>
                 </table>
             </div>
         </section>
@@ -136,23 +127,21 @@
         <section id="contas" class="content-section" style="display:none;">
             <h2>Contas</h2>
             <button onclick="showForm('cadastroConta')">Cadastrar Conta</button>
-            <button onclick="showList('listaContas')">Listas de Contas</button>
+            <button onclick="showList('listaContas')">Listar Contas</button>
 
-            <!-- Formulário de Cadastro de Conta -->
             <div id="cadastroConta" class="form-container" style="display: none;">
                 <h3>Cadastrar Conta</h3>
                 <form id="contaForm">
                     <input type="text" id="descricaoConta" placeholder="Descrição">
                     <input type="number" id="valorConta" placeholder="Valor">
-                    <input type="date" id="vencimentoConta" placeholder="Vencimento">
+                    <input type="date" id="vencimentoConta">
                     <button type="button" onclick="cadastrarConta()">Confirmar</button>
                 </form>
             </div>
 
-            <!-- Lista de Contas -->
             <div id="listaContas" class="table-container" style="display: none;">
                 <h3>Lista de Contas</h3>
-                <table class="table">
+                <table>
                     <thead>
                         <tr>
                             <th>Descrição</th>
@@ -161,9 +150,7 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="contasTableBody">
-                        <!-- Linhas de contas serão adicionadas dinamicamente aqui -->
-                    </tbody>
+                    <tbody id="contasTableBody"></tbody>
                 </table>
             </div>
         </section>
@@ -172,9 +159,8 @@
         <section id="empresas" class="content-section" style="display:none;">
             <h2>Empresas</h2>
             <button onclick="showForm('cadastroEmpresa')">Cadastrar Empresa</button>
-            <button onclick="showList('listaEmpresas')">Listas de Empresas</button>
+            <button onclick="showList('listaEmpresas')">Listar Empresas</button>
 
-            <!-- Formulário de Cadastro de Empresa -->
             <div id="cadastroEmpresa" class="form-container" style="display: none;">
                 <h3>Cadastrar Empresa</h3>
                 <form id="empresaForm">
@@ -185,10 +171,9 @@
                 </form>
             </div>
 
-            <!-- Lista de Empresas -->
             <div id="listaEmpresas" class="table-container" style="display: none;">
                 <h3>Lista de Empresas</h3>
-                <table class="table">
+                <table>
                     <thead>
                         <tr>
                             <th>Nome</th>
@@ -197,4 +182,12 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="emp
+                    <tbody id="empresasTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
