@@ -1,4 +1,3 @@
-// Função para alternar as abas do menu e exibir as seções de cadastro e lista
 function showSection(sectionId) {
     // Esconde todas as seções de cadastro e listas
     const sections = document.querySelectorAll('.section');
@@ -30,11 +29,11 @@ document.getElementById('menuEmpresas').addEventListener('click', function() {
 });
 
 // Função para adicionar dados a tabela de máquinas
-function addMachine() {
+function addMaquina() {
     const nome = document.getElementById('machineName').value;
     const serie = document.getElementById('machineSerie').value;
     const anosUso = document.getElementById('machineAnosUso').value;
-    const horasTrabalhadas = document.getElementById('machineHoras').value;
+    const horasTrabalhadas = document.getElementById('machineHorasTrabalhadas').value;
 
     if (nome && serie && anosUso && horasTrabalhadas) {
         const table = document.getElementById('maquinasTableBody');
@@ -47,6 +46,9 @@ function addMachine() {
 
         const actionsCell = row.insertCell(4);
         actionsCell.innerHTML = '<button onclick="editRow(this)">ALTERAR</button> <button onclick="deleteRow(this)">EXCLUIR</button>';
+        
+        // Mantém a seção atual visível
+        showSection('maquinasSection');
     }
 }
 
@@ -70,6 +72,9 @@ function addRecebimento() {
 
         const actionsCell = row.insertCell(5);
         actionsCell.innerHTML = '<button onclick="editRow(this)">ALTERAR</button> <button onclick="deleteRow(this)">EXCLUIR</button>';
+        
+        // Mantém a seção atual visível
+        showSection('recebimentosSection');
     }
 }
 
@@ -77,16 +82,16 @@ function addRecebimento() {
 function addContrato() {
     const empresa = document.getElementById('contratoEmpresa').value;
     const locatario = document.getElementById('contratoLocatario').value;
-    const cnpj = document.getElementById('contratoCNPJ').value;
+    const cnpj = document.getElementById('contratoCnpj').value;
     const representante = document.getElementById('contratoRepresentante').value;
     const periodo = document.getElementById('contratoPeriodo').value;
     const equipamento = document.getElementById('contratoEquipamento').value;
     const termino = document.getElementById('contratoTermino').value;
-    const operador = document.querySelector('input[name="contratoOperador"]:checked').value;
+    const operador = document.querySelector('input[name="operador"]:checked').value;
 
     if (empresa && locatario && cnpj && representante && periodo && equipamento && termino && operador) {
         const table = document.getElementById('contratosTableBody');
-             const row = table.insertRow();
+        const row = table.insertRow();
 
         row.insertCell(0).textContent = empresa;
         row.insertCell(1).textContent = locatario;
@@ -99,6 +104,9 @@ function addContrato() {
 
         const actionsCell = row.insertCell(8);
         actionsCell.innerHTML = '<button onclick="editRow(this)">ALTERAR</button> <button onclick="deleteRow(this)">EXCLUIR</button>';
+        
+        // Mantém a seção atual visível
+        showSection('contratosSection');
     }
 }
 
@@ -118,14 +126,17 @@ function addConta() {
 
         const actionsCell = row.insertCell(3);
         actionsCell.innerHTML = '<button onclick="editRow(this)">ALTERAR</button> <button onclick="deleteRow(this)">EXCLUIR</button>';
+        
+        // Mantém a seção atual visível
+        showSection('contasSection');
     }
 }
 
 // Função para adicionar dados a tabela de empresas
 function addEmpresa() {
     const nome = document.getElementById('empresaNome').value;
-    const cnpj = document.getElementById('empresaCNPJ').value;
-    const areaAtuacao = document.getElementById('empresaAtuacao').value;
+    const cnpj = document.getElementById('empresaCnpj').value;
+    const areaAtuacao = document.getElementById('empresaAreaAtuacao').value;
     const representante = document.getElementById('empresaRepresentante').value;
     const telefone = document.getElementById('empresaTelefone').value;
     const email = document.getElementById('empresaEmail').value;
@@ -143,21 +154,20 @@ function addEmpresa() {
 
         const actionsCell = row.insertCell(6);
         actionsCell.innerHTML = '<button onclick="editRow(this)">ALTERAR</button> <button onclick="deleteRow(this)">EXCLUIR</button>';
+        
+        // Mantém a seção atual visível
+        showSection('empresasSection');
     }
 }
 
-// Função para editar uma linha
+// Função para editar dados de uma linha da tabela
 function editRow(button) {
     const row = button.closest('tr');
-    const cells = row.getElementsByTagName('td');
-
-    // Aqui você pode acessar e editar as células da linha, ex:
-    cells[0].textContent = prompt('Novo valor para o campo 1', cells[0].textContent);
-    cells[1].textContent = prompt('Novo valor para o campo 2', cells[1].textContent);
-    // Continue para as outras células conforme necessário
+    // Lógica para editar os dados da linha
+    alert('Função de edição ainda não implementada.');
 }
 
-// Função para excluir uma linha
+// Função para excluir dados de uma linha da tabela
 function deleteRow(button) {
     const row = button.closest('tr');
     row.remove();
