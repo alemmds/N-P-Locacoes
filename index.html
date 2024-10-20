@@ -9,88 +9,93 @@
 </head>
 <body>
     <div id="app">
-        <nav id="menu">
+        <div id="menu">
             <ul>
-                <li onclick="showSection('maquinas')">Máquinas</li>
-                <li onclick="showSection('recebimentos')">Recebimentos</li>
-                <li onclick="showSection('contratos')">Contratos</li>
-                <li onclick="showSection('contas')">Contas</li>
-                <li onclick="showSection('empresas')">Empresas</li>
+                <li id="maquinas-menu" class="menu-item">Máquinas</li>
+                <li id="recebimentos-menu" class="menu-item">Recebimentos</li>
+                <li id="contratos-menu" class="menu-item">Contratos</li>
+                <li id="contas-menu" class="menu-item">Contas</li>
+                <li id="empresas-menu" class="menu-item">Empresas</li>
             </ul>
-        </nav>
-        
-        <main id="content">
-            <!-- Seção de Máquinas -->
-            <section id="maquinas" class="section">
+        </div>
+
+        <div id="content">
+            <!-- Máquinas -->
+            <div id="maquinas" class="section active">
                 <h2>Cadastro de Máquinas</h2>
-                <form id="form-maquinas">
+                <form id="maquinas-form">
                     <label for="nome-maquina">Nome:</label>
-                    <input type="text" id="nome-maquina" name="nome" required>
+                    <input type="text" id="nome-maquina">
                     <label for="serie-maquina">Série:</label>
-                    <input type="text" id="serie-maquina" name="serie" required>
-                    <label for="anos-maquina">Anos de Uso:</label>
-                    <input type="number" id="anos-maquina" name="anos" required>
-                    <label for="horas-maquina">Horas Trabalhadas:</label>
-                    <input type="number" id="horas-maquina" name="horas" required>
+                    <input type="text" id="serie-maquina">
+                    <label for="anos-uso-maquina">Anos de Uso:</label>
+                    <input type="number" id="anos-uso-maquina">
+                    <label for="horas-trabalhadas-maquina">Horas Trabalhadas:</label>
+                    <input type="number" id="horas-trabalhadas-maquina">
                     <button type="submit">Cadastrar Máquina</button>
                 </form>
-                <button onclick="showList('maquinas')">Lista de Máquinas</button>
-                <div id="lista-maquinas" class="lista"></div>
-            </section>
+                <h3>Lista de Máquinas</h3>
+                <div class="lista" id="lista-maquinas"></div>
+            </div>
 
-            <!-- Seção de Recebimentos -->
-            <section id="recebimentos" class="section">
+            <!-- Recebimentos -->
+            <div id="recebimentos" class="section">
                 <h2>Cadastro de Recebimentos</h2>
-                <form id="form-recebimentos">
+                <form id="recebimentos-form">
                     <label for="empresa-recebimento">Empresa:</label>
-                    <input type="text" id="empresa-recebimento" name="empresa" required>
+                    <input type="text" id="empresa-recebimento">
                     <label for="valor-recebimento">Valor:</label>
-                    <input type="number" id="valor-recebimento" name="valor" required>
+                    <input type="number" id="valor-recebimento">
                     <label for="pagamento-recebimento">Pagamento:</label>
-                    <input type="date" id="pagamento-recebimento" name="pagamento" required>
+                    <input type="date" id="pagamento-recebimento">
                     <label for="termino-recebimento">Término:</label>
-                    <input type="date" id="termino-recebimento" name="termino" required>
+                    <input type="date" id="termino-recebimento">
                     <label for="status-recebimento">Status:</label>
-                    <select id="status-recebimento" name="status" required>
+                    <select id="status-recebimento">
                         <option value="pago">Pago</option>
                         <option value="a-receber">A Receber</option>
                     </select>
                     <button type="submit">Cadastrar Recebimento</button>
                 </form>
-                <button onclick="showList('recebimentos')">Lista de Recebimentos</button>
-                <div id="lista-recebimentos" class="lista"></div>
-            </section>
+                <h3>Lista de Recebimentos</h3>
+                <div class="lista" id="lista-recebimentos"></div>
+            </div>
 
-            <!-- Seção de Contratos -->
-            <section id="contratos" class="section">
+            <!-- Contratos -->
+            <div id="contratos" class="section">
                 <h2>Cadastro de Contratos</h2>
-                <form id="form-contratos">
+                <form id="contratos-form">
                     <label for="empresa-contrato">Empresa:</label>
-                    <input type="text" id="empresa-contrato" name="empresa" required>
+                    <input type="text" id="empresa-contrato">
                     <label for="locatario-contrato">Locatário:</label>
-                    <input type="text" id="locatario-contrato" name="locatario" required>
+                    <input type="text" id="locatario-contrato">
                     <label for="cnpj-contrato">CNPJ:</label>
-                    <input type="text" id="cnpj-contrato" name="cnpj" required>
+                    <input type="text" id="cnpj-contrato">
                     <label for="representante-contrato">Representante:</label>
-                    <input type="text" id="representante-contrato" name="representante" required>
-                    <label for="periodo-contrato">Período:</label>
-                    <input type="date" id="periodo-contrato" name="periodo" required>
+                    <input type="text" id="representante-contrato">
+                    <label for="periodo-contrato">Período de Locação:</label>
+                    <input type="date" id="periodo-contrato">
                     <label for="equipamento-contrato">Equipamento:</label>
-                    <input type="text" id="equipamento-contrato" name="equipamento" required>
+                    <input type="text" id="equipamento-contrato">
                     <label for="termino-contrato">Término:</label>
-                    <input type="date" id="termino-contrato" name="termino" required>
+                    <input type="date" id="termino-contrato">
+                    <label for="operador-contrato">Operador:</label>
+                    <select id="operador-contrato">
+                        <option value="pela-empresa">Pela Empresa</option>
+                        <option value="pela-n-pontes">Pela N Pontes</option>
+                    </select>
                     <button type="submit">Cadastrar Contrato</button>
                 </form>
-                <button onclick="showList('contratos')">Lista de Contratos</button>
-                <div id="lista-contratos" class="lista"></div>
-            </section>
+                <h3>Lista de Contratos</h3>
+                <div class="lista" id="lista-contratos"></div>
+            </div>
 
-            <!-- Seção de Contas -->
-            <section id="contas" class="section">
+            <!-- Contas -->
+            <div id="contas" class="section">
                 <h2>Cadastro de Contas</h2>
-                <form id="form-contas">
+                <form id="contas-form">
                     <label for="tipo-conta">Tipo:</label>
-                    <select id="tipo-conta" name="tipo" required>
+                    <select id="tipo-conta">
                         <option value="agua">Água</option>
                         <option value="luz">Luz</option>
                         <option value="telefone">Telefone</option>
@@ -98,37 +103,37 @@
                         <option value="outros">Outros</option>
                     </select>
                     <label for="vencimento-conta">Data de Vencimento:</label>
-                    <input type="date" id="vencimento-conta" name="vencimento" required>
+                    <input type="date" id="vencimento-conta">
                     <label for="valor-conta">Valor:</label>
-                    <input type="number" id="valor-conta" name="valor" required>
+                    <input type="number" id="valor-conta">
                     <button type="submit">Cadastrar Conta</button>
                 </form>
-                <button onclick="showList('contas')">Lista de Contas</button>
-                <div id="lista-contas" class="lista"></div>
-            </section>
+                <h3>Lista de Contas</h3>
+                <div class="lista" id="lista-contas"></div>
+            </div>
 
-            <!-- Seção de Empresas -->
-            <section id="empresas" class="section">
+            <!-- Empresas -->
+            <div id="empresas" class="section">
                 <h2>Cadastro de Empresas</h2>
-                <form id="form-empresas">
+                <form id="empresas-form">
                     <label for="nome-empresa">Nome:</label>
-                    <input type="text" id="nome-empresa" name="nome" required>
-                    <label for="area-cnpj">CNPJ:</label>
-                    <input type="text" id="area-cnpj" name="cnpj" required>
-                    <label for="area-atuacao">Área de Atuação:</label>
-                    <input type="text" id="area-atuacao" name="atuacao" required>
+                    <input type="text" id="nome-empresa">
+                    <label for="cnpj-empresa">CNPJ:</label>
+                    <input type="text" id="cnpj-empresa">
+                    <label for="area-empresa">Área de Atuação:</label>
+                    <input type="text" id="area-empresa">
                     <label for="representante-empresa">Representante:</label>
-                    <input type="text" id="representante-empresa" name="representante" required>
+                    <input type="text" id="representante-empresa">
                     <label for="telefone-empresa">Telefone:</label>
-                    <input type="tel" id="telefone-empresa" name="telefone" required>
+                    <input type="text" id="telefone-empresa">
                     <label for="email-empresa">E-mail:</label>
-                    <input type="email" id="email-empresa" name="email" required>
+                    <input type="email" id="email-empresa">
                     <button type="submit">Cadastrar Empresa</button>
                 </form>
-                <button onclick="showList('empresas')">Lista de Empresas</button>
-                <div id="lista-empresas" class="lista"></div>
-            </section>
-        </main>
+                <h3>Lista de Empresas</h3>
+                <div class="lista" id="lista-empresas"></div>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
