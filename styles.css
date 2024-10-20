@@ -51,7 +51,9 @@ body {
     border-top: 1px solid #ccc;
     padding-top: 10px;
 }
-
+.maquina-info {
+    margin-left: 20px;
+}
 form {
     display: flex;
     flex-direction: column;
