@@ -111,6 +111,7 @@ function showList(type) {
         const contratosList = document.querySelector('#contratosList tbody');
         contratosList.innerHTML = ''; // Limpar tabela
 
+        // Exibir contratos na ordem correta
         contratos.forEach((contrato, index) => {
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -118,10 +119,10 @@ function showList(type) {
                 <td>${contrato.locatario}</td>
                 <td>${contrato.cnpj}</td>
                 <td>${contrato.representante}</td>
-                <td>${contrato.periodo}</td> <!-- Novo campo de período -->
-                <td>${contrato.valor}</td> <!-- Novo campo de valor -->
-                <td>${contrato.dataTermino}</td> <!-- Novo campo de data de término -->
-                <td>${contrato.equipamento}</td>
+                <td>${contrato.periodo}</td> <!-- Período do contrato -->
+                <td>${contrato.valor}</td> <!-- Valor do contrato -->
+                <td>${contrato.dataTermino}</td> <!-- Data de término do contrato -->
+                <td>${contrato.equipamento}</td> <!-- Equipamento relacionado ao contrato -->
                 <td>
                     <button onclick="editContrato(${index})">Editar</button>
                     <button onclick="deleteContrato(${index})">Excluir</button>
@@ -143,7 +144,7 @@ function showList(type) {
                 <td>${empresa.areaAtuacao}</td>
                 <td>${empresa.representante}</td>
                 <td>${empresa.telefone}</td>
-                <td>${empresa.email}</td> <!-- Novo campo de e-mail -->
+                <td>${empresa.email}</td> <!-- E-mail da empresa -->
                 <td>
                     <button onclick="editEmpresa(${index})">Editar</button>
                     <button onclick="deleteEmpresa(${index})">Excluir</button>
@@ -212,69 +213,72 @@ document.getElementById('formContrato').addEventListener('submit', function(even
     const locatario = document.getElementById('locatarioContrato').value;
     const cnpj = document.getElementById('cnpjContrato').value;
     const representante = document.getElementById('representanteContrato').value;
-    const periodo = document.getElementById('periodoContrato').value; // Novo campo de período
-    const valor = document.getElementById('valorContrato').value; // Novo campo de valor
-    const dataTermino = document.getElementById('dataTerminoContrato').value; // Novo campo de data de término
+    const periodo = document.getElementById('periodoContrato').value;
+    const valor = document.getElementById('valorContrato').value;
+    const dataTermino = document.getElementById('dataTerminoContrato').value;
     const equipamento = document.getElementById('equipamentoContrato').value;
 
-    // Adiciona o novo contrato ao array
+    // Adiciona o novo contrato ao array de contratos
     contratos.push({ empresa, locatario, cnpj, representante, periodo, valor, dataTermino, equipamento });
 
-    // Atualiza o LocalStorage
+    // Salva os contratos no localStorage
     saveToLocalStorage();
 
     // Limpa o formulário
     document.getElementById('formContrato').reset();
 
-    // Exibe a lista atualizada de contratos
+    // Chama a função para exibir a lista atualizada
     showList('contratos');
 });
 
 // Empresas
-document.getElementById('formEmpresa').addEventListener('submit', function(e) {
-    e.preventDefault();
+document.getElementById('formEmpresa').addEventListener('submit', function(event) {
+    event.preventDefault();
 
     const nome = document.getElementById('nomeEmpresa').value;
     const areaCnpj = document.getElementById('areaCnpj').value;
     const areaAtuacao = document.getElementById('areaAtuacao').value;
     const representante = document.getElementById('representanteEmpresa').value;
     const telefone = document.getElementById('telefoneEmpresa').value;
-    const email = document.getElementById('emailEmpresa').value; // Campo de e-mail
+    const email = document.getElementById('emailEmpresa').value;
 
     empresas.push({ nome, areaCnpj, areaAtuacao, representante, telefone, email });
+
     saveToLocalStorage(); // Salvar no LocalStorage
     document.getElementById('formEmpresa').reset();
     showList('empresas');
 });
 
-// Funções para excluir registros (de cada categoria)
+// Funções para editar registros
+
+// Funções para deletar registros
 function deleteMaquina(index) {
     maquinas.splice(index, 1);
-    saveToLocalStorage();
+    saveToLocalStorage(); // Salvar no LocalStorage
     showList('maquinas');
 }
 
 function deleteConta(index) {
     contas.splice(index, 1);
-    saveToLocalStorage();
+    saveToLocalStorage(); // Salvar no LocalStorage
     showList('contas');
 }
 
 function deleteRecebimento(index) {
     recebimentos.splice(index, 1);
-    saveToLocalStorage();
+    saveToLocalStorage(); // Salvar no LocalStorage
     showList('recebimentos');
 }
 
 function deleteContrato(index) {
     contratos.splice(index, 1);
-    saveToLocalStorage();
+    saveToLocalStorage(); // Salvar no LocalStorage
     showList('contratos');
 }
 
 function deleteEmpresa(index) {
     empresas.splice(index, 1);
-    saveToLocalStorage();
+    saveToLocalStorage(); // Salvar no LocalStorage
     showList('empresas');
 }
 
