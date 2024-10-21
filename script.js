@@ -223,15 +223,17 @@ document.getElementById('formEmpresa').addEventListener('submit', function(e) {
     const areaAtuacao = document.getElementById('areaAtuacaoEmpresa').value;
     const representante = document.getElementById('representanteEmpresa').value;
     const telefone = document.getElementById('telefoneEmpresa').value;
+    const endereco = document.getElementById('enderecoEmpresa').value;
+    const email = document.getElementById('emailEmpresa').value;
+    const site = document.getElementById('siteEmpresa').value;
 
-    empresas.push({ nome, areaCnpj, areaAtuacao, representante, telefone });
+    empresas.push({ nome, areaCnpj, areaAtuacao, representante, telefone, endereco, email, site });
     saveToLocalStorage(); // Salvar no LocalStorage
     document.getElementById('formEmpresa').reset();
     showList('empresas');
 });
 
 // Funções para editar e excluir máquinas
-
 function editMaquina(index) {
     const maquina = maquinas[index];
     document.getElementById('nomeMaquina').value = maquina.nome;
@@ -241,12 +243,6 @@ function editMaquina(index) {
 
     maquinas.splice(index, 1); // Remove o item que está sendo editado
     saveToLocalStorage();
-}
-
-function deleteMaquina(index) {
-    maquinas.splice(index, 1); // Remove o item
-    saveToLocalStorage();
-    showList('maquinas'); // Atualiza a lista
 }
 
 // Funções para editar e excluir contas
@@ -260,12 +256,6 @@ function editConta(index) {
     saveToLocalStorage();
 }
 
-function deleteConta(index) {
-    contas.splice(index, 1); // Remove o item
-    saveToLocalStorage();
-    showList('contas'); // Atualiza a lista
-}
-
 // Funções para editar e excluir recebimentos
 function editRecebimento(index) {
     const recebimento = recebimentos[index];
@@ -277,12 +267,6 @@ function editRecebimento(index) {
 
     recebimentos.splice(index, 1); // Remove o item que está sendo editado
     saveToLocalStorage();
-}
-
-function deleteRecebimento(index) {
-    recebimentos.splice(index, 1); // Remove o item
-    saveToLocalStorage();
-    showList('recebimentos'); // Atualiza a lista
 }
 
 // Funções para editar e excluir contratos
@@ -299,12 +283,6 @@ function editContrato(index) {
     saveToLocalStorage();
 }
 
-function deleteContrato(index) {
-    contratos.splice(index, 1); // Remove o item
-    saveToLocalStorage();
-    showList('contratos'); // Atualiza a lista
-}
-
 // Funções para editar e excluir empresas
 function editEmpresa(index) {
     const empresa = empresas[index];
@@ -313,16 +291,49 @@ function editEmpresa(index) {
     document.getElementById('areaAtuacaoEmpresa').value = empresa.areaAtuacao;
     document.getElementById('representanteEmpresa').value = empresa.representante;
     document.getElementById('telefoneEmpresa').value = empresa.telefone;
+    document.getElementById('enderecoEmpresa').value = empresa.endereco;
+    document.getElementById('emailEmpresa').value = empresa.email;
+    document.getElementById('siteEmpresa').value = empresa.site;
 
     empresas.splice(index, 1); // Remove o item que está sendo editado
     saveToLocalStorage();
 }
 
+// Função para deletar máquinas
+function deleteMaquina(index) {
+    maquinas.splice(index, 1); // Remove o item da lista
+    saveToLocalStorage();
+    showList('maquinas'); // Atualiza a lista
+}
+
+// Função para deletar contas
+function deleteConta(index) {
+    contas.splice(index, 1); // Remove o item da lista
+    saveToLocalStorage();
+    showList('contas'); // Atualiza a lista
+}
+
+// Função para deletar recebimentos
+function deleteRecebimento(index) {
+    recebimentos.splice(index, 1); // Remove o item da lista
+    saveToLocalStorage();
+    showList('recebimentos'); // Atualiza a lista
+}
+
+// Função para deletar contratos
+function deleteContrato(index) {
+    contratos.splice(index, 1); // Remove o item da lista
+    saveToLocalStorage();
+    showList('contratos'); // Atualiza a lista
+}
+
+// Função para deletar empresas
 function deleteEmpresa(index) {
-    empresas.splice(index, 1); // Remove o item
+    empresas.splice(index, 1); // Remove o item da lista
     saveToLocalStorage();
     showList('empresas'); // Atualiza a lista
 }
+
 // --- Service Worker para Cache ---
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
