@@ -1,45 +1,69 @@
-const CACHE_NAME = 'n-pontes-locacoes-cache-v1';
+const CACHE_NAME = 'gestao-cache-v1';
 const urlsToCache = [
-    '/',
-    '/index.html',
-    '/styles.css',
-    '/script.js',
-    '/manifest.json',
-    '/images/icons/icon-192x192.png', // Inclua os ícones e outros recursos importantes
-    '/images/icons/icon-512x512.png'
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/script.js',
+  '/style.css',
+  '/icons/icon-192x192.png',
+  '/icons/icon-512x512.png'
 ];
 
-// Instalação do Service Worker e armazenamento no cache
-self.addEventListener('install', function(event) {
-    event.waitUntil(
-        caches.open(CACHE_NAME).then(function(cache) {
-            console.log('Arquivos armazenados em cache');
-            return cache.addAll(urlsToCache);
-        })
-    );
+// Instalando o Service Worker e adicionando arquivos ao cache
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        console.log('Arquivos em cache: ', urlsToCache);
+        return cache.addAll(urlsToCache);
+      })
+  );
 });
 
-// Interceptação de solicitações para servir os arquivos em cache
-self.addEventListener('fetch', function(event) {
-    event.respondWith(
-        caches.match(event.request).then(function(response) {
-            return response || fetch(event.request);
-        })
-    );
+// Interceptar requisições e responder com o cache, se disponível
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request)
+      .then((response) => {
+        // Se houver uma resposta em cache, retorná-la
+        if (response) {
+          return response;
+        }
+
+        // Caso contrário, buscar a requisição na rede
+        return fetch(event.request).then(
+          (networkResponse) => {
+            // Verificar se a resposta da rede é válida
+            if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+              return networkResponse;
+            }
+
+            // Se válida, adicionar uma cópia ao cache
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME)
+              .then((cache) => {
+                cache.put(event.request, responseToCache);
+              });
+
+            return networkResponse;
+          }
+        );
+      })
+  );
 });
 
-// Atualização do cache quando uma nova versão é ativada
-self.addEventListener('activate', function(event) {
-    const cacheWhitelist = [CACHE_NAME];
-    event.waitUntil(
-        caches.keys().then(function(cacheNames) {
-            return Promise.all(
-                cacheNames.map(function(cacheName) {
-                    if (cacheWhitelist.indexOf(cacheName) === -1) {
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
+// Atualizar o cache ao ativar o Service Worker
+self.addEventListener('activate', (event) => {
+  const cacheWhitelist = [CACHE_NAME];
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            return caches.delete(cacheName);
+          }
         })
-    );
+      );
+    })
+  );
 });
