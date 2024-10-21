@@ -1,336 +1,332 @@
-// Armazenar dados em memória (simulando um banco de dados)
-const maquinas = [];
-const recebimentos = [];
-const contratos = [];
-const contas = [];
-const empresas = [];
+// Dados simulados para listas
+let maquinas = JSON.parse(localStorage.getItem('maquinas')) || [];
+let contas = JSON.parse(localStorage.getItem('contas')) || [];
+let recebimentos = JSON.parse(localStorage.getItem('recebimentos')) || [];
+let contratos = JSON.parse(localStorage.getItem('contratos')) || [];
+let empresas = JSON.parse(localStorage.getItem('empresas')) || [];
 
-// Funções para manipular as listas
+// Função para exibir a aba correspondente do menu, junto com os botões Confirmar, Lista e Voltar
+function showSection(section) {
+    // Esconde todas as seções
+    document.querySelectorAll('.section').forEach(sec => {
+        sec.style.display = 'none';
+    });
+    
+    // Exibe a seção correta com os botões
+    const currentSection = document.getElementById(section);
+    currentSection.style.display = 'block';
+    
+    // Exibe os botões de "Confirmar", "Listar" e "Voltar" para cada aba de cadastro
+    const buttonsSection = document.querySelector(`#${section} .buttons`);
+    if (buttonsSection) {
+        buttonsSection.style.display = 'block';
+    }
+}
+
+// Função para salvar dados no LocalStorage
+function saveToLocalStorage() {
+    localStorage.setItem('maquinas', JSON.stringify(maquinas));
+    localStorage.setItem('contas', JSON.stringify(contas));
+    localStorage.setItem('recebimentos', JSON.stringify(recebimentos));
+    localStorage.setItem('contratos', JSON.stringify(contratos));
+    localStorage.setItem('empresas', JSON.stringify(empresas));
+}
+
+// Função para alternar seções
+function showSection(section) {
+    document.querySelectorAll('.section').forEach(sec => {
+        sec.style.display = 'none';
+    });
+    document.getElementById(section).style.display = 'block';
+}
+
+// Função para retornar ao menu principal
+function goBack(section) {
+    document.getElementById(section).style.display = 'none';
+}
+
+// Função para exibir a lista com base no tipo
+function showList(type) {
+    if (type === 'maquinas') {
+        const maquinasList = document.querySelector('#maquinasList tbody');
+        maquinasList.innerHTML = ''; // Limpar tabela
+
+        maquinas.forEach((maquina, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${maquina.nome}</td>
+                <td>${maquina.serie}</td>
+                <td>${maquina.anosUso}</td>
+                <td>${maquina.horasTrabalhadas}</td>
+                <td>
+                    <button onclick="editMaquina(${index})">Editar</button>
+                    <button onclick="deleteMaquina(${index})">Excluir</button>
+                </td>
+            `;
+            maquinasList.appendChild(row);
+        });
+
+        document.getElementById('maquinasList').style.display = 'block';
+    } else if (type === 'contas') {
+        const contasList = document.querySelector('#contasList tbody');
+        contasList.innerHTML = ''; // Limpar tabela
+
+        contas.forEach((conta, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${conta.tipo}</td>
+                <td>${conta.dataVencimento}</td>
+                <td>${conta.valor}</td>
+                <td>
+                    <button onclick="editConta(${index})">Editar</button>
+                    <button onclick="deleteConta(${index})">Excluir</button>
+                </td>
+            `;
+            contasList.appendChild(row);
+        });
+
+        document.getElementById('contasList').style.display = 'block';
+    } else if (type === 'recebimentos') {
+        const recebimentosList = document.querySelector('#recebimentosList tbody');
+        recebimentosList.innerHTML = ''; // Limpar tabela
+
+        recebimentos.forEach((recebimento, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${recebimento.empresa}</td>
+                <td>${recebimento.valor}</td>
+                <td>${recebimento.dataPagamento}</td>
+                <td>${recebimento.dataTermino}</td>
+                <td>${recebimento.status}</td>
+                <td>
+                    <button onclick="editRecebimento(${index})">Editar</button>
+                    <button onclick="deleteRecebimento(${index})">Excluir</button>
+                </td>
+            `;
+            recebimentosList.appendChild(row);
+        });
+
+        document.getElementById('recebimentosList').style.display = 'block';
+    } else if (type === 'contratos') {
+        const contratosList = document.querySelector('#contratosList tbody');
+        contratosList.innerHTML = ''; // Limpar tabela
+
+        contratos.forEach((contrato, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${contrato.empresa}</td>
+                <td>${contrato.locatario}</td>
+                <td>${contrato.cnpj}</td>
+                <td>${contrato.equipamento}</td>
+                <td>
+                    <button onclick="editContrato(${index})">Editar</button>
+                    <button onclick="deleteContrato(${index})">Excluir</button>
+                </td>
+            `;
+            contratosList.appendChild(row);
+        });
+
+        document.getElementById('contratosList').style.display = 'block';
+    } else if (type === 'empresas') {
+        const empresasList = document.querySelector('#empresasList tbody');
+        empresasList.innerHTML = ''; // Limpar tabela
+
+        empresas.forEach((empresa, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${empresa.nome}</td>
+                <td>${empresa.areaCnpj}</td>
+                <td>${empresa.areaAtuacao}</td>
+                <td>${empresa.representante}</td>
+                <td>${empresa.telefone}</td>
+                <td>
+                    <button onclick="editEmpresa(${index})">Editar</button>
+                    <button onclick="deleteEmpresa(${index})">Excluir</button>
+                </td>
+            `;
+            empresasList.appendChild(row);
+        });
+
+        document.getElementById('empresasList').style.display = 'block';
+    }
+}
+
+// Funções de adicionar novos registros para cada categoria
 
 // Máquinas
-document.getElementById('maquina-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const nome = document.getElementById('maquina-nome').value;
-    const serie = document.getElementById('maquina-serie').value;
-    const anos = document.getElementById('maquina-anos').value;
-    const horas = document.getElementById('maquina-horas').value;
+document.getElementById('formMaquina').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const nome = document.getElementById('nomeMaquina').value;
+    const serie = document.getElementById('serieMaquina').value;
+    const anosUso = document.getElementById('anosUso').value;
+    const horasTrabalhadas = document.getElementById('horasTrabalhadas').value;
 
-    const maquina = {
-        id: maquinas.length + 1,
-        nome,
-        serie,
-        anos,
-        horas
-    };
-
-    maquinas.push(maquina);
-    atualizarListaMaquinas();
-    this.reset();
+    maquinas.push({ nome, serie, anosUso, horasTrabalhadas });
+    saveToLocalStorage(); // Salvar no LocalStorage
+    document.getElementById('formMaquina').reset();
+    showList('maquinas');
 });
 
-function atualizarListaMaquinas() {
-    const lista = document.getElementById('maquinas-lista').getElementsByTagName('tbody')[0];
-    lista.innerHTML = '';
+// Contas
+document.getElementById('formConta').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-    maquinas.forEach(maquina => {
-        const row = lista.insertRow();
-        row.insertCell(0).textContent = maquina.id;
-        row.insertCell(1).textContent = maquina.nome;
+    const tipo = document.getElementById('tipoConta').value;
+    const dataVencimento = document.getElementById('dataVencimentoConta').value;
+    const valor = document.getElementById('valorConta').value;
 
-        const acoesCell = row.insertCell(2);
-        const alterarBtn = document.createElement('button');
-        alterarBtn.textContent = 'ALTERAR';
-        alterarBtn.onclick = () => alterarMaquina(maquina.id);
-        acoesCell.appendChild(alterarBtn);
-
-        const excluirBtn = document.createElement('button');
-        excluirBtn.textContent = 'EXCLUIR';
-        excluirBtn.onclick = () => excluirMaquina(maquina.id);
-        acoesCell.appendChild(excluirBtn);
-    });
-}
-
-function alterarMaquina(id) {
-    const maquina = maquinas.find(m => m.id === id);
-    if (maquina) {
-        document.getElementById('maquina-nome').value = maquina.nome;
-        document.getElementById('maquina-serie').value = maquina.serie;
-        document.getElementById('maquina-anos').value = maquina.anos;
-        document.getElementById('maquina-horas').value = maquina.horas;
-        excluirMaquina(id);
-    }
-}
-
-function excluirMaquina(id) {
-    const index = maquinas.findIndex(m => m.id === id);
-    if (index !== -1) {
-        maquinas.splice(index, 1);
-        atualizarListaMaquinas();
-    }
-}
+    contas.push({ tipo, dataVencimento, valor });
+    saveToLocalStorage(); // Salvar no LocalStorage
+    document.getElementById('formConta').reset();
+    showList('contas');
+});
 
 // Recebimentos
-document.getElementById('recebimento-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const empresa = document.getElementById('recebimento-empresa').value;
-    const valor = document.getElementById('recebimento-valor').value;
-    const data = document.getElementById('recebimento-data').value;
-    const termino = document.getElementById('recebimento-termino').value;
-    const status = document.getElementById('recebimento-status').value;
+document.getElementById('formRecebimento').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-    const recebimento = {
-        id: recebimentos.length + 1,
-        empresa,
-        valor,
-        data,
-        termino,
-        status
-    };
+    const empresa = document.getElementById('empresaRecebimento').value;
+    const valor = document.getElementById('valorRecebimento').value;
+    const dataPagamento = document.getElementById('dataPagamento').value;
+    const dataTermino = document.getElementById('dataTermino').value;
+    const status = document.getElementById('statusRecebimento').value;
 
-    recebimentos.push(recebimento);
-    atualizarListaRecebimentos();
-    this.reset();
+    recebimentos.push({ empresa, valor, dataPagamento, dataTermino, status });
+    saveToLocalStorage(); // Salvar no LocalStorage
+    document.getElementById('formRecebimento').reset();
+    showList('recebimentos');
 });
-
-function atualizarListaRecebimentos() {
-    const lista = document.getElementById('recebimentos-lista').getElementsByTagName('tbody')[0];
-    lista.innerHTML = '';
-
-    recebimentos.forEach(recebimento => {
-        const row = lista.insertRow();
-        row.insertCell(0).textContent = recebimento.id;
-        row.insertCell(1).textContent = recebimento.empresa;
-
-        const acoesCell = row.insertCell(2);
-        const alterarBtn = document.createElement('button');
-        alterarBtn.textContent = 'ALTERAR';
-        alterarBtn.onclick = () => alterarRecebimento(recebimento.id);
-        acoesCell.appendChild(alterarBtn);
-
-        const excluirBtn = document.createElement('button');
-        excluirBtn.textContent = 'EXCLUIR';
-        excluirBtn.onclick = () => excluirRecebimento(recebimento.id);
-        acoesCell.appendChild(excluirBtn);
-    });
-}
-
-function alterarRecebimento(id) {
-    const recebimento = recebimentos.find(r => r.id === id);
-    if (recebimento) {
-        document.getElementById('recebimento-empresa').value = recebimento.empresa;
-        document.getElementById('recebimento-valor').value = recebimento.valor;
-        document.getElementById('recebimento-data').value = recebimento.data;
-        document.getElementById('recebimento-termino').value = recebimento.termino;
-        document.getElementById('recebimento-status').value = recebimento.status;
-        excluirRecebimento(id);
-    }
-}
-
-function excluirRecebimento(id) {
-    const index = recebimentos.findIndex(r => r.id === id);
-    if (index !== -1) {
-        recebimentos.splice(index, 1);
-        atualizarListaRecebimentos();
-    }
-}
 
 // Contratos
-document.getElementById('contrato-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const empresa = document.getElementById('contrato-empresa').value;
-    const locatario = document.getElementById('contrato-locatario').value;
-    const cnpj = document.getElementById('contrato-cnpj').value;
-    const representante = document.getElementById('contrato-representante').value;
-    const periodo = document.getElementById('contrato-periodo').value;
-    const equipamento = document.getElementById('contrato-equipamento').value;
-    const data = document.getElementById('contrato-data').value;
-    const operador = document.getElementById('contrato-operador').value;
+document.getElementById('formContrato').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-    const contrato = {
-        id: contratos.length + 1,
-        empresa,
-        locatario,
-        cnpj,
-        representante,
-        periodo,
-        equipamento,
-        data,
-        operador
-    };
+    const empresa = document.getElementById('empresaContrato').value;
+    const locatario = document.getElementById('locatarioContrato').value;
+    const cnpj = document.getElementById('cnpjContrato').value;
+    const representante = document.getElementById('representanteContrato').value;
+    const periodo = document.getElementById('periodoContrato').value;
+    const equipamento = document.getElementById('equipamentoContrato').value;
 
-    contratos.push(contrato);
-    atualizarListaContratos();
-    this.reset();
+    contratos.push({ empresa, locatario, cnpj, representante, periodo, equipamento });
+    saveToLocalStorage(); // Salvar no LocalStorage
+    document.getElementById('formContrato').reset();
+    showList('contratos');
 });
 
-function atualizarListaContratos() {
-    const lista = document.getElementById('contratos-lista').getElementsByTagName('tbody')[0];
-    lista.innerHTML = '';
+// Empresas
+document.getElementById('formEmpresa').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-    contratos.forEach(contrato => {
-        const row = lista.insertRow();
-        row.insertCell(0).textContent = contrato.id;
-        row.insertCell(1).textContent = contrato.empresa;
+    const nome = document.getElementById('nomeEmpresa').value;
+    const areaCnpj = document.getElementById('areaCnpjEmpresa').value;
+    const areaAtuacao = document.getElementById('areaAtuacaoEmpresa').value;
+    const representante = document.getElementById('representanteEmpresa').value;
+    const telefone = document.getElementById('telefoneEmpresa').value;
 
-        const acoesCell = row.insertCell(2);
-        const alterarBtn = document.createElement('button');
-        alterarBtn.textContent = 'ALTERAR';
-        alterarBtn.onclick = () => alterarContrato(contrato.id);
-        acoesCell.appendChild(alterarBtn);
+    empresas.push({ nome, areaCnpj, areaAtuacao, representante, telefone });
+    saveToLocalStorage(); // Salvar no LocalStorage
+    document.getElementById('formEmpresa').reset();
+    showList('empresas');
+});
 
-        const excluirBtn = document.createElement('button');
-        excluirBtn.textContent = 'EXCLUIR';
-        excluirBtn.onclick = () => excluirContrato(contrato.id);
-        acoesCell.appendChild(excluirBtn);
-    });
+// Funções de editar e excluir para cada categoria
+
+// Máquinas
+function editMaquina(index) {
+    const maquina = maquinas[index];
+    document.getElementById('nomeMaquina').value = maquina.nome;
+    document.getElementById('serieMaquina').value = maquina.serie;
+    document.getElementById('anosUso').value = maquina.anosUso;
+    document.getElementById('horasTrabalhadas').value = maquina.horasTrabalhadas;
+
+    deleteMaquina(index);
 }
 
-function alterarContrato(id) {
-    const contrato = contratos.find(c => c.id === id);
-    if (contrato) {
-        document.getElementById('contrato-empresa').value = contrato.empresa;
-        document.getElementById('contrato-locatario').value = contrato.locatario;
-        document.getElementById('contrato-cnpj').value = contrato.cnpj;
-        document.getElementById('contrato-representante').value = contrato.representante;
-        document.getElementById('contrato-periodo').value = contrato.periodo;
-        document.getElementById('contrato-equipamento').value = contrato.equipamento;
-        document.getElementById('contrato-data').value = contrato.data;
-        document.getElementById('contrato-operador').value = contrato.operador;
-        excluirContrato(id);
-    }
-}
-
-function excluirContrato(id) {
-    const index = contratos.findIndex(c => c.id === id);
-    if (index !== -1) {
-        contratos.splice(index, 1);
-        atualizarListaContratos();
-    }
+function deleteMaquina(index) {
+    maquinas.splice(index, 1);
+    saveToLocalStorage();
+    showList('maquinas');
 }
 
 // Contas
-document.getElementById('conta-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const tipo = document.getElementById('conta-tipo').value;
-    const data = document.getElementById('conta-data').value;
-    const valor = document.getElementById('conta-valor').value;
+function editConta(index) {
+    const conta = contas[index];
+    document.getElementById('tipoConta').value = conta.tipo;
+    document.getElementById('dataVencimentoConta').value = conta.dataVencimento;
+    document.getElementById('valorConta').value = conta.valor;
 
-    const conta = {
-        id: contas.length + 1,
-        tipo,
-        data,
-        valor
-    };
-
-    contas.push(conta);
-    atualizarListaContas();
-    this.reset();
-});
-
-function atualizarListaContas() {
-    const lista = document.getElementById('contas-lista').getElementsByTagName('tbody')[0];
-    lista.innerHTML = '';
-
-    contas.forEach(conta => {
-        const row = lista.insertRow();
-        row.insertCell(0).textContent = conta.id;
-        row.insertCell(1).textContent = conta.tipo;
-
-        const acoesCell = row.insertCell(2);
-        const alterarBtn = document.createElement('button');
-        alterarBtn.textContent = 'ALTERAR';
-        alterarBtn.onclick = () => alterarConta(conta.id);
-        acoesCell.appendChild(alterarBtn);
-
-        const excluirBtn = document.createElement('button');
-        excluirBtn.textContent = 'EXCLUIR';
-        excluirBtn.onclick = () => excluirConta(conta.id);
-        acoesCell.appendChild(excluirBtn);
-    });
+    deleteConta(index);
 }
 
-function alterarConta(id) {
-    const conta = contas.find(c => c.id === id);
-    if (conta) {
-        document.getElementById('conta-tipo').value = conta.tipo;
-        document.getElementById('conta-data').value = conta.data;
-        document.getElementById('conta-valor').value = conta.valor;
-        excluirConta(id);
-    }
+function deleteConta(index) {
+    contas.splice(index, 1);
+    saveToLocalStorage();
+    showList('contas');
 }
 
-function excluirConta(id) {
-    const index = contas.findIndex(c => c.id === id);
-    if (index !== -1) {
-        contas.splice(index, 1);
-        atualizarListaContas();
-    }
+// Recebimentos
+function editRecebimento(index) {
+    const recebimento = recebimentos[index];
+    document.getElementById('empresaRecebimento').value = recebimento.empresa;
+    document.getElementById('valorRecebimento').value = recebimento.valor;
+    document.getElementById('dataPagamento').value = recebimento.dataPagamento;
+    document.getElementById('dataTermino').value = recebimento.dataTermino;
+    document.getElementById('statusRecebimento').value = recebimento.status;
+
+    deleteRecebimento(index);
+}
+
+function deleteRecebimento(index) {
+    recebimentos.splice(index, 1);
+    saveToLocalStorage();
+    showList('recebimentos');
+}
+
+// Contratos
+function editContrato(index) {
+    const contrato = contratos[index];
+    document.getElementById('empresaContrato').value = contrato.empresa;
+    document.getElementById('locatarioContrato').value = contrato.locatario;
+    document.getElementById('cnpjContrato').value = contrato.cnpj;
+    document.getElementById('representanteContrato').value = contrato.representante;
+    document.getElementById('periodoContrato').value = contrato.periodo;
+    document.getElementById('equipamentoContrato').value = contrato.equipamento;
+
+    deleteContrato(index);
+}
+
+function deleteContrato(index) {
+    contratos.splice(index, 1);
+    saveToLocalStorage();
+    showList('contratos');
 }
 
 // Empresas
-document.getElementById('empresa-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const nome = document.getElementById('empresa-nome').value;
-    const cnpj = document.getElementById('empresa-cnpj').value;
-    const areaAtuacao = document.getElementById('empresa-area').value;
-    const representante = document.getElementById('empresa-representante').value;
-    const telefone = document.getElementById('empresa-telefone').value;
-    const email = document.getElementById('empresa-email').value;
+function editEmpresa(index) {
+    const empresa = empresas[index];
+    document.getElementById('nomeEmpresa').value = empresa.nome;
+    document.getElementById('areaCnpjEmpresa').value = empresa.areaCnpj;
+    document.getElementById('areaAtuacaoEmpresa').value = empresa.areaAtuacao;
+    document.getElementById('representanteEmpresa').value = empresa.representante;
+    document.getElementById('telefoneEmpresa').value = empresa.telefone;
 
-    const empresa = {
-        id: empresas.length + 1,
-        nome,
-        cnpj,
-        areaAtuacao,
-        representante,
-        telefone,
-        email
-    };
+    deleteEmpresa(index);
+}
 
-    empresas.push(empresa);
-    atualizarListaEmpresas();
-    this.reset();
-});
-
-function atualizarListaEmpresas() {
-    const lista = document.getElementById('empresas-lista').getElementsByTagName('tbody')[0];
-    lista.innerHTML = '';
-
-    empresas.forEach(empresa => {
-        const row = lista.insertRow();
-        row.insertCell(0).textContent = empresa.id;
-        row.insertCell(1).textContent = empresa.nome;
-
-        const acoesCell = row.insertCell(2);
-        const alterarBtn = document.createElement('button');
-        alterarBtn.textContent = 'ALTERAR';
-        alterarBtn.onclick = () => alterarEmpresa(empresa.id);
-        acoesCell.appendChild(alterarBtn);
-
-        const excluirBtn = document.createElement('button');
-        excluirBtn.textContent = 'EXCLUIR';
-        excluirBtn.onclick = () => excluirEmpresa(empresa.id);
-        acoesCell.appendChild(excluirBtn);
+function deleteEmpresa(index) {
+    empresas.splice(index, 1);
+    saveToLocalStorage();
+    showList('empresas');
+}
+// --- Service Worker para Cache ---
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js').then(registration => {
+            console.log('Service Worker registrado com sucesso:', registration.scope);
+        }).catch(error => {
+            console.log('Falha ao registrar o Service Worker:', error);
+        });
     });
-}
-
-function alterarEmpresa(id) {
-    const empresa = empresas.find(e => e.id === id);
-    if (empresa) {
-        document.getElementById('empresa-nome').value = empresa.nome;
-        document.getElementById('empresa-cnpj').value = empresa.cnpj;
-        document.getElementById('empresa-area').value = empresa.areaAtuacao;
-        document.getElementById('empresa-representante').value = empresa.representante;
-        document.getElementById('empresa-telefone').value = empresa.telefone;
-        document.getElementById('empresa-email').value = empresa.email;
-        excluirEmpresa(id);
-    }
-}
-
-function excluirEmpresa(id) {
-    const index = empresas.findIndex(e => e.id === id);
-    if (index !== -1) {
-        empresas.splice(index, 1);
-        atualizarListaEmpresas();
-    }
 }
