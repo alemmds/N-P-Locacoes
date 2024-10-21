@@ -23,7 +23,7 @@
             <!-- Máquinas -->
             <div id="maquinas" class="section">
                 <h2>Cadastrar Máquina</h2>
-                <form id="formMaquina">
+                <form id="formMaquina" onsubmit="addMachine(event)">
                     <input type="text" id="nomeMaquina" placeholder="Nome" required>
                     <input type="text" id="serieMaquina" placeholder="Série" required>
                     <input type="number" id="anosUso" placeholder="Anos de Uso" required>
@@ -31,9 +31,6 @@
                     <button type="submit">Confirmar</button>
                 </form>
                 <h3>Lista de Máquinas</h3>
-                <div id="maquinas-lista">
-                    <!-- Os itens cadastrados aparecerão aqui -->
-                </div>
                 <button onclick="showList('maquinas')">Listas de Máquinas</button>
                 <div id="maquinasList" class="list" style="display:none;">
                     <table>
@@ -46,7 +43,7 @@
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody id="maquinas-tbody"></tbody>
                     </table>
                 </div>
                 <button onclick="goBack('maquinas')">Voltar</button>
@@ -55,7 +52,7 @@
             <!-- Recebimentos -->
             <div id="recebimentos" class="section" style="display:none;">
                 <h2>Cadastrar Recebimento</h2>
-                <form id="formRecebimento">
+                <form id="formRecebimento" onsubmit="addRecebimento(event)">
                     <input type="text" id="empresaRecebimento" placeholder="Empresa" required>
                     <input type="number" id="valorRecebimento" placeholder="Valor" required>
                     <input type="date" id="dataPagamento" required>
@@ -80,7 +77,7 @@
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody id="recebimentos-tbody"></tbody>
                     </table>
                 </div>
                 <button onclick="goBack('recebimentos')">Voltar</button>
@@ -89,14 +86,14 @@
             <!-- Contratos -->
             <div id="contratos" class="section" style="display:none;">
                 <h2>Cadastrar Contrato</h2>
-                <form id="formContrato">
+                <form id="formContrato" onsubmit="addContrato(event)">
                     <input type="text" id="empresaContrato" placeholder="Empresa" required>
                     <input type="text" id="locatarioContrato" placeholder="Locatário" required>
                     <input type="text" id="cnpjContrato" placeholder="CNPJ" required>
                     <input type="text" id="representanteContrato" placeholder="Representante" required>
                     <input type="text" id="periodoContrato" placeholder="Período da Locação" required>
                     <input type="text" id="equipamentoContrato" placeholder="Equipamento" required>
-                    <input type="number" id="valorContrato" placeholder="Valor" required> <!-- Campo Valor adicionado -->
+                    <input type="number" id="valorContrato" placeholder="Valor" required>
                     <input type="date" id="dataTerminoContrato" required>
                     <label>Operador:</label>
                     <select id="operadorContrato">
@@ -116,11 +113,11 @@
                                 <th>Representante</th>
                                 <th>Período</th>
                                 <th>Equipamento</th>
-                                <th>Valor</th> <!-- Coluna Valor adicionada -->
+                                <th>Valor</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody id="contratos-tbody"></tbody>
                     </table>
                 </div>
                 <button onclick="goBack('contratos')">Voltar</button>
@@ -129,7 +126,7 @@
             <!-- Contas -->
             <div id="contas" class="section" style="display:none;">
                 <h2>Cadastrar Conta</h2>
-                <form id="formConta">
+                <form id="formConta" onsubmit="addConta(event)">
                     <label>Tipo:</label>
                     <select id="tipoConta">
                         <option value="Água">Água</option>
@@ -153,7 +150,7 @@
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody id="contas-tbody"></tbody>
                     </table>
                 </div>
                 <button onclick="goBack('contas')">Voltar</button>
@@ -162,7 +159,7 @@
             <!-- Empresas -->
             <div id="empresas" class="section" style="display:none;">
                 <h2>Cadastrar Empresa</h2>
-                <form id="formEmpresa">
+                <form id="formEmpresa" onsubmit="addEmpresa(event)">
                     <input type="text" id="nomeEmpresa" placeholder="Nome" required>
                     <input type="text" id="areaCnpj" placeholder="Área de CNPJ" required>
                     <input type="text" id="areaAtuacao" placeholder="Área de Atuação" required>
@@ -181,11 +178,11 @@
                                 <th>Área de Atuação</th>
                                 <th>Representante</th>
                                 <th>Telefone</th>
-                                <th>E-mail</th> <!-- Adicionando a coluna de E-mail na tabela de Empresas -->
+                                <th>E-mail</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody id="empresas-tbody"></tbody>
                     </table>
                 </div>
                 <button onclick="goBack('empresas')">Voltar</button>
@@ -199,6 +196,147 @@
                 console.log('Service Worker registrado com sucesso:', registration.scope);
             }).catch(function(error) {
                 console.log('Falha ao registrar Service Worker:', error);
+            });
+        }
+
+        // Funções JavaScript para adicionar, listar e excluir itens
+
+        const maquinas = [];
+        const recebimentos = [];
+        const contratos = [];
+        const contas = [];
+        const empresas = [];
+
+        function showSection(section) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach((sec) => {
+                sec.style.display = 'none';
+            });
+            document.getElementById(section).style.display = 'block';
+        }
+
+        function showList(section) {
+            const listDiv = document.getElementById(section + 'List');
+            listDiv.style.display = listDiv.style.display === 'none' ? 'block' : 'none';
+            updateTable(section);
+        }
+
+        function goBack(section) {
+            document.getElementById(section + 'List').style.display = 'none';
+        }
+
+        function addMachine(event) {
+            event.preventDefault();
+            const nome = document.getElementById('nomeMaquina').value;
+            const serie = document.getElementById('serieMaquina').value;
+            const anosUso = document.getElementById('anosUso').value;
+            const horasTrabalhadas = document.getElementById('horasTrabalhadas').value;
+
+            const maquina = { nome, serie, anosUso, horasTrabalhadas };
+            maquinas.push(maquina);
+            document.getElementById('formMaquina').reset();
+        }
+
+        function addRecebimento(event) {
+            event.preventDefault();
+            const empresa = document.getElementById('empresaRecebimento').value;
+            const valor = document.getElementById('valorRecebimento').value;
+            const dataPagamento = document.getElementById('dataPagamento').value;
+            const dataTermino = document.getElementById('dataTermino').value;
+            const status = document.getElementById('statusRecebimento').value;
+
+            const recebimento = { empresa, valor, dataPagamento, dataTermino, status };
+            recebimentos.push(recebimento);
+            document.getElementById('formRecebimento').reset();
+        }
+
+        function addContrato(event) {
+            event.preventDefault();
+            const empresa = document.getElementById('empresaContrato').value;
+            const locatario = document.getElementById('locatarioContrato').value;
+            const cnpj = document.getElementById('cnpjContrato').value;
+            const representante = document.getElementById('representanteContrato').value;
+            const periodo = document.getElementById('periodoContrato').value;
+            const equipamento = document.getElementById('equipamentoContrato').value;
+            const valor = document.getElementById('valorContrato').value;
+            const dataTermino = document.getElementById('dataTerminoContrato').value;
+            const operador = document.getElementById('operadorContrato').value;
+
+            const contrato = { empresa, locatario, cnpj, representante, periodo, equipamento, valor, dataTermino, operador };
+            contratos.push(contrato);
+            document.getElementById('formContrato').reset();
+        }
+
+        function addConta(event) {
+            event.preventDefault();
+            const tipo = document.getElementById('tipoConta').value;
+            const dataVencimento = document.getElementById('dataVencimentoConta').value;
+            const valor = document.getElementById('valorConta').value;
+
+            const conta = { tipo, dataVencimento, valor };
+            contas.push(conta);
+            document.getElementById('formConta').reset();
+        }
+
+        function addEmpresa(event) {
+            event.preventDefault();
+            const nome = document.getElementById('nomeEmpresa').value;
+            const areaCnpj = document.getElementById('areaCnpj').value;
+            const areaAtuacao = document.getElementById('areaAtuacao').value;
+            const representante = document.getElementById('representanteEmpresa').value;
+            const telefone = document.getElementById('telefoneEmpresa').value;
+            const email = document.getElementById('emailEmpresa').value;
+
+            const empresa = { nome, areaCnpj, areaAtuacao, representante, telefone, email };
+            empresas.push(empresa);
+            document.getElementById('formEmpresa').reset();
+        }
+
+        function updateTable(section) {
+            let data;
+            let tbodyId;
+            switch (section) {
+                case 'maquinas':
+                    data = maquinas;
+                    tbodyId = 'maquinas-tbody';
+                    break;
+                case 'recebimentos':
+                    data = recebimentos;
+                    tbodyId = 'recebimentos-tbody';
+                    break;
+                case 'contratos':
+                    data = contratos;
+                    tbodyId = 'contratos-tbody';
+                    break;
+                case 'contas':
+                    data = contas;
+                    tbodyId = 'contas-tbody';
+                    break;
+                case 'empresas':
+                    data = empresas;
+                    tbodyId = 'empresas-tbody';
+                    break;
+            }
+
+            const tbody = document.getElementById(tbodyId);
+            tbody.innerHTML = '';
+            data.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                for (const key in item) {
+                    const td = document.createElement('td');
+                    td.textContent = item[key];
+                    tr.appendChild(td);
+                }
+                const tdActions = document.createElement('td');
+                const btnDelete = document.createElement('button');
+                btnDelete.textContent = 'Excluir';
+                btnDelete.onclick = () => {
+                    data.splice(index, 1);
+                    updateTable(section);
+                };
+                tdActions.appendChild(btnDelete);
+                tr.appendChild(tdActions);
+                tbody.appendChild(tr);
             });
         }
     </script>
