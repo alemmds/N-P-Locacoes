@@ -117,6 +117,7 @@ function showList(type) {
                 <td>${contrato.locatario}</td>
                 <td>${contrato.cnpj}</td>
                 <td>${contrato.equipamento}</td>
+                <td>${contrato.valor}</td> <!-- Nova coluna de valor -->
                 <td>
                     <button onclick="editContrato(${index})">Editar</button>
                     <button onclick="deleteContrato(${index})">Excluir</button>
@@ -138,6 +139,7 @@ function showList(type) {
                 <td>${empresa.areaAtuacao}</td>
                 <td>${empresa.representante}</td>
                 <td>${empresa.telefone}</td>
+                <td>${empresa.email}</td> <!-- Nova coluna de e-mail -->
                 <td>
                     <button onclick="editEmpresa(${index})">Editar</button>
                     <button onclick="deleteEmpresa(${index})">Excluir</button>
@@ -198,7 +200,6 @@ document.getElementById('formRecebimento').addEventListener('submit', function(e
 });
 
 // Contratos
-// Adiciona o evento de submissão do formulário
 document.getElementById('formContrato').addEventListener('submit', function(event) {
     event.preventDefault(); // Previne o comportamento padrão de recarregar a página
 
@@ -210,68 +211,70 @@ document.getElementById('formContrato').addEventListener('submit', function(even
     const periodo = document.getElementById('periodoContrato').value; // Novo campo de período
     const equipamento = document.getElementById('equipamentoContrato').value;
     const valor = document.getElementById('valorContrato').value; // Novo campo de valor
-    const dataTermino = document.getElementById('dataTerminoContrato').value;
-    const operador = document.getElementById('operadorContrato').value; // Novo campo de operador
+    const dataTermino = document.getElementById('dataTerminoContrato').value; // Novo campo de data de término
 
-    // Adiciona um novo contrato ao array de contratos
-    contratos.push({ empresa, locatario, cnpj, representante, periodo, equipamento, valor, dataTermino, operador });
-    saveToLocalStorage(); // Salva os dados no LocalStorage
+    // Adiciona o novo contrato ao array de contratos
+    contratos.push({ empresa, locatario, cnpj, representante, periodo, equipamento, valor, dataTermino }); // Incluindo os novos campos
+    saveToLocalStorage(); // Salva no LocalStorage
     document.getElementById('formContrato').reset(); // Reseta o formulário
     showList('contratos'); // Exibe a lista de contratos
 });
 
 // Empresas
-document.getElementById('formEmpresa').addEventListener('submit', function(e) {
-    e.preventDefault();
+document.getElementById('formEmpresa').addEventListener('submit', function(event) {
+    event.preventDefault();
 
     const nome = document.getElementById('nomeEmpresa').value;
-    const areaCnpj = document.getElementById('areaCnpj').value;
-    const areaAtuacao = document.getElementById('areaAtuacao').value;
-    const representante = document.getElementById('representanteEmpresa').value;
-    const telefone = document.getElementById('telefoneEmpresa').value;
+    const areaCnpj = document.getElementById('areaCnpj').value; // Campo para área do CNPJ
+    const areaAtuacao = document.getElementById('areaAtuacao').value; // Campo para área de atuação
+    const representante = document.getElementById('representante').value; // Novo campo de representante
+    const telefone = document.getElementById('telefone').value; // Novo campo de telefone
+    const email = document.getElementById('email').value; // Novo campo de e-mail
 
-    empresas.push({ nome, areaCnpj, areaAtuacao, representante, telefone });
-    saveToLocalStorage(); // Salvar no LocalStorage
-    document.getElementById('formEmpresa').reset();
-    showList('empresas');
+    empresas.push({ nome, areaCnpj, areaAtuacao, representante, telefone, email }); // Incluindo os novos campos
+    saveToLocalStorage(); // Salva no LocalStorage
+    document.getElementById('formEmpresa').reset(); // Reseta o formulário
+    showList('empresas'); // Exibe a lista de empresas
 });
 
-// Funções para editar e excluir máquinas
+// Funções para editar e excluir registros
 function editMaquina(index) {
     const maquina = maquinas[index];
     document.getElementById('nomeMaquina').value = maquina.nome;
     document.getElementById('serieMaquina').value = maquina.serie;
     document.getElementById('anosUso').value = maquina.anosUso;
     document.getElementById('horasTrabalhadas').value = maquina.horasTrabalhadas;
-    maquinas.splice(index, 1); // Remove o item que está sendo editado
+
+    // Remove a máquina da lista e atualiza o LocalStorage
+    maquinas.splice(index, 1);
     saveToLocalStorage();
     showList('maquinas');
 }
 
 function deleteMaquina(index) {
-    maquinas.splice(index, 1); // Remove o item da lista
+    maquinas.splice(index, 1);
     saveToLocalStorage();
-    showList('maquinas'); // Atualiza a lista
+    showList('maquinas');
 }
 
-// Funções para editar e excluir contas
 function editConta(index) {
     const conta = contas[index];
     document.getElementById('tipoConta').value = conta.tipo;
     document.getElementById('dataVencimentoConta').value = conta.dataVencimento;
-    document.getElementById('valorConta').value = conta.valor; // Adicionando o campo valor
-    contas.splice(index, 1); // Remove o item que está sendo editado
+    document.getElementById('valorConta').value = conta.valor;
+
+    // Remove a conta da lista e atualiza o LocalStorage
+    contas.splice(index, 1);
     saveToLocalStorage();
     showList('contas');
 }
 
 function deleteConta(index) {
-    contas.splice(index, 1); // Remove o item da lista
+    contas.splice(index, 1);
     saveToLocalStorage();
-    showList('contas'); // Atualiza a lista
+    showList('contas');
 }
 
-// Funções para editar e excluir recebimentos
 function editRecebimento(index) {
     const recebimento = recebimentos[index];
     document.getElementById('empresaRecebimento').value = recebimento.empresa;
@@ -279,56 +282,65 @@ function editRecebimento(index) {
     document.getElementById('dataPagamento').value = recebimento.dataPagamento;
     document.getElementById('dataTermino').value = recebimento.dataTermino;
     document.getElementById('statusRecebimento').value = recebimento.status;
-    recebimentos.splice(index, 1); // Remove o item que está sendo editado
+
+    // Remove o recebimento da lista e atualiza o LocalStorage
+    recebimentos.splice(index, 1);
     saveToLocalStorage();
     showList('recebimentos');
 }
 
 function deleteRecebimento(index) {
-    recebimentos.splice(index, 1); // Remove o item da lista
+    recebimentos.splice(index, 1);
     saveToLocalStorage();
-    showList('recebimentos'); // Atualiza a lista
+    showList('recebimentos');
 }
 
-// Funções para editar e excluir contratos
 function editContrato(index) {
     const contrato = contratos[index];
     document.getElementById('empresaContrato').value = contrato.empresa;
     document.getElementById('locatarioContrato').value = contrato.locatario;
     document.getElementById('cnpjContrato').value = contrato.cnpj;
-    document.getElementById('representanteContrato').value = contrato.representante;
-    document.getElementById('periodoContrato').value = contrato.periodo;
+    document.getElementById('representanteContrato').value = contrato.representante; // Novo campo de representante
+    document.getElementById('periodoContrato').value = contrato.periodo; // Novo campo de período
     document.getElementById('equipamentoContrato').value = contrato.equipamento;
-    document.getElementById('valorContrato').value = contrato.valor; // Adicionando o campo valor
-    contratos.splice(index, 1); // Remove o item que está sendo editado
+    document.getElementById('valorContrato').value = contrato.valor; // Novo campo de valor
+    document.getElementById('dataTerminoContrato').value = contrato.dataTermino; // Novo campo de data de término
+
+    // Remove o contrato da lista e atualiza o LocalStorage
+    contratos.splice(index, 1);
     saveToLocalStorage();
+    showList('contratos');
 }
 
-// Função para deletar contratos
 function deleteContrato(index) {
-    contratos.splice(index, 1); // Remove o item da lista
+    contratos.splice(index, 1);
     saveToLocalStorage();
-    showList('contratos'); // Atualiza a lista
+    showList('contratos');
 }
 
-// Funções para editar e excluir empresas
 function editEmpresa(index) {
     const empresa = empresas[index];
     document.getElementById('nomeEmpresa').value = empresa.nome;
-    document.getElementById('areaCnpj').value = empresa.areaCnpj;
-    document.getElementById('areaAtuacao').value = empresa.areaAtuacao;
-    document.getElementById('representanteEmpresa').value = empresa.representante;
-    document.getElementById('telefoneEmpresa').value = empresa.telefone;
-    empresas.splice(index, 1); // Remove o item que está sendo editado
+    document.getElementById('areaCnpj').value = empresa.areaCnpj; // Campo para área do CNPJ
+    document.getElementById('areaAtuacao').value = empresa.areaAtuacao; // Campo para área de atuação
+    document.getElementById('representante').value = empresa.representante; // Novo campo de representante
+    document.getElementById('telefone').value = empresa.telefone; // Novo campo de telefone
+    document.getElementById('email').value = empresa.email; // Novo campo de e-mail
+
+    // Remove a empresa da lista e atualiza o LocalStorage
+    empresas.splice(index, 1);
     saveToLocalStorage();
+    showList('empresas');
 }
 
-// Função para deletar empresas
 function deleteEmpresa(index) {
-    empresas.splice(index, 1); // Remove o item da lista
+    empresas.splice(index, 1);
     saveToLocalStorage();
-    showList('empresas'); // Atualiza a lista
+    showList('empresas');
 }
+
+// Inicialização
+showSection('home'); // Exibe a tela inicial ao carregar
 
 // --- Service Worker para Cache ---
 if ('serviceWorker' in navigator) {
