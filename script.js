@@ -1,4 +1,3 @@
-// Dados simulados para listas
 let maquinas = JSON.parse(localStorage.getItem('maquinas')) || [];
 let contas = JSON.parse(localStorage.getItem('contas')) || [];
 let recebimentos = JSON.parse(localStorage.getItem('recebimentos')) || [];
@@ -231,9 +230,8 @@ document.getElementById('formEmpresa').addEventListener('submit', function(e) {
     showList('empresas');
 });
 
-// Funções de editar e excluir para cada categoria
+// Funções para editar e excluir máquinas
 
-// Máquinas
 function editMaquina(index) {
     const maquina = maquinas[index];
     document.getElementById('nomeMaquina').value = maquina.nome;
@@ -241,32 +239,34 @@ function editMaquina(index) {
     document.getElementById('anosUso').value = maquina.anosUso;
     document.getElementById('horasTrabalhadas').value = maquina.horasTrabalhadas;
 
-    deleteMaquina(index);
+    maquinas.splice(index, 1); // Remove o item que está sendo editado
+    saveToLocalStorage();
 }
 
 function deleteMaquina(index) {
-    maquinas.splice(index, 1);
+    maquinas.splice(index, 1); // Remove o item
     saveToLocalStorage();
-    showList('maquinas');
+    showList('maquinas'); // Atualiza a lista
 }
 
-// Contas
+// Funções para editar e excluir contas
 function editConta(index) {
     const conta = contas[index];
     document.getElementById('tipoConta').value = conta.tipo;
     document.getElementById('dataVencimentoConta').value = conta.dataVencimento;
     document.getElementById('valorConta').value = conta.valor;
 
-    deleteConta(index);
+    contas.splice(index, 1); // Remove o item que está sendo editado
+    saveToLocalStorage();
 }
 
 function deleteConta(index) {
-    contas.splice(index, 1);
+    contas.splice(index, 1); // Remove o item
     saveToLocalStorage();
-    showList('contas');
+    showList('contas'); // Atualiza a lista
 }
 
-// Recebimentos
+// Funções para editar e excluir recebimentos
 function editRecebimento(index) {
     const recebimento = recebimentos[index];
     document.getElementById('empresaRecebimento').value = recebimento.empresa;
@@ -275,16 +275,17 @@ function editRecebimento(index) {
     document.getElementById('dataTermino').value = recebimento.dataTermino;
     document.getElementById('statusRecebimento').value = recebimento.status;
 
-    deleteRecebimento(index);
+    recebimentos.splice(index, 1); // Remove o item que está sendo editado
+    saveToLocalStorage();
 }
 
 function deleteRecebimento(index) {
-    recebimentos.splice(index, 1);
+    recebimentos.splice(index, 1); // Remove o item
     saveToLocalStorage();
-    showList('recebimentos');
+    showList('recebimentos'); // Atualiza a lista
 }
 
-// Contratos
+// Funções para editar e excluir contratos
 function editContrato(index) {
     const contrato = contratos[index];
     document.getElementById('empresaContrato').value = contrato.empresa;
@@ -294,16 +295,17 @@ function editContrato(index) {
     document.getElementById('periodoContrato').value = contrato.periodo;
     document.getElementById('equipamentoContrato').value = contrato.equipamento;
 
-    deleteContrato(index);
+    contratos.splice(index, 1); // Remove o item que está sendo editado
+    saveToLocalStorage();
 }
 
 function deleteContrato(index) {
-    contratos.splice(index, 1);
+    contratos.splice(index, 1); // Remove o item
     saveToLocalStorage();
-    showList('contratos');
+    showList('contratos'); // Atualiza a lista
 }
 
-// Empresas
+// Funções para editar e excluir empresas
 function editEmpresa(index) {
     const empresa = empresas[index];
     document.getElementById('nomeEmpresa').value = empresa.nome;
@@ -312,13 +314,14 @@ function editEmpresa(index) {
     document.getElementById('representanteEmpresa').value = empresa.representante;
     document.getElementById('telefoneEmpresa').value = empresa.telefone;
 
-    deleteEmpresa(index);
+    empresas.splice(index, 1); // Remove o item que está sendo editado
+    saveToLocalStorage();
 }
 
 function deleteEmpresa(index) {
-    empresas.splice(index, 1);
+    empresas.splice(index, 1); // Remove o item
     saveToLocalStorage();
-    showList('empresas');
+    showList('empresas'); // Atualiza a lista
 }
 // --- Service Worker para Cache ---
 if ('serviceWorker' in navigator) {
