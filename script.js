@@ -5,14 +5,14 @@ let recebimentos = JSON.parse(localStorage.getItem('recebimentos')) || [];
 let contratos = JSON.parse(localStorage.getItem('contratos')) || [];
 let empresas = JSON.parse(localStorage.getItem('empresas')) || [];
 
-// Função para exibir a aba correspondente do menu, junto com os botões Confirmar, Lista e Voltar
+// Função para exibir a aba correspondente do menu
 function showSection(section) {
     // Esconde todas as seções
     document.querySelectorAll('.section').forEach(sec => {
         sec.style.display = 'none';
     });
     
-    // Exibe a seção correta com os botões
+    // Exibe a seção correta
     const currentSection = document.getElementById(section);
     currentSection.style.display = 'block';
     
@@ -32,14 +32,6 @@ function saveToLocalStorage() {
     localStorage.setItem('empresas', JSON.stringify(empresas));
 }
 
-// Função para alternar seções
-function showSection(section) {
-    document.querySelectorAll('.section').forEach(sec => {
-        sec.style.display = 'none';
-    });
-    document.getElementById(section).style.display = 'block';
-}
-
 // Função para retornar ao menu principal
 function goBack(section) {
     document.getElementById(section).style.display = 'none';
@@ -47,122 +39,57 @@ function goBack(section) {
 
 // Função para exibir a lista com base no tipo
 function showList(type) {
-    if (type === 'maquinas') {
-        const maquinasList = document.querySelector('#maquinasList tbody');
-        maquinasList.innerHTML = ''; // Limpar tabela
-
-        maquinas.forEach((maquina, index) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${maquina.nome}</td>
-                <td>${maquina.serie}</td>
-                <td>${maquina.anosUso}</td>
-                <td>${maquina.horasTrabalhadas}</td>
-                <td>
-                    <button onclick="editMaquina(${index})">Editar</button>
-                    <button onclick="deleteMaquina(${index})">Excluir</button>
-                </td>
-            `;
-            maquinasList.appendChild(row);
-        });
-
-        document.getElementById('maquinasList').style.display = 'block';
-    } else if (type === 'contas') {
-        const contasList = document.querySelector('#contasList tbody');
-        contasList.innerHTML = ''; // Limpar tabela
-
-        contas.forEach((conta, index) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${conta.tipo}</td>
-                <td>${conta.dataVencimento}</td>
-                <td>${conta.valor}</td>
-                <td>
-                    <button onclick="editConta(${index})">Editar</button>
-                    <button onclick="deleteConta(${index})">Excluir</button>
-                </td>
-            `;
-            contasList.appendChild(row);
-        });
-
-        document.getElementById('contasList').style.display = 'block';
-    } else if (type === 'recebimentos') {
-        const recebimentosList = document.querySelector('#recebimentosList tbody');
-        recebimentosList.innerHTML = ''; // Limpar tabela
-
-        recebimentos.forEach((recebimento, index) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${recebimento.empresa}</td>
-                <td>${recebimento.valor}</td>
-                <td>${recebimento.dataPagamento}</td>
-                <td>${recebimento.dataTermino}</td>
-                <td>${recebimento.status}</td>
-                <td>
-                    <button onclick="editRecebimento(${index})">Editar</button>
-                    <button onclick="deleteRecebimento(${index})">Excluir</button>
-                </td>
-            `;
-            recebimentosList.appendChild(row);
-        });
-
-        document.getElementById('recebimentosList').style.display = 'block';
-    } else if (type === 'contratos') {
-        const contratosList = document.querySelector('#contratosList tbody');
-        contratosList.innerHTML = ''; // Limpar tabela
-
-        // Exibir contratos na ordem correta
-        contratos.forEach((contrato, index) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${contrato.empresa}</td>
-                <td>${contrato.locatario}</td>
-                <td>${contrato.cnpj}</td>
-                <td>${contrato.representante}</td>
-                <td>${contrato.periodo}</td> <!-- Período do contrato -->
-                <td>${contrato.valor}</td> <!-- Valor do contrato -->
-                <td>${contrato.dataTermino}</td> <!-- Data de término do contrato -->
-                <td>${contrato.equipamento}</td> <!-- Equipamento relacionado ao contrato -->
-                <td>
-                    <button onclick="editContrato(${index})">Editar</button>
-                    <button onclick="deleteContrato(${index})">Excluir</button>
-                </td>
-            `;
-            contratosList.appendChild(row);
-        });
-
-        document.getElementById('contratosList').style.display = 'block';
-    } else if (type === 'empresas') {
-        const empresasList = document.querySelector('#empresasList tbody');
-        empresasList.innerHTML = ''; // Limpar tabela
-
-        empresas.forEach((empresa, index) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${empresa.nome}</td>
-                <td>${empresa.areaCnpj}</td>
-                <td>${empresa.areaAtuacao}</td>
-                <td>${empresa.representante}</td>
-                <td>${empresa.telefone}</td>
-                <td>${empresa.email}</td> <!-- E-mail da empresa -->
-                <td>
-                    <button onclick="editEmpresa(${index})">Editar</button>
-                    <button onclick="deleteEmpresa(${index})">Excluir</button>
-                </td>
-            `;
-            empresasList.appendChild(row);
-        });
-
-        document.getElementById('empresasList').style.display = 'block';
+    let data, listId;
+    switch (type) {
+        case 'maquinas':
+            data = maquinas;
+            listId = '#maquinasList tbody';
+            break;
+        case 'contas':
+            data = contas;
+            listId = '#contasList tbody';
+            break;
+        case 'recebimentos':
+            data = recebimentos;
+            listId = '#recebimentosList tbody';
+            break;
+        case 'contratos':
+            data = contratos;
+            listId = '#contratosList tbody';
+            break;
+        case 'empresas':
+            data = empresas;
+            listId = '#empresasList tbody';
+            break;
     }
+    
+    const listElement = document.querySelector(listId);
+    listElement.innerHTML = ''; // Limpar tabela
+
+    data.forEach((item, index) => {
+        const row = document.createElement('tr');
+        // Adiciona as células com os dados
+        for (const key in item) {
+            const cell = document.createElement('td');
+            cell.textContent = item[key];
+            row.appendChild(cell);
+        }
+        // Adiciona botões de edição e exclusão
+        const actionsCell = document.createElement('td');
+        actionsCell.innerHTML = `
+            <button onclick="${type === 'maquinas' ? 'editMaquina' : type === 'contas' ? 'editConta' : type === 'recebimentos' ? 'editRecebimento' : type === 'contratos' ? 'editContrato' : 'editEmpresa'}(${index})">Editar</button>
+            <button onclick="${type === 'maquinas' ? 'deleteMaquina' : type === 'contas' ? 'deleteConta' : type === 'recebimentos' ? 'deleteRecebimento' : type === 'contratos' ? 'deleteContrato' : 'deleteEmpresa'}(${index})">Excluir</button>
+        `;
+        row.appendChild(actionsCell);
+        listElement.appendChild(row);
+    });
+
+    document.querySelector(`#${type}List`).style.display = 'block';
 }
 
 // Funções de adicionar novos registros para cada categoria
-
-// Máquinas
 document.getElementById('formMaquina').addEventListener('submit', function(e) {
     e.preventDefault();
-    
     const nome = document.getElementById('nomeMaquina').value;
     const serie = document.getElementById('serieMaquina').value;
     const anosUso = document.getElementById('anosUso').value;
@@ -174,10 +101,8 @@ document.getElementById('formMaquina').addEventListener('submit', function(e) {
     showList('maquinas');
 });
 
-// Contas
 document.getElementById('formConta').addEventListener('submit', function(e) {
     e.preventDefault();
-
     const tipo = document.getElementById('tipoConta').value;
     const dataVencimento = document.getElementById('dataVencimentoConta').value;
     const valor = document.getElementById('valorConta').value;
@@ -188,10 +113,8 @@ document.getElementById('formConta').addEventListener('submit', function(e) {
     showList('contas');
 });
 
-// Recebimentos
 document.getElementById('formRecebimento').addEventListener('submit', function(e) {
     e.preventDefault();
-
     const empresa = document.getElementById('empresaRecebimento').value;
     const valor = document.getElementById('valorRecebimento').value;
     const dataPagamento = document.getElementById('dataPagamento').value;
@@ -204,11 +127,8 @@ document.getElementById('formRecebimento').addEventListener('submit', function(e
     showList('recebimentos');
 });
 
-// Contratos
 document.getElementById('formContrato').addEventListener('submit', function(event) {
-    event.preventDefault(); // Previne o comportamento padrão de recarregar a página
-
-    // Captura os valores inseridos pelo usuário
+    event.preventDefault();
     const empresa = document.getElementById('empresaContrato').value;
     const locatario = document.getElementById('locatarioContrato').value;
     const cnpj = document.getElementById('cnpjContrato').value;
@@ -218,23 +138,14 @@ document.getElementById('formContrato').addEventListener('submit', function(even
     const dataTermino = document.getElementById('dataTerminoContrato').value;
     const equipamento = document.getElementById('equipamentoContrato').value;
 
-    // Adiciona o novo contrato ao array de contratos
     contratos.push({ empresa, locatario, cnpj, representante, periodo, valor, dataTermino, equipamento });
-
-    // Salva os contratos no localStorage
-    saveToLocalStorage();
-
-    // Limpa o formulário
+    saveToLocalStorage(); // Salvar no LocalStorage
     document.getElementById('formContrato').reset();
-
-    // Chama a função para exibir a lista atualizada
     showList('contratos');
 });
 
-// Empresas
 document.getElementById('formEmpresa').addEventListener('submit', function(event) {
     event.preventDefault();
-
     const nome = document.getElementById('nomeEmpresa').value;
     const areaCnpj = document.getElementById('areaCnpj').value;
     const areaAtuacao = document.getElementById('areaAtuacao').value;
@@ -243,13 +154,80 @@ document.getElementById('formEmpresa').addEventListener('submit', function(event
     const email = document.getElementById('emailEmpresa').value;
 
     empresas.push({ nome, areaCnpj, areaAtuacao, representante, telefone, email });
-
     saveToLocalStorage(); // Salvar no LocalStorage
     document.getElementById('formEmpresa').reset();
     showList('empresas');
 });
 
 // Funções para editar registros
+function editMaquina(index) {
+    const maquina = maquinas[index];
+    document.getElementById('nomeMaquina').value = maquina.nome;
+    document.getElementById('serieMaquina').value = maquina.serie;
+    document.getElementById('anosUso').value = maquina.anosUso;
+    document.getElementById('horasTrabalhadas').value = maquina.horasTrabalhadas;
+
+    // Atualiza a lógica de edição, se necessário
+    // Remover a máquina do array para não duplicar
+    maquinas.splice(index, 1);
+    saveToLocalStorage();
+    showList('maquinas');
+}
+
+function editConta(index) {
+    const conta = contas[index];
+    document.getElementById('tipoConta').value = conta.tipo;
+    document.getElementById('dataVencimentoConta').value = conta.dataVencimento;
+    document.getElementById('valorConta').value = conta.valor;
+
+    // Atualiza a lógica de edição, se necessário
+    contas.splice(index, 1);
+    saveToLocalStorage();
+    showList('contas');
+}
+
+function editRecebimento(index) {
+    const recebimento = recebimentos[index];
+    document.getElementById('empresaRecebimento').value = recebimento.empresa;
+    document.getElementById('valorRecebimento').value = recebimento.valor;
+    document.getElementById('dataPagamento').value = recebimento.dataPagamento;
+    document.getElementById('dataTermino').value = recebimento.dataTermino;
+    document.getElementById('statusRecebimento').value = recebimento.status;
+
+    recebimentos.splice(index, 1);
+    saveToLocalStorage();
+    showList('recebimentos');
+}
+
+function editContrato(index) {
+    const contrato = contratos[index];
+    document.getElementById('empresaContrato').value = contrato.empresa;
+    document.getElementById('locatarioContrato').value = contrato.locatario;
+    document.getElementById('cnpjContrato').value = contrato.cnpj;
+    document.getElementById('representanteContrato').value = contrato.representante;
+    document.getElementById('periodoContrato').value = contrato.periodo;
+    document.getElementById('valorContrato').value = contrato.valor;
+    document.getElementById('dataTerminoContrato').value = contrato.dataTermino;
+    document.getElementById('equipamentoContrato').value = contrato.equipamento;
+
+    contratos.splice(index, 1);
+    saveToLocalStorage();
+    showList('contratos');
+}
+
+function editEmpresa(index) {
+    const empresa = empresas[index];
+    document.getElementById('nomeEmpresa').value = empresa.nome;
+    document.getElementById('areaCnpj').value = empresa.areaCnpj;
+    document.getElementById('areaAtuacao').value = empresa.areaAtuacao;
+    document.getElementById('representanteEmpresa').value = empresa.representante;
+    document.getElementById('telefoneEmpresa').value = empresa.telefone;
+    document.getElementById('emailEmpresa').value = empresa.email;
+
+    empresas.splice(index, 1);
+    saveToLocalStorage();
+    showList('empresas');
+}
 
 // Funções para deletar registros
 function deleteMaquina(index) {
@@ -291,5 +269,4 @@ if ('serviceWorker' in navigator) {
             console.log('Falha ao registrar o Service Worker:', error);
         });
     });
-
-
+}
