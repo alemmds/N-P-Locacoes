@@ -198,20 +198,48 @@ document.getElementById('formRecebimento').addEventListener('submit', function(e
 });
 
 // Contratos
-document.getElementById('formContrato').addEventListener('submit', function(e) {
-    e.preventDefault();
+// Adiciona o evento de submissão do formulário
+document.getElementById('formContrato').addEventListener('submit', function(event) {
+    event.preventDefault(); // Previne o comportamento padrão de recarregar a página
 
+    // Captura os valores inseridos pelo usuário
     const empresa = document.getElementById('empresaContrato').value;
     const locatario = document.getElementById('locatarioContrato').value;
     const cnpj = document.getElementById('cnpjContrato').value;
-    const representante = document.getElementById('representanteContrato').value;
-    const periodo = document.getElementById('periodoContrato').value;
+    const representante = document.getElementById('representanteContrato').value; // Novo campo de representante
+    const periodo = document.getElementById('periodoContrato').value; // Novo campo de período
     const equipamento = document.getElementById('equipamentoContrato').value;
+    const valor = document.getElementById('valorContrato').value; // Novo campo de valor
+    const dataTermino = document.getElementById('dataTerminoContrato').value;
+    const operador = document.getElementById('operadorContrato').value;
 
-    contratos.push({ empresa, locatario, cnpj, representante, periodo, equipamento });
-    saveToLocalStorage(); // Salvar no LocalStorage
+    // Cria um objeto contrato e adiciona ao array
+    const novoContrato = { empresa, locatario, cnpj, representante, periodo, equipamento, valor, dataTermino, operador };
+    contratos.push(novoContrato);
+    saveToLocalStorage(); // Salva no LocalStorage
+
+    // Exibe os dados na tabela
+    const tbody = document.querySelector('#contratosList tbody');
+    const newRow = document.createElement('tr');
+
+    newRow.innerHTML = `
+        <td>${empresa}</td>
+        <td>${locatario}</td>
+        <td>${cnpj}</td>
+        <td>${representante}</td>
+        <td>${periodo}</td>
+        <td>${equipamento}</td>
+        <td>${valor}</td> <!-- Exibe o valor na tabela -->
+        <td>
+            <button onclick="alterarContrato(this)">Alterar</button> <!-- Botão Alterar -->
+            <button onclick="deletarContrato(this)">Excluir</button> <!-- Botão Excluir -->
+        </td>
+    `;
+
+    tbody.appendChild(newRow);
+
+    // Limpa o formulário após submissão
     document.getElementById('formContrato').reset();
-    showList('contratos');
 });
 
 // Empresas
