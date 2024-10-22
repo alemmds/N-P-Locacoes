@@ -27,122 +27,147 @@ function goBack(section) {
     document.getElementById(section).style.display = 'none';
 }
 
-// Função para exibir a lista de itens
+// Função para exibir a lista de itens em forma de tabela
 function showList(type) {
-    let data, listId;
+    let data, tableId, tableHeaders;
 
     if (type === 'maquinas') {
         data = maquinas;
-        listId = '#maquinasList';
+        tableId = '#maquinasTable';
+        tableHeaders = `
+            <tr>
+                <th>Nome</th>
+                <th>Série</th>
+                <th>Anos de Uso</th>
+                <th>Horas Trabalhadas</th>
+                <th>Ações</th>
+            </tr>
+        `;
     } else if (type === 'contas') {
         data = contas;
-        listId = '#contasList';
+        tableId = '#contasTable';
+        tableHeaders = `
+            <tr>
+                <th>Tipo</th>
+                <th>Data de Vencimento</th>
+                <th>Valor</th>
+                <th>Ações</th>
+            </tr>
+        `;
     } else if (type === 'recebimentos') {
         data = recebimentos;
-        listId = '#recebimentosList';
+        tableId = '#recebimentosTable';
+        tableHeaders = `
+            <tr>
+                <th>Empresa</th>
+                <th>Valor</th>
+                <th>Data de Pagamento</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        `;
     } else if (type === 'contratos') {
         data = contratos;
-        listId = '#contratosList';
+        tableId = '#contratosTable';
+        tableHeaders = `
+            <tr>
+                <th>Empresa</th>
+                <th>Locatário</th>
+                <th>CNPJ</th>
+                <th>Representante</th>
+                <th>Período</th>
+                <th>Valor</th>
+                <th>Ações</th>
+            </tr>
+        `;
     } else if (type === 'empresas') {
         data = empresas;
-        listId = '#empresasList';
+        tableId = '#empresasTable';
+        tableHeaders = `
+            <tr>
+                <th>Nome</th>
+                <th>Área CNPJ</th>
+                <th>Área de Atuação</th>
+                <th>Ações</th>
+            </tr>
+        `;
     }
 
-    const listElement = document.querySelector(listId);
-    listElement.innerHTML = '';
+    const tableElement = document.querySelector(tableId);
+    tableElement.innerHTML = tableHeaders;
 
-    // Iterar sobre os dados e criar os elementos
+    // Iterar sobre os dados e criar as linhas da tabela
     data.forEach((item, index) => {
-        let itemHTML = '';
+        let rowHTML = '';
         if (type === 'maquinas') {
-            itemHTML = `
-                <div class="machine-item">
-                    <div class="header" onclick="toggleAccordion(this)">
-                        <span>${item.nome}</span>
-                        <div class="arrow">▼</div>
-                    </div>
-                    <div class="details" style="display:none;">
-                        <p><strong>Nome:</strong> ${item.nome}</p>
-                        <p><strong>Série:</strong> ${item.serie}</p>
-                        <p><strong>Anos de Uso:</strong> ${item.anosUso}</p>
-                        <p><strong>Horas Trabalhadas:</strong> ${item.horasTrabalhadas}</p>
-                        <div class="buttons">
-                            <button onclick="editMaquina(${index})">Alterar</button>
-                            <button onclick="deleteMaquina(${index})" class="delete">Excluir</button>
-                        </div>
-                    </div>
-                </div>
+            rowHTML = `
+                <tr>
+                    <td>${item.nome}</td>
+                    <td>${item.serie}</td>
+                    <td>${item.anosUso}</td>
+                    <td>${item.horasTrabalhadas}</td>
+                    <td>
+                        <button onclick="editMaquina(${index})">Alterar</button>
+                        <button onclick="deleteMaquina(${index})" class="delete">Excluir</button>
+                    </td>
+                </tr>
             `;
         } else if (type === 'contas') {
-            itemHTML = `
-                <div class="item">
-                    <p><strong>Tipo:</strong> ${item.tipo}</p>
-                    <p><strong>Data de Vencimento:</strong> ${item.dataVencimento}</p>
-                    <p><strong>Valor:</strong> ${item.valor}</p>
-                    <div class="buttons">
+            rowHTML = `
+                <tr>
+                    <td>${item.tipo}</td>
+                    <td>${item.dataVencimento}</td>
+                    <td>${item.valor}</td>
+                    <td>
                         <button onclick="editConta(${index})">Alterar</button>
                         <button onclick="deleteConta(${index})" class="delete">Excluir</button>
-                    </div>
-                </div>
+                    </td>
+                </tr>
             `;
         } else if (type === 'recebimentos') {
-            itemHTML = `
-                <div class="item">
-                    <p><strong>Empresa:</strong> ${item.empresa}</p>
-                    <p><strong>Valor:</strong> ${item.valor}</p>
-                    <p><strong>Data de Pagamento:</strong> ${item.dataPagamento}</p>
-                    <p><strong>Status:</strong> ${item.status}</p>
-                    <div class="buttons">
+            rowHTML = `
+                <tr>
+                    <td>${item.empresa}</td>
+                    <td>${item.valor}</td>
+                    <td>${item.dataPagamento}</td>
+                    <td>${item.status}</td>
+                    <td>
                         <button onclick="editRecebimento(${index})">Alterar</button>
                         <button onclick="deleteRecebimento(${index})" class="delete">Excluir</button>
-                    </div>
-                </div>
+                    </td>
+                </tr>
             `;
         } else if (type === 'contratos') {
-            itemHTML = `
-                <div class="item">
-                    <p><strong>Empresa:</strong> ${item.empresa}</p>
-                    <p><strong>Locatário:</strong> ${item.locatario}</p>
-                    <p><strong>CNPJ:</strong> ${item.cnpj}</p>
-                    <p><strong>Representante:</strong> ${item.representante}</p>
-                    <p><strong>Período:</strong> ${item.periodo}</p>
-                    <p><strong>Valor:</strong> ${item.valor}</p>
-                    <div class="buttons">
+            rowHTML = `
+                <tr>
+                    <td>${item.empresa}</td>
+                    <td>${item.locatario}</td>
+                    <td>${item.cnpj}</td>
+                    <td>${item.representante}</td>
+                    <td>${item.periodo}</td>
+                    <td>${item.valor}</td>
+                    <td>
                         <button onclick="editContrato(${index})">Alterar</button>
                         <button onclick="deleteContrato(${index})" class="delete">Excluir</button>
-                    </div>
-                </div>
+                    </td>
+                </tr>
             `;
         } else if (type === 'empresas') {
-            itemHTML = `
-                <div class="item">
-                    <p><strong>Nome:</strong> ${item.nome}</p>
-                    <p><strong>Área CNPJ:</strong> ${item.areaCnpj}</p>
-                    <p><strong>Área de Atuação:</strong> ${item.areaAtuacao}</p>
-                    <div class="buttons">
+            rowHTML = `
+                <tr>
+                    <td>${item.nome}</td>
+                    <td>${item.areaCnpj}</td>
+                    <td>${item.areaAtuacao}</td>
+                    <td>
                         <button onclick="editEmpresa(${index})">Alterar</button>
                         <button onclick="deleteEmpresa(${index})" class="delete">Excluir</button>
-                    </div>
-                </div>
+                    </td>
+                </tr>
             `;
         }
 
-        listElement.innerHTML += itemHTML;
+        tableElement.innerHTML += rowHTML;
     });
-}
-
-// Função de accordion para expandir detalhes
-function toggleAccordion(header) {
-    const details = header.nextElementSibling;
-    const arrow = header.querySelector('.arrow');
-
-    if (details.style.display === 'block') {
-        details.style.display = 'none';
-        arrow.textContent = '▼';
-    } else {
-        details.style.display = 'block';
-        arrow.textContent = '▲';
-    }
 }
 
 // Funções para adicionar novos registros
