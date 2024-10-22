@@ -5,6 +5,10 @@ let recebimentos = JSON.parse(localStorage.getItem('recebimentos')) || [];
 let contratos = JSON.parse(localStorage.getItem('contratos')) || [];
 let empresas = JSON.parse(localStorage.getItem('empresas')) || [];
 
+// Excluir "MAQUINA 1" se existir
+maquinas = maquinas.filter(maquina => maquina.nome !== "MAQUINA 1");
+saveToLocalStorage(); // Salvar mudanças no LocalStorage
+
 // Função para exibir a aba correspondente do menu
 function showSection(section) {
     // Esconde todas as seções
@@ -62,6 +66,8 @@ function showList(type) {
                     <p><strong>Série:</strong> ${item.serie}</p>
                     <p><strong>Anos de Uso:</strong> ${item.anosUso}</p>
                     <p><strong>Horas Trabalhadas:</strong> ${item.horasTrabalhadas}</p>
+                    <p><strong>Última Manutenção:</strong> ${item.ultimaManutencao}</p>
+                    <p><strong>Data de Entrada:</strong> ${item.dataEntrada}</p>
                     <div class="buttons">
                         <button onclick="editMaquina(${index})">Alterar</button>
                         <button onclick="deleteMaquina(${index})" class="delete">Excluir</button>
@@ -98,15 +104,17 @@ document.getElementById('formMaquina').addEventListener('submit', function(e) {
     const serie = document.getElementById('serieMaquina').value;
     const anosUso = document.getElementById('anosUso').value;
     const horasTrabalhadas = document.getElementById('horasTrabalhadas').value;
+    const ultimaManutencao = document.getElementById('ultimaManutencao').value;
+    const dataEntrada = document.getElementById('dataEntrada').value;
 
     // Verificar se todos os campos estão preenchidos
-    if (!nome || !serie || !anosUso || !horasTrabalhadas) {
+    if (!nome || !serie || !anosUso || !horasTrabalhadas || !ultimaManutencao || !dataEntrada) {
         alert('Por favor, preencha todos os campos.');
         return;
     }
 
     // Adicionar a nova máquina ao array de máquinas
-    maquinas.push({ nome, serie, anosUso, horasTrabalhadas });
+    maquinas.push({ nome, serie, anosUso, horasTrabalhadas, ultimaManutencao, dataEntrada });
     
     // Salvar as máquinas no LocalStorage
     saveToLocalStorage();
@@ -203,10 +211,20 @@ function editMaquina(index) {
     document.getElementById('serieMaquina').value = maquina.serie;
     document.getElementById('anosUso').value = maquina.anosUso;
     document.getElementById('horasTrabalhadas').value = maquina.horasTrabalhadas;
+    document.getElementById('ultimaManutencao').value = maquina.ultimaManutencao;
+    document.getElementById('dataEntrada').value = maquina.dataEntrada;
 
     maquinas.splice(index, 1);
     saveToLocalStorage();
     showList('maquinas');
+}
+
+function deleteMaquina(index) {
+    if (confirm("Tem certeza que deseja excluir esta máquina?")) {
+        maquinas.splice(index, 1);
+        saveToLocalStorage();
+        showList('maquinas');
+    }
 }
 
 function editConta(index) {
@@ -220,6 +238,14 @@ function editConta(index) {
     showList('contas');
 }
 
+function deleteConta(index) {
+    if (confirm("Tem certeza que deseja excluir esta conta?")) {
+        contas.splice(index, 1);
+        saveToLocalStorage();
+        showList('contas');
+    }
+}
+
 function editRecebimento(index) {
     const recebimento = recebimentos[index];
     document.getElementById('empresaRecebimento').value = recebimento.empresa;
@@ -231,6 +257,14 @@ function editRecebimento(index) {
     recebimentos.splice(index, 1);
     saveToLocalStorage();
     showList('recebimentos');
+}
+
+function deleteRecebimento(index) {
+    if (confirm("Tem certeza que deseja excluir este recebimento?")) {
+        recebimentos.splice(index, 1);
+        saveToLocalStorage();
+        showList('recebimentos');
+    }
 }
 
 function editContrato(index) {
@@ -249,6 +283,14 @@ function editContrato(index) {
     showList('contratos');
 }
 
+function deleteContrato(index) {
+    if (confirm("Tem certeza que deseja excluir este contrato?")) {
+        contratos.splice(index, 1);
+        saveToLocalStorage();
+        showList('contratos');
+    }
+}
+
 function editEmpresa(index) {
     const empresa = empresas[index];
     document.getElementById('nomeEmpresa').value = empresa.nome;
@@ -263,36 +305,26 @@ function editEmpresa(index) {
     showList('empresas');
 }
 
-// Funções para excluir registros
-function deleteMaquina(index) {
-    maquinas.splice(index, 1);
-    saveToLocalStorage();
-    showList('maquinas');
-}
-
-function deleteConta(index) {
-    contas.splice(index, 1);
-    saveToLocalStorage();
-    showList('contas');
-}
-
-function deleteRecebimento(index) {
-    recebimentos.splice(index, 1);
-    saveToLocalStorage();
-    showList('recebimentos');
-}
-
-function deleteContrato(index) {
-    contratos.splice(index, 1);
-    saveToLocalStorage();
-    showList('contratos');
-}
-
 function deleteEmpresa(index) {
-    empresas.splice(index, 1);
-    saveToLocalStorage();
-    showList('empresas');
+    if (confirm("Tem certeza que deseja excluir esta empresa?")) {
+        empresas.splice(index, 1);
+        saveToLocalStorage();
+        showList('empresas');
+    }
 }
+
+// Função para ativar o accordion ao carregar a lista
+function ativarAccordion() {
+    const headers = document.querySelectorAll('.header');
+    headers.forEach(header => {
+        header.addEventListener('click', toggleAccordion);
+    });
+}
+
+// Inicializar a lista ao carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+    showList('maquinas');
+});
 
 // --- Service Worker para Cache ---
 if ('serviceWorker' in navigator) {
