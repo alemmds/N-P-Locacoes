@@ -45,8 +45,6 @@
             border: 1px solid #ccc;
             margin-bottom: 10px;
             padding: 10px;
-            position: relative;
-            background-color: #f9f9f9;
         }
 
         .header {
@@ -59,10 +57,6 @@
 
         .details {
             display: none;
-            margin-top: 10px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            background-color: #fff;
         }
 
         .buttons button {
@@ -72,36 +66,16 @@
         .delete {
             background-color: red;
             color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 4px;
         }
 
-        .maximize, .minimize {
-            background-color: #007bff;
+        .maximize {
+            background-color: #28a745;
             color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 4px;
         }
 
-        .maximize:hover, .minimize:hover {
-            background-color: #0056b3;
+        .maximize:hover {
+            background-color: #218838;
         }
-
-        .action-buttons {
-            margin-top: 10px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .action-buttons button {
-            flex: 1;
-            margin: 0 5px;
-        }
-
     </style>
 </head>
 <body>
@@ -215,23 +189,28 @@
                 </form>
                 <div id="empresasList"></div>
             </section>
-
         </div>
     </div>
 
-    <script src="script.js"></script>
     <script>
-        // Função para mostrar a seção correspondente
+        // Função para mostrar uma seção específica
         function showSection(sectionId) {
+            // Esconder todas as seções
             const sections = document.querySelectorAll('.section');
             sections.forEach(section => {
-                section.style.display = section.id === sectionId ? 'block' : 'none';
+                section.style.display = 'none';
             });
+
+            // Mostrar a seção selecionada
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.style.display = 'block';
+            }
         }
 
-        // Função para mostrar a lista
+        // Funções para lidar com a listagem e o retorno
         function showList(type) {
-            const listContainer = document.getElementById(`${type}List`);
+            const listContainer = document.getElementById(type + 'List');
             listContainer.innerHTML = ''; // Limpa a lista atual
 
             // Aqui você pode adicionar a lógica para listar os itens do tipo selecionado
@@ -247,11 +226,8 @@
                 itemDiv.innerHTML = `
                     <div class="header">
                         <span>${item.nome}</span>
-                        <div class="action-buttons">
-                            <button class="delete" onclick="deleteItem(${item.id}, '${type}')">Excluir</button>
-                            <button class="maximize" onclick="maximizeItem(${item.id}, '${type}')">Maximizar</button>
-                            <button class="minimize" onclick="minimizeItem(${item.id}, '${type}')">Minimizar</button>
-                        </div>
+                        <button onclick="deleteItem(${item.id}, '${type}')">Excluir</button>
+                        <button class="maximize" onclick="maximizeItem(${item.id}, '${type}')">Maximizar</button>
                     </div>
                     <div class="details" id="details-${type}-${item.id}" style="display: none;">
                         <!-- Aqui você pode adicionar detalhes do item -->
@@ -274,13 +250,7 @@
         // Função para maximizar detalhes do item
         function maximizeItem(id, type) {
             const details = document.getElementById(`details-${type}-${id}`);
-            details.style.display = 'block'; // Mostrar detalhes ao maximizar
-        }
-
-        // Função para minimizar detalhes do item
-        function minimizeItem(id, type) {
-            const details = document.getElementById(`details-${type}-${id}`);
-            details.style.display = 'none'; // Esconder detalhes ao minimizar
+            details.style.display = details.style.display === 'none' ? 'block' : 'none';
         }
 
         // Função para voltar à seção anterior
