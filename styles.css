@@ -1,3 +1,4 @@
+/* Estilo básico do body */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -14,11 +15,13 @@ body {
     height: auto; /* Mantém a proporção da imagem */
 }
 
+/* Estrutura do container */
 .container {
     display: flex;
     width: 100%;
 }
 
+/* Estilos da sidebar */
 .sidebar {
     width: 200px;
     background-color: #2C3E50;
@@ -72,6 +75,7 @@ body {
     background-color: #1A5987;
 }
 
+/* Conteúdo principal */
 .content {
     flex-grow: 1;
     padding: 20px;
@@ -88,6 +92,7 @@ body {
     padding-top: 10px;
 }
 
+/* Estilos do formulário */
 form {
     display: flex;
     flex-direction: column;
@@ -98,6 +103,7 @@ input, select, button {
     padding: 10px;
 }
 
+/* Estilos da tabela */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -122,6 +128,7 @@ td:last-child {
     text-align: center;
 }
 
+/* Estilos para botões gerais */
 .buttons {
     display: flex;
     gap: 10px;
