@@ -259,6 +259,68 @@ function deleteEmpresa(index) {
     showList('empresas');
 }
 
+// Função para formatar a data no formato dd/mm/aaaa
+function formatarDataBR(data) {
+    const partesData = data.split("-");
+    return `${partesData[2]}/${partesData[1]}/${partesData[0]}`;
+}
+
+// Função para adicionar uma máquina (exemplo básico)
+function addMachine(event) {
+    event.preventDefault();
+    
+    const nome = document.getElementById('nomeMaquina').value;
+    const serie = document.getElementById('serieMaquina').value;
+    const anosUso = document.getElementById('anosUso').value;
+    const horasTrabalhadas = document.getElementById('horasTrabalhadas').value;
+    const dataEntrada = formatarDataBR(document.getElementById('dataEntrada').value);
+    const ultimaManutencao = formatarDataBR(document.getElementById('ultimaManutencao').value);
+    
+    // Criar a estrutura HTML da máquina
+    const machineHTML = `
+        <div class="machine-item">
+            <div class="header">
+                <span>${nome}</span>
+                <div class="arrow">▼</div>
+            </div>
+            <div class="details" style="display:none;">
+                <p><strong>Nome:</strong> ${nome}</p>
+                <p><strong>Série:</strong> ${serie}</p>
+                <p><strong>Tempo de Uso:</strong> ${anosUso} anos</p>
+                <p><strong>Horímetro:</strong> ${horasTrabalhadas} horas</p>
+                <p><strong>Data de Entrada:</strong> ${dataEntrada}</p>
+                <p><strong>Última Manutenção:</strong> ${ultimaManutencao}</p>
+                <div class="buttons">
+                    <button>Alterar</button>
+                    <button class="delete">Excluir</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Adicionar a nova máquina na lista
+    document.getElementById('maquinasList').innerHTML += machineHTML;
+    
+    // Reativar as funcionalidades de accordion para os novos itens
+    ativarAccordion();
+}
+
+// Função para ativar o comportamento de accordion
+function ativarAccordion() {
+    document.querySelectorAll('.header').forEach(header => {
+        header.addEventListener('click', function() {
+            const details = this.nextElementSibling;
+            const arrow = this.querySelector('.arrow');
+
+            details.style.display = details.style.display === 'block' ? 'none' : 'block';
+            this.classList.toggle('active');
+        });
+    });
+}
+
+// Inicializa o accordion ao carregar a página
+ativarAccordion();
+
 // --- Service Worker para Cache ---
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
