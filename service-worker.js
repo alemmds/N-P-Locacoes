@@ -5,8 +5,8 @@ const urlsToCache = [
   '/manifest.json',
   '/script.js',
   '/style.css',
-  '/favicon-192x192.png',
-  '/favicon-512x512.png'
+  '/icon-192x192.png',
+  '/icon-512x512.png'
 ];
 
 // Instalando o Service Worker e adicionando arquivos ao cache
