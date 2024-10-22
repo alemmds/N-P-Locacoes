@@ -4,7 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Cadastro</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Referência ao CSS externo -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-right: 1px solid #ccc;
+        }
+
+        .sidebar img.logo {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .buttons {
+            margin-top: 10px;
+        }
+
+        .item {
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            padding: 10px;
+        }
+
+        .details {
+            display: none;
+        }
+
+        .buttons button {
+            margin-right: 10px;
+        }
+
+        .delete {
+            background-color: red;
+            color: white;
+        }
+
+        .maximize {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .maximize:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -120,6 +192,102 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Função para mostrar uma seção específica
+        function showSection(sectionId) {
+            // Esconder todas as seções
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Mostrar a seção selecionada
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.style.display = 'block';
+            }
+        }
+
+        // Funções para lidar com a listagem e o retorno
+        function showList(type) {
+            const listContainer = document.getElementById(type + 'List');
+            listContainer.innerHTML = ''; // Limpa a lista atual
+
+            // Aqui você pode adicionar a lógica para listar os itens do tipo selecionado
+            // Exemplo de dados fictícios
+            const items = [
+                { id: 1, nome: 'Item 1' },
+                { id: 2, nome: 'Item 2' }
+            ];
+
+            items.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('item');
+                itemDiv.innerHTML = `
+                    <div class="header">
+                        <span>${item.nome}</span>
+                        <button onclick="deleteItem(${item.id}, '${type}')">Excluir</button>
+                        <button class="maximize" onclick="maximizeItem(${item.id}, '${type}')">Maximizar</button>
+                    </div>
+                    <div class="details" id="details-${type}-${item.id}" style="display: none;">
+                        <!-- Aqui você pode adicionar detalhes do item -->
+                        <p>Detalhes do ${type} com ID ${item.id}</p>
+                    </div>
+                `;
+                listContainer.appendChild(itemDiv);
+            });
+        }
+
+        // Função para deletar um item
+        function deleteItem(id, type) {
+            if (confirm('Você tem certeza que deseja excluir este item?')) {
+                // Aqui você pode adicionar a lógica para excluir o item
+                alert(`Item com ID ${id} excluído.`);
+                showList(type); // Atualiza a lista
+            }
+        }
+
+        // Função para maximizar detalhes do item
+        function maximizeItem(id, type) {
+            const details = document.getElementById(`details-${type}-${id}`);
+            details.style.display = details.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Função para voltar à seção anterior
+        function goBack(sectionId) {
+            showSection(sectionId);
+        }
+
+        // Evento de submissão dos formulários
+        document.getElementById('formMaquina').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Máquina cadastrada com sucesso!');
+            this.reset();
+        });
+
+        document.getElementById('formConta').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Conta cadastrada com sucesso!');
+            this.reset();
+        });
+
+        document.getElementById('formRecebimento').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Recebimento cadastrado com sucesso!');
+            this.reset();
+        });
+
+        document.getElementById('formContrato').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Contrato cadastrado com sucesso!');
+            this.reset();
+        });
+
+        document.getElementById('formEmpresa').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Empresa cadastrada com sucesso!');
+            this.reset();
+        });
+    </script>
 </body>
 </html>
