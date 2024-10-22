@@ -32,52 +32,45 @@
         </nav>
         <main class="content">
             <!-- Máquinas -->
-            <div id="maquinas" class="section">
-                <h2>Cadastrar Máquina</h2>
-                <form id="formMaquina" onsubmit="addMachine(event)">
-                    <input type="text" id="nomeMaquina" placeholder="Nome" required>
-                    <input type="text" id="serieMaquina" placeholder="Série" required>
-                    <input type="number" id="anosUso" placeholder="Anos de Uso" required>
-                    <input type="number" id="horasTrabalhadas" placeholder="Horas Trabalhadas" required>
-                    <button type="submit">Confirmar</button>
-                </form>
+           <!-- Máquinas -->
+<div id="maquinas" class="section">
+    <h2>Cadastrar Máquina</h2>
+    <form id="formMaquina" onsubmit="addMachine(event)">
+        <input type="text" id="nomeMaquina" placeholder="Nome" required>
+        <input type="text" id="serieMaquina" placeholder="Série" required>
+        <input type="number" id="anosUso" placeholder="Anos de Uso" required>
+        <input type="number" id="horasTrabalhadas" placeholder="Horas Trabalhadas" required>
+        <input type="date" id="dataEntrada" required>
+        <input type="date" id="ultimaManutencao" required>
+        <button type="submit">Confirmar</button>
+    </form>
+    <h3>Lista de Máquinas</h3>
 
-                <!-- Exibição de máquinas detalhada -->
-                <h3>Lista de Máquinas</h3>
-                <div class="machine-item">
-                    <div class="header">
-                        <span>Máquina 1</span>
-                        <div class="arrow">▼</div>
-                    </div>
-                    <div class="details">
-                        <p><strong>Nome:</strong> Máquina 1</p>
-                        <p><strong>Série:</strong> 123456789</p>
-                                               <p><strong>Tempo de Uso:</strong> 5 anos</p>
-                        <p><strong>Horímetro:</strong> 1200 horas</p>
-                        <p><strong>Data de Entrada:</strong> 01/11/2022</p>
-                        <p><strong>Última Manutenção:</strong> 15/10/2023</p>
-                        <button class="btn-alterar" onclick="alterarMaquina()">Alterar</button>
-                        <button class="btn-excluir" onclick="excluirMaquina()">Excluir</button>
-                    </div>
-                </div>
-                <button onclick="showList('maquinas')">Mostrar Lista de Máquinas</button>
-                <div id="maquinasList" class="list" style="display:none;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Série</th>
-                                <th>Tempo de Uso</th>
-                                <th>Horímetro</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="maquinas-tbody"></tbody>
-                    </table>
-                </div>
-                <button onclick="goBack('maquinas')">Voltar</button>
+    <!-- Aqui será exibida a lista de máquinas com comportamentos de accordion -->
+    <div id="maquinasList" class="list">
+        <!-- Exemplo de estrutura para uma máquina -->
+        <div class="machine-item">
+            <div class="header">
+                <span>Máquina 1</span>
+                <div class="arrow">▼</div>
             </div>
-            
+            <div class="details">
+                <p><strong>Nome:</strong> Máquina 1</p>
+                <p><strong>Série:</strong> 123456789</p>
+                <p><strong>Tempo de Uso:</strong> 2 anos</p>
+                <p><strong>Horímetro:</strong> 5000 horas</p>
+                <p><strong>Data de Entrada:</strong> <span class="data-br">2022-01-15</span></p>
+                <p><strong>Última Manutenção:</strong> <span class="data-br">2023-12-10</span></p>
+                <div class="buttons">
+                    <button>Alterar</button>
+                    <button class="delete">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="goBack('maquinas')">Voltar</button>
+</div>       
             <!-- Recebimentos -->
             <div id="recebimentos" class="section" style="display:none;">
                 <h2>Cadastrar Recebimento</h2>
