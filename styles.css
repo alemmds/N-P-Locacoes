@@ -273,3 +273,73 @@ table td button {
   outline: none;    
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
+
+/* Estilo do botão de maximizar/minimizar */
+.maximize-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: left;
+    width: 100%;
+    transition: background-color 0.3s ease;
+    margin-bottom: 5px;
+}
+
+.maximize-button:hover {
+    background-color: #2980b9;
+}
+
+/* Estilo da área de informações */
+.info-container {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.info-container p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.info-container p strong {
+    color: #333;
+    font-weight: bold;
+}
+
+/* Estilo dos botões de ação (Alterar, Excluir) */
+.buttons {
+    margin-top: 15px;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+button.alterar {
+    background-color: #3498db;
+    color: white;
+}
+
+button.excluir {
+    background-color: #e74c3c;
+    color: white;
+}
+
+button.alterar:hover {
+    background-color: #2980b9;
+}
+
+button.excluir:hover {
+    background-color: #c0392b;
+}
