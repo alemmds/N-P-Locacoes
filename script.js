@@ -211,7 +211,7 @@ document.getElementById('formContrato').addEventListener('submit', function(e) {
     const cnpj = document.getElementById('cnpj').value;
     const representante = document.getElementById('representante').value;
     const periodo = document.getElementById('periodo').value;
-    const valor = document.getElementById('valor').value;
+    const valor = document.getElementById('valorContrato').value;
 
     if (!empresa || !locatario || !cnpj || !representante || !periodo || !valor) {
         alert("Preencha todos os campos.");
@@ -242,7 +242,7 @@ document.getElementById('formEmpresa').addEventListener('submit', function(e) {
     showList('empresas');
 });
 
-// Funções para editar e excluir registros (exemplo para máquinas)
+// Funções para editar itens
 
 function editMaquina(index) {
     const maquina = maquinas[index];
@@ -250,38 +250,16 @@ function editMaquina(index) {
     document.getElementById('serieMaquina').value = maquina.serie;
     document.getElementById('anosUso').value = maquina.anosUso;
     document.getElementById('horasTrabalhadas').value = maquina.horasTrabalhadas;
-
-    maquinas.splice(index, 1);
-    saveToLocalStorage();
+    document.getElementById('maquinaIndex').value = index;
 }
-
-function deleteMaquina(index) {
-    maquinas.splice(index, 1);
-    saveToLocalStorage();
-    showList('maquinas');
-}
-// As funções de edição e exclusão para contas, recebimentos, contratos e empresas seguem o mesmo padrão.
-// É só replicar o comportamento de editMaquina() e deleteMaquina() para as outras categorias.
-// Funções para editar e excluir registros para Contas
 
 function editConta(index) {
     const conta = contas[index];
     document.getElementById('tipoConta').value = conta.tipo;
     document.getElementById('dataVencimentoConta').value = conta.dataVencimento;
     document.getElementById('valorConta').value = conta.valor;
-
-    // Remove o item da lista temporariamente para que seja atualizado após a edição
-    contas.splice(index, 1);
-    saveToLocalStorage();
+    document.getElementById('contaIndex').value = index;
 }
-
-function deleteConta(index) {
-    contas.splice(index, 1);
-    saveToLocalStorage();
-    showList('contas');
-}
-
-// Funções para editar e excluir registros para Recebimentos
 
 function editRecebimento(index) {
     const recebimento = recebimentos[index];
@@ -289,19 +267,8 @@ function editRecebimento(index) {
     document.getElementById('valorRecebimento').value = recebimento.valor;
     document.getElementById('dataPagamento').value = recebimento.dataPagamento;
     document.getElementById('status').value = recebimento.status;
-
-    // Remove o item da lista temporariamente para que seja atualizado após a edição
-    recebimentos.splice(index, 1);
-    saveToLocalStorage();
+    document.getElementById('recebimentoIndex').value = index;
 }
-
-function deleteRecebimento(index) {
-    recebimentos.splice(index, 1);
-    saveToLocalStorage();
-    showList('recebimentos');
-}
-
-// Funções para editar e excluir registros para Contratos
 
 function editContrato(index) {
     const contrato = contratos[index];
@@ -310,45 +277,70 @@ function editContrato(index) {
     document.getElementById('cnpj').value = contrato.cnpj;
     document.getElementById('representante').value = contrato.representante;
     document.getElementById('periodo').value = contrato.periodo;
-    document.getElementById('valor').value = contrato.valor;
-
-    // Remove o item da lista temporariamente para que seja atualizado após a edição
-    contratos.splice(index, 1);
-    saveToLocalStorage();
+    document.getElementById('valorContrato').value = contrato.valor;
+    document.getElementById('contratoIndex').value = index;
 }
-
-function deleteContrato(index) {
-    contratos.splice(index, 1);
-    saveToLocalStorage();
-    showList('contratos');
-}
-
-// Funções para editar e excluir registros para Empresas
 
 function editEmpresa(index) {
     const empresa = empresas[index];
     document.getElementById('nomeEmpresa').value = empresa.nome;
     document.getElementById('areaCnpj').value = empresa.areaCnpj;
     document.getElementById('areaAtuacao').value = empresa.areaAtuacao;
+    document.getElementById('empresaIndex').value = index;
+}
 
-    // Remove o item da lista temporariamente para que seja atualizado após a edição
-    empresas.splice(index, 1);
-    saveToLocalStorage();
+// Funções para deletar itens
+
+function deleteMaquina(index) {
+    if (confirm("Tem certeza que deseja excluir esta máquina?")) {
+        maquinas.splice(index, 1);
+        saveToLocalStorage();
+        showList('maquinas');
+    }
+}
+
+function deleteConta(index) {
+    if (confirm("Tem certeza que deseja excluir esta conta?")) {
+        contas.splice(index, 1);
+        saveToLocalStorage();
+        showList('contas');
+    }
+}
+
+function deleteRecebimento(index) {
+    if (confirm("Tem certeza que deseja excluir este recebimento?")) {
+        recebimentos.splice(index, 1);
+        saveToLocalStorage();
+        showList('recebimentos');
+    }
+}
+
+function deleteContrato(index) {
+    if (confirm("Tem certeza que deseja excluir este contrato?")) {
+        contratos.splice(index, 1);
+        saveToLocalStorage();
+        showList('contratos');
+    }
 }
 
 function deleteEmpresa(index) {
-    empresas.splice(index, 1);
-    saveToLocalStorage();
-    showList('empresas');
+    if (confirm("Tem certeza que deseja excluir esta empresa?")) {
+        empresas.splice(index, 1);
+        saveToLocalStorage();
+        showList('empresas');
+    }
 }
 
-// --- Service Worker para Cache ---
+// Inicializa a exibição da primeira lista
+showList('maquinas');
+
+// Registra o Service Worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js').then(registration => {
-            console.log('Service Worker registrado com sucesso:', registration.scope);
+            console.log('Service Worker registered with scope:', registration.scope);
         }).catch(error => {
-            console.log('Falha ao registrar o Service Worker:', error);
+            console.log('Service Worker registration failed:', error);
         });
     });
 }
