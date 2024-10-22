@@ -9,6 +9,30 @@ let empresas = JSON.parse(localStorage.getItem('empresas')) || [];
 function showSection(section) {
     // Esconde todas as seções
     document.querySelectorAll('.section').forEach(sec => {
+        sec.classList.remove('active');
+    });
+    
+    // Exibe a seção correta e aplica o estilo flutuante
+    const currentSection = document.getElementById(section);
+    currentSection.classList.add('active');
+
+    // Diminuir a opacidade da logomarca
+    document.getElementById('logo').style.opacity = '0.1';
+}
+
+// Função para esconder a aba e voltar ao menu
+function hideSection(section) {
+    const currentSection = document.getElementById(section);
+    currentSection.classList.remove('active');
+
+    // Restaurar a opacidade da logomarca
+    document.getElementById('logo').style.opacity = '1';
+}
+
+// Função para exibir a aba correspondente do menu
+function showSection(section) {
+    // Esconde todas as seções
+    document.querySelectorAll('.section').forEach(sec => {
         sec.style.display = 'none';
     });
     
