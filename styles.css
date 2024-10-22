@@ -178,3 +178,69 @@ button.delete:hover {
 table td button {
     margin-right: 5px;
 }
+
+/* Estilização da lista de máquinas */
+.machine-item {
+    background-color: #f9f9f9; /* Fundo claro para destacar a máquina */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 10px 0;
+    padding: 15px;
+}
+
+.machine-item .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.machine-item .arrow {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.machine-item .details {
+    margin-top: 10px;
+    display: none;
+}
+
+.machine-item .buttons {
+    margin-top: 10px;
+}
+
+.machine-item .buttons button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.machine-item .buttons button.alterar {
+    background-color: #007bff;
+    color: white;
+    margin-right: 10px;
+}
+
+.machine-item .buttons button.excluir {
+    background-color: #dc3545;
+    color: white;
+}
+
+.machine-item .buttons button:hover {
+    opacity: 0.9;
+}
+
+/* Estilo do botão de maximizar/minimizar */
+.header .arrow {
+    font-size: 18px;
+    color: #333;
+}
+
+.header.active .arrow {
+    transform: rotate(180deg); /* Faz a seta apontar para cima quando ativo */
+}
