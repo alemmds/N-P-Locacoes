@@ -40,64 +40,81 @@ function goBack(section) {
 // Função para exibir a lista com base no tipo
 function showList(type) {
     let data, listId;
-    switch (type) {
-        case 'maquinas':
-            data = maquinas;
-            listId = '#maquinasList tbody';
-            break;
-        case 'contas':
-            data = contas;
-            listId = '#contasList tbody';
-            break;
-        case 'recebimentos':
-            data = recebimentos;
-            listId = '#recebimentosList tbody';
-            break;
-        case 'contratos':
-            data = contratos;
-            listId = '#contratosList tbody';
-            break;
-        case 'empresas':
-            data = empresas;
-            listId = '#empresasList tbody';
-            break;
-    }
-    
-    const listElement = document.querySelector(listId);
-    listElement.innerHTML = ''; // Limpar tabela
 
+    if (type === 'maquinas') {
+        data = maquinas;
+        listId = '#maquinasList';
+    }
+
+    const listElement = document.querySelector(listId);
+    listElement.innerHTML = ''; // Limpar lista
+
+    // Iterar sobre as máquinas e criar os elementos de cada máquina
     data.forEach((item, index) => {
-        const row = document.createElement('tr');
-        // Adiciona as células com os dados
-        for (const key in item) {
-            const cell = document.createElement('td');
-            cell.textContent = item[key];
-            row.appendChild(cell);
-        }
-        // Adiciona botões de edição e exclusão
-        const actionsCell = document.createElement('td');
-        actionsCell.innerHTML = `
-            <button onclick="${type === 'maquinas' ? 'editMaquina' : type === 'contas' ? 'editConta' : type === 'recebimentos' ? 'editRecebimento' : type === 'contratos' ? 'editContrato' : 'editEmpresa'}(${index})">Editar</button>
-            <button onclick="${type === 'maquinas' ? 'deleteMaquina' : type === 'contas' ? 'deleteConta' : type === 'recebimentos' ? 'deleteRecebimento' : type === 'contratos' ? 'deleteContrato' : 'deleteEmpresa'}(${index})">Excluir</button>
+        const machineHTML = `
+            <div class="machine-item">
+                <div class="header" onclick="toggleAccordion(this)">
+                    <span>${item.nome}</span>
+                    <div class="arrow">▼</div>
+                </div>
+                <div class="details" style="display:none;">
+                    <p><strong>Nome:</strong> ${item.nome}</p>
+                    <p><strong>Série:</strong> ${item.serie}</p>
+                    <p><strong>Anos de Uso:</strong> ${item.anosUso}</p>
+                    <p><strong>Horas Trabalhadas:</strong> ${item.horasTrabalhadas}</p>
+                    <div class="buttons">
+                        <button onclick="editMaquina(${index})">Alterar</button>
+                        <button onclick="deleteMaquina(${index})" class="delete">Excluir</button>
+                    </div>
+                </div>
+            </div>
         `;
-        row.appendChild(actionsCell);
-        listElement.appendChild(row);
+
+        listElement.innerHTML += machineHTML;
     });
 
-    document.querySelector(`#${type}List`).style.display = 'block';
+    ativarAccordion(); // Reativar funcionalidade do accordion
+}
+
+// Função de accordion corrigida
+function toggleAccordion(header) {
+    const details = header.nextElementSibling;
+    const arrow = header.querySelector('.arrow');
+
+    if (details.style.display === 'block') {
+        details.style.display = 'none';
+        arrow.textContent = '▼';
+    } else {
+        details.style.display = 'block';
+        arrow.textContent = '▲';
+    }
 }
 
 // Funções de adicionar novos registros para cada categoria
 document.getElementById('formMaquina').addEventListener('submit', function(e) {
     e.preventDefault();
+
     const nome = document.getElementById('nomeMaquina').value;
     const serie = document.getElementById('serieMaquina').value;
     const anosUso = document.getElementById('anosUso').value;
     const horasTrabalhadas = document.getElementById('horasTrabalhadas').value;
 
+    // Verificar se todos os campos estão preenchidos
+    if (!nome || !serie || !anosUso || !horasTrabalhadas) {
+        alert('Por favor, preencha todos os campos.');
+        return;
+    }
+
+    // Adicionar a nova máquina ao array de máquinas
     maquinas.push({ nome, serie, anosUso, horasTrabalhadas });
-    saveToLocalStorage(); // Salvar no LocalStorage
+    
+    // Salvar as máquinas no LocalStorage
+    saveToLocalStorage();
+
+    // Limpar o formulário
     document.getElementById('formMaquina').reset();
+
+    // Atualizar a lista de máquinas
     showList('maquinas');
 });
 
@@ -106,6 +123,11 @@ document.getElementById('formConta').addEventListener('submit', function(e) {
     const tipo = document.getElementById('tipoConta').value;
     const dataVencimento = document.getElementById('dataVencimentoConta').value;
     const valor = document.getElementById('valorConta').value;
+
+    if (!tipo || !dataVencimento || !valor) {
+        alert("Preencha todos os campos.");
+        return;
+    }
 
     contas.push({ tipo, dataVencimento, valor });
     saveToLocalStorage(); // Salvar no LocalStorage
@@ -120,6 +142,11 @@ document.getElementById('formRecebimento').addEventListener('submit', function(e
     const dataPagamento = document.getElementById('dataPagamento').value;
     const dataTermino = document.getElementById('dataTermino').value;
     const status = document.getElementById('statusRecebimento').value;
+
+    if (!empresa || !valor || !dataPagamento || !dataTermino || !status) {
+        alert("Preencha todos os campos.");
+        return;
+    }
 
     recebimentos.push({ empresa, valor, dataPagamento, dataTermino, status });
     saveToLocalStorage(); // Salvar no LocalStorage
@@ -138,6 +165,11 @@ document.getElementById('formContrato').addEventListener('submit', function(even
     const dataTermino = document.getElementById('dataTerminoContrato').value;
     const equipamento = document.getElementById('equipamentoContrato').value;
 
+    if (!empresa || !locatario || !cnpj || !representante || !periodo || !valor || !dataTermino || !equipamento) {
+        alert("Preencha todos os campos.");
+        return;
+    }
+
     contratos.push({ empresa, locatario, cnpj, representante, periodo, valor, dataTermino, equipamento });
     saveToLocalStorage(); // Salvar no LocalStorage
     document.getElementById('formContrato').reset();
@@ -153,6 +185,11 @@ document.getElementById('formEmpresa').addEventListener('submit', function(event
     const telefone = document.getElementById('telefoneEmpresa').value;
     const email = document.getElementById('emailEmpresa').value;
 
+    if (!nome || !areaCnpj || !areaAtuacao || !representante || !telefone || !email) {
+        alert("Preencha todos os campos.");
+        return;
+    }
+
     empresas.push({ nome, areaCnpj, areaAtuacao, representante, telefone, email });
     saveToLocalStorage(); // Salvar no LocalStorage
     document.getElementById('formEmpresa').reset();
@@ -167,8 +204,6 @@ function editMaquina(index) {
     document.getElementById('anosUso').value = maquina.anosUso;
     document.getElementById('horasTrabalhadas').value = maquina.horasTrabalhadas;
 
-    // Atualiza a lógica de edição, se necessário
-    // Remover a máquina do array para não duplicar
     maquinas.splice(index, 1);
     saveToLocalStorage();
     showList('maquinas');
@@ -180,7 +215,6 @@ function editConta(index) {
     document.getElementById('dataVencimentoConta').value = conta.dataVencimento;
     document.getElementById('valorConta').value = conta.valor;
 
-    // Atualiza a lógica de edição, se necessário
     contas.splice(index, 1);
     saveToLocalStorage();
     showList('contas');
@@ -207,7 +241,7 @@ function editContrato(index) {
     document.getElementById('representanteContrato').value = contrato.representante;
     document.getElementById('periodoContrato').value = contrato.periodo;
     document.getElementById('valorContrato').value = contrato.valor;
-        document.getElementById('dataTerminoContrato').value = contrato.dataTermino;
+    document.getElementById('dataTerminoContrato').value = contrato.dataTermino;
     document.getElementById('equipamentoContrato').value = contrato.equipamento;
 
     contratos.splice(index, 1);
@@ -258,20 +292,6 @@ function deleteEmpresa(index) {
     empresas.splice(index, 1);
     saveToLocalStorage();
     showList('empresas');
-}
-
-// Funções para maximizar e minimizar as seções
-function toggleSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    const toggleButton = document.querySelector(`#${sectionId} .toggle-button`);
-
-    if (section.style.display === 'none') {
-        section.style.display = 'block';
-        toggleButton.textContent = 'Minimizar';
-    } else {
-        section.style.display = 'none';
-        toggleButton.textContent = 'Maximizar';
-    }
 }
 
 // --- Service Worker para Cache ---
