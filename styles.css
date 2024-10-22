@@ -251,3 +251,89 @@ table td button {
 .header.active .arrow {    
   transform: rotate(180deg); /* Faz a seta apontar para cima quando ativo */
 }
+
+/* Estilo adicional para o bloco de informações e botões de alterar/excluir */
+/* Atualizado para melhor visualização */
+
+/* Estilo geral do bloco de informações */
+.machine-item {
+    background-color: #f9f9f9; /* Fundo claro */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 10px 0;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona sombra ao redor */
+    transition: background-color 0.3s ease;
+}
+
+.machine-item .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.machine-item .details {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #e0f7fa; /* Destaque no fundo do conteúdo detalhado */
+    border-radius: 5px;
+    display: none;
+}
+
+.machine-item.active .details {
+    display: block;
+}
+
+/* Estilo para os botões de Maximizar/Minimizar */
+.machine-item .arrow {
+    font-size: 18px;
+    color: #333;
+    transition: transform 0.3s ease;
+}
+
+.machine-item .header.active .arrow {
+    transform: rotate(180deg); /* Roda a seta para indicar expansão */
+}
+
+/* Estilo dos botões Alterar e Excluir */
+.machine-item .buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.machine-item .buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.machine-item .buttons button.alterar {
+    background-color: #28a745;
+    color: white;
+}
+
+.machine-item .buttons button.alterar:hover {
+    background-color: #218838;
+}
+
+.machine-item .buttons button.excluir {
+    background-color: #dc3545;
+    color: white;
+}
+
+.machine-item .buttons button.excluir:hover {
+    background-color: #c82333;
+}
+
+/* Adiciona destaque ao clicar nos botões */
+.machine-item button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
