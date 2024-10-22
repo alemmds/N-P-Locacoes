@@ -45,7 +45,7 @@ function showSection(section) {
     if (buttonsSection) {
         buttonsSection.style.display = 'block';
     }
-
+}
 // Função para salvar dados no LocalStorage
 function saveToLocalStorage() {
     localStorage.setItem('maquinas', JSON.stringify(maquinas));
