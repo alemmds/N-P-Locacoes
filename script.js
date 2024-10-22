@@ -180,11 +180,6 @@ document.getElementById('formMaquina').addEventListener('submit', function(e) {
     const anosUso = document.getElementById('anosUso').value;
     const horasTrabalhadas = document.getElementById('horasTrabalhadas').value;
 
-    if (!nome || !serie || !anosUso || !horasTrabalhadas) {
-        alert('Preencha todos os campos.');
-        return;
-    }
-
     maquinas.push({ nome, serie, anosUso, horasTrabalhadas });
     saveToLocalStorage();
     document.getElementById('formMaquina').reset();
@@ -197,11 +192,6 @@ document.getElementById('formConta').addEventListener('submit', function(e) {
     const tipo = document.getElementById('tipoConta').value;
     const dataVencimento = document.getElementById('dataVencimentoConta').value;
     const valor = document.getElementById('valorConta').value;
-
-    if (!tipo || !dataVencimento || !valor) {
-        alert("Preencha todos os campos.");
-        return;
-    }
 
     contas.push({ tipo, dataVencimento, valor });
     saveToLocalStorage();
@@ -216,11 +206,6 @@ document.getElementById('formRecebimento').addEventListener('submit', function(e
     const valor = document.getElementById('valorRecebimento').value;
     const dataPagamento = document.getElementById('dataPagamento').value;
     const status = document.getElementById('status').value;
-
-    if (!empresa || !valor || !dataPagamento || !status) {
-        alert("Preencha todos os campos.");
-        return;
-    }
 
     recebimentos.push({ empresa, valor, dataPagamento, status });
     saveToLocalStorage();
@@ -238,11 +223,6 @@ document.getElementById('formContrato').addEventListener('submit', function(e) {
     const periodo = document.getElementById('periodo').value;
     const valor = document.getElementById('valorContrato').value;
 
-    if (!empresa || !locatario || !cnpj || !representante || !periodo || !valor) {
-        alert("Preencha todos os campos.");
-        return;
-    }
-
     contratos.push({ empresa, locatario, cnpj, representante, periodo, valor });
     saveToLocalStorage();
     document.getElementById('formContrato').reset();
@@ -256,11 +236,6 @@ document.getElementById('formEmpresa').addEventListener('submit', function(e) {
     const areaCnpj = document.getElementById('areaCnpj').value;
     const areaAtuacao = document.getElementById('areaAtuacao').value;
 
-    if (!nome || !areaCnpj || !areaAtuacao) {
-        alert("Preencha todos os campos.");
-        return;
-    }
-
     empresas.push({ nome, areaCnpj, areaAtuacao });
     saveToLocalStorage();
     document.getElementById('formEmpresa').reset();
@@ -268,6 +243,7 @@ document.getElementById('formEmpresa').addEventListener('submit', function(e) {
 });
 
 // Funções para editar e deletar registros
+
 function editMaquina(index) {
     const maquina = maquinas[index];
     document.getElementById('nomeMaquina').value = maquina.nome;
