@@ -6,6 +6,14 @@ body {
     height: 100vh;
 }
 
+/* Estilos para a logomarca */
+.logo {
+    display: block;
+    margin: 20px auto; /* Centraliza a imagem na sidebar */
+    max-width: 80%; /* Ajuste a largura máxima da logomarca */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
 .container {
     display: flex;
     width: 100%;
