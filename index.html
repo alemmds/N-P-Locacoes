@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <link rel="manifest" href="manifest.json">
-    
+
     <!-- Links do Favicon -->
     <link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -14,7 +14,7 @@
     <meta name="apple-mobile-web-app-title" content="N Pontes" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    
+
     <title>N PONTES LOCAÇÕES</title>
 </head>
 <body>
@@ -28,49 +28,26 @@
                 <li onclick="showSection('contas')">Contas</li>
                 <li onclick="showSection('empresas')">Empresas</li>
             </ul>
-            <img id="logo" src="logo.png" alt="Logo" class="logo"> <!-- Certifique-se de usar o caminho correto -->
+            <img id="logo" src="logo.png" alt="Logo" class="logo">
         </nav>
         <main class="content">
             <!-- Máquinas -->
-           <!-- Máquinas -->
-<div id="maquinas" class="section">
-    <h2>Cadastrar Máquina</h2>
-    <form id="formMaquina" onsubmit="addMachine(event)">
-        <input type="text" id="nomeMaquina" placeholder="Nome" required>
-        <input type="text" id="serieMaquina" placeholder="Série" required>
-        <input type="number" id="anosUso" placeholder="Anos de Uso" required>
-        <input type="number" id="horasTrabalhadas" placeholder="Horas Trabalhadas" required>
-        <input type="date" id="dataEntrada" required>
-        <input type="date" id="ultimaManutencao" required>
-        <button type="submit">Confirmar</button>
-    </form>
-    <h3>Lista de Máquinas</h3>
-
-    <!-- Aqui será exibida a lista de máquinas com comportamentos de accordion -->
-    <div id="maquinasList" class="list">
-        <!-- Exemplo de estrutura para uma máquina -->
-        <div class="machine-item">
-            <div class="header">
-                <span>Máquina 1</span>
-                <div class="arrow">▼</div>
+            <div id="maquinas" class="section">
+                <h2>Cadastrar Máquina</h2>
+                <form id="formMaquina" onsubmit="addMachine(event)">
+                    <input type="text" id="nomeMaquina" placeholder="Nome" required>
+                    <input type="text" id="serieMaquina" placeholder="Série" required>
+                    <input type="number" id="anosUso" placeholder="Anos de Uso" required>
+                    <input type="number" id="horasTrabalhadas" placeholder="Horas Trabalhadas" required>
+                    <input type="date" id="dataEntrada" required>
+                    <input type="date" id="ultimaManutencao" required>
+                    <button type="submit">Confirmar</button>
+                </form>
+                <h3>Lista de Máquinas</h3>
+                <div id="maquinasList" class="list"></div>
+                <button onclick="goBack('maquinas')">Voltar</button>
             </div>
-            <div class="details">
-                <p><strong>Nome:</strong> Máquina 1</p>
-                <p><strong>Série:</strong> 123456789</p>
-                <p><strong>Tempo de Uso:</strong> 2 anos</p>
-                <p><strong>Horímetro:</strong> 5000 horas</p>
-                <p><strong>Data de Entrada:</strong> <span class="data-br">2022-01-15</span></p>
-                <p><strong>Última Manutenção:</strong> <span class="data-br">2023-12-10</span></p>
-                <div class="buttons">
-                    <button>Alterar</button>
-                    <button class="delete">Excluir</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <button onclick="goBack('maquinas')">Voltar</button>
-</div>
             <!-- Recebimentos -->
             <div id="recebimentos" class="section" style="display:none;">
                 <h2>Cadastrar Recebimento</h2>
@@ -86,22 +63,7 @@
                     </select>
                     <button type="submit">Confirmar</button>
                 </form>
-                <button onclick="showList('recebimentos')">Mostrar Lista de Recebimentos</button>
-                <div id="recebimentosList" class="list" style="display:none;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Empresa</th>
-                                <th>Valor</th>
-                                <th>Data de Pagamento</th>
-                                <th>Data de Término</th>
-                                <th>Status</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="recebimentos-tbody"></tbody>
-                    </table>
-                </div>
+                <div id="recebimentosList" class="list"></div>
                 <button onclick="goBack('recebimentos')">Voltar</button>
             </div>
 
@@ -124,27 +86,7 @@
                     </select>
                     <button type="submit">Confirmar</button>
                 </form>
-                <button onclick="showList('contratos')">Mostrar Lista de Contratos</button>
-                <div id="contratosList" class="list" style="display:none;">
-                    <table id="contratosList">
-                        <thead>
-                            <tr>
-                                <th>Empresa</th>
-                                <th>Locatário</th>
-                                <th>CNPJ</th>
-                                <th>Representante</th>
-                                <th>Período</th>
-                                <th>Valor</th>
-                                <th>Data de Término</th>
-                                <th>Equipamento</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- A lista será preenchida dinamicamente aqui -->
-                        </tbody>
-                    </table>
-                </div>
+                <div id="contratosList" class="list"></div>
                 <button onclick="goBack('contratos')">Voltar</button>
             </div>
 
@@ -164,20 +106,7 @@
                     <input type="number" id="valorConta" placeholder="Valor" required>
                     <button type="submit">Confirmar</button>
                 </form>
-                <button onclick="showList('contas')">Mostrar Lista de Contas</button>
-                <div id="contasList" class="list" style="display:none;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tipo</th>
-                                <th>Data de Vencimento</th>
-                                <th>Valor</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="contas-tbody"></tbody>
-                    </table>
-                </div>
+                <div id="contasList" class="list"></div>
                 <button onclick="goBack('contas')">Voltar</button>
             </div>
 
@@ -193,28 +122,11 @@
                     <input type="email" id="emailEmpresa" placeholder="E-mail" required>
                     <button type="submit">Confirmar</button>
                 </form>
-                <button onclick="showList('empresas')">Mostrar Lista de Empresas</button>
-                <div id="empresasList" class="list" style="display:none;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Área de CNPJ</th>
-                                <th>Área de Atuação</th>
-                                <th>Representante</th>
-                                <th>Telefone</th>
-                                <th>E-mail</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="empresas-tbody"></tbody>
-                    </table>
-                </div>
+                <div id="empresasList" class="list"></div>
                 <button onclick="goBack('empresas')">Voltar</button>
             </div>
         </main>
     </div>
     <script src="script.js"></script>
-    <script src="service-worker.js"></script>
 </body>
 </html>
