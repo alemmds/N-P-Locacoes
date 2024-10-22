@@ -4,7 +4,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Cadastro</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Referência ao CSS externo -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-right: 1px solid #ccc;
+        }
+
+        .sidebar img.logo {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .buttons {
+            margin-top: 10px;
+        }
+
+        .item {
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            padding: 10px;
+            position: relative;
+            background-color: #f9f9f9;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            padding: 10px;
+        }
+
+        .details {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+        }
+
+        .buttons button {
+            margin-right: 10px;
+        }
+
+        .delete {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .maximize, .minimize {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .maximize:hover, .minimize:hover {
+            background-color: #0056b3;
+        }
+
+        .action-buttons {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .action-buttons button {
+            flex: 1;
+            margin: 0 5px;
+        }
+
+    </style>
 </head>
 <body>
     <div class="container">
@@ -117,9 +215,109 @@
                 </form>
                 <div id="empresasList"></div>
             </section>
+
         </div>
     </div>
 
     <script src="script.js"></script>
+    <script>
+        // Função para mostrar a seção correspondente
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.display = section.id === sectionId ? 'block' : 'none';
+            });
+        }
+
+        // Função para mostrar a lista
+        function showList(type) {
+            const listContainer = document.getElementById(`${type}List`);
+            listContainer.innerHTML = ''; // Limpa a lista atual
+
+            // Aqui você pode adicionar a lógica para listar os itens do tipo selecionado
+            // Exemplo de dados fictícios
+            const items = [
+                { id: 1, nome: 'Item 1' },
+                { id: 2, nome: 'Item 2' }
+            ];
+
+            items.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('item');
+                itemDiv.innerHTML = `
+                    <div class="header">
+                        <span>${item.nome}</span>
+                        <div class="action-buttons">
+                            <button class="delete" onclick="deleteItem(${item.id}, '${type}')">Excluir</button>
+                            <button class="maximize" onclick="maximizeItem(${item.id}, '${type}')">Maximizar</button>
+                            <button class="minimize" onclick="minimizeItem(${item.id}, '${type}')">Minimizar</button>
+                        </div>
+                    </div>
+                    <div class="details" id="details-${type}-${item.id}" style="display: none;">
+                        <!-- Aqui você pode adicionar detalhes do item -->
+                        <p>Detalhes do ${type} com ID ${item.id}</p>
+                    </div>
+                `;
+                listContainer.appendChild(itemDiv);
+            });
+        }
+
+        // Função para deletar um item
+        function deleteItem(id, type) {
+            if (confirm('Você tem certeza que deseja excluir este item?')) {
+                // Aqui você pode adicionar a lógica para excluir o item
+                alert(`Item com ID ${id} excluído.`);
+                showList(type); // Atualiza a lista
+            }
+        }
+
+        // Função para maximizar detalhes do item
+        function maximizeItem(id, type) {
+            const details = document.getElementById(`details-${type}-${id}`);
+            details.style.display = 'block'; // Mostrar detalhes ao maximizar
+        }
+
+        // Função para minimizar detalhes do item
+        function minimizeItem(id, type) {
+            const details = document.getElementById(`details-${type}-${id}`);
+            details.style.display = 'none'; // Esconder detalhes ao minimizar
+        }
+
+        // Função para voltar à seção anterior
+        function goBack(sectionId) {
+            showSection(sectionId);
+        }
+
+        // Evento de submissão dos formulários
+        document.getElementById('formMaquina').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Máquina cadastrada com sucesso!');
+            this.reset();
+        });
+
+        document.getElementById('formConta').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Conta cadastrada com sucesso!');
+            this.reset();
+        });
+
+        document.getElementById('formRecebimento').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Recebimento cadastrado com sucesso!');
+            this.reset();
+        });
+
+        document.getElementById('formContrato').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Contrato cadastrado com sucesso!');
+            this.reset();
+        });
+
+        document.getElementById('formEmpresa').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Empresa cadastrada com sucesso!');
+            this.reset();
+        });
+    </script>
 </body>
 </html>
