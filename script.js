@@ -207,7 +207,7 @@ function editContrato(index) {
     document.getElementById('representanteContrato').value = contrato.representante;
     document.getElementById('periodoContrato').value = contrato.periodo;
     document.getElementById('valorContrato').value = contrato.valor;
-    document.getElementById('dataTerminoContrato').value = contrato.dataTermino;
+        document.getElementById('dataTerminoContrato').value = contrato.dataTermino;
     document.getElementById('equipamentoContrato').value = contrato.equipamento;
 
     contratos.splice(index, 1);
@@ -229,7 +229,7 @@ function editEmpresa(index) {
     showList('empresas');
 }
 
-// Funções para deletar registros
+// Funções para excluir registros
 function deleteMaquina(index) {
     maquinas.splice(index, 1);
     saveToLocalStorage();
@@ -260,14 +260,19 @@ function deleteEmpresa(index) {
     showList('empresas');
 }
 
-// Função de inicialização para carregar listas ao abrir a página
-document.addEventListener('DOMContentLoaded', () => {
-    showList('maquinas');
-    showList('contas');
-    showList('recebimentos');
-    showList('contratos');
-    showList('empresas');
-});
+// Funções para maximizar e minimizar as seções
+function toggleSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    const toggleButton = document.querySelector(`#${sectionId} .toggle-button`);
+
+    if (section.style.display === 'none') {
+        section.style.display = 'block';
+        toggleButton.textContent = 'Minimizar';
+    } else {
+        section.style.display = 'none';
+        toggleButton.textContent = 'Maximizar';
+    }
+}
 
 // --- Service Worker para Cache ---
 if ('serviceWorker' in navigator) {
