@@ -5,6 +5,30 @@ let recebimentos = JSON.parse(localStorage.getItem('recebimentos')) || [];
 let contratos = JSON.parse(localStorage.getItem('contratos')) || [];
 let empresas = JSON.parse(localStorage.getItem('empresas')) || [];
 
+// Remover "MAQUINA 1" (caso exista)
+if (maquinas.length > 0 && maquinas[0].nome === "MAQUINA 1") {
+    maquinas.splice(0, 1);
+    saveToLocalStorage();
+}
+
+// Função para exibir a aba correspondente do menu
+function showSection(section) {
+    // Esconde todas as seções
+    document.querySelectorAll('.section').forEach(sec => {
+        sec.style.display = 'none';
+    });
+    
+    // Exibe a seção correta
+    const currentSection = document.getElementById(section);
+    currentSection.style.display = 'block';
+    
+    // Exibe os botões de "Confirmar", "Listar" e "Voltar" para cada aba de cadastro
+    const buttonsSection = document.querySelector(`#${section} .buttons`);
+    if (buttonsSection) {
+        buttonsSection.style.display = 'block';
+    }
+}
+
 // Função para salvar dados no LocalStorage
 function saveToLocalStorage() {
     localStorage.setItem('maquinas', JSON.stringify(maquinas));
@@ -14,164 +38,74 @@ function saveToLocalStorage() {
     localStorage.setItem('empresas', JSON.stringify(empresas));
 }
 
-// Função para exibir a aba correspondente do menu
-function showSection(section) {
-    document.querySelectorAll('.section').forEach(sec => {
-        sec.style.display = 'none';
-    });
-    document.getElementById(section).style.display = 'block';
-}
-
 // Função para retornar ao menu principal
 function goBack(section) {
     document.getElementById(section).style.display = 'none';
 }
 
-// Função para exibir a lista de itens em forma de tabela
+// Função para exibir a lista com base no tipo
 function showList(type) {
-    let data, tableId, tableHeaders;
+    let data, listId;
 
     if (type === 'maquinas') {
         data = maquinas;
-        tableId = '#maquinasTable';
-        tableHeaders = `
-            <tr>
-                <th>Nome</th>
-                <th>Série</th>
-                <th>Anos de Uso</th>
-                <th>Horas Trabalhadas</th>
-                <th>Ações</th>
-            </tr>
-        `;
+        listId = '#maquinasList';
     } else if (type === 'contas') {
         data = contas;
-        tableId = '#contasTable';
-        tableHeaders = `
-            <tr>
-                <th>Tipo</th>
-                <th>Data de Vencimento</th>
-                <th>Valor</th>
-                <th>Ações</th>
-            </tr>
-        `;
+        listId = '#contasList';
     } else if (type === 'recebimentos') {
         data = recebimentos;
-        tableId = '#recebimentosTable';
-        tableHeaders = `
-            <tr>
-                <th>Empresa</th>
-                <th>Valor</th>
-                <th>Data de Pagamento</th>
-                <th>Status</th>
-                <th>Ações</th>
-            </tr>
-        `;
+        listId = '#recebimentosList';
     } else if (type === 'contratos') {
         data = contratos;
-        tableId = '#contratosTable';
-        tableHeaders = `
-            <tr>
-                <th>Empresa</th>
-                <th>Locatário</th>
-                <th>CNPJ</th>
-                <th>Representante</th>
-                <th>Período</th>
-                <th>Valor</th>
-                <th>Ações</th>
-            </tr>
-        `;
+        listId = '#contratosList';
     } else if (type === 'empresas') {
         data = empresas;
-        tableId = '#empresasTable';
-        tableHeaders = `
-            <tr>
-                <th>Nome</th>
-                <th>Área CNPJ</th>
-                <th>Área de Atuação</th>
-                <th>Ações</th>
-            </tr>
-        `;
+        listId = '#empresasList';
     }
 
-    const tableElement = document.querySelector(tableId);
-    tableElement.innerHTML = tableHeaders;
+    const listElement = document.querySelector(listId);
+    listElement.innerHTML = ''; // Limpar lista
 
-    // Iterar sobre os dados e criar as linhas da tabela
+    // Iterar sobre os itens e criar os elementos de cada item
     data.forEach((item, index) => {
-        let rowHTML = '';
-        if (type === 'maquinas') {
-            rowHTML = `
-                <tr>
-                    <td>${item.nome}</td>
-                    <td>${item.serie}</td>
-                    <td>${item.anosUso}</td>
-                    <td>${item.horasTrabalhadas}</td>
-                    <td>
-                        <button onclick="editMaquina(${index})">Alterar</button>
-                        <button onclick="deleteMaquina(${index})" class="delete">Excluir</button>
-                    </td>
-                </tr>
-            `;
-        } else if (type === 'contas') {
-            rowHTML = `
-                <tr>
-                    <td>${item.tipo}</td>
-                    <td>${item.dataVencimento}</td>
-                    <td>${item.valor}</td>
-                    <td>
-                        <button onclick="editConta(${index})">Alterar</button>
-                        <button onclick="deleteConta(${index})" class="delete">Excluir</button>
-                    </td>
-                </tr>
-            `;
-        } else if (type === 'recebimentos') {
-            rowHTML = `
-                <tr>
-                    <td>${item.empresa}</td>
-                    <td>${item.valor}</td>
-                    <td>${item.dataPagamento}</td>
-                    <td>${item.status}</td>
-                    <td>
-                        <button onclick="editRecebimento(${index})">Alterar</button>
-                        <button onclick="deleteRecebimento(${index})" class="delete">Excluir</button>
-                    </td>
-                </tr>
-            `;
-        } else if (type === 'contratos') {
-            rowHTML = `
-                <tr>
-                    <td>${item.empresa}</td>
-                    <td>${item.locatario}</td>
-                    <td>${item.cnpj}</td>
-                    <td>${item.representante}</td>
-                    <td>${item.periodo}</td>
-                    <td>${item.valor}</td>
-                    <td>
-                        <button onclick="editContrato(${index})">Alterar</button>
-                        <button onclick="deleteContrato(${index})" class="delete">Excluir</button>
-                    </td>
-                </tr>
-            `;
-        } else if (type === 'empresas') {
-            rowHTML = `
-                <tr>
-                    <td>${item.nome}</td>
-                    <td>${item.areaCnpj}</td>
-                    <td>${item.areaAtuacao}</td>
-                    <td>
-                        <button onclick="editEmpresa(${index})">Alterar</button>
-                        <button onclick="deleteEmpresa(${index})" class="delete">Excluir</button>
-                    </td>
-                </tr>
-            `;
-        }
+        const itemHTML = `
+            <div class="item">
+                <div class="header" onclick="toggleAccordion(this)">
+                    <span>${item.nome || item.tipo || item.empresa}</span>
+                    <div class="arrow">▼</div>
+                </div>
+                <div class="details" style="display:none;">
+                    ${Object.keys(item).map(key => `<p><strong>${key}:</strong> ${item[key]}</p>`).join('')}
+                    <div class="buttons">
+                        <button onclick="editItem('${type}', ${index})">Alterar</button>
+                        <button onclick="deleteItem('${type}', ${index})" class="delete">Excluir</button>
+                    </div>
+                </div>
+            </div>
+        `;
 
-        tableElement.innerHTML += rowHTML;
+        listElement.innerHTML += itemHTML;
     });
+
+    ativarAccordion(); // Reativar funcionalidade do accordion
 }
 
-// Funções para adicionar novos registros
+// Função de accordion corrigida
+function toggleAccordion(header) {
+    const details = header.nextElementSibling;
+    const arrow = header.querySelector('.arrow');
 
+    if (details.style.display === 'block') {
+        details.style.display = 'none';
+        arrow.textContent = '▼';
+    } else {
+        details.style.display = 'block';
+        arrow.textContent = '▲';
+    }
+}
+
+// Funções de adicionar novos registros para cada categoria
 document.getElementById('formMaquina').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -179,149 +113,180 @@ document.getElementById('formMaquina').addEventListener('submit', function(e) {
     const serie = document.getElementById('serieMaquina').value;
     const anosUso = document.getElementById('anosUso').value;
     const horasTrabalhadas = document.getElementById('horasTrabalhadas').value;
+    const ultimaManutencao = document.getElementById('ultimaManutencao').value;
+    const dataEntrada = document.getElementById('dataEntrada').value;
 
-    maquinas.push({ nome, serie, anosUso, horasTrabalhadas });
+    // Verificar se todos os campos estão preenchidos
+    if (!nome || !serie || !anosUso || !horasTrabalhadas || !ultimaManutencao || !dataEntrada) {
+        alert('Por favor, preencha todos os campos.');
+        return;
+    }
+
+    // Adicionar a nova máquina ao array de máquinas
+    maquinas.push({ nome, serie, anosUso, horasTrabalhadas, ultimaManutencao, dataEntrada });
+    
+    // Salvar as máquinas no LocalStorage
     saveToLocalStorage();
+
+    // Limpar o formulário
     document.getElementById('formMaquina').reset();
+
+    // Atualizar a lista de máquinas
     showList('maquinas');
 });
 
 document.getElementById('formConta').addEventListener('submit', function(e) {
     e.preventDefault();
-
     const tipo = document.getElementById('tipoConta').value;
     const dataVencimento = document.getElementById('dataVencimentoConta').value;
     const valor = document.getElementById('valorConta').value;
 
+    if (!tipo || !dataVencimento || !valor) {
+        alert("Preencha todos os campos.");
+        return;
+    }
+
     contas.push({ tipo, dataVencimento, valor });
-    saveToLocalStorage();
+    saveToLocalStorage(); // Salvar no LocalStorage
     document.getElementById('formConta').reset();
     showList('contas');
 });
 
 document.getElementById('formRecebimento').addEventListener('submit', function(e) {
     e.preventDefault();
-
     const empresa = document.getElementById('empresaRecebimento').value;
     const valor = document.getElementById('valorRecebimento').value;
     const dataPagamento = document.getElementById('dataPagamento').value;
-    const status = document.getElementById('status').value;
+    const dataTermino = document.getElementById('dataTermino').value;
+    const status = document.getElementById('statusRecebimento').value;
 
-    recebimentos.push({ empresa, valor, dataPagamento, status });
-    saveToLocalStorage();
+    if (!empresa || !valor || !dataPagamento || !dataTermino || !status) {
+        alert("Preencha todos os campos.");
+        return;
+    }
+
+    recebimentos.push({ empresa, valor, dataPagamento, dataTermino, status });
+    saveToLocalStorage(); // Salvar no LocalStorage
     document.getElementById('formRecebimento').reset();
     showList('recebimentos');
 });
 
-document.getElementById('formContrato').addEventListener('submit', function(e) {
-    e.preventDefault();
-
+document.getElementById('formContrato').addEventListener('submit', function(event) {
+    event.preventDefault();
     const empresa = document.getElementById('empresaContrato').value;
-    const locatario = document.getElementById('locatario').value;
-    const cnpj = document.getElementById('cnpj').value;
-    const representante = document.getElementById('representante').value;
-    const periodo = document.getElementById('periodo').value;
+    const locatario = document.getElementById('locatarioContrato').value;
+    const cnpj = document.getElementById('cnpjContrato').value;
+    const representante = document.getElementById('representanteContrato').value;
+    const periodo = document.getElementById('periodoContrato').value;
     const valor = document.getElementById('valorContrato').value;
+    const dataTermino = document.getElementById('dataTerminoContrato').value;
+    const equipamento = document.getElementById('equipamentoContrato').value;
 
-    contratos.push({ empresa, locatario, cnpj, representante, periodo, valor });
-    saveToLocalStorage();
+    if (!empresa || !locatario || !cnpj || !representante || !periodo || !valor || !dataTermino || !equipamento) {
+        alert("Preencha todos os campos.");
+        return;
+    }
+
+    contratos.push({ empresa, locatario, cnpj, representante, periodo, valor, dataTermino, equipamento });
+    saveToLocalStorage(); // Salvar no LocalStorage
     document.getElementById('formContrato').reset();
     showList('contratos');
 });
 
-document.getElementById('formEmpresa').addEventListener('submit', function(e) {
-    e.preventDefault();
-
+document.getElementById('formEmpresa').addEventListener('submit', function(event) {
+    event.preventDefault();
     const nome = document.getElementById('nomeEmpresa').value;
     const areaCnpj = document.getElementById('areaCnpj').value;
     const areaAtuacao = document.getElementById('areaAtuacao').value;
+    const representante = document.getElementById('representanteEmpresa').value;
+    const telefone = document.getElementById('telefoneEmpresa').value;
+    const email = document.getElementById('emailEmpresa').value;
 
-    empresas.push({ nome, areaCnpj, areaAtuacao });
-    saveToLocalStorage();
+    if (!nome || !areaCnpj || !areaAtuacao || !representante || !telefone || !email) {
+        alert("Preencha todos os campos.");
+        return;
+    }
+
+    empresas.push({ nome, areaCnpj, areaAtuacao, representante, telefone, email });
+    saveToLocalStorage(); // Salvar no LocalStorage
     document.getElementById('formEmpresa').reset();
     showList('empresas');
 });
 
-// Funções para editar e deletar registros
+// Funções para editar registros em cada categoria
+function editItem(type, index) {
+    let item;
+    if (type === 'maquinas') {
+        item = maquinas[index];
+        document.getElementById('nomeMaquina').value = item.nome;
+        document.getElementById('serieMaquina').value = item.serie;
+        document.getElementById('anosUso').value = item.anosUso;
+        document.getElementById('horasTrabalhadas').value = item.horasTrabalhadas;
+        document.getElementById('ultimaManutencao').value = item.ultimaManutencao;
+        document.getElementById('dataEntrada').value = item.dataEntrada;
+    } else if (type === 'contas') {
+        item = contas[index];
+        document.getElementById('tipoConta').value = item.tipo;
+        document.getElementById('dataVencimentoConta').value = item.dataVencimento;
+        document.getElementById('valorConta').value = item.valor;
+    } else if (type === 'recebimentos') {
+        item = recebimentos[index];
+        document.getElementById('empresaRecebimento').value = item.empresa;
+        document.getElementById('valorRecebimento').value = item.valor;
+        document.getElementById('dataPagamento').value = item.dataPagamento;
+        document.getElementById('dataTermino').value = item.dataTermino;
+        document.getElementById('statusRecebimento').value = item.status;
+    } else if (type === 'contratos') {
+        item = contratos[index];
+        document.getElementById('empresaContrato').value = item.empresa;
+        document.getElementById('locatarioContrato').value = item.locatario;
+        document.getElementById('cnpjContrato').value = item.cnpj;
+        document.getElementById('representanteContrato').value = item.representante;
+        document.getElementById('periodoContrato').value = item.periodo;
+        document.getElementById('valorContrato').value = item.valor;
+        document.getElementById('dataTerminoContrato').value = item.dataTermino;
+        document.getElementById('equipamentoContrato').value = item.equipamento;
+    } else if (type === 'empresas') {
+        item = empresas[index];
+        document.getElementById('nomeEmpresa').value = item.nome;
+        document.getElementById('areaCnpj').value = item.areaCnpj;
+        document.getElementById('areaAtuacao').value = item.areaAtuacao;
+        document.getElementById('representanteEmpresa').value = item.representante;
+        document.getElementById('telefoneEmpresa').value = item.telefone;
+        document.getElementById('emailEmpresa').value = item.email;
+    }
 
-function editMaquina(index) {
-    const maquina = maquinas[index];
-    document.getElementById('nomeMaquina').value = maquina.nome;
-    document.getElementById('serieMaquina').value = maquina.serie;
-    document.getElementById('anosUso').value = maquina.anosUso;
-    document.getElementById('horasTrabalhadas').value = maquina.horasTrabalhadas;
-    deleteMaquina(index);
-}
+    // Remover o item editado da lista
+    if (type === 'maquinas') maquinas.splice(index, 1);
+    if (type === 'contas') contas.splice(index, 1);
+    if (type === 'recebimentos') recebimentos.splice(index, 1);
+    if (type === 'contratos') contratos.splice(index, 1);
+    if (type === 'empresas') empresas.splice(index, 1);
 
-function deleteMaquina(index) {
-    maquinas.splice(index, 1);
     saveToLocalStorage();
-    showList('maquinas');
+    showList(type);
 }
 
-function editConta(index) {
-    const conta = contas[index];
-    document.getElementById('tipoConta').value = conta.tipo;
-    document.getElementById('dataVencimentoConta').value = conta.dataVencimento;
-    document.getElementById('valorConta').value = conta.valor;
-    deleteConta(index);
-}
+// Funções para excluir registros
+function deleteItem(type, index) {
+    if (type === 'maquinas') maquinas.splice(index, 1);
+    if (type === 'contas') contas.splice(index, 1);
+    if (type === 'recebimentos') recebimentos.splice(index, 1);
+    if (type === 'contratos') contratos.splice(index, 1);
+    if (type === 'empresas') empresas.splice(index, 1);
 
-function deleteConta(index) {
-    contas.splice(index, 1);
     saveToLocalStorage();
-    showList('contas');
+    showList(type);
 }
 
-function editRecebimento(index) {
-    const recebimento = recebimentos[index];
-    document.getElementById('empresaRecebimento').value = recebimento.empresa;
-    document.getElementById('valorRecebimento').value = recebimento.valor;
-    document.getElementById('dataPagamento').value = recebimento.dataPagamento;
-    document.getElementById('status').value = recebimento.status;
-    deleteRecebimento(index);
+// Função para reativar o comportamento do accordion quando os itens forem atualizados
+function ativarAccordion() {
+    document.querySelectorAll('.header').forEach(header => {
+        header.addEventListener('click', () => {
+            toggleAccordion(header);
+        });
+    });
 }
-
-function deleteRecebimento(index) {
-    recebimentos.splice(index, 1);
-    saveToLocalStorage();
-    showList('recebimentos');
-}
-
-function editContrato(index) {
-    const contrato = contratos[index];
-    document.getElementById('empresaContrato').value = contrato.empresa;
-    document.getElementById('locatario').value = contrato.locatario;
-    document.getElementById('cnpj').value = contrato.cnpj;
-    document.getElementById('representante').value = contrato.representante;
-    document.getElementById('periodo').value = contrato.periodo;
-    document.getElementById('valorContrato').value = contrato.valor;
-    deleteContrato(index);
-}
-
-function deleteContrato(index) {
-    contratos.splice(index, 1);
-    saveToLocalStorage();
-    showList('contratos');
-}
-
-function editEmpresa(index) {
-    const empresa = empresas[index];
-    document.getElementById('nomeEmpresa').value = empresa.nome;
-    document.getElementById('areaCnpj').value = empresa.areaCnpj;
-    document.getElementById('areaAtuacao').value = empresa.areaAtuacao;
-    deleteEmpresa(index);
-}
-
-function deleteEmpresa(index) {
-    empresas.splice(index, 1);
-    saveToLocalStorage();
-    showList('empresas');
-}
-
-// Mostrar a primeira seção por padrão
-showSection('maquinas');
-showList('maquinas');
 
 // Registra o Service Worker
 if ('serviceWorker' in navigator) {
