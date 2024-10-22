@@ -251,38 +251,3 @@ table td button {
 .header.active .arrow {    
   transform: rotate(180deg); /* Faz a seta apontar para cima quando ativo */
 }
-
-/* Estilo para os botões de maximizar e minimizar */
-.button-maximize, .button-minimize {    
-  background-color: #007BFF; /* azul premium */    
-  color: white;    
-  border: none;    
-  padding: 10px 20px;    
-  text-align: center;    
-  font-size: 16px;    
-  margin: 4px 2px;    
-  border-radius: 12px;    
-  cursor: pointer;    
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* sombra para efeito 3D */    
-  transition: background-color 0.3s; /* transição suave */
-}
-
-.button-maximize:hover, .button-minimize:hover {    
-  background-color: #0056b3; /* azul mais escuro ao passar o mouse */
-}
-
-/* Estilo para a seção "Janela" */
-.window-info {    
-  padding: 20px;    
-  background-color: #ffffff; /* fundo branco */    
-  border: 1px solid #ddd;    
-  border-radius: 8px;    
-  max-width: 100%;    
-  overflow: auto;    
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* sombra leve */    
-  transition: box-shadow 0.3s; /* transição suave */
-}
-
-.window-info:hover {    
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* sombra mais pronunciada ao passar o mouse */
-}
