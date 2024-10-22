@@ -267,15 +267,20 @@ document.getElementById('formEmpresa').addEventListener('submit', function(e) {
     showList('empresas');
 });
 
-// Funções para editar itens
-
+// Funções para editar e deletar registros
 function editMaquina(index) {
     const maquina = maquinas[index];
     document.getElementById('nomeMaquina').value = maquina.nome;
     document.getElementById('serieMaquina').value = maquina.serie;
     document.getElementById('anosUso').value = maquina.anosUso;
     document.getElementById('horasTrabalhadas').value = maquina.horasTrabalhadas;
-    document.getElementById('maquinaIndex').value = index;
+    deleteMaquina(index);
+}
+
+function deleteMaquina(index) {
+    maquinas.splice(index, 1);
+    saveToLocalStorage();
+    showList('maquinas');
 }
 
 function editConta(index) {
@@ -283,7 +288,13 @@ function editConta(index) {
     document.getElementById('tipoConta').value = conta.tipo;
     document.getElementById('dataVencimentoConta').value = conta.dataVencimento;
     document.getElementById('valorConta').value = conta.valor;
-    document.getElementById('contaIndex').value = index;
+    deleteConta(index);
+}
+
+function deleteConta(index) {
+    contas.splice(index, 1);
+    saveToLocalStorage();
+    showList('contas');
 }
 
 function editRecebimento(index) {
@@ -292,7 +303,13 @@ function editRecebimento(index) {
     document.getElementById('valorRecebimento').value = recebimento.valor;
     document.getElementById('dataPagamento').value = recebimento.dataPagamento;
     document.getElementById('status').value = recebimento.status;
-    document.getElementById('recebimentoIndex').value = index;
+    deleteRecebimento(index);
+}
+
+function deleteRecebimento(index) {
+    recebimentos.splice(index, 1);
+    saveToLocalStorage();
+    showList('recebimentos');
 }
 
 function editContrato(index) {
@@ -303,7 +320,13 @@ function editContrato(index) {
     document.getElementById('representante').value = contrato.representante;
     document.getElementById('periodo').value = contrato.periodo;
     document.getElementById('valorContrato').value = contrato.valor;
-    document.getElementById('contratoIndex').value = index;
+    deleteContrato(index);
+}
+
+function deleteContrato(index) {
+    contratos.splice(index, 1);
+    saveToLocalStorage();
+    showList('contratos');
 }
 
 function editEmpresa(index) {
@@ -311,52 +334,17 @@ function editEmpresa(index) {
     document.getElementById('nomeEmpresa').value = empresa.nome;
     document.getElementById('areaCnpj').value = empresa.areaCnpj;
     document.getElementById('areaAtuacao').value = empresa.areaAtuacao;
-    document.getElementById('empresaIndex').value = index;
-}
-
-// Funções para deletar itens
-
-function deleteMaquina(index) {
-    if (confirm("Tem certeza que deseja excluir esta máquina?")) {
-        maquinas.splice(index, 1);
-        saveToLocalStorage();
-        showList('maquinas');
-    }
-}
-
-function deleteConta(index) {
-    if (confirm("Tem certeza que deseja excluir esta conta?")) {
-        contas.splice(index, 1);
-        saveToLocalStorage();
-        showList('contas');
-    }
-}
-
-function deleteRecebimento(index) {
-    if (confirm("Tem certeza que deseja excluir este recebimento?")) {
-        recebimentos.splice(index, 1);
-        saveToLocalStorage();
-        showList('recebimentos');
-    }
-}
-
-function deleteContrato(index) {
-    if (confirm("Tem certeza que deseja excluir este contrato?")) {
-        contratos.splice(index, 1);
-        saveToLocalStorage();
-        showList('contratos');
-    }
+    deleteEmpresa(index);
 }
 
 function deleteEmpresa(index) {
-    if (confirm("Tem certeza que deseja excluir esta empresa?")) {
-        empresas.splice(index, 1);
-        saveToLocalStorage();
-        showList('empresas');
-    }
+    empresas.splice(index, 1);
+    saveToLocalStorage();
+    showList('empresas');
 }
 
-// Inicializa a exibição da primeira lista
+// Mostrar a primeira seção por padrão
+showSection('maquinas');
 showList('maquinas');
 
 // Registra o Service Worker
