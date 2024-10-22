@@ -4,162 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Cadastro</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        .section {
-            display: none;
-        }
-
-        .buttons {
-            margin-top: 10px;
-        }
-
-        .item {
-            border: 1px solid #ccc;
-            margin-bottom: 10px;
-            padding: 10px;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            cursor: pointer;
-            background-color: #f0f0f0;
-            padding: 10px;
-        }
-
-        .details {
-            display: none;
-        }
-
-        .buttons button {
-            margin-right: 10px;
-        }
-
-        .delete {
-            background-color: red;
-            color: white;
-        }
-
-        .maximize {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .maximize:hover {
-            background-color: #218838;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css"> <!-- Referência ao CSS externo -->
 </head>
 <body>
-    <h1>Sistema de Cadastro</h1>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <img src="logo.png" alt="Logomarca" class="logo"> <!-- Substitua pelo caminho correto da sua logomarca -->
+            <h2>Menu</h2>
+            <ul>
+                <li><button onclick="showSection('maquinasSection')">Máquinas</button></li>
+                <li><button onclick="showSection('contasSection')">Contas</button></li>
+                <li><button onclick="showSection('recebimentosSection')">Recebimentos</button></li>
+                <li><button onclick="showSection('contratosSection')">Contratos</button></li>
+                <li><button onclick="showSection('empresasSection')">Empresas</button></li>
+            </ul>
+        </div>
 
-    <!-- Menu de navegação -->
-    <nav>
-        <ul>
-            <li><button onclick="showSection('maquinasSection')">Máquinas</button></li>
-            <li><button onclick="showSection('contasSection')">Contas</button></li>
-            <li><button onclick="showSection('recebimentosSection')">Recebimentos</button></li>
-            <li><button onclick="showSection('contratosSection')">Contratos</button></li>
-            <li><button onclick="showSection('empresasSection')">Empresas</button></li>
-        </ul>
-    </nav>
+        <!-- Conteúdo Principal -->
+        <div class="content">
+            <h1>Sistema de Cadastro</h1>
 
-    <!-- Seção de Máquinas -->
-    <section id="maquinasSection" class="section">
-        <h2>Cadastro de Máquinas</h2>
-        <form id="formMaquina">
-            <label>Nome:</label><input type="text" id="nomeMaquina"><br>
-            <label>Série:</label><input type="text" id="serieMaquina"><br>
-            <label>Anos de Uso:</label><input type="text" id="anosUso"><br>
-            <label>Horas Trabalhadas:</label><input type="text" id="horasTrabalhadas"><br>
-            <label>Última Manutenção:</label><input type="date" id="ultimaManutencao"><br>
-            <label>Data de Entrada:</label><input type="date" id="dataEntrada"><br>
-            <div class="buttons">
-                <button type="submit">Confirmar</button>
-                <button type="button" onclick="showList('maquinas')">Listar</button>
-                <button type="button" onclick="goBack('maquinasSection')">Voltar</button>
-            </div>
-        </form>
-        <div id="maquinasList"></div>
-    </section>
+            <!-- Seção de Máquinas -->
+            <section id="maquinasSection" class="section">
+                <h2>Cadastro de Máquinas</h2>
+                <form id="formMaquina">
+                    <label>Nome:</label><input type="text" id="nomeMaquina"><br>
+                    <label>Série:</label><input type="text" id="serieMaquina"><br>
+                    <label>Anos de Uso:</label><input type="text" id="anosUso"><br>
+                    <label>Horas Trabalhadas:</label><input type="text" id="horasTrabalhadas"><br>
+                    <label>Última Manutenção:</label><input type="date" id="ultimaManutencao"><br>
+                    <label>Data de Entrada:</label><input type="date" id="dataEntrada"><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" onclick="showList('maquinas')">Listar</button>
+                        <button type="button" onclick="goBack('maquinasSection')">Voltar</button>
+                    </div>
+                </form>
+                <div id="maquinasList"></div>
+            </section>
 
-    <!-- Seção de Contas -->
-    <section id="contasSection" class="section">
-        <h2>Cadastro de Contas</h2>
-        <form id="formConta">
-            <label>Tipo:</label><input type="text" id="tipoConta"><br>
-            <label>Data de Vencimento:</label><input type="date" id="dataVencimentoConta"><br>
-            <label>Valor:</label><input type="number" id="valorConta"><br>
-            <div class="buttons">
-                <button type="submit">Confirmar</button>
-                <button type="button" onclick="showList('contas')">Listar</button>
-                <button type="button" onclick="goBack('contasSection')">Voltar</button>
-            </div>
-        </form>
-        <div id="contasList"></div>
-    </section>
+            <!-- Seção de Contas -->
+            <section id="contasSection" class="section">
+                <h2>Cadastro de Contas</h2>
+                <form id="formConta">
+                    <label>Tipo:</label><input type="text" id="tipoConta"><br>
+                    <label>Data de Vencimento:</label><input type="date" id="dataVencimentoConta"><br>
+                    <label>Valor:</label><input type="number" id="valorConta"><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" onclick="showList('contas')">Listar</button>
+                        <button type="button" onclick="goBack('contasSection')">Voltar</button>
+                    </div>
+                </form>
+                <div id="contasList"></div>
+            </section>
 
-    <!-- Seção de Recebimentos -->
-    <section id="recebimentosSection" class="section">
-        <h2>Cadastro de Recebimentos</h2>
-        <form id="formRecebimento">
-            <label>Empresa:</label><input type="text" id="empresaRecebimento"><br>
-            <label>Valor:</label><input type="number" id="valorRecebimento"><br>
-            <label>Data de Pagamento:</label><input type="date" id="dataPagamento"><br>
-            <label>Data de Término:</label><input type="date" id="dataTermino"><br>
-            <label>Status:</label><input type="text" id="statusRecebimento"><br>
-            <div class="buttons">
-                <button type="submit">Confirmar</button>
-                <button type="button" onclick="showList('recebimentos')">Listar</button>
-                <button type="button" onclick="goBack('recebimentosSection')">Voltar</button>
-            </div>
-        </form>
-        <div id="recebimentosList"></div>
-    </section>
+            <!-- Seção de Recebimentos -->
+            <section id="recebimentosSection" class="section">
+                <h2>Cadastro de Recebimentos</h2>
+                <form id="formRecebimento">
+                    <label>Empresa:</label><input type="text" id="empresaRecebimento"><br>
+                    <label>Valor:</label><input type="number" id="valorRecebimento"><br>
+                    <label>Data de Pagamento:</label><input type="date" id="dataPagamento"><br>
+                    <label>Data de Término:</label><input type="date" id="dataTermino"><br>
+                    <label>Status:</label><input type="text" id="statusRecebimento"><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" onclick="showList('recebimentos')">Listar</button>
+                        <button type="button" onclick="goBack('recebimentosSection')">Voltar</button>
+                    </div>
+                </form>
+                <div id="recebimentosList"></div>
+            </section>
 
-    <!-- Seção de Contratos -->
-    <section id="contratosSection" class="section">
-        <h2>Cadastro de Contratos</h2>
-        <form id="formContrato">
-            <label>Empresa:</label><input type="text" id="empresaContrato"><br>
-            <label>Locatário:</label><input type="text" id="locatarioContrato"><br>
-            <label>CNPJ:</label><input type="text" id="cnpjContrato"><br>
-            <label>Representante:</label><input type="text" id="representanteContrato"><br>
-            <label>Período:</label><input type="text" id="periodoContrato"><br>
-            <label>Valor:</label><input type="number" id="valorContrato"><br>
-            <label>Data de Término:</label><input type="date" id="dataTerminoContrato"><br>
-            <label>Equipamento:</label><input type="text" id="equipamentoContrato"><br>
-            <div class="buttons">
-                <button type="submit">Confirmar</button>
-                <button type="button" onclick="showList('contratos')">Listar</button>
-                <button type="button" onclick="goBack('contratosSection')">Voltar</button>
-            </div>
-        </form>
-        <div id="contratosList"></div>
-    </section>
+            <!-- Seção de Contratos -->
+            <section id="contratosSection" class="section">
+                <h2>Cadastro de Contratos</h2>
+                <form id="formContrato">
+                    <label>Empresa:</label><input type="text" id="empresaContrato"><br>
+                    <label>Locatário:</label><input type="text" id="locatarioContrato"><br>
+                    <label>CNPJ:</label><input type="text" id="cnpjContrato"><br>
+                    <label>Representante:</label><input type="text" id="representanteContrato"><br>
+                    <label>Período:</label><input type="text" id="periodoContrato"><br>
+                    <label>Valor:</label><input type="number" id="valorContrato"><br>
+                    <label>Data de Término:</label><input type="date" id="dataTerminoContrato"><br>
+                    <label>Equipamento:</label><input type="text" id="equipamentoContrato"><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" onclick="showList('contratos')">Listar</button>
+                        <button type="button" onclick="goBack('contratosSection')">Voltar</button>
+                    </div>
+                </form>
+                <div id="contratosList"></div>
+            </section>
 
-    <!-- Seção de Empresas -->
-    <section id="empresasSection" class="section">
-        <h2>Cadastro de Empresas</h2>
-        <form id="formEmpresa">
-            <label>Nome:</label><input type="text" id="nomeEmpresa"><br>
-            <label>CNPJ:</label><input type="text" id="areaCnpj"><br>
-            <label>Área de Atuação:</label><input type="text" id="areaAtuacao"><br>
-            <label>Representante:</label><input type="text" id="representanteEmpresa"><br>
-            <label>Telefone:</label><input type="text" id="telefoneEmpresa"><br>
-            <label>Email:</label><input type="email" id="emailEmpresa"><br>
-            <div class="buttons">
-                <button type="submit">Confirmar</button>
-                <button type="button" onclick="showList('empresas')">Listar</button>
-                <button type="button" onclick="goBack('empresasSection')">Voltar</button>
-            </div>
-        </form>
-        <div id="empresasList"></div>
-    </section>
+            <!-- Seção de Empresas -->
+            <section id="empresasSection" class="section">
+                <h2>Cadastro de Empresas</h2>
+                <form id="formEmpresa">
+                    <label>Nome:</label><input type="text" id="nomeEmpresa"><br>
+                    <label>CNPJ:</label><input type="text" id="areaCnpj"><br>
+                    <label>Área de Atuação:</label><input type="text" id="areaAtuacao"><br>
+                    <label>Representante:</label><input type="text" id="representanteEmpresa"><br>
+                    <label>Telefone:</label><input type="text" id="telefoneEmpresa"><br>
+                    <label>Email:</label><input type="email" id="emailEmpresa"><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" onclick="showList('empresas')">Listar</button>
+                        <button type="button" onclick="goBack('empresasSection')">Voltar</button>
+                    </div>
+                </form>
+                <div id="empresasList"></div>
+            </section>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
