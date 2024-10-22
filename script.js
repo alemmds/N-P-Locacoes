@@ -13,16 +13,13 @@ if (maquinas.length > 0 && maquinas[0].nome === "MAQUINA 1") {
 
 // Função para exibir a aba correspondente do menu
 function showSection(section) {
-    // Esconde todas as seções
     document.querySelectorAll('.section').forEach(sec => {
         sec.style.display = 'none';
     });
     
-    // Exibe a seção correta
     const currentSection = document.getElementById(section);
     currentSection.style.display = 'block';
-    
-    // Exibe os botões de "Confirmar", "Listar" e "Voltar" para cada aba de cadastro
+
     const buttonsSection = document.querySelector(`#${section} .buttons`);
     if (buttonsSection) {
         buttonsSection.style.display = 'block';
@@ -47,27 +44,32 @@ function goBack(section) {
 function showList(type) {
     let data, listId;
 
-    if (type === 'maquinas') {
-        data = maquinas;
-        listId = '#maquinasList';
-    } else if (type === 'contas') {
-        data = contas;
-        listId = '#contasList';
-    } else if (type === 'recebimentos') {
-        data = recebimentos;
-        listId = '#recebimentosList';
-    } else if (type === 'contratos') {
-        data = contratos;
-        listId = '#contratosList';
-    } else if (type === 'empresas') {
-        data = empresas;
-        listId = '#empresasList';
+    switch (type) {
+        case 'maquinas':
+            data = maquinas;
+            listId = '#maquinasList';
+            break;
+        case 'contas':
+            data = contas;
+            listId = '#contasList';
+            break;
+        case 'recebimentos':
+            data = recebimentos;
+            listId = '#recebimentosList';
+            break;
+        case 'contratos':
+            data = contratos;
+            listId = '#contratosList';
+            break;
+        case 'empresas':
+            data = empresas;
+            listId = '#empresasList';
+            break;
     }
 
     const listElement = document.querySelector(listId);
     listElement.innerHTML = ''; // Limpar lista
 
-    // Iterar sobre os itens e criar os elementos de cada item
     data.forEach((item, index) => {
         const itemHTML = `
             <div class="item">
@@ -84,14 +86,13 @@ function showList(type) {
                 </div>
             </div>
         `;
-
         listElement.innerHTML += itemHTML;
     });
 
     ativarAccordion(); // Reativar funcionalidade do accordion
 }
 
-// Função de accordion corrigida
+// Função para exibir/ocultar detalhes do item
 function toggleAccordion(header) {
     const details = header.nextElementSibling;
     const arrow = header.querySelector('.arrow');
@@ -108,7 +109,6 @@ function toggleAccordion(header) {
 // Funções de adicionar novos registros para cada categoria
 document.getElementById('formMaquina').addEventListener('submit', function(e) {
     e.preventDefault();
-
     const nome = document.getElementById('nomeMaquina').value;
     const serie = document.getElementById('serieMaquina').value;
     const anosUso = document.getElementById('anosUso').value;
@@ -116,22 +116,14 @@ document.getElementById('formMaquina').addEventListener('submit', function(e) {
     const ultimaManutencao = document.getElementById('ultimaManutencao').value;
     const dataEntrada = document.getElementById('dataEntrada').value;
 
-    // Verificar se todos os campos estão preenchidos
     if (!nome || !serie || !anosUso || !horasTrabalhadas || !ultimaManutencao || !dataEntrada) {
         alert('Por favor, preencha todos os campos.');
         return;
     }
 
-    // Adicionar a nova máquina ao array de máquinas
     maquinas.push({ nome, serie, anosUso, horasTrabalhadas, ultimaManutencao, dataEntrada });
-    
-    // Salvar as máquinas no LocalStorage
     saveToLocalStorage();
-
-    // Limpar o formulário
     document.getElementById('formMaquina').reset();
-
-    // Atualizar a lista de máquinas
     showList('maquinas');
 });
 
@@ -147,7 +139,7 @@ document.getElementById('formConta').addEventListener('submit', function(e) {
     }
 
     contas.push({ tipo, dataVencimento, valor });
-    saveToLocalStorage(); // Salvar no LocalStorage
+    saveToLocalStorage();
     document.getElementById('formConta').reset();
     showList('contas');
 });
@@ -166,7 +158,7 @@ document.getElementById('formRecebimento').addEventListener('submit', function(e
     }
 
     recebimentos.push({ empresa, valor, dataPagamento, dataTermino, status });
-    saveToLocalStorage(); // Salvar no LocalStorage
+    saveToLocalStorage();
     document.getElementById('formRecebimento').reset();
     showList('recebimentos');
 });
@@ -188,7 +180,7 @@ document.getElementById('formContrato').addEventListener('submit', function(even
     }
 
     contratos.push({ empresa, locatario, cnpj, representante, periodo, valor, dataTermino, equipamento });
-    saveToLocalStorage(); // Salvar no LocalStorage
+    saveToLocalStorage();
     document.getElementById('formContrato').reset();
     showList('contratos');
 });
@@ -208,7 +200,7 @@ document.getElementById('formEmpresa').addEventListener('submit', function(event
     }
 
     empresas.push({ nome, areaCnpj, areaAtuacao, representante, telefone, email });
-    saveToLocalStorage(); // Salvar no LocalStorage
+    saveToLocalStorage();
     document.getElementById('formEmpresa').reset();
     showList('empresas');
 });
@@ -256,37 +248,45 @@ function editItem(type, index) {
         document.getElementById('emailEmpresa').value = item.email;
     }
 
-    // Remover o item editado da lista
-    if (type === 'maquinas') maquinas.splice(index, 1);
-    if (type === 'contas') contas.splice(index, 1);
-    if (type === 'recebimentos') recebimentos.splice(index, 1);
-    if (type === 'contratos') contratos.splice(index, 1);
-    if (type === 'empresas') empresas.splice(index, 1);
+    // Remover item atual
+    if (type === 'maquinas') {
+        maquinas.splice(index, 1);
+    } else if (type === 'contas') {
+        contas.splice(index, 1);
+    } else if (type === 'recebimentos') {
+        recebimentos.splice(index, 1);
+    } else if (type === 'contratos') {
+        contratos.splice(index, 1);
+    } else if (type === 'empresas') {
+        empresas.splice(index, 1);
+    }
 
     saveToLocalStorage();
     showList(type);
 }
 
-// Funções para excluir registros
+// Função para deletar um registro
 function deleteItem(type, index) {
-    if (type === 'maquinas') maquinas.splice(index, 1);
-    if (type === 'contas') contas.splice(index, 1);
-    if (type === 'recebimentos') recebimentos.splice(index, 1);
-    if (type === 'contratos') contratos.splice(index, 1);
-    if (type === 'empresas') empresas.splice(index, 1);
+    if (confirm("Tem certeza que deseja excluir este item?")) {
+        if (type === 'maquinas') {
+            maquinas.splice(index, 1);
+        } else if (type === 'contas') {
+            contas.splice(index, 1);
+        } else if (type === 'recebimentos') {
+            recebimentos.splice(index, 1);
+        } else if (type === 'contratos') {
+            contratos.splice(index, 1);
+        } else if (type === 'empresas') {
+            empresas.splice(index, 1);
+        }
 
-    saveToLocalStorage();
-    showList(type);
+        saveToLocalStorage();
+        showList(type);
+    }
 }
 
-// Função para reativar o comportamento do accordion quando os itens forem atualizados
-function ativarAccordion() {
-    document.querySelectorAll('.header').forEach(header => {
-        header.addEventListener('click', () => {
-            toggleAccordion(header);
-        });
-    });
-}
+// Ativar a exibição inicial das máquinas
+showList('maquinas');
 
 // Registra o Service Worker
 if ('serviceWorker' in navigator) {
