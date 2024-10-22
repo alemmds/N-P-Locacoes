@@ -26,7 +26,7 @@
             <h1>Sistema de Cadastro</h1>
 
             <!-- Seção de Máquinas -->
-            <section id="maquinasSection" class="section">
+            <section id="maquinasSection" class="section" style="display:none;">
                 <h2>Cadastro de Máquinas</h2>
                 <form id="formMaquina">
                     <label>Nome:</label><input type="text" id="nomeMaquina"><br>
@@ -45,7 +45,7 @@
             </section>
 
             <!-- Seção de Contas -->
-            <section id="contasSection" class="section">
+            <section id="contasSection" class="section" style="display:none;">
                 <h2>Cadastro de Contas</h2>
                 <form id="formConta">
                     <label>Tipo:</label><input type="text" id="tipoConta"><br>
@@ -61,7 +61,7 @@
             </section>
 
             <!-- Seção de Recebimentos -->
-            <section id="recebimentosSection" class="section">
+            <section id="recebimentosSection" class="section" style="display:none;">
                 <h2>Cadastro de Recebimentos</h2>
                 <form id="formRecebimento">
                     <label>Empresa:</label><input type="text" id="empresaRecebimento"><br>
@@ -79,7 +79,7 @@
             </section>
 
             <!-- Seção de Contratos -->
-            <section id="contratosSection" class="section">
+            <section id="contratosSection" class="section" style="display:none;">
                 <h2>Cadastro de Contratos</h2>
                 <form id="formContrato">
                     <label>Empresa:</label><input type="text" id="empresaContrato"><br>
@@ -100,7 +100,7 @@
             </section>
 
             <!-- Seção de Empresas -->
-            <section id="empresasSection" class="section">
+            <section id="empresasSection" class="section" style="display:none;">
                 <h2>Cadastro de Empresas</h2>
                 <form id="formEmpresa">
                     <label>Nome:</label><input type="text" id="nomeEmpresa"><br>
@@ -120,6 +120,30 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Função para mostrar a seção de acordo com o botão clicado
+        function showSection(sectionId) {
+            // Oculta todas as seções
+            var sections = document.querySelectorAll('.section');
+            sections.forEach(function(section) {
+                section.style.display = 'none';
+            });
+            // Exibe a seção selecionada
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        // Função para voltar à tela anterior
+        function goBack(sectionId) {
+            document.getElementById(sectionId).style.display = 'none';
+        }
+
+        // Função para listar os dados (a ser implementada com base em lógica de backend)
+        function showList(entity) {
+            alert("Exibindo a lista de " + entity);
+            // Aqui você pode implementar a lógica para buscar e exibir os dados listados
+            // Pode fazer uma chamada a uma API ou manipular dados armazenados
+        }
+
+    </script>
 </body>
 </html>
