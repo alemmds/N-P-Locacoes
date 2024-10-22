@@ -44,18 +44,7 @@
                     <button type="submit">Confirmar</button>
                 </form>
                 <h3>Lista de Máquinas</h3>
-                <table id="maquinasList" class="list">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Série</th>
-                            <th>Anos de Uso</th>
-                            <th>Horas Trabalhadas</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <div id="maquinasList" class="list"></div>
                 <button onclick="goBack('maquinas')">Voltar</button>
             </div>
 
@@ -75,18 +64,7 @@
                     <button type="submit">Confirmar</button>
                 </form>
                 <h3>Lista de Recebimentos</h3>
-                <table id="recebimentosList" class="list">
-                    <thead>
-                        <tr>
-                            <th>Empresa</th>
-                            <th>Valor</th>
-                            <th>Data de Pagamento</th>
-                            <th>Status</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <div id="recebimentosList" class="list"></div>
                 <button onclick="goBack('recebimentos')">Voltar</button>
             </div>
 
@@ -95,11 +73,12 @@
                 <h2>Cadastrar Contrato</h2>
                 <form id="formContrato" onsubmit="addContrato(event)">
                     <input type="text" id="empresaContrato" placeholder="Empresa" required>
-                    <input type="text" id="locatario" placeholder="Locatário" required>
-                    <input type="text" id="cnpj" placeholder="CNPJ" required>
-                    <input type="text" id="representante" placeholder="Representante" required>
-                    <input type="text" id="periodo" placeholder="Período da Locação" required>
-                    <input type="text" id="valorContrato" placeholder="Valor" required>
+                    <input type="text" id="locatarioContrato" placeholder="Locatário" required>
+                    <input type="text" id="cnpjContrato" placeholder="CNPJ" required>
+                    <input type="text" id="representanteContrato" placeholder="Representante" required>
+                    <input type="text" id="periodoContrato" placeholder="Período da Locação" required>
+                    <input type="text" id="equipamentoContrato" placeholder="Equipamento" required>
+                    <input type="number" id="valorContrato" placeholder="Valor" required>
                     <input type="date" id="dataTerminoContrato" required>
                     <label>Operador:</label>
                     <select id="operadorContrato">
@@ -109,20 +88,7 @@
                     <button type="submit">Confirmar</button>
                 </form>
                 <h3>Lista de Contratos</h3>
-                <table id="contratosList" class="list">
-                    <thead>
-                        <tr>
-                            <th>Empresa</th>
-                            <th>Locatário</th>
-                            <th>CNPJ</th>
-                            <th>Representante</th>
-                            <th>Período</th>
-                            <th>Valor</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <div id="contratosList" class="list"></div>
                 <button onclick="goBack('contratos')">Voltar</button>
             </div>
 
@@ -143,17 +109,7 @@
                     <button type="submit">Confirmar</button>
                 </form>
                 <h3>Lista de Contas</h3>
-                <table id="contasList" class="list">
-                    <thead>
-                        <tr>
-                            <th>Tipo</th>
-                            <th>Data de Vencimento</th>
-                            <th>Valor</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <div id="contasList" class="list"></div>
                 <button onclick="goBack('contas')">Voltar</button>
             </div>
 
@@ -170,17 +126,7 @@
                     <button type="submit">Confirmar</button>
                 </form>
                 <h3>Lista de Empresas</h3>
-                <table id="empresasList" class="list">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Área de CNPJ</th>
-                            <th>Área de Atuação</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <div id="empresasList" class="list"></div>
                 <button onclick="goBack('empresas')">Voltar</button>
             </div>
         </main>
