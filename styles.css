@@ -1,6 +1,3 @@
-Claro! Vou adicionar o código aprimorado para os botões de maximizar e minimizar e a seção "Janela" ao seu CSS completo.
-
-```css
 /* Estilo básico do body */
 body {    
   font-family: Arial, sans-serif;    
@@ -289,6 +286,3 @@ table td button {
 .window-info:hover {    
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* sombra mais pronunciada ao passar o mouse */
 }
-```
-
-Isso deve garantir que os novos estilos estejam integrados de maneira harmoniosa com o seu código existente. 😉
