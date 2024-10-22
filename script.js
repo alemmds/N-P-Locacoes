@@ -45,7 +45,6 @@ function showSection(section) {
     if (buttonsSection) {
         buttonsSection.style.display = 'block';
     }
-}
 
 // Função para salvar dados no LocalStorage
 function saveToLocalStorage() {
