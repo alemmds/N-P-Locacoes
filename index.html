@@ -128,6 +128,11 @@
         function goBack(sectionId) {
             document.getElementById(sectionId).style.display = 'none';
         }
+
+        function showList(listId) {
+            const list = document.getElementById(listId);
+            list.classList.toggle('collapsed');
+        }
     </script>
 </body>
 </html>
