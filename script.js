@@ -19,6 +19,11 @@ function loadFromLocalStorage() {
     contratos = JSON.parse(localStorage.getItem('contratos')) || [];
     empresas = JSON.parse(localStorage.getItem('empresas')) || [];
 }
+// Adicionar esta função logo após o carregamento da página
+window.onload = function() {
+    loadFromLocalStorage();
+    showList('maquinas'); // ou qualquer aba que deseja mostrar ao carregar a página
+};
 
 // Função para exibir a aba correspondente do menu
 function showSection(section) {
