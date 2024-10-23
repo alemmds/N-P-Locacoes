@@ -1,3 +1,15 @@
+Para implementar um sistema de cadastro que permite maximizar e minimizar informações em cada seção, além de armazenar os dados após clicar em “Confirmar”, você pode seguir os seguintes passos:
+
+1. Adicionar Funcionalidade de Minimizar/Expandir
+
+Vamos modificar o HTML para incluir botões que permitem minimizar ou expandir cada seção. Também ajustaremos o JavaScript para manipular a exibição das seções.
+
+2. Armazenar Dados ao Confirmar
+
+Certifique-se de que os dados sejam armazenados corretamente após clicar em “Confirmar”.
+
+Aqui está o código atualizado com essas funcionalidades:
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -5,6 +17,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Cadastro</title>
     <link rel="stylesheet" href="styles.css"> <!-- Referência ao CSS externo -->
+    <style>
+        .section {
+            margin-bottom: 20px;
+        }
+        .collapsed {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -27,104 +47,137 @@
 
             <!-- Seção de Máquinas -->
             <section id="maquinasSection" class="section">
-                <h2>Cadastro de Máquinas</h2>
-                <form id="formMaquina" onsubmit="addToList('maquinasList', 'nomeMaquina', ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina']); return false;">
-                    <label>Nome da Máquina:</label><input type="text" id="nomeMaquina"><br>
-                    <label>Série:</label><input type="text" id="serieMaquina" required><br>
-                    <label>Anos de Uso:</label><input type="number" id="anosUsoMaquina" required><br>
-                    <label>Horímetro:</label><input type="number" id="horimetroMaquina" required><br>
-                    <label>Última Manutenção:</label><input type="date" id="ultimaManutencaoMaquina" required><br>
-                    <label>Data de Entrada:</label><input type="date" id="dataEntradaMaquina" required><br>
-                    <div class="buttons">
-                        <button type="submit">Confirmar</button>
-                        <button type="button" onclick="showList('maquinasList')">Listar</button>
-                        <button type="button" onclick="goBack('maquinasSection')">Voltar</button>
-                    </div>
-                </form>
-
-                <!-- Lista de Máquinas -->
-                <div id="maquinasList"></div>
+                <h2>Cadastro de Máquinas <button onclick="toggleSection('maquinasContent')">Minimizar/Expandir</button></h2>
+                <div id="maquinasContent" class="collapsed">
+                    <form id="formMaquina" onsubmit="addToList('maquinasList', 'nomeMaquina', ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina']); return false;">
+                        <label>Nome da Máquina:</label><input type="text" id="nomeMaquina"><br>
+                        <label>Série:</label><input type="text" id="serieMaquina" required><br>
+                        <label>Anos de Uso:</label><input type="number" id="anosUsoMaquina" required><br>
+                        <label>Horímetro:</label><input type="number" id="horimetroMaquina" required><br>
+                        <label>Última Manutenção:</label><input type="date" id="ultimaManutencaoMaquina" required><br>
+                        <label>Data de Entrada:</label><input type="date" id="dataEntradaMaquina" required><br>
+                        <div class="buttons">
+                            <button type="submit">Confirmar</button>
+                            <button type="button" onclick="showList('maquinasList')">Listar</button>
+                            <button type="button" onclick="goBack('maquinasSection')">Voltar</button>
+                        </div>
+                    </form>
+                    <!-- Lista de Máquinas -->
+                    <div id="maquinasList"></div>
+                </div>
             </section>
 
             <!-- Seção de Contas -->
             <section id="contasSection" class="section">
-                <h2>Cadastro de Contas</h2>
-                <form id="formConta" onsubmit="addToList('contasList', 'tipoConta', ['dataVencimentoConta', 'valorConta']); return false;">
-                    <label>Tipo:</label><input type="text" id="tipoConta"><br>
-                    <label>Data de Vencimento:</label><input type="date" id="dataVencimentoConta"><br>
-                    <label>Valor:</label><input type="number" id="valorConta"><br>
-                    <div class="buttons">
-                        <button type="submit">Confirmar</button>
-                        <button type="button" onclick="showList('contasList')">Listar</button>
-                        <button type="button" onclick="goBack('contasSection')">Voltar</button>
-                    </div>
-                </form>
-
-                <!-- Lista de Contas -->
-                <div id="contasList"></div>
+                <h2>Cadastro de Contas <button onclick="toggleSection('contasContent')">Minimizar/Expandir</button></h2>
+                <div id="contasContent" class="collapsed">
+                    <form id="formConta" onsubmit="addToList('contasList', 'tipoConta', ['dataVencimentoConta', 'valorConta']); return false;">
+                        <label>Tipo:</label><input type="text" id="tipoConta"><br>
+                        <label>Data de Vencimento:</label><input type="date" id="dataVencimentoConta"><br>
+                        <label>Valor:</label><input type="number" id="valorConta"><br>
+                        <div class="buttons">
+                            <button type="submit">Confirmar</button>
+                            <button type="button" onclick="showList('contasList')">Listar</button>
+                            <button type="button" onclick="goBack('contasSection')">Voltar</button>
+                        </div>
+                    </form>
+                    <!-- Lista de Contas -->
+                    <div id="contasList"></div>
+                </div>
             </section>
 
             <!-- Seção de Recebimentos -->
             <section id="recebimentosSection" class="section">
-                <h2>Cadastro de Recebimentos</h2>
-                <form id="formRecebimento" onsubmit="addToList('recebimentosList', 'origemRecebimento', ['dataRecebimento', 'valorRecebimento']); return false;">
-                    <label>Origem:</label><input type="text" id="origemRecebimento"><br>
-                    <label>Data:</label><input type="date" id="dataRecebimento"><br>
-                    <label>Valor:</label><input type="number" id="valorRecebimento"><br>
-                    <div class="buttons">
-                        <button type="submit">Confirmar</button>
-                        <button type="button" onclick="showList('recebimentosList')">Listar</button>
-                        <button type="button" onclick="goBack('recebimentosSection')">Voltar</button>
-                    </div>
-                </form>
-
-                <!-- Lista de Recebimentos -->
-                <div id="recebimentosList"></div>
+                <h2>Cadastro de Recebimentos <button onclick="toggleSection('recebimentosContent')">Minimizar/Expandir</button></h2>
+                <div id="recebimentosContent" class="collapsed">
+                    <form id="formRecebimento" onsubmit="addToList('recebimentosList', 'origemRecebimento', ['dataRecebimento', 'valorRecebimento']); return false;">
+                        <label>Origem:</label><input type="text" id="origemRecebimento"><br>
+                        <label>Data:</label><input type="date" id="dataRecebimento"><br>
+                        <label>Valor:</label><input type="number" id="valorRecebimento"><br>
+                        <div class="buttons">
+                            <button type="submit">Confirmar</button>
+                            <button type="button" onclick="showList('recebimentosList')">Listar</button>
+                            <button type="button" onclick="goBack('recebimentosSection')">Voltar</button>
+                        </div>
+                    </form>
+                    <!-- Lista de Recebimentos -->
+                    <div id="recebimentosList"></div>
+                </div>
             </section>
 
             <!-- Seção de Contratos -->
             <section id="contratosSection" class="section">
-                <h2>Cadastro de Contratos</h2>
-                <form id="formContrato" onsubmit="addToList('contratosList', 'empresaContrato', ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato']); return false;">
-                    <label>Empresa:</label><input type="text" id="empresaContrato"><br>
-                    <label>Locatário:</label><input type="text" id="locatarioContrato"><br>
-                    <label>CNPJ:</label><input type="text" id="cnpjContrato"><br>
-                    <label>Representante:</label><input type="text" id="representanteContrato"><br>
-                    <label>Período:</label><input type="text" id="periodoContrato"><br>
-                    <label>Valor:</label><input type="number" id="valorContrato"><br>
-                    <label>Data de Término:</label><input type="date" id="dataTerminoContrato"><br>
-                    <label>Equipamento:</label><input type="text" id="equipamentoContrato"><br>
-                    <div class="buttons">
-                        <button type="submit">Confirmar</button>
-                        <button type="button" onclick="showList('contratosList')">Listar</button>
-                        <button type="button" onclick="goBack('contratosSection')">Voltar</button>
-                    </div>
-                </form>
-
-                <!-- Lista de Contratos -->
-                <div id="contratosList"></div>
+                <h2>Cadastro de Contratos <button onclick="toggleSection('contratosContent')">Minimizar/Expandir</button></h2>
+                <div id="contratosContent" class="collapsed">
+                    <form id="formContrato" onsubmit="addToList('contratosList', 'empresaContrato', ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato']); return false;">
+                        <label>Empresa:</label><input type="text" id="empresaContrato"><br>
+                        <label>Locatário:</label><input type="text" id="locatarioContrato"><br>
+                        <label>CNPJ:</label><input type="text" id="cnpjContrato"><br>
+                        <label>Representante:</label><input type="text" id="representanteContrato"><br>
+                        <label>Período:</label><input type="text" id="periodoContrato"><br>
+                        <label>Valor:</label><input type="number" id="valorContrato"><br>
+                        <label>Data de Término:</label><input type="date" id="dataTerminoContrato"><br>
+                        <label>Equipamento:</label><input type="text" id="equipamentoContrato"><br>
+                        <div class="buttons">
+                            <button type="submit">Confirmar</button>
+                            <button type="button" onclick="showList('contratosList')">Listar</button>
+                            <button type="button" onclick="goBack('contratosSection')">Voltar</button>
+                        </div>
+                    </form>
+                    <!-- Lista de Contratos -->
+                    <div id="contratosList"></div>
+                </div>
             </section>
 
             <!-- Seção de Empresas -->
             <section id="empresasSection" class="section">
-                <h2>Cadastro de Empresas</h2>
-                <form id="formEmpresa" onsubmit="addToList('empresasList', 'nomeEmpresa', ['cnpjEmpresa', 'enderecoEmpresa']); return false;">
-                    <label>Nome da Empresa:</label><input type="text" id="nomeEmpresa"><br>
-                    <label>CNPJ:</label><input type="text" id="cnpjEmpresa"><br>
-                    <label>Endereço:</label><input type="text" id="enderecoEmpresa"><br>
-                    <div class="buttons">
-                        <button type="submit">Confirmar</button>
-                        <button type="button" onclick="showList('empresasList')">Listar</button>
-                        <button type="button" onclick="goBack('empresasSection')">Voltar</button>
-                    </div>
-                </form>
-
-                <!-- Lista de Empresas -->
-                <div id="empresasList"></div>
+                <h2>Cadastro de Empresas <button onclick="toggleSection('empresasContent')">Minimizar/Expandir</button></h2>
+                <div id="empresasContent" class="collapsed">
+                    <form id="formEmpresa" onsubmit="addToList('empresasList', 'nomeEmpresa', ['cnpjEmpresa', 'enderecoEmpresa']); return false;">
+                        <label>Nome da Empresa:</label><input type="text" id="nomeEmpresa"><br>
+                        <label>CNPJ:</label><input type="text" id="cnpjEmpresa"><br>
+                        <label>Endereço:</label><input type="text" id="enderecoEmpresa"><br>
+                        <div class="buttons">
+                            <button type="submit">Confirmar</button>
+                            <button type="button" onclick="showList('empresasList')">Listar</button>
+                            <button type="button" onclick="goBack('empresasSection')">Voltar</button>
+                        </div>
+                    </form>
+                    <!-- Lista de Empresas -->
+                    <div id="empresasList"></div>
+                </div>
             </section>
         </div>
     </div>
 
     <script src="script.js"></script>
+    <script>
+        function toggleSection(contentId) {
+            const content = document.getElementById(contentId);
+            content.classList.toggle('collapsed');
+        }
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.display = 'none'; // Oculta todas as seções
+            });
+            document.getElementById(sectionId).style.display = 'block'; // Mostra a seção desejada
+        }
+    </script>
 </body>
 </html>
+
+O que foi adicionado e alterado:
+
+	1.	Botão de Minimizar/Expandir: Cada seção agora possui um botão para alternar a exibição dos formulários e listas.
+	2.	Estilos de Colapsar: Adicionei uma classe .collapsed no CSS para esconder o conteúdo das seções quando minimizadas.
+	3.	JavaScript para Toggle: A função toggleSection(contentId) manipula a classe .collapsed para mostrar ou ocultar o conteúdo.
+	4.	Controle de Exibição de Seções: A função showSection(sectionId) agora oculta todas as seções antes de mostrar a seção solicitada.
+
+Próximos Passos
+
+	•	Implementar Armazenamento de Dados: Assegure-se de que o addToList no seu script.js está armazenando corretamente os dados no local desejado.
+	•	Testar a Funcionalidade: Após fazer essas alterações, teste o sistema para garantir que as funcionalidades de minimização e armazenamento estejam funcionando corretamente.
+
+Se precisar de mais ajustes ou funcionalidades, fique à vontade para perguntar!
