@@ -242,13 +242,17 @@ function editItem(type, index) {
         item = empresas[index];
         document.getElementById('nomeEmpresa').value = item.nome;
         document.getElementById('areaCnpj').value = item.areaCnpj;
-        document.getElementById('areaAtuacao').value = itewm.areaAtuacao;
+        document.getElementById('areaAtuacao').value = item.areaAtuacao;
         document.getElementById('representanteEmpresa').value = item.representante;
         document.getElementById('telefoneEmpresa').value = item.telefone;
         document.getElementById('emailEmpresa').value = item.email;
     }
 
-    // Remover item atual
+    deleteItem(type, index); // Remove o item para que a edição atualizada seja inserida como novo registro
+}
+
+// Funções para deletar registros
+function deleteItem(type, index) {
     if (type === 'maquinas') {
         maquinas.splice(index, 1);
     } else if (type === 'contas') {
@@ -260,41 +264,28 @@ function editItem(type, index) {
     } else if (type === 'empresas') {
         empresas.splice(index, 1);
     }
-
     saveToLocalStorage();
     showList(type);
 }
 
-// Função para deletar um registro
-function deleteItem(type, index) {
-    if (confirm("Tem certeza que deseja excluir este item?")) {
-        if (type === 'maquinas') {
-            maquinas.splice(index, 1);
-        } else if (type === 'contas') {
-            contas.splice(index, 1);
-        } else if (type === 'recebimentos') {
-            recebimentos.splice(index, 1);
-        } else if (type === 'contratos') {
-            contratos.splice(index, 1);
-        } else if (type === 'empresas') {
-            empresas.splice(index, 1);
-        }
-
-        saveToLocalStorage();
-        showList(type);
-    }
+// Função para ativar as interações com o accordion
+function ativarAccordion() {
+    const headers = document.querySelectorAll('.item .header');
+    headers.forEach(header => {
+        header.addEventListener('click', () => {
+            toggleAccordion(header);
+        });
+    });
 }
 
-function toggleDetails(detailsId) {
-    var details = document.getElementById(detailsId);
-    if (details.style.display === 'none' || details.style.display === '') {
-        details.style.display = 'block';
-    } else {
-        details.style.display = 'none';
-    }
-}
-// Ativar a exibição inicial das máquinas
-showList('maquinas');
+// Carregar lista ao iniciar
+document.addEventListener('DOMContentLoaded', function() {
+    showList('maquinas');
+    showList('contas');
+    showList('recebimentos');
+    showList('contratos');
+    showList('empresas');
+});
 
 // Registra o Service Worker
 if ('serviceWorker' in navigator) {
