@@ -1,4 +1,3 @@
-// Arrays iniciais, carregados do LocalStorage se disponíveis
 let maquinas = JSON.parse(localStorage.getItem('maquinas')) || [];
 let contas = JSON.parse(localStorage.getItem('contas')) || [];
 let recebimentos = JSON.parse(localStorage.getItem('recebimentos')) || [];
@@ -61,21 +60,23 @@ window.onload = function() {
 
 // Função para limpar e resetar o Local Storage manualmente (pode ser chamada para depuração)
 function resetLocalStorage() {
-    localStorage.removeItem('maquinas');
-    localStorage.removeItem('contas');
-    localStorage.removeItem('recebimentos');
-    localStorage.removeItem('contratos');
-    localStorage.removeItem('empresas');
-    
-    // Inicializa novamente como arrays vazios
-    maquinas = [];
-    contas = [];
-    recebimentos = [];
-    contratos = [];
-    empresas = [];
-    
-    saveToLocalStorage(); // Salva os arrays vazios
-    console.log("Local Storage resetado.");
+    if (confirm("Tem certeza que deseja resetar o Local Storage? Todos os dados serão perdidos.")) {
+        localStorage.removeItem('maquinas');
+        localStorage.removeItem('contas');
+        localStorage.removeItem('recebimentos');
+        localStorage.removeItem('contratos');
+        localStorage.removeItem('empresas');
+        
+        // Inicializa novamente como arrays vazios
+        maquinas = [];
+        contas = [];
+        recebimentos = [];
+        contratos = [];
+        empresas = [];
+        
+        saveToLocalStorage(); // Salva os arrays vazios
+        console.log("Local Storage resetado.");
+    }
 }
 
 // Função para exibir a aba correspondente do menu
@@ -91,20 +92,6 @@ function showSection(section) {
     if (buttonsSection) {
         buttonsSection.style.display = 'block';
     }
-}
-
-// Função para salvar dados no LocalStorage
-function saveToLocalStorage() {
-    localStorage.setItem('maquinas', JSON.stringify(maquinas));
-    localStorage.setItem('contas', JSON.stringify(contas));
-    localStorage.setItem('recebimentos', JSON.stringify(recebimentos));
-    localStorage.setItem('contratos', JSON.stringify(contratos));
-    localStorage.setItem('empresas', JSON.stringify(empresas));
-}
-
-// Função para retornar ao menu principal
-function goBack(section) {
-    document.getElementById(section).style.display = 'none';
 }
 
 // Função para exibir a lista com base no tipo
@@ -173,105 +160,6 @@ function toggleAccordion(header) {
     }
 }
 
-// Funções de adicionar novos registros para cada categoria
-document.getElementById('formMaquina').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const nome = document.getElementById('nomeMaquina').value;
-    const serie = document.getElementById('serieMaquina').value;
-    const anosUso = document.getElementById('anosUso').value;
-    const horasTrabalhadas = document.getElementById('horasTrabalhadas').value;
-    const ultimaManutencao = document.getElementById('ultimaManutencao').value;
-    const dataEntrada = document.getElementById('dataEntrada').value;
-
-    if (!nome || !serie || !anosUso || !horasTrabalhadas || !ultimaManutencao || !dataEntrada) {
-        alert('Por favor, preencha todos os campos.');
-        return;
-    }
-
-    maquinas.push({ nome, serie, anosUso, horasTrabalhadas, ultimaManutencao, dataEntrada });
-    saveToLocalStorage();
-    document.getElementById('formMaquina').reset();
-    showList('maquinas');
-});
-
-document.getElementById('formConta').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const tipo = document.getElementById('tipoConta').value;
-    const dataVencimento = document.getElementById('dataVencimentoConta').value;
-    const valor = document.getElementById('valorConta').value;
-
-    if (!tipo || !dataVencimento || !valor) {
-        alert("Preencha todos os campos.");
-        return;
-    }
-
-    contas.push({ tipo, dataVencimento, valor });
-    saveToLocalStorage();
-    document.getElementById('formConta').reset();
-    showList('contas');
-});
-
-document.getElementById('formRecebimento').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const empresa = document.getElementById('empresaRecebimento').value;
-    const valor = document.getElementById('valorRecebimento').value;
-    const dataPagamento = document.getElementById('dataPagamento').value;
-    const dataTermino = document.getElementById('dataTermino').value;
-    const status = document.getElementById('statusRecebimento').value;
-
-    if (!empresa || !valor || !dataPagamento || !dataTermino || !status) {
-        alert("Preencha todos os campos.");
-        return;
-    }
-
-    recebimentos.push({ empresa, valor, dataPagamento, dataTermino, status });
-    saveToLocalStorage();
-    document.getElementById('formRecebimento').reset();
-    showList('recebimentos');
-});
-
-document.getElementById('formContrato').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const empresa = document.getElementById('empresaContrato').value;
-    const locatario = document.getElementById('locatarioContrato').value;
-    const cnpj = document.getElementById('cnpjContrato').value;
-    const representante = document.getElementById('representanteContrato').value;
-    const periodo = document.getElementById('periodoContrato').value;
-    const valor = document.getElementById('valorContrato').value;
-    const dataTermino = document.getElementById('dataTerminoContrato').value;
-    const equipamento = document.getElementById('equipamentoContrato').value;
-
-    if (!empresa || !locatario || !cnpj || !representante || !periodo || !valor || !dataTermino || !equipamento) {
-        alert("Preencha todos os campos.");
-        return;
-    }
-
-    contratos.push({ empresa, locatario, cnpj, representante, periodo, valor, dataTermino, equipamento });
-    saveToLocalStorage();
-    document.getElementById('formContrato').reset();
-    showList('contratos');
-});
-
-document.getElementById('formEmpresa').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const nome = document.getElementById('nomeEmpresa').value;
-    const areaCnpj = document.getElementById('areaCnpj').value;
-    const areaAtuacao = document.getElementById('areaAtuacao').value;
-    const representante = document.getElementById('representanteEmpresa').value;
-    const telefone = document.getElementById('telefoneEmpresa').value;
-    const email = document.getElementById('emailEmpresa').value;
-
-    if (!nome || !areaCnpj || !areaAtuacao || !representante || !telefone || !email) {
-        alert("Preencha todos os campos.");
-        return;
-    }
-
-    empresas.push({ nome, areaCnpj, areaAtuacao, representante, telefone, email });
-    saveToLocalStorage();
-    document.getElementById('formEmpresa').reset();
-    showList('empresas');
-});
-
 // Função de edição de um item
 function editItem(type, index) {
     let item;
@@ -315,7 +203,7 @@ document.getElementById('editForm').addEventListener('submit', function(event) {
     const index = document.getElementById('currentEditIndex').value;
 
     const fields = Array.from(document.querySelectorAll('#editForm input'));
-    const editedItem = {};
+    const editedItem = { ...maquinas[index], ...contas[index], ...recebimentos[index], ...contratos[index], ...empresas[index] };  // Clonar o item original
 
     fields.forEach(input => {
         if (input.value) {
