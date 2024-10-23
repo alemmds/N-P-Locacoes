@@ -96,10 +96,15 @@
             <!-- Seção de Contratos -->
             <section id="contratosSection" class="section" style="display:none;">
                 <h2>Cadastro de Contratos</h2>
-                <form id="formContrato" onsubmit="addOrUpdateItem(event, 'contratosList', 'nomeContrato', ['dataContrato', 'valorContrato'], 'contratos')">
-                    <label>Nome do Contrato:</label><input type="text" id="nomeContrato" required><br>
-                    <label>Data:</label><input type="date" id="dataContrato" required><br>
+                <form id="formContrato" onsubmit="addOrUpdateItem(event, 'contratosList', 'nomeContrato', ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'], 'contratos')">
+                    <label>Empresa:</label><input type="text" id="nomeContrato" required><br>
+                    <label>Locatário:</label><input type="text" id="locatarioContrato" required><br>
+                    <label>CNPJ:</label><input type="text" id="cnpjContrato" required><br>
+                    <label>Representante:</label><input type="text" id="representanteContrato" required><br>
+                    <label>Período:</label><input type="text" id="periodoContrato" required><br>
                     <label>Valor:</label><input type="number" id="valorContrato" required><br>
+                    <label>Data de Término:</label><input type="date" id="dataTerminoContrato" required><br>
+                    <label>Equipamento:</label><input type="text" id="equipamentoContrato" required><br>
                     <div class="buttons">
                         <button type="submit">Confirmar</button>
                         <button type="button" onclick="clearForm('formContrato')">Limpar</button>
@@ -132,7 +137,7 @@
     <script>
         let editIndex = -1;
         let currentType = '';
-        
+
         window.onload = loadData;
 
         function showSection(sectionId) {
@@ -158,7 +163,6 @@
                 const item = { itemName, additionalData };
                 items.push(item);
                 localStorage.setItem(type, JSON.stringify(items));
-
                 addItemToList(itemId, itemName, additionalData, list);
             } else {
                 // Atualizar item existente
@@ -167,8 +171,8 @@
                 updateListItem(editIndex, itemName, additionalData, list);
             }
 
-            clearForm(event.target.id);
-            editIndex = -1; // Resetando o índice de edição
+            clearForm(`form${type.charAt(0).toUpperCase() + type.slice(1)}`);
+            loadData();
         }
 
         function addItemToList(index, itemName, additionalData, list) {
@@ -210,7 +214,7 @@
             const additionalIds = currentType === 'maquinas' ? ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'] :
                 currentType === 'contas' ? ['tipoConta', 'saldoConta'] :
                 currentType === 'recebimentos' ? ['valorRecebimento', 'dataRecebimento'] :
-                currentType === 'contratos' ? ['dataContrato', 'valorContrato'] :
+                currentType === 'contratos' ? ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'] :
                 ['cnpjEmpresa', 'enderecoEmpresa'];
 
             additionalIds.forEach((id, i) => {
