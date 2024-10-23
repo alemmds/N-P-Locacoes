@@ -28,13 +28,10 @@
             <!-- Seção de Máquinas -->
             <section id="maquinasSection" class="section">
                 <h2>Cadastro de Máquinas</h2>
-                <form id="formMaquina" onsubmit="handleFormSubmit(event, 'maquinasList')">
-                    <label>Nome da Máquina:</label><input type="text" id="nomeMaquina" required><br>
-                    <label>Série:</label><input type="text" id="serieMaquina" required><br>
-                    <label>Anos de Uso:</label><input type="number" id="anosUsoMaquina" required><br>
-                    <label>Horímetro:</label><input type="number" id="horimetroMaquina" required><br>
-                    <label>Última Manutenção:</label><input type="date" id="ultimaManutencaoMaquina" required><br>
-                    <label>Data de Entrada:</label><input type="date" id="dataEntradaMaquina" required><br>
+                <form id="formMaquina" onsubmit="handleFormSubmit(event, 'maquinas', 'nomeMaquina')">
+                    <label>Nome da Máquina:</label><input type="text" id="nomeMaquina"><br>
+                    <label>Tipo:</label><input type="text" id="tipoMaquina"><br>
+                    <label>Valor:</label><input type="number" id="valorMaquina"><br>
                     <div class="buttons">
                         <button type="submit">Confirmar</button>
                         <button type="button" onclick="showList('maquinas')">Listar</button>
@@ -49,10 +46,10 @@
             <!-- Seção de Contas -->
             <section id="contasSection" class="section">
                 <h2>Cadastro de Contas</h2>
-                <form id="formConta" onsubmit="handleFormSubmit(event, 'contasList')">
-                    <label>Tipo:</label><input type="text" id="tipoConta" required><br>
-                    <label>Data de Vencimento:</label><input type="date" id="dataVencimentoConta" required><br>
-                    <label>Valor:</label><input type="number" id="valorConta" required><br>
+                <form id="formConta" onsubmit="handleFormSubmit(event, 'contas', 'tipoConta')">
+                    <label>Tipo:</label><input type="text" id="tipoConta"><br>
+                    <label>Data de Vencimento:</label><input type="date" id="dataVencimentoConta"><br>
+                    <label>Valor:</label><input type="number" id="valorConta"><br>
                     <div class="buttons">
                         <button type="submit">Confirmar</button>
                         <button type="button" onclick="showList('contas')">Listar</button>
@@ -67,10 +64,10 @@
             <!-- Seção de Recebimentos -->
             <section id="recebimentosSection" class="section">
                 <h2>Cadastro de Recebimentos</h2>
-                <form id="formRecebimento" onsubmit="handleFormSubmit(event, 'recebimentosList')">
-                    <label>Origem:</label><input type="text" id="origemRecebimento" required><br>
-                    <label>Data:</label><input type="date" id="dataRecebimento" required><br>
-                    <label>Valor:</label><input type="number" id="valorRecebimento" required><br>
+                <form id="formRecebimento" onsubmit="handleFormSubmit(event, 'recebimentos', 'origemRecebimento')">
+                    <label>Origem:</label><input type="text" id="origemRecebimento"><br>
+                    <label>Data:</label><input type="date" id="dataRecebimento"><br>
+                    <label>Valor:</label><input type="number" id="valorRecebimento"><br>
                     <div class="buttons">
                         <button type="submit">Confirmar</button>
                         <button type="button" onclick="showList('recebimentos')">Listar</button>
@@ -85,15 +82,15 @@
             <!-- Seção de Contratos -->
             <section id="contratosSection" class="section">
                 <h2>Cadastro de Contratos</h2>
-                <form id="formContrato" onsubmit="handleFormSubmit(event, 'contratosList')">
-                    <label>Empresa:</label><input type="text" id="empresaContrato" required><br>
-                    <label>Locatário:</label><input type="text" id="locatarioContrato" required><br>
-                    <label>CNPJ:</label><input type="text" id="cnpjContrato" required><br>
-                    <label>Representante:</label><input type="text" id="representanteContrato" required><br>
-                    <label>Período:</label><input type="text" id="periodoContrato" required><br>
-                    <label>Valor:</label><input type="number" id="valorContrato" required><br>
-                    <label>Data de Término:</label><input type="date" id="dataTerminoContrato" required><br>
-                    <label>Equipamento:</label><input type="text" id="equipamentoContrato" required><br>
+                <form id="formContrato" onsubmit="handleFormSubmit(event, 'contratos', 'empresaContrato')">
+                    <label>Empresa:</label><input type="text" id="empresaContrato"><br>
+                    <label>Locatário:</label><input type="text" id="locatarioContrato"><br>
+                    <label>CNPJ:</label><input type="text" id="cnpjContrato"><br>
+                    <label>Representante:</label><input type="text" id="representanteContrato"><br>
+                    <label>Período:</label><input type="text" id="periodoContrato"><br>
+                    <label>Valor:</label><input type="number" id="valorContrato"><br>
+                    <label>Data de Término:</label><input type="date" id="dataTerminoContrato"><br>
+                    <label>Equipamento:</label><input type="text" id="equipamentoContrato"><br>
                     <div class="buttons">
                         <button type="submit">Confirmar</button>
                         <button type="button" onclick="showList('contratos')">Listar</button>
@@ -108,10 +105,10 @@
             <!-- Seção de Empresas -->
             <section id="empresasSection" class="section">
                 <h2>Cadastro de Empresas</h2>
-                <form id="formEmpresa" onsubmit="handleFormSubmit(event, 'empresasList')">
-                    <label>Nome da Empresa:</label><input type="text" id="nomeEmpresa" required><br>
-                    <label>CNPJ:</label><input type="text" id="cnpjEmpresa" required><br>
-                    <label>Endereço:</label><input type="text" id="enderecoEmpresa" required><br>
+                <form id="formEmpresa" onsubmit="handleFormSubmit(event, 'empresas', 'nomeEmpresa')">
+                    <label>Nome da Empresa:</label><input type="text" id="nomeEmpresa"><br>
+                    <label>CNPJ:</label><input type="text" id="cnpjEmpresa"><br>
+                    <label>Endereço:</label><input type="text" id="enderecoEmpresa"><br>
                     <div class="buttons">
                         <button type="submit">Confirmar</button>
                         <button type="button" onclick="showList('empresas')">Listar</button>
@@ -126,38 +123,23 @@
     </div>
 
     <script>
-        function showSection(sectionId) {
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => section.style.display = 'none');
-            document.getElementById(sectionId).style.display = 'block';
-        }
+        function handleFormSubmit(event, section, inputId) {
+            event.preventDefault(); // Impede o envio do formulário
+            const inputValue = document.getElementById(inputId).value;
 
-        function handleFormSubmit(event, listId) {
-            event.preventDefault(); // Impede o envio padrão do formulário
-
-            const formData = new FormData(event.target);
-            const machineDetails = {};
-
-            formData.forEach((value, key) => {
-                machineDetails[key] = value;
-            });
-
-            const listContainer = document.getElementById(listId);
+            // Cria um novo elemento de lista para a seção correspondente
+            const listContainer = document.getElementById(section + 'List');
             const itemButton = document.createElement('button');
             itemButton.className = 'maximize-button';
-            itemButton.onclick = () => toggleDetails(`${listId}Details${Date.now()}`);
-            itemButton.textContent = `Máquina: ${machineDetails.nomeMaquina}`;
+            itemButton.onclick = () => toggleDetails(section + 'Details' + (listContainer.children.length + 1));
+            itemButton.textContent = inputValue; // Usa o valor do campo como texto do botão
 
             const detailsDiv = document.createElement('div');
             detailsDiv.className = 'info-container';
-            detailsDiv.id = `${listId}Details${Date.now()}`;
+            detailsDiv.id = section + 'Details' + (listContainer.children.length + 1);
             detailsDiv.style.display = 'none';
-
-            let detailsContent = '';
-            for (const key in machineDetails) {
-                detailsContent += `<p><strong>${key.replace(/([A-Z])/g, ' $1') + ':'}</strong> ${machineDetails[key]}</p>`;
-            }
-            detailsDiv.innerHTML = `${detailsContent}<div class="buttons">
+            detailsDiv.innerHTML = `<p><strong>${inputId.charAt(0).toUpperCase() + inputId.slice(1)}:</strong> ${inputValue}</p>
+                                    <div class="buttons">
                                         <button class="alterar">Alterar</button>
                                         <button class="excluir">Excluir</button>
                                     </div>`;
@@ -167,14 +149,9 @@
             listContainer.appendChild(detailsDiv);
         }
 
-        // Função para alternar a exibição dos detalhes
         function toggleDetails(detailsId) {
             const details = document.getElementById(detailsId);
             details.style.display = details.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function goBack(sectionId) {
-            showSection(sectionId);
         }
     </script>
 </body>
