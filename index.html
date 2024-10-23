@@ -1,137 +1,65 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Cadastro</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Cadastro de Sistema</title>
     <style>
-        .collapsed {
-            display: none;
-        }
-        .expanded {
-            display: block;
-        }
-        button {
-            margin-top: 10px;
-        }
-        .logo {
-            width: 100px;
-        }
-        .info {
-            margin-top: 5px;
-        }
-        .item {
-            border: 1px solid #ddd;
-            margin: 10px 0;
-            border-radius: 5px;
-            padding: 10px;
-            background-color: #f9f9f9;
-        }
-        .header {
-            cursor: pointer;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .buttons {
-            margin-top: 10px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .edit-button, .delete-button {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .edit-button {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .delete-button {
-            background-color: #f44336;
-            color: white;
-        }
-        .edit-button:hover {
-            background-color: #45a049;
-        }
-        .delete-button:hover {
-            background-color: #e53935;
-        }
-        .details {
-            margin-top: 10px;
-            border-top: 1px solid #ddd;
-            padding-top: 10px;
-        }
-        .arrow {
-            font-size: 1.2em;
-        }
+        .buttons { margin-top: 10px; }
+        .item { margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; }
+        .header { display: flex; justify-content: space-between; cursor: pointer; }
+        .details { display: none; }
+        .collapsed { display: none; }
+        .expanded { display: block; }
+        .buttons .edit-button, .buttons .delete-button { margin-right: 5px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Menu Lateral -->
-        <div class="sidebar">
-            <img src="logo.png" alt="Logo" class="logo">
-            <h2>Menu</h2>
-            <ul>
-                <li><button onclick="showSection('maquinasSection')">Máquinas</button></li>
-                <li><button onclick="showSection('contasSection')">Contas</button></li>
-                <li><button onclick="showSection('recebimentosSection')">Recebimentos</button></li>
-                <li><button onclick="showSection('contratosSection')">Contratos</button></li>
-                <li><button onclick="showSection('empresasSection')">Empresas</button></li>
-            </ul>
-        </div>
+        <nav>
+            <button onclick="showSection('maquinasSection')">Máquinas</button>
+            <button onclick="showSection('contasSection')">Contas</button>
+            <button onclick="showSection('recebimentosSection')">Recebimentos</button>
+            <button onclick="showSection('contratosSection')">Contratos</button>
+            <button onclick="showSection('empresasSection')">Empresas</button>
+        </nav>
 
-        <!-- Conteúdo Principal -->
-        <div class="content">
-            <h1>Central de Infomações</h1>
-
+        <div id="sections">
             <!-- Seção de Máquinas -->
-            <section id="maquinasSection" class="section">
+            <section id="maquinasSection" class="section" style="display:none;">
                 <h2>Cadastro de Máquinas</h2>
-                <form id="formMaquina" onsubmit="addOrUpdateItem(event, 'maquinasList', 'nomeMaquina', ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'], 'maquinas')">
+                <form id="formMaquina" onsubmit="addOrUpdateItem(event, 'maquinasList', 'nomeMaquina', ['serieMaquina', 'anosUsoMaquina'], 'maquinas')">
                     <label>Nome da Máquina:</label><input type="text" id="nomeMaquina" required><br>
                     <label>Série:</label><input type="text" id="serieMaquina" required><br>
                     <label>Anos de Uso:</label><input type="number" id="anosUsoMaquina" required><br>
-                    <label>Horímetro:</label><input type="number" id="horimetroMaquina" required><br>
-                    <label>Última Manutenção:</label><input type="date" id="ultimaManutencaoMaquina" required><br>
-                    <label>Data de Entrada:</label><input type="date" id="dataEntradaMaquina" required><br>
                     <div class="buttons">
                         <button type="submit">Confirmar</button>
                         <button type="button" onclick="clearForm('formMaquina')">Limpar</button>
                     </div>
                 </form>
-
-                <!-- Lista de Máquinas -->
                 <div id="maquinasList"></div>
             </section>
 
             <!-- Seção de Contas -->
             <section id="contasSection" class="section" style="display:none;">
                 <h2>Cadastro de Contas</h2>
-                <form id="formConta" onsubmit="addOrUpdateItem(event, 'contasList', 'nomeConta', ['tipoConta', 'saldoConta'], 'contas')">
+                <form id="formConta" onsubmit="addOrUpdateItem(event, 'contasList', 'nomeConta', ['bancoConta', 'saldoConta'], 'contas')">
                     <label>Nome da Conta:</label><input type="text" id="nomeConta" required><br>
-                    <label>Tipo:</label><input type="text" id="tipoConta" required><br>
+                    <label>Banco:</label><input type="text" id="bancoConta" required><br>
                     <label>Saldo:</label><input type="number" id="saldoConta" required><br>
                     <div class="buttons">
                         <button type="submit">Confirmar</button>
                         <button type="button" onclick="clearForm('formConta')">Limpar</button>
                     </div>
                 </form>
-
-                <!-- Lista de Contas -->
                 <div id="contasList"></div>
             </section>
 
             <!-- Seção de Recebimentos -->
             <section id="recebimentosSection" class="section" style="display:none;">
                 <h2>Cadastro de Recebimentos</h2>
-                <form id="formRecebimento" onsubmit="addOrUpdateItem(event, 'recebimentosList', 'descricaoRecebimento', ['valorRecebimento', 'dataRecebimento'], 'recebimentos')">
-                    <label>Descrição:</label><input type="text" id="descricaoRecebimento" required><br>
+                <form id="formRecebimento" onsubmit="addOrUpdateItem(event, 'recebimentosList', 'nomeRecebimento', ['valorRecebimento', 'dataRecebimento'], 'recebimentos')">
+                    <label>Nome do Recebimento:</label><input type="text" id="nomeRecebimento" required><br>
                     <label>Valor:</label><input type="number" id="valorRecebimento" required><br>
                     <label>Data:</label><input type="date" id="dataRecebimento" required><br>
                     <div class="buttons">
@@ -139,21 +67,15 @@
                         <button type="button" onclick="clearForm('formRecebimento')">Limpar</button>
                     </div>
                 </form>
-
-                <!-- Lista de Recebimentos -->
                 <div id="recebimentosList"></div>
             </section>
 
             <!-- Seção de Contratos -->
             <section id="contratosSection" class="section" style="display:none;">
                 <h2>Cadastro de Contratos</h2>
-                <form id="formContrato" onsubmit="addOrUpdateItem(event, 'contratosList', 'nomeContrato', ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'], 'contratos')">
-                    <label>Empresa:</label><input type="text" id="nomeContrato" required><br>
-                    <label>Locatário:</label><input type="text" id="locatarioContrato" required><br>
-                    <label>CNPJ:</label><input type="text" id="cnpjContrato" required><br>
-                    <label>Representante:</label><input type="text" id="representanteContrato" required><br>
-                    <label>Período:</label><input type="text" id="periodoContrato" required><br>
-                    <label>Valor:</label><input type="number" id="valorContrato" required><br>
+                <form id="formContrato" onsubmit="addOrUpdateItem(event, 'contratosList', 'nomeContrato', ['dataInicioContrato', 'dataTerminoContrato', 'equipamentoContrato'], 'contratos')">
+                    <label>Nome do Contrato:</label><input type="text" id="nomeContrato" required><br>
+                    <label>Data de Início:</label><input type="date" id="dataInicioContrato" required><br>
                     <label>Data de Término:</label><input type="date" id="dataTerminoContrato" required><br>
                     <label>Equipamento:</label><input type="text" id="equipamentoContrato" required><br>
                     <div class="buttons">
@@ -161,8 +83,6 @@
                         <button type="button" onclick="clearForm('formContrato')">Limpar</button>
                     </div>
                 </form>
-
-                <!-- Lista de Contratos -->
                 <div id="contratosList"></div>
             </section>
 
@@ -178,92 +98,125 @@
                         <button type="button" onclick="clearForm('formEmpresa')">Limpar</button>
                     </div>
                 </form>
-
-                <!-- Lista de Empresas -->
                 <div id="empresasList"></div>
             </section>
         </div>
     </div>
 
     <script>
-        // Script para alternar a exibição das seções
         function showSection(sectionId) {
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
+            document.querySelectorAll('.section').forEach(section => {
                 section.style.display = 'none';
             });
             document.getElementById(sectionId).style.display = 'block';
         }
 
-        // Função para adicionar ou atualizar itens
-        function addOrUpdateItem(event, listId, mainFieldId, additionalFields, itemType) {
-            event.preventDefault();
-            const mainFieldValue = document.getElementById(mainFieldId).value;
-
-            const additionalValues = additionalFields.map(fieldId => document.getElementById(fieldId).value);
-            const listContainer = document.getElementById(listId);
-
-            // Criar o item
-            const itemDiv = document.createElement('div');
-            itemDiv.classList.add('item');
-
-            const headerDiv = document.createElement('div');
-            headerDiv.classList.add('header');
-            headerDiv.innerHTML = `<span>${mainFieldValue}</span> <span class="arrow">▶</span>`;
-            itemDiv.appendChild(headerDiv);
-
-            const detailsDiv = document.createElement('div');
-            detailsDiv.classList.add('details', 'collapsed');
-            detailsDiv.innerHTML = additionalValues.map((value, index) => `<div class="info">${additionalFields[index].charAt(0).toUpperCase() + additionalFields[index].slice(1).replace(/([A-Z])/g, ' $1')}: ${value}</div>`).join('');
-            itemDiv.appendChild(detailsDiv);
-
-            // Adicionar botões de editar e excluir
-            const buttonsDiv = document.createElement('div');
-            buttonsDiv.classList.add('buttons');
-
-            const editButton = document.createElement('button');
-            editButton.classList.add('edit-button');
-            editButton.innerText = 'Editar';
-            editButton.onclick = () => editItem(itemDiv, mainFieldId, additionalFields);
-            buttonsDiv.appendChild(editButton);
-
-            const deleteButton = document.createElement('button');
-            deleteButton.classList.add('delete-button');
-            deleteButton.innerText = 'Excluir';
-            deleteButton.onclick = () => itemDiv.remove();
-            buttonsDiv.appendChild(deleteButton);
-
-            itemDiv.appendChild(buttonsDiv);
-            listContainer.appendChild(itemDiv);
-
-            // Limpar o formulário
-            event.target.reset();
-
-            // Adicionar evento de clique para expandir e minimizar detalhes
-            headerDiv.onclick = () => {
-                detailsDiv.classList.toggle('collapsed');
-                detailsDiv.classList.toggle('expanded');
-                headerDiv.querySelector('.arrow').innerText = detailsDiv.classList.contains('collapsed') ? '▶' : '▼';
-            };
-        }
-
-        // Função para editar um item
-        function editItem(itemDiv, mainFieldId, additionalFields) {
-            const mainField = itemDiv.querySelector('.header span').innerText;
-            const detailsDiv = itemDiv.querySelector('.details');
-            const additionalValues = Array.from(detailsDiv.children).map(infoDiv => infoDiv.innerText.split(': ')[1]);
-            
-            document.getElementById(mainFieldId).value = mainField;
-            additionalFields.forEach((fieldId, index) => {
-                document.getElementById(fieldId).value = additionalValues[index];
-            });
-            itemDiv.remove(); // Remove o item da lista enquanto edita
-        }
-
-        // Função para limpar o formulário
         function clearForm(formId) {
             document.getElementById(formId).reset();
         }
+
+        function addOrUpdateItem(event, listId, mainFieldId, fieldIds, storageKey) {
+            event.preventDefault();
+            const mainField = document.getElementById(mainFieldId).value;
+            const fields = fieldIds.map(id => document.getElementById(id).value);
+
+            let storedItems = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+            const item = { mainField, fields };
+            storedItems.push(item);
+            localStorage.setItem(storageKey, JSON.stringify(storedItems));
+
+            renderList(listId, storageKey);
+            clearForm(event.target.id);
+        }
+
+        function renderList(listId, storageKey) {
+            const list = document.getElementById(listId);
+            list.innerHTML = '';
+            const storedItems = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+            storedItems.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('item');
+
+                const header = document.createElement('div');
+                header.classList.add('header');
+                header.innerHTML = `<span>${item.mainField}</span><span class="arrow">⯈</span>`;
+                header.addEventListener('click', () => toggleDetails(details, arrow));
+
+                const details = document.createElement('div');
+                details.classList.add('details', 'collapsed');
+                item.fields.forEach((field, i) => {
+                    const infoDiv = document.createElement('div');
+                    infoDiv.classList.add('info');
+                    infoDiv.textContent = `${fieldIds[i]}: ${field}`;
+                    details.appendChild(infoDiv);
+                });
+
+                const arrow = header.querySelector('.arrow');
+
+                const buttonsDiv = document.createElement('div');
+                buttonsDiv.classList.add('buttons');
+
+                const editButton = document.createElement('button');
+                editButton.classList.add('edit-button');
+                editButton.textContent = 'Editar';
+                editButton.addEventListener('click', () => editItem(listId, index, storageKey, fieldIds));
+
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete-button');
+                deleteButton.textContent = 'Excluir';
+                deleteButton.addEventListener('click', () => deleteItem(listId, index, storageKey));
+
+                buttonsDiv.appendChild(editButton);
+                buttonsDiv.appendChild(deleteButton);
+
+                itemDiv.appendChild(header);
+                itemDiv.appendChild(details);
+                itemDiv.appendChild(buttonsDiv);
+
+                list.appendChild(itemDiv);
+            });
+        }
+
+        function toggleDetails(details, arrow) {
+            if (details.classList.contains('collapsed')) {
+                details.classList.remove('collapsed');
+                details.classList.add('expanded');
+                arrow.textContent = '⯆';
+            } else {
+                details.classList.remove('expanded');
+                details.classList.add('collapsed');
+                arrow.textContent = '⯈';
+            }
+        }
+
+        function deleteItem(listId, index, storageKey) {
+            let storedItems = JSON.parse(localStorage.getItem(storageKey));
+            storedItems.splice(index, 1);
+            localStorage.setItem(storageKey, JSON.stringify(storedItems));
+            renderList(listId, storageKey);
+        }
+
+        function editItem(listId, index, storageKey, fieldIds) {
+            let storedItems = JSON.parse(localStorage.getItem(storageKey));
+            const item = storedItems[index];
+            
+            document.getElementById(fieldIds[0]).value = item.mainField;
+            item.fields.forEach((field, i) => {
+                document.getElementById(fieldIds[i + 1]).value = field;
+            });
+
+            deleteItem(listId, index, storageKey);
+        }
+
+        window.onload = function() {
+            renderList('maquinasList', 'maquinas');
+            renderList('contasList', 'contas');
+            renderList('recebimentosList', 'recebimentos');
+            renderList('contratosList', 'contratos');
+            renderList('empresasList', 'empresas');
+        };
     </script>
 </body>
 </html>
