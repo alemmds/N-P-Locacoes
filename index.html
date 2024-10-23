@@ -188,143 +188,104 @@
     <script>
         // Função para alternar seções
         function showSection(sectionId) {
-            document.querySelectorAll('.section').forEach(section => {
-                section.style.display = 'none';
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.display = (section.id === sectionId) ? 'block' : 'none';
             });
-            document.getElementById(sectionId).style.display = 'block';
-            loadList(sectionId.replace('Section', ''));
         }
 
-        // Função para adicionar ou editar um item
-        function addOrUpdateItem(event, listId, mainFieldId, additionalFields, itemType) {
+        // Função para adicionar ou atualizar item na lista
+        function addOrUpdateItem(event, listId, primaryFieldId, otherFieldsIds, storageKey) {
             event.preventDefault();
-            const mainFieldValue = document.getElementById(mainFieldId).value;
-            const additionalValues = additionalFields.map(fieldId => document.getElementById(fieldId).value);
+            const primaryField = document.getElementById(primaryFieldId).value;
+            const otherFields = otherFieldsIds.map(id => document.getElementById(id).value);
+            const item = { primaryField, otherFields };
 
-            const itemData = { mainFieldValue, additionalValues, additionalFields };
+            const storedItems = JSON.parse(localStorage.getItem(storageKey)) || [];
+            storedItems.push(item);
+            localStorage.setItem(storageKey, JSON.stringify(storedItems));
 
-            // Criar a visualização do item
-            const listContainer = document.getElementById(listId);
-            const itemDiv = document.createElement('div');
-            itemDiv.classList.add('item');
-
-            // Cabeçalho com nome e botão de maximizar/minimizar
-            const headerDiv = document.createElement('div');
-            headerDiv.classList.add('header');
-            headerDiv.innerHTML = `
-                <span>${mainFieldValue}</span>
-                <button onclick="toggleDetails(this)">Maximizar/Minimizar</button>
-            `;
-            itemDiv.appendChild(headerDiv);
-
-            const detailsDiv = document.createElement('div');
-            detailsDiv.classList.add('details', 'collapsed');
-            additionalFields.forEach((fieldId, index) => {
-                const p = document.createElement('p');
-                p.innerText = `${fieldId}: ${additionalValues[index]}`;
-                detailsDiv.appendChild(p);
-            });
-            itemDiv.appendChild(detailsDiv);
-
-            // Botões Editar e Excluir
-            const buttonsDiv = document.createElement('div');
-            buttonsDiv.classList.add('buttons');
-            buttonsDiv.innerHTML = `
-                <button class="edit-button" onclick="editItem('${mainFieldId}', ${JSON.stringify(itemData)}, '${listId}')">Editar</button>
-                <button class="delete-button" onclick="deleteItem(this, '${listId}')">Excluir</button>
-            `;
-            itemDiv.appendChild(buttonsDiv);
-
-            // Adicionar o item à lista
-            listContainer.appendChild(itemDiv);
-
-            // Atualizar Local Storage
-            updateLocalStorage(itemType, itemData);
-
-            // Limpar formulário
+            updateList(listId, storageKey);
             clearForm(event.target.id);
         }
 
-        // Função para limpar o formulário
+        // Função para limpar formulário
         function clearForm(formId) {
             document.getElementById(formId).reset();
         }
 
-        // Função para editar item
-        function editItem(mainFieldId, itemData, listId) {
-            // Preencher o formulário com os dados do item selecionado
-            document.getElementById(mainFieldId).value = itemData.mainFieldValue;
-            itemData.additionalValues.forEach((value, index) => {
-                document.getElementById(itemData.additionalValues[index]).value = value;
-            });
-
-            // Remover o item da lista
+        // Função para atualizar a lista exibida
+        function updateList(listId, storageKey) {
             const listContainer = document.getElementById(listId);
             listContainer.innerHTML = '';
-        }
 
-        // Função para excluir item
-        function deleteItem(button, listId) {
-            const item = button.closest('.item');
-            item.remove();
-            updateLocalStorage(listId, null, 'delete');
-        }
-
-        // Função para maximizar/minimizar detalhes
-        function toggleDetails(button) {
-            const item = button.closest('.item');
-            item.classList.toggle('expanded');
-        }
-
-        // Função para salvar e recuperar dados do Local Storage
-        function updateLocalStorage(itemType, itemData, action = 'add') {
-            let storedItems = JSON.parse(localStorage.getItem(itemType)) || [];
-            if (action === 'add') {
-                storedItems.push(itemData);
-            } else if (action === 'delete') {
-                storedItems = storedItems.filter(item => item.mainFieldValue !== itemData.mainFieldValue);
-            }
-            localStorage.setItem(itemType, JSON.stringify(storedItems));
-        }
-
-        // Função para carregar lista do Local Storage
-        function loadList(listId) {
-            const listContainer = document.getElementById(listId + 'List');
-            const storedItems = JSON.parse(localStorage.getItem(listId)) || [];
-            listContainer.innerHTML = '';
-            storedItems.forEach(itemData => {
-                const itemDiv = document.createElement('div');
-                itemDiv.classList.add('item');
-
-                const headerDiv = document.createElement('div');
-                headerDiv.classList.add('header');
-                headerDiv.innerHTML = `
-                    <span>${itemData.mainFieldValue}</span>
-                    <button onclick="toggleDetails(this)">Maximizar/Minimizar</button>
-                `;
-                itemDiv.appendChild(headerDiv);
-
-                const detailsDiv = document.createElement('div');
-                detailsDiv.classList.add('details', 'collapsed');
-                itemData.additionalFields.forEach((fieldId, index) => {
-                    const p = document.createElement('p');
-                    p.innerText = `${fieldId}: ${itemData.additionalValues[index]}`;
-                    detailsDiv.appendChild(p);
+            const storedItems = JSON.parse(localStorage.getItem(storageKey)) || [];
+            storedItems.forEach((item, index) => {
+                const itemContainer = document.createElement('div');
+                itemContainer.classList.add('item');
+                
+                const header = document.createElement('div');
+                header.classList.add('header');
+                header.innerHTML = `<strong>${item.primaryField}</strong>`;
+                header.addEventListener('click', () => {
+                    itemContainer.classList.toggle('expanded');
                 });
-                itemDiv.appendChild(detailsDiv);
 
-                const buttonsDiv = document.createElement('div');
-                buttonsDiv.classList.add('buttons');
-                buttonsDiv.innerHTML = `
-                    <button class="edit-button" onclick="editItem('${itemData.mainFieldId}', ${JSON.stringify(itemData)}, '${listId}List')">Editar</button>
-                    <button class="delete-button" onclick="deleteItem(this, '${listId}List')">Excluir</button>
-                `;
-                itemDiv.appendChild(buttonsDiv);
+                const details = document.createElement('div');
+                details.classList.add('details');
+                details.innerHTML = item.otherFields.map(field => `<p>${field}</p>`).join('');
 
-                listContainer.appendChild(itemDiv);
+                const editButton = document.createElement('button');
+                editButton.classList.add('edit-button');
+                editButton.textContent = 'Editar';
+                editButton.onclick = () => editItem(index, storageKey, primaryFieldId, otherFieldsIds);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete-button');
+                deleteButton.textContent = 'Excluir';
+                deleteButton.onclick = () => deleteItem(index, storageKey, listId);
+
+                header.appendChild(editButton);
+                header.appendChild(deleteButton);
+
+                itemContainer.appendChild(header);
+                itemContainer.appendChild(details);
+
+                listContainer.appendChild(itemContainer);
             });
         }
 
+        // Função para editar um item
+        function editItem(index, storageKey, primaryFieldId, otherFieldsIds) {
+            const storedItems = JSON.parse(localStorage.getItem(storageKey));
+            const item = storedItems[index];
+
+            document.getElementById(primaryFieldId).value = item.primaryField;
+            otherFieldsIds.forEach((id, idx) => {
+                document.getElementById(id).value = item.otherFields[idx];
+            });
+
+            // Remover o item da lista para que ele seja re-adicionado após a edição
+            storedItems.splice(index, 1);
+            localStorage.setItem(storageKey, JSON.stringify(storedItems));
+        }
+
+        // Função para excluir um item
+        function deleteItem(index, storageKey, listId) {
+            const storedItems = JSON.parse(localStorage.getItem(storageKey));
+            storedItems.splice(index, 1);
+            localStorage.setItem(storageKey, JSON.stringify(storedItems));
+            updateList(listId, storageKey);
+        }
+
+        // Atualizar listas ao carregar a página
+        window.onload = function() {
+            updateList('maquinasList', 'maquinas');
+            updateList('contasList', 'contas');
+            updateList('recebimentosList', 'recebimentos');
+            updateList('contratosList', 'contratos');
+            updateList('empresasList', 'empresas');
+        };
     </script>
 </body>
 </html>
