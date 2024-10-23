@@ -16,8 +16,7 @@
             margin-top: 10px;
         }
         .logo {
-            text-align: center;
-            margin-bottom: 20px;
+            width: 100px; /* Ajuste conforme necessário */
         }
     </style>
 </head>
@@ -25,9 +24,7 @@
     <div class="container">
         <!-- Menu Lateral -->
         <div class="sidebar">
-            <div class="logo">
-                <img src="sua-logo.png" alt="Logo da Empresa" style="max-width: 100%; height: auto;">
-            </div>
+            <img src="logo.png" alt="Logo" class="logo"> <!-- Logomarca -->
             <h2>Menu</h2>
             <ul>
                 <li><button onclick="showSection('maquinasSection')">Máquinas</button></li>
@@ -163,75 +160,107 @@
                 const itemId = `item-${list.children.length}`;
 
                 const button = document.createElement('button');
-                button.innerHTML = `Expandir ${itemName}`;
-                button.onclick = function() {
-                    const details = list.querySelector(`#${itemId}`);
-                    details.classList.toggle('collapsed');
-                };
+                button.innerHTML = itemName;
+                button.onclick = () => toggleDetails(itemId);
 
-                const div = document.createElement('div');
-                div.id = itemId;
-                div.className = 'collapsed';
+                const detailsDiv = document.createElement('div');
+                detailsDiv.id = itemId;
+                detailsDiv.className = 'collapsed';
+                detailsDiv.innerHTML = `
+                    <p><strong>Nome:</strong> ${itemName}</p>
+                    <p><strong>${additionalIds[0].charAt(0).to
 
-                const detailsHtml = `<strong>${itemName}</strong><br>${additionalData.join('<br>')}`;
-                div.innerHTML = detailsHtml;
+UpperCase() + additionalIds[0].slice(1)}:</strong> ${additionalData[0]}</p>
+                    <p><strong>${additionalIds[1].charAt(0).toUpperCase() + additionalIds[1].slice(1)}:</strong> ${additionalData[1]}</p>
+                    <p><strong>${additionalIds[2].charAt(0).toUpperCase() + additionalIds[2].slice(1)}:</strong> ${additionalData[2]}</p>
+                    <p><strong>${additionalIds[3].charAt(0).toUpperCase() + additionalIds[3].slice(1)}:</strong> ${additionalData[3]}</p>
+                `;
 
                 list.appendChild(button);
-                list.appendChild(div);
+                list.appendChild(detailsDiv);
 
-                items.push({ name: itemName, details: additionalData });
+                // Adiciona o novo item ao localStorage
+                items.push({ name: itemName, additionalData });
             } else {
                 // Atualizar item existente
-                items[editIndex].name = itemName;
-                items[editIndex].details = additionalData;
+                const itemToUpdate = list.children[editIndex * 2];
+                itemToUpdate.innerHTML = itemName;
 
-                const button = list.children[editIndex * 2];
-                button.innerHTML = `Expandir ${itemName}`;
-
-                const div = list.children[editIndex * 2 + 1];
-                div.innerHTML = `<strong>${itemName}</strong><br>${additionalData.join('<br>')}`;
-                div.classList.add('collapsed');
-
-                editIndex = -1; // Resetar índice de edição
+                // Atualiza os detalhes do item
+                const detailsDiv = document.getElementById(`item-${editIndex}`);
+                detailsDiv.innerHTML = `
+                    <p><strong>Nome:</strong> ${itemName}</p>
+                    <p><strong>${additionalIds[0].charAt(0).toUpperCase() + additionalIds[0].slice(1)}:</strong> ${additionalData[0]}</p>
+                    <p><strong>${additionalIds[1].charAt(0).toUpperCase() + additionalIds[1].slice(1)}:</strong> ${additionalData[1]}</p>
+                    <p><strong>${additionalIds[2].charAt(0).toUpperCase() + additionalIds[2].slice(1)}:</strong> ${additionalData[2]}</p>
+                    <p><strong>${additionalIds[3].charAt(0).toUpperCase() + additionalIds[3].slice(1)}:</strong> ${additionalData[3]}</p>
+                `;
+                items[editIndex] = { name: itemName, additionalData };
+                editIndex = -1; // Reseta o índice após a atualização
             }
 
-            localStorage.setItem(type, JSON.stringify(items));
-            document.getElementById(`form${type.charAt(0).toUpperCase() + type.slice(1)}`).reset(); // Limpa o formulário
-            showList(listId); // Atualiza a lista
+            localStorage.setItem(type, JSON.stringify(items)); // Atualiza o localStorage
+            clearForm(event.target.id); // Limpa o formulário
+            showList(listId); // Atualiza a lista visível
+        }
+
+        function toggleDetails(itemId) {
+            const detailsDiv = document.getElementById(itemId);
+            detailsDiv.classList.toggle('collapsed');
+            detailsDiv.classList.toggle('expanded');
         }
 
         function showList(listId) {
-            const list = document.getElementById(listId);
-            list.classList.toggle('expanded');
+            const listDiv = document.getElementById(listId);
+            listDiv.style.display = 'block'; // Exibe a lista
+
+            // Adiciona os itens do localStorage
+            let items = JSON.parse(localStorage.getItem(listId)) || [];
+            items.forEach((item, index) => {
+                const button = document.createElement('button');
+                button.innerHTML = item.name;
+                button.onclick = () => toggleDetails(`item-${index}`);
+
+                const detailsDiv = document.createElement('div');
+                detailsDiv.id = `item-${index}`;
+                detailsDiv.className = 'collapsed';
+                detailsDiv.innerHTML = `
+                    <p><strong>Nome:</strong> ${item.name}</p>
+                    <p><strong>Dados adicionais:</strong> ${item.additionalData.join(', ')}</p>
+                `;
+
+                listDiv.appendChild(button);
+                listDiv.appendChild(detailsDiv);
+            });
+        }
+
+        function clearForm(formId) {
+            document.getElementById(formId).reset(); // Reseta o formulário
+            editIndex = -1; // Reseta o índice de edição
         }
 
         function loadData() {
             const types = ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'];
             types.forEach(type => {
-                const items = JSON.parse(localStorage.getItem(type)) || [];
+                let items = JSON.parse(localStorage.getItem(type)) || [];
+                const listDiv = document.getElementById(`${type}List`);
                 items.forEach((item, index) => {
-                    const list = document.getElementById(`${type}List`);
                     const button = document.createElement('button');
-                    button.innerHTML = `Expandir ${item.name}`;
-                    button.onclick = function() {
-                        const details = list.querySelector(`#item-${index}`);
-                        details.classList.toggle('collapsed');
-                    };
+                    button.innerHTML = item.name;
+                    button.onclick = () => toggleDetails(`item-${type}-${index}`);
 
-                    const div = document.createElement('div');
-                    div.id = `item-${index}`;
-                    div.className = 'collapsed';
-                    div.innerHTML = `<strong>${item.name}</strong><br>${item.details.join('<br>')}`;
+                    const detailsDiv = document.createElement('div');
+                    detailsDiv.id = `item-${type}-${index}`;
+                    detailsDiv.className = 'collapsed';
+                    detailsDiv.innerHTML = `
+                        <p><strong>Nome:</strong> ${item.name}</p>
+                        <p><strong>Dados adicionais:</strong> ${item.additionalData.join(', ')}</p>
+                    `;
 
-                    list.appendChild(button);
-                    list.appendChild(div);
+                    listDiv.appendChild(button);
+                    listDiv.appendChild(detailsDiv);
                 });
             });
-        }
-
-        function clearForm(formId) {
-            document.getElementById(formId).reset();
-            editIndex = -1; // Resetar índice de edição
         }
     </script>
 </body>
