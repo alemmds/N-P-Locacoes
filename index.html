@@ -134,124 +134,124 @@
         </div>
     </div>
 
-    <script>
-        let editIndex = -1;
-        let currentType = '';
+<script>
+    let editIndex = -1;
+    let currentType = '';
 
-        window.onload = loadData;
+    window.onload = loadData;
 
-        function showSection(sectionId) {
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
-                section.style.display = 'none'; // Esconde todas as seções
+    function showSection(sectionId) {
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => {
+            section.style.display = 'none'; // Esconde todas as seções
+        });
+        document.getElementById(sectionId).style.display = 'block'; // Exibe a seção selecionada
+    }
+
+    function addOrUpdateItem(event, listId, itemNameId, additionalIds, type) {
+        event.preventDefault(); // Evita o envio do formulário que causa a atualização da página
+        currentType = type; // Armazena o tipo atual
+        const list = document.getElementById(listId);
+        const itemName = document.getElementById(itemNameId).value;
+        const additionalData = additionalIds.map(id => document.getElementById(id).value);
+        let items = JSON.parse(localStorage.getItem(type)) || [];
+
+        if (editIndex === -1) {
+            // Adicionar novo item
+            const itemId = items.length;
+            const item = { itemName, additionalData };
+            items.push(item);
+            localStorage.setItem(type, JSON.stringify(items));
+            addItemToList(itemId, itemName, additionalData, list);
+        } else {
+            // Atualizar item existente
+            items[editIndex] = { itemName, additionalData };
+            localStorage.setItem(type, JSON.stringify(items));
+            updateListItem(editIndex, itemName, additionalData, list);
+        }
+
+        clearForm(`form${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        loadData();
+    }
+
+    function addItemToList(index, itemName, additionalData, list) {
+        const button = document.createElement('button');
+        button.innerHTML = itemName;
+        button.onclick = () => toggleDetails(`item-${index}`);
+
+        const detailsDiv = document.createElement('div');
+        detailsDiv.id = `item-${index}`;
+        detailsDiv.className = 'collapsed';
+        detailsDiv.innerHTML = `
+            <p><strong>Nome:</strong> ${itemName}</p>
+            ${additionalData.map((data, i) => `<p><strong>${currentType.charAt(0).toUpperCase() + currentType.slice(1)}:</strong> ${data}</p>`).join('')}
+            <button onclick="editItem(${index}, '${currentType}')">Alterar</button>
+            <button onclick="deleteItem(${index}, '${currentType}')">Excluir</button>
+        `;
+
+        list.appendChild(button);
+        list.appendChild(detailsDiv);
+    }
+
+    function updateListItem(index, itemName, additionalData, list) {
+        const button = list.children[index * 2];
+        button.innerHTML = itemName;
+        const detailsDiv = document.getElementById(`item-${index}`);
+        detailsDiv.innerHTML = `
+            <p><strong>Nome:</strong> ${itemName}</p>
+            ${additionalData.map((data, i) => `<p><strong>${currentType.charAt(0).toUpperCase() + currentType.slice(1)}:</strong> ${data}</p>`).join('')}
+            <button onclick="editItem(${index}, '${currentType}')">Alterar</button>
+            <button onclick="deleteItem(${index}, '${currentType}')">Excluir</button>
+        `;
+    }
+
+    function editItem(index, type) {
+        currentType = type;
+        const items = JSON.parse(localStorage.getItem(currentType));
+        const item = items[index];
+
+        document.getElementById('nome' + currentType.charAt(0).toUpperCase() + currentType.slice(1)).value = item.itemName;
+        const additionalIds = currentType === 'maquinas' ? ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'] :
+            currentType === 'contas' ? ['tipoConta', 'saldoConta'] :
+            currentType === 'recebimentos' ? ['valorRecebimento', 'dataRecebimento'] :
+            currentType === 'contratos' ? ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'] :
+            ['cnpjEmpresa', 'enderecoEmpresa'];
+
+        additionalIds.forEach((id, i) => {
+            document.getElementById(id).value = item.additionalData[i];
+        });
+        editIndex = index;
+    }
+
+    function deleteItem(index, type) {
+        const items = JSON.parse(localStorage.getItem(type));
+        items.splice(index, 1);
+        localStorage.setItem(type, JSON.stringify(items));
+        loadData();
+    }
+
+    function toggleDetails(itemId) {
+        const detailsDiv = document.getElementById(itemId);
+        detailsDiv.classList.toggle('collapsed');
+        detailsDiv.classList.toggle('expanded');
+    }
+
+    function clearForm(formId) {
+        document.getElementById(formId).reset();
+        editIndex = -1; // Reseta o índice de edição
+    }
+
+    function loadData() {
+        ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'].forEach(type => {
+            const items = JSON.parse(localStorage.getItem(type)) || [];
+            const list = document.getElementById(type + 'List');
+            list.innerHTML = ''; // Limpa a lista
+
+            items.forEach((item, index) => {
+                addItemToList(index, item.itemName, item.additionalData, list);
             });
-            document.getElementById(sectionId).style.display = 'block'; // Exibe a seção selecionada
-        }
-
-        function addOrUpdateItem(event, listId, itemNameId, additionalIds, type) {
-            event.preventDefault(); // Evita o envio do formulário que causa a atualização da página
-            currentType = type; // Armazena o tipo atual
-            const list = document.getElementById(listId);
-            const itemName = document.getElementById(itemNameId).value;
-            const additionalData = additionalIds.map(id => document.getElementById(id).value);
-            let items = JSON.parse(localStorage.getItem(type)) || [];
-
-            if (editIndex === -1) {
-                // Adicionar novo item
-                const itemId = items.length;
-
-                const item = { itemName, additionalData };
-                items.push(item);
-                localStorage.setItem(type, JSON.stringify(items));
-                addItemToList(itemId, itemName, additionalData, list);
-            } else {
-                // Atualizar item existente
-                items[editIndex] = { itemName, additionalData };
-                localStorage.setItem(type, JSON.stringify(items));
-                updateListItem(editIndex, itemName, additionalData, list);
-            }
-
-            clearForm(`form${type.charAt(0).toUpperCase() + type.slice(1)}`);
-            loadData();
-        }
-
-        function addItemToList(index, itemName, additionalData, list) {
-            const button = document.createElement('button');
-            button.innerHTML = itemName;
-            button.onclick = () => toggleDetails(`item-${index}`);
-
-            const detailsDiv = document.createElement('div');
-            detailsDiv.id = `item-${index}`;
-            detailsDiv.className = 'collapsed';
-            detailsDiv.innerHTML = `
-                <p><strong>Nome:</strong> ${itemName}</p>
-                ${additionalData.map((data, i) => `<p><strong>${currentType.charAt(0).toUpperCase() + currentType.slice(1)}:</strong> ${data}</p>`).join('')}
-                <button onclick="editItem(${index})">Alterar</button>
-                <button onclick="deleteItem(${index})">Excluir</button>
-            `;
-
-            list.appendChild(button);
-            list.appendChild(detailsDiv);
-        }
-
-        function updateListItem(index, itemName, additionalData, list) {
-            const button = list.children[index * 2];
-            button.innerHTML = itemName;
-            const detailsDiv = document.getElementById(`item-${index}`);
-            detailsDiv.innerHTML = `
-                <p><strong>Nome:</strong> ${itemName}</p>
-                ${additionalData.map((data, i) => `<p><strong>${currentType.charAt(0).toUpperCase() + currentType.slice(1)}:</strong> ${data}</p>`).join('')}
-                <button onclick="editItem(${index})">Alterar</button>
-                <button onclick="deleteItem(${index})">Excluir</button>
-            `;
-        }
-
-        function editItem(index) {
-            const items = JSON.parse(localStorage.getItem(currentType));
-            const item = items[index];
-
-            document.getElementById('nome' + currentType.charAt(0).toUpperCase() + currentType.slice(1)).value = item.itemName;
-            const additionalIds = currentType === 'maquinas' ? ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'] :
-                currentType === 'contas' ? ['tipoConta', 'saldoConta'] :
-                currentType === 'recebimentos' ? ['valorRecebimento', 'dataRecebimento'] :
-                currentType === 'contratos' ? ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'] :
-                ['cnpjEmpresa', 'enderecoEmpresa'];
-
-            additionalIds.forEach((id, i) => {
-                document.getElementById(id).value = item.additionalData[i];
-            });
-            editIndex = index;
-        }
-
-        function deleteItem(index) {
-            const items = JSON.parse(localStorage.getItem(currentType));
-            items.splice(index, 1);
-            localStorage.setItem(currentType, JSON.stringify(items));
-            loadData();
-        }
-
-        function toggleDetails(itemId) {
-            const detailsDiv = document.getElementById(itemId);
-            detailsDiv.classList.toggle('collapsed');
-            detailsDiv.classList.toggle('expanded');
-        }
-
-        function clearForm(formId) {
-            document.getElementById(formId).reset();
-            editIndex = -1; // Reseta o índice de edição
-        }
-
-        function loadData() {
-            ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'].forEach(type => {
-                const items = JSON.parse(localStorage.getItem(type)) || [];
-                const list = document.getElementById(type + 'List');
-                list.innerHTML = ''; // Limpa a lista
-
-                items.forEach((item, index) => {
-                    addItemToList(index, item.itemName, item.additionalData, list);
-                });
-            });
-        }
-    </script>
+        });
+    }
+</script>
 </body>
 </html>
