@@ -247,53 +247,34 @@ function editItem(type, index) {
         document.getElementById('telefoneEmpresa').value = item.telefone;
         document.getElementById('emailEmpresa').value = item.email;
     }
-
-    deleteItem(type, index); // Remove o item para que a edição atualizada seja inserida como novo registro
+    
+    // Remover o item editado para evitar duplicidade ao salvar
+    deleteItem(type, index);
 }
 
-// Funções para deletar registros
+// Função para deletar um item de uma categoria
 function deleteItem(type, index) {
-    if (type === 'maquinas') {
-        maquinas.splice(index, 1);
-    } else if (type === 'contas') {
-        contas.splice(index, 1);
-    } else if (type === 'recebimentos') {
-        recebimentos.splice(index, 1);
-    } else if (type === 'contratos') {
-        contratos.splice(index, 1);
-    } else if (type === 'empresas') {
-        empresas.splice(index, 1);
+    let dataArray;
+
+    switch (type) {
+        case 'maquinas':
+            dataArray = maquinas;
+            break;
+        case 'contas':
+            dataArray = contas;
+            break;
+        case 'recebimentos':
+            dataArray = recebimentos;
+            break;
+        case 'contratos':
+            dataArray = contratos;
+            break;
+        case 'empresas':
+            dataArray = empresas;
+            break;
     }
+
+    dataArray.splice(index, 1);
     saveToLocalStorage();
     showList(type);
-}
-
-// Função para ativar as interações com o accordion
-function ativarAccordion() {
-    const headers = document.querySelectorAll('.item .header');
-    headers.forEach(header => {
-        header.addEventListener('click', () => {
-            toggleAccordion(header);
-        });
-    });
-}
-
-// Carregar lista ao iniciar
-document.addEventListener('DOMContentLoaded', function() {
-    showList('maquinas');
-    showList('contas');
-    showList('recebimentos');
-    showList('contratos');
-    showList('empresas');
-});
-
-// Registra o Service Worker
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js').then(registration => {
-            console.log('Service Worker registered with scope:', registration.scope);
-        }).catch(error => {
-            console.log('Service Worker registration failed:', error);
-        });
-    });
 }
