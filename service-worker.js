@@ -4,7 +4,7 @@ const urlsToCache = [
   '/index.html',
   '/manifest.json',
   '/script.js',
-  '/style.css',
+  '/styles.css', // Corrigido para 'styles.css' para corresponder ao seu HTML
   '/icon-192x192.png',
   '/icon-512x512.png'
 ];
@@ -47,7 +47,9 @@ self.addEventListener('fetch', (event) => {
 
             return networkResponse;
           }
-        );
+        ).catch((error) => {
+          console.error('Erro ao buscar a requisição na rede:', error);
+        });
       })
   );
 });
