@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Cadastro</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Adapte o caminho para o seu arquivo CSS -->
+    <link rel="stylesheet" href="styles.css">
     <style>
         .collapsed {
             display: none;
@@ -16,7 +16,10 @@
             margin-top: 10px;
         }
         .logo {
-            width: 100px; /* Ajuste conforme necessário */
+            width: 100px;
+        }
+        .info {
+            margin-top: 5px;
         }
     </style>
 </head>
@@ -24,7 +27,7 @@
     <div class="container">
         <!-- Menu Lateral -->
         <div class="sidebar">
-            <img src="logo.png" alt="Logo" class="logo"> <!-- Logomarca -->
+            <img src="logo.png" alt="Logo" class="logo">
             <h2>Menu</h2>
             <ul>
                 <li><button onclick="showSection('maquinasSection')">Máquinas</button></li>
@@ -143,72 +146,95 @@
     function showSection(sectionId) {
         const sections = document.querySelectorAll('.section');
         sections.forEach(section => {
-            section.style.display = 'none'; // Esconde todas as seções
+            section.style.display = 'none'; 
         });
-        document.getElementById(sectionId).style.display = 'block'; // Exibe a seção selecionada
+        document.getElementById(sectionId).style.display = 'block'; 
     }
 
     function addOrUpdateItem(event, listId, itemNameId, additionalIds, type) {
-        event.preventDefault(); // Evita o envio do formulário que causa a atualização da página
-        currentType = type; // Armazena o tipo atual
+        event.preventDefault(); 
+        currentType = type; 
         const list = document.getElementById(listId);
         const itemName = document.getElementById(itemNameId).value;
         const additionalData = additionalIds.map(id => document.getElementById(id).value);
         let items = JSON.parse(localStorage.getItem(type)) || [];
 
         if (editIndex === -1) {
-            // Adicionar novo item
             const itemId = items.length;
             const item = { itemName, additionalData };
             items.push(item);
             localStorage.setItem(type, JSON.stringify(items));
-            addItemToList(itemId, listId, item);
+            addItemToList(itemId, itemName, additionalData, list);
         } else {
-            // Atualizar item existente
-            const item = items[editIndex];
-            item.itemName = itemName;
-            item.additionalData = additionalData;
-            items[editIndex] = item;
+            items[editIndex] = { itemName, additionalData };
             localStorage.setItem(type, JSON.stringify(items));
-            updateItemInList(editIndex, listId, item);
-            editIndex = -1;
+            updateListItem(editIndex, itemName, additionalData, list);
         }
-        clearForm();
+
+        clearForm(`form${
+
+capitalize(type)}`);
+        editIndex = -1;
     }
 
-    function addItemToList(itemId, listId, item) {
-        const list = document.getElementById(listId);
+    function addItemToList(itemId, itemName, additionalData, list) {
         const itemDiv = document.createElement('div');
-        itemDiv.id = `${listId}-${itemId}`;
         itemDiv.innerHTML = `
-            <span><strong>${item.itemName}</strong></span>
-            <button onclick="editItem('${listId}', ${itemId}, '${currentType}')">Editar</button>
-            <button onclick="deleteItem('${listId}', ${itemId}, '${currentType}')">Excluir</button>
+            <button onclick="toggleItem(${itemId}, '${currentType}')">${itemName}</button>
+            <div id="details${itemId}" class="collapsed info">
+                ${additionalData.map((data, index) => `<p>Info ${index + 1}: ${data}</p>`).join('')}
+                <button onclick="editItem(${itemId}, '${currentType}')">Editar</button>
+                <button onclick="deleteItem(${itemId}, '${currentType}')">Excluir</button>
+            </div>
         `;
         list.appendChild(itemDiv);
     }
 
-    function updateItemInList(itemId, listId, item) {
-        const itemDiv = document.getElementById(`${listId}-${itemId}`);
-        itemDiv.querySelector('span').textContent = item.itemName;
+    function updateListItem(itemId, itemName, additionalData, list) {
+        const itemDiv = list.children[itemId];
+        itemDiv.innerHTML = `
+            <button onclick="toggleItem(${itemId}, '${currentType}')">${itemName}</button>
+            <div id="details${itemId}" class="collapsed info">
+                ${additionalData.map((data, index) => `<p>Info ${index + 1}: ${data}</p>`).join('')}
+                <button onclick="editItem(${itemId}, '${currentType}')">Editar</button>
+                <button onclick="deleteItem(${itemId}, '${currentType}')">Excluir</button>
+            </div>
+        `;
     }
 
-    function deleteItem(listId, itemId, type) {
+    function toggleItem(itemId, type) {
+        const detailsDiv = document.getElementById(`details${itemId}`);
+        detailsDiv.classList.toggle('collapsed');
+        detailsDiv.classList.toggle('expanded');
+    }
+
+    function editItem(itemId, type) {
+        const items = JSON.parse(localStorage.getItem(type));
+        const item = items[itemId];
+        const form = document.getElementById(`form${capitalize(type)}`);
+        form.querySelector(`#nome${capitalize(type)}`).value = item.itemName;
+        item.additionalData.forEach((data, index) => {
+            form.querySelectorAll('input')[index + 1].value = data;
+        });
+        editIndex = itemId;
+    }
+
+    function deleteItem(itemId, type) {
         let items = JSON.parse(localStorage.getItem(type));
         items.splice(itemId, 1);
         localStorage.setItem(type, JSON.stringify(items));
-        const itemDiv = document.getElementById(`${listId}-${itemId}`);
-        itemDiv.remove();
+        loadData();
     }
 
-    function editItem(listId, itemId, type) {
-        editIndex = itemId;
-        currentType = type;
-        const items = JSON.parse(localStorage.getItem(type));
-        const item = items[itemId];
-
-        document.getElementById('nomeMaquina').value = item.itemName; // Preencha os campos aqui
-        // Continue para preencher outros campos, conforme necessário
+    function loadData() {
+        ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'].forEach(type => {
+            const items = JSON.parse(localStorage.getItem(type)) || [];
+            const list = document.getElementById(`${type}List`);
+            list.innerHTML = '';
+            items.forEach((item, index) => {
+                addItemToList(index, item.itemName, item.additionalData, list);
+            });
+        });
     }
 
     function clearForm(formId) {
@@ -216,15 +242,10 @@
         editIndex = -1;
     }
 
-    function loadData() {
-        const sections = ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'];
-        sections.forEach(type => {
-            const items = JSON.parse(localStorage.getItem(type)) || [];
-            items.forEach((item, index) => {
-                addItemToList(index, `${type}List`, item);
-            });
-        });
+    function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
     }
 </script>
+
 </body>
 </html>
