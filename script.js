@@ -207,63 +207,94 @@ document.getElementById('formEmpresa').addEventListener('submit', function(event
 
 // Funções para editar registros em cada categoria
 function editItem(type, index) {
-    let data;
-    switch (type) {
-        case 'maquinas':
-            data = maquinas;
-            break;
-        case 'contas':
-            data = contas;
-            break;
-        case 'recebimentos':
-            data = recebimentos;
-            break;
-        case 'contratos':
-            data = contratos;
-            break;
-        case 'empresas':
-            data = empresas;
-            break;
+    let item;
+    if (type === 'maquinas') {
+        item = maquinas[index];
+        document.getElementById('nomeMaquina').value = item.nome;
+        document.getElementById('serieMaquina').value = item.serie;
+        document.getElementById('anosUso').value = item.anosUso;
+        document.getElementById('horasTrabalhadas').value = item.horasTrabalhadas;
+        document.getElementById('ultimaManutencao').value = item.ultimaManutencao;
+        document.getElementById('dataEntrada').value = item.dataEntrada;
+    } else if (type === 'contas') {
+        item = contas[index];
+        document.getElementById('tipoConta').value = item.tipo;
+        document.getElementById('dataVencimentoConta').value = item.dataVencimento;
+        document.getElementById('valorConta').value = item.valor;
+    } else if (type === 'recebimentos') {
+        item = recebimentos[index];
+        document.getElementById('empresaRecebimento').value = item.empresa;
+        document.getElementById('valorRecebimento').value = item.valor;
+        document.getElementById('dataPagamento').value = item.dataPagamento;
+        document.getElementById('dataTermino').value = item.dataTermino;
+        document.getElementById('statusRecebimento').value = item.status;
+    } else if (type === 'contratos') {
+        item = contratos[index];
+        document.getElementById('empresaContrato').value = item.empresa;
+        document.getElementById('locatarioContrato').value = item.locatario;
+        document.getElementById('cnpjContrato').value = item.cnpj;
+        document.getElementById('representanteContrato').value = item.representante;
+        document.getElementById('periodoContrato').value = item.periodo;
+        document.getElementById('valorContrato').value = item.valor;
+        document.getElementById('dataTerminoContrato').value = item.dataTermino;
+        document.getElementById('equipamentoContrato').value = item.equipamento;
+    } else if (type === 'empresas') {
+        item = empresas[index];
+        document.getElementById('nomeEmpresa').value = item.nome;
+        document.getElementById('areaCnpj').value = item.areaCnpj;
+        document.getElementById('areaAtuacao').value = item.areaAtuacao;
+        document.getElementById('representanteEmpresa').value = item.representante;
+        document.getElementById('telefoneEmpresa').value = item.telefone;
+        document.getElementById('emailEmpresa').value = item.email;
     }
-    
-    const item = data[index];
-    // Preencher o formulário com os dados do item selecionado (criar esta função se necessário)
-    // Exemplo: fillFormWithData(item);
+
+    // Remover item atual
+    if (type === 'maquinas') {
+        maquinas.splice(index, 1);
+    } else if (type === 'contas') {
+        contas.splice(index, 1);
+    } else if (type === 'recebimentos') {
+        recebimentos.splice(index, 1);
+    } else if (type === 'contratos') {
+        contratos.splice(index, 1);
+    } else if (type === 'empresas') {
+        empresas.splice(index, 1);
+    }
+
+    saveToLocalStorage();
     showList(type);
 }
 
+// Função para deletar um registro
 function deleteItem(type, index) {
-    let data;
-    switch (type) {
-        case 'maquinas':
-            data = maquinas;
-            break;
-        case 'contas':
-            data = contas;
-            break;
-        case 'recebimentos':
-            data = recebimentos;
-            break;
-        case 'contratos':
-            data = contratos;
-            break;
-        case 'empresas':
-            data = empresas;
-            break;
-    }
-    
-    if (confirm('Tem certeza que deseja excluir este item?')) {
-        data.splice(index, 1);
+    if (confirm("Tem certeza que deseja excluir este item?")) {
+        if (type === 'maquinas') {
+            maquinas.splice(index, 1);
+        } else if (type === 'contas') {
+            contas.splice(index, 1);
+        } else if (type === 'recebimentos') {
+            recebimentos.splice(index, 1);
+        } else if (type === 'contratos') {
+            contratos.splice(index, 1);
+        } else if (type === 'empresas') {
+            empresas.splice(index, 1);
+        }
+
         saveToLocalStorage();
         showList(type);
     }
 }
 
-// Inicialização: Exibir a lista de máquinas ao carregar a página
-window.onload = function() {
-    showSection('maquinasSection'); // Muda para a seção de máquinas
-    showList('maquinas'); // Exibe a lista de máquinas
-};
+function toggleDetails(detailsId) {
+    var details = document.getElementById(detailsId);
+    if (details.style.display === 'none' || details.style.display === '') {
+        details.style.display = 'block';
+    } else {
+        details.style.display = 'none';
+    }
+}
+// Ativar a exibição inicial das máquinas
+showList('maquinas');
 
 // Registra o Service Worker
 if ('serviceWorker' in navigator) {
