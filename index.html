@@ -15,12 +15,19 @@
         button {
             margin-top: 10px;
         }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- Menu Lateral -->
         <div class="sidebar">
+            <div class="logo">
+                <img src="sua-logo.png" alt="Logo da Empresa" style="max-width: 100%; height: auto;">
+            </div>
             <h2>Menu</h2>
             <ul>
                 <li><button onclick="showSection('maquinasSection')">Máquinas</button></li>
@@ -156,115 +163,75 @@
                 const itemId = `item-${list.children.length}`;
 
                 const button = document.createElement('button');
-                button.innerHTML = itemName;
-                button.onclick = () => toggleDetails(itemId);
+                button.innerHTML = `Expandir ${itemName}`;
+                button.onclick = function() {
+                    const details = list.querySelector(`#${itemId}`);
+                    details.classList.toggle('collapsed');
+                };
 
-                const detailsDiv = document.createElement('div');
-                detailsDiv.id = itemId;
-                detailsDiv.className = 'collapsed';
-                detailsDiv.innerHTML = `
-                    <p><strong>Nome:</strong> ${itemName}</p>
-                    <p><strong>${additionalIds[0].charAt(0).toUpperCase() + additionalIds[0].slice(1)}:</strong> ${additionalData[0]}</p>
-                    <p><strong>${additionalIds[1].charAt(0).toUpperCase() + additionalIds[1].slice(1)}:</strong> ${additionalData[1]}</p>
-                    ${additionalIds.length > 2 ? `<p><strong>${additionalIds[2].charAt(0).toUpperCase() + additionalIds[2].slice(1)}:</strong> ${additionalData[2]}</p>` : ''}
-                    <button onclick="editItem(${list.children.length}, '${itemNameId}', ${JSON.stringify(additionalIds)}, '${listId}', '${type}')">Alterar</button>
-                    <button onclick="deleteItem(this, '${type}')">Excluir</button>
-                `;
+                const div = document.createElement('div');
+                div.id = itemId;
+                div.className = 'collapsed';
+
+                const detailsHtml = `<strong>${itemName}</strong><br>${additionalData.join('<br>')}`;
+                div.innerHTML = detailsHtml;
 
                 list.appendChild(button);
-                list.appendChild(detailsDiv);
+                list.appendChild(div);
 
-                // Salva no localStorage
-                items.push({ name: itemName, additionalData });
-                localStorage.setItem(type, JSON.stringify(items));
+                items.push({ name: itemName, details: additionalData });
             } else {
                 // Atualizar item existente
+                items[editIndex].name = itemName;
+                items[editIndex].details = additionalData;
+
                 const button = list.children[editIndex * 2];
-                const detailsDiv = list.children[editIndex * 2 + 1];
+                button.innerHTML = `Expandir ${itemName}`;
 
-                button.innerHTML = itemName;
-                detailsDiv.innerHTML = `
-                    <p><strong>Nome:</strong> ${itemName}</p>
-                    <p><strong>${additionalIds[0].charAt(0).toUpperCase() + additionalIds[0].slice(1)}:</strong> ${additionalData[0]}</p>
-                    <p><strong>${additionalIds[1].charAt(0).toUpperCase() + additionalIds[1].slice(1)}:</strong> ${additionalData[1]}</p>
-                    ${additionalIds.length > 2 ? `<p><strong>${additionalIds[2].charAt(0).toUpperCase() + additionalIds[2].slice(1)}:</strong> ${additionalData[2]}</p>` : ''}
-                    <button onclick="editItem(${editIndex}, '${itemNameId}', ${JSON.stringify(additionalIds)}, '${listId}', '${type}')">Alterar</button>
-                    <button onclick="deleteItem(this, '${type}')">Excluir</button>
-                `;
+                const div = list.children[editIndex * 2 + 1];
+                div.innerHTML = `<strong>${itemName}</strong><br>${additionalData.join('<br>')}`;
+                div.classList.add('collapsed');
 
-                items[editIndex] = { name: itemName, additionalData }; // Atualiza o item no localStorage
-                localStorage.setItem(type, JSON.stringify(items));
-                editIndex = -1; // Resetando o índice de edição
+                editIndex = -1; // Resetar índice de edição
             }
 
-            // Limpa o formulário após adicionar ou atualizar
-            clearForm(type);
-        }
-
-        function toggleDetails(itemId) {
-            const details = document.getElementById(itemId);
-            details.classList.toggle('collapsed');
-        }
-
-        function editItem(index, itemNameId, additionalIds, listId, type) {
-            editIndex = index; // Define o índice do item que está sendo editado
-
-            const list = document.getElementById(listId);
-            const button = list.children[index * 2];
-            const details = list.children[index * 2 + 1];
-
-            document.getElementById(itemNameId).value = button.innerHTML;
-
-            const detailValues = details.querySelectorAll('p');
-            additionalIds.forEach((id, i) => {
-                const value = detailValues[i + 1].textContent.split(': ')[1]; // Obtém o valor após "Campo: "
-                document.getElementById(id).value = value;
-            });
-        }
-
-        function deleteItem(button, type) {
-            const itemButton = button.parentElement.previousSibling; // O botão de expandir
-            itemButton.remove(); // Remove o botão
-            button.parentElement.remove(); // Remove os detalhes
-
-            // Atualiza o localStorage após exclusão
-            let items = JSON.parse(localStorage.getItem(type)) || [];
-            items.splice(editIndex, 1); // Remove o item pelo índice
             localStorage.setItem(type, JSON.stringify(items));
-            editIndex = -1; // Resetando o índice de edição
+            document.getElementById(`form${type.charAt(0).toUpperCase() + type.slice(1)}`).reset(); // Limpa o formulário
+            showList(listId); // Atualiza a lista
         }
 
-        function clearForm(formId) {
-            document.getElementById(formId).reset();
+        function showList(listId) {
+            const list = document.getElementById(listId);
+            list.classList.toggle('expanded');
         }
 
         function loadData() {
             const types = ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'];
-
             types.forEach(type => {
-                const listId = type + 'List';
                 const items = JSON.parse(localStorage.getItem(type)) || [];
-                const list = document.getElementById(listId);
-
                 items.forEach((item, index) => {
+                    const list = document.getElementById(`${type}List`);
                     const button = document.createElement('button');
-                    button.innerHTML = item.name;
-                    button.onclick = () => toggleDetails(`item-${type}-${index}`);
+                    button.innerHTML = `Expandir ${item.name}`;
+                    button.onclick = function() {
+                        const details = list.querySelector(`#item-${index}`);
+                        details.classList.toggle('collapsed');
+                    };
 
-                    const detailsDiv = document.createElement('div');
-                    detailsDiv.id = `item-${type}-${index}`;
-                    detailsDiv.className = 'collapsed';
-                    detailsDiv.innerHTML = `
-                        <p><strong>Nome:</strong> ${item.name}</p>
-                        <p><strong>${type.charAt(0).toUpperCase() + type.slice(1)}:</strong> ${item.additionalData.join(', ')}</p>
-                        <button onclick="editItem(${index}, '${type}Nome', ${JSON.stringify(['tipoConta', 'saldoConta'])}, '${listId}', '${type}')">Alterar</button>
-                        <button onclick="deleteItem(this, '${type}')">Excluir</button>
-                    `;
+                    const div = document.createElement('div');
+                    div.id = `item-${index}`;
+                    div.className = 'collapsed';
+                    div.innerHTML = `<strong>${item.name}</strong><br>${item.details.join('<br>')}`;
 
                     list.appendChild(button);
-                    list.appendChild(detailsDiv);
+                    list.appendChild(div);
                 });
             });
+        }
+
+        function clearForm(formId) {
+            document.getElementById(formId).reset();
+            editIndex = -1; // Resetar índice de edição
         }
     </script>
 </body>
