@@ -11,6 +11,15 @@ if (maquinas.length > 0 && maquinas[0].nome === "MAQUINA 1") {
     saveToLocalStorage();
 }
 
+// Função para carregar dados do LocalStorage ao inicializar
+function loadFromLocalStorage() {
+    maquinas = JSON.parse(localStorage.getItem('maquinas')) || [];
+    contas = JSON.parse(localStorage.getItem('contas')) || [];
+    recebimentos = JSON.parse(localStorage.getItem('recebimentos')) || [];
+    contratos = JSON.parse(localStorage.getItem('contratos')) || [];
+    empresas = JSON.parse(localStorage.getItem('empresas')) || [];
+}
+
 // Função para exibir a aba correspondente do menu
 function showSection(section) {
     document.querySelectorAll('.section').forEach(sec => {
@@ -205,74 +214,114 @@ document.getElementById('formEmpresa').addEventListener('submit', function(event
     showList('empresas');
 });
 
-// Funções para editar registros em cada categoria
+// Função de edição de um item
 function editItem(type, index) {
     let item;
-    if (type === 'maquinas') {
-        item = maquinas[index];
-        document.getElementById('nomeMaquina').value = item.nome;
-        document.getElementById('serieMaquina').value = item.serie;
-        document.getElementById('anosUso').value = item.anosUso;
-        document.getElementById('horasTrabalhadas').value = item.horasTrabalhadas;
-        document.getElementById('ultimaManutencao').value = item.ultimaManutencao;
-        document.getElementById('dataEntrada').value = item.dataEntrada;
-        document.getElementById('editIndex').value = index;
-    } else if (type === 'contas') {
-        item = contas[index];
-        document.getElementById('tipoConta').value = item.tipo;
-        document.getElementById('dataVencimentoConta').value = item.dataVencimento;
-        document.getElementById('valorConta').value = item.valor;
-        document.getElementById('editIndex').value = index;
-    } else if (type === 'recebimentos') {
-        item = recebimentos[index];
-        document.getElementById('empresaRecebimento').value = item.empresa;
-        document.getElementById('valorRecebimento').value = item.valor;
-        document.getElementById('dataPagamento').value = item.dataPagamento;
-        document.getElementById('dataTermino').value = item.dataTermino;
-        document.getElementById('statusRecebimento').value = item.status;
-        document.getElementById('editIndex').value = index;
-    } else if (type === 'contratos') {
-        item = contratos[index];
-        document.getElementById('empresaContrato').value = item.empresa;
-        document.getElementById('locatarioContrato').value = item.locatario;
-        document.getElementById('cnpjContrato').value = item.cnpj;
-        document.getElementById('representanteContrato').value = item.representante;
-        document.getElementById('periodoContrato').value = item.periodo;
-        document.getElementById('valorContrato').value = item.valor;
-        document.getElementById('dataTerminoContrato').value = item.dataTermino;
-        document.getElementById('equipamentoContrato').value = item.equipamento;
-        document.getElementById('editIndex').value = index;
-    } else if (type === 'empresas') {
-        item = empresas[index];
-        document.getElementById('nomeEmpresa').value = item.nome;
-        document.getElementById('areaCnpj').value = item.areaCnpj;
-        document.getElementById('areaAtuacao').value = item.areaAtuacao;
-        document.getElementById('representanteEmpresa').value = item.representante;
-        document.getElementById('telefoneEmpresa').value = item.telefone;
-        document.getElementById('emailEmpresa').value = item.email;
-        document.getElementById('editIndex').value = index;
+    switch (type) {
+        case 'maquinas':
+            item = maquinas[index];
+            break;
+        case 'contas':
+            item = contas[index];
+            break;
+        case 'recebimentos':
+            item = recebimentos[index];
+            break;
+        case 'contratos':
+            item = contratos[index];
+            break;
+        case 'empresas':
+            item = empresas[index];
+            break;
     }
+
+    const fields = Object.keys(item);
+    fields.forEach(field => {
+        const inputField = document.getElementById(`edit${capitalizeFirstLetter(field)}`);
+        if (inputField) {
+            inputField.value = item[field];
+        }
+    });
+
+    document.getElementById('currentEditType').value = type;
+    document.getElementById('currentEditIndex').value = index;
+
+    // Mudar a visibilidade do formulário de edição
+    document.getElementById('editForm').style.display = 'block';
 }
 
-// Funções para excluir registros de cada categoria
-function deleteItem(type, index) {
-    if (confirm("Tem certeza que deseja excluir este item?")) {
-        if (type === 'maquinas') {
-            maquinas.splice(index, 1);
-        } else if (type === 'contas') {
-            contas.splice(index, 1);
-        } else if (type === 'recebimentos') {
-            recebimentos.splice(index, 1);
-        } else if (type === 'contratos') {
-            contratos.splice(index, 1);
-        } else if (type === 'empresas') {
-            empresas.splice(index, 1);
+// Função para confirmar a edição de um item
+document.getElementById('editForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const type = document.getElementById('currentEditType').value;
+    const index = document.getElementById('currentEditIndex').value;
+
+    const fields = Array.from(document.querySelectorAll('#editForm input'));
+    const editedItem = {};
+
+    fields.forEach(input => {
+        if (input.value) {
+            editedItem[input.name] = input.value;
         }
+    });
+
+    switch (type) {
+        case 'maquinas':
+            maquinas[index] = editedItem;
+            break;
+        case 'contas':
+            contas[index] = editedItem;
+            break;
+        case 'recebimentos':
+            recebimentos[index] = editedItem;
+            break;
+        case 'contratos':
+            contratos[index] = editedItem;
+            break;
+        case 'empresas':
+            empresas[index] = editedItem;
+            break;
+    }
+
+    saveToLocalStorage();
+    document.getElementById('editForm').style.display = 'none';
+    showList(type);
+});
+
+// Função de exclusão de um item
+function deleteItem(type, index) {
+    if (confirm('Tem certeza que deseja excluir este item?')) {
+        switch (type) {
+            case 'maquinas':
+                maquinas.splice(index, 1);
+                break;
+            case 'contas':
+                contas.splice(index, 1);
+                break;
+            case 'recebimentos':
+                recebimentos.splice(index, 1);
+                break;
+            case 'contratos':
+                contratos.splice(index, 1);
+                break;
+            case 'empresas':
+                empresas.splice(index, 1);
+                break;
+        }
+
         saveToLocalStorage();
         showList(type);
     }
 }
 
-// Inicializar a seção 'Máquinas' por padrão
-showSection('maquinas');
-showList('maquinas');
+// Função para capitalizar a primeira letra
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', function() {
+    loadFromLocalStorage(); // Carregar dados do LocalStorage
+    showSection('maquinasSection'); // Mostrar a seção inicial
+    showList('maquinas'); // Mostrar a lista inicial
+});
