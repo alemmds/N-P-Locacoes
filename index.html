@@ -1,15 +1,3 @@
-Para implementar um sistema de cadastro que permite maximizar e minimizar informações em cada seção, além de armazenar os dados após clicar em “Confirmar”, você pode seguir os seguintes passos:
-
-1. Adicionar Funcionalidade de Minimizar/Expandir
-
-Vamos modificar o HTML para incluir botões que permitem minimizar ou expandir cada seção. Também ajustaremos o JavaScript para manipular a exibição das seções.
-
-2. Armazenar Dados ao Confirmar
-
-Certifique-se de que os dados sejam armazenados corretamente após clicar em “Confirmar”.
-
-Aqui está o código atualizado com essas funcionalidades:
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -167,17 +155,3 @@ Aqui está o código atualizado com essas funcionalidades:
     </script>
 </body>
 </html>
-
-O que foi adicionado e alterado:
-
-	1.	Botão de Minimizar/Expandir: Cada seção agora possui um botão para alternar a exibição dos formulários e listas.
-	2.	Estilos de Colapsar: Adicionei uma classe .collapsed no CSS para esconder o conteúdo das seções quando minimizadas.
-	3.	JavaScript para Toggle: A função toggleSection(contentId) manipula a classe .collapsed para mostrar ou ocultar o conteúdo.
-	4.	Controle de Exibição de Seções: A função showSection(sectionId) agora oculta todas as seções antes de mostrar a seção solicitada.
-
-Próximos Passos
-
-	•	Implementar Armazenamento de Dados: Assegure-se de que o addToList no seu script.js está armazenando corretamente os dados no local desejado.
-	•	Testar a Funcionalidade: Após fazer essas alterações, teste o sistema para garantir que as funcionalidades de minimização e armazenamento estejam funcionando corretamente.
-
-Se precisar de mais ajustes ou funcionalidades, fique à vontade para perguntar!
