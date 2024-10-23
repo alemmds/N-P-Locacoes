@@ -59,6 +59,25 @@ window.onload = function() {
     showList('maquinas');  // Ou qualquer outra aba padrão
 };
 
+// Função para limpar e resetar o Local Storage manualmente (pode ser chamada para depuração)
+function resetLocalStorage() {
+    localStorage.removeItem('maquinas');
+    localStorage.removeItem('contas');
+    localStorage.removeItem('recebimentos');
+    localStorage.removeItem('contratos');
+    localStorage.removeItem('empresas');
+    
+    // Inicializa novamente como arrays vazios
+    maquinas = [];
+    contas = [];
+    recebimentos = [];
+    contratos = [];
+    empresas = [];
+    
+    saveToLocalStorage(); // Salva os arrays vazios
+    console.log("Local Storage resetado.");
+}
+
 // Função para exibir a aba correspondente do menu
 function showSection(section) {
     document.querySelectorAll('.section').forEach(sec => {
