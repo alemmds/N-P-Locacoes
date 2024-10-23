@@ -4,98 +4,169 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Cadastro</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Referência ao CSS externo -->
     <style>
         .collapsed {
             display: none;
-        }
-        .expand-button {
-            background-color: #4CAF50; /* Cor do botão de expandir/minimizar */
-            color: white;
-            padding: 10px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            margin-bottom: 5px;
-        }
-        .details {
-            background-color: #f9f9f9;
-            padding: 10px;
-            border: 1px solid #ccc;
-            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Seção de Máquinas (Exemplo) -->
-        <section id="maquinasSection" class="section">
-            <h2>Cadastro de Máquinas</h2>
-            <form id="formMaquina" onsubmit="addOrUpdateItem('maquinasList', 'nomeMaquina', ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina']); return false;">
-                <label>Nome da Máquina:</label><input type="text" id="nomeMaquina"><br>
-                <label>Série:</label><input type="text" id="serieMaquina"><br>
-                <label>Anos de Uso:</label><input type="number" id="anosUsoMaquina"><br>
-                <label>Horímetro:</label><input type="number" id="horimetroMaquina"><br>
-                <label>Última Manutenção:</label><input type="date" id="ultimaManutencaoMaquina"><br>
-                <label>Data de Entrada:</label><input type="date" id="dataEntradaMaquina"><br>
-                <div class="buttons">
-                    <button type="submit">Confirmar</button>
-                    <button type="button" onclick="showList('maquinasList')">Listar</button>
-                    <button type="button" onclick="goBack('maquinasSection')">Voltar</button>
-                </div>
-            </form>
-            <!-- Lista de Máquinas -->
-            <div id="maquinasList"></div>
-        </section>
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <img src="logo.png" alt="Logomarca" class="logo"> <!-- Substitua pelo caminho correto da sua logomarca -->
+            <h2>Menu</h2>
+            <ul>
+                <li><button onclick="showSection('maquinasSection')">Máquinas</button></li>
+                <li><button onclick="showSection('contasSection')">Contas</button></li>
+                <li><button onclick="showSection('recebimentosSection')">Recebimentos</button></li>
+                <li><button onclick="showSection('contratosSection')">Contratos</button></li>
+                <li><button onclick="showSection('empresasSection')">Empresas</button></li>
+            </ul>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <div class="content">
+            <h1>Sistema de Cadastro</h1>
+
+            <!-- Seção de Máquinas -->
+            <section id="maquinasSection" class="section">
+                <h2>Cadastro de Máquinas</h2>
+                <form id="formMaquina" onsubmit="addOrUpdateItem('maquinasList', 'nomeMaquina', ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina']); return false;">
+                    <label>Nome da Máquina:</label><input type="text" id="nomeMaquina" required><br>
+                    <label>Série:</label><input type="text" id="serieMaquina" required><br>
+                    <label>Anos de Uso:</label><input type="number" id="anosUsoMaquina" required><br>
+                    <label>Horímetro:</label><input type="number" id="horimetroMaquina" required><br>
+                    <label>Última Manutenção:</label><input type="date" id="ultimaManutencaoMaquina" required><br>
+                    <label>Data de Entrada:</label><input type="date" id="dataEntradaMaquina" required><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" onclick="showList('maquinasList')">Listar</button>
+                        <button type="button" onclick="goBack('maquinasSection')">Voltar</button>
+                    </div>
+                </form>
+
+                <!-- Lista de Máquinas -->
+                <div id="maquinasList"></div>
+            </section>
+
+            <!-- Seção de Contas -->
+            <section id="contasSection" class="section">
+                <h2>Cadastro de Contas</h2>
+                <form id="formConta" onsubmit="addOrUpdateItem('contasList', 'tipoConta', ['dataVencimentoConta', 'valorConta']); return false;">
+                    <label>Tipo:</label><input type="text" id="tipoConta" required><br>
+                    <label>Data de Vencimento:</label><input type="date" id="dataVencimentoConta" required><br>
+                    <label>Valor:</label><input type="number" id="valorConta" required><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" onclick="showList('contasList')">Listar</button>
+                        <button type="button" onclick="goBack('contasSection')">Voltar</button>
+                    </div>
+                </form>
+
+                <!-- Lista de Contas -->
+                <div id="contasList"></div>
+            </section>
+
+            <!-- Seção de Recebimentos -->
+            <section id="recebimentosSection" class="section">
+                <h2>Cadastro de Recebimentos</h2>
+                <form id="formRecebimento" onsubmit="addOrUpdateItem('recebimentosList', 'origemRecebimento', ['dataRecebimento', 'valorRecebimento']); return false;">
+                    <label>Origem:</label><input type="text" id="origemRecebimento" required><br>
+                    <label>Data:</label><input type="date" id="dataRecebimento" required><br>
+                    <label>Valor:</label><input type="number" id="valorRecebimento" required><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" onclick="showList('recebimentosList')">Listar</button>
+                        <button type="button" onclick="goBack('recebimentosSection')">Voltar</button>
+                    </div>
+                </form>
+
+                <!-- Lista de Recebimentos -->
+                <div id="recebimentosList"></div>
+            </section>
+
+            <!-- Seção de Contratos -->
+            <section id="contratosSection" class="section">
+                <h2>Cadastro de Contratos</h2>
+                <form id="formContrato" onsubmit="addOrUpdateItem('contratosList', 'empresaContrato', ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato']); return false;">
+                    <label>Empresa:</label><input type="text" id="empresaContrato" required><br>
+                    <label>Locatário:</label><input type="text" id="locatarioContrato" required><br>
+                    <label>CNPJ:</label><input type="text" id="cnpjContrato" required><br>
+                    <label>Representante:</label><input type="text" id="representanteContrato" required><br>
+                    <label>Período:</label><input type="text" id="periodoContrato" required><br>
+                    <label>Valor:</label><input type="number" id="valorContrato" required><br>
+                    <label>Data de Término:</label><input type="date" id="dataTerminoContrato" required><br>
+                    <label>Equipamento:</label><input type="text" id="equipamentoContrato" required><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" onclick="showList('contratosList')">Listar</button>
+                        <button type="button" onclick="goBack('contratosSection')">Voltar</button>
+                    </div>
+                </form>
+
+                <!-- Lista de Contratos -->
+                <div id="contratosList"></div>
+            </section>
+
+            <!-- Seção de Empresas -->
+            <section id="empresasSection" class="section">
+                <h2>Cadastro de Empresas</h2>
+                <form id="formEmpresa" onsubmit="addOrUpdateItem('empresasList', 'nomeEmpresa', ['cnpjEmpresa', 'enderecoEmpresa']); return false;">
+                    <label>Nome da Empresa:</label><input type="text" id="nomeEmpresa" required><br>
+                    <label>CNPJ:</label><input type="text" id="cnpjEmpresa" required><br>
+                    <label>Endereço:</label><input type="text" id="enderecoEmpresa" required><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" onclick="showList('empresasList')">Listar</button>
+                        <button type="button" onclick="goBack('empresasSection')">Voltar</button>
+                    </div>
+                </form>
+
+                <!-- Lista de Empresas -->
+                <div id="empresasList"></div>
+            </section>
+        </div>
     </div>
 
     <script>
         let editIndex = -1;
 
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.display = 'none'; // Oculta todas as seções
+            });
+            document.getElementById(sectionId).style.display = 'block'; // Mostra a seção desejada
+        }
+
         function addOrUpdateItem(listId, itemNameId, additionalIds) {
             const list = document.getElementById(listId);
             const itemName = document.getElementById(itemNameId).value;
             const additionalData = additionalIds.map(id => document.getElementById(id).value);
+            
+            // Gerando um ID único para o item
+            const itemId = `item-${list.children.length}`;
 
-            if (!itemName || additionalData.includes('')) return; // Garante que todos os campos estejam preenchidos
+            // Criando o botão que irá expandir/colapsar as informações
+            const button = document.createElement('button');
+            button.innerHTML = itemName;
+            button.onclick = () => toggleDetails(itemId);
 
-            const itemHtml = `
-                <p>Nome: ${itemName}</p>
-                <p>Série: ${additionalData[0]}</p>
-                <p>Anos de uso: ${additionalData[1]}</p>
-                <p>Horímetro: ${additionalData[2]}</p>
-                <p>Última manutenção: ${additionalData[3]}</p>
-                <p>Data de entrada: ${additionalData[4]}</p>
-            `;
+            const detailsDiv = document.createElement('div');
+            detailsDiv.id = itemId;
+            detailsDiv.class
 
-            if (editIndex === -1) {
-                const button = document.createElement('button');
-                button.classList.add('expand-button');
-                button.innerHTML = itemName;
-                button.onclick = function() {
-                    toggleDetails(`item-${list.children.length / 2}`);
-                };
+Name = 'collapsed';
+            detailsDiv.innerHTML = `<p>${additionalData.join(', ')}</p>
+                <button onclick="editItem(${list.children.length}, '${itemNameId}', ${JSON.stringify(additionalIds)})">Alterar</button>
+                <button onclick="deleteItem(this)">Excluir</button>`;
 
-                const detailsDiv = document.createElement('div');
-                detailsDiv.id = `item-${list.children.length / 2}`;
-                detailsDiv.classList.add('details', 'collapsed');
-                detailsDiv.innerHTML = itemHtml + `
-                    <button onclick="editItem(${list.children.length / 2}, '${itemNameId}', ${JSON.stringify(additionalIds)})">Alterar</button>
-                    <button onclick="deleteItem(this)">Excluir</button>
-                `;
+            list.appendChild(button);
+            list.appendChild(detailsDiv);
 
-                list.appendChild(button);
-                list.appendChild(detailsDiv);
-            } else {
-                const button = list.children[editIndex * 2];
-                const detailsDiv = document.getElementById(`item-${editIndex}`);
-                button.innerHTML = itemName;
-                detailsDiv.innerHTML = itemHtml + `
-                    <button onclick="editItem(${editIndex}, '${itemNameId}', ${JSON.stringify(additionalIds)})">Alterar</button>
-                    <button onclick="deleteItem(this)">Excluir</button>
-                `;
-                editIndex = -1;
-            }
-
+            // Limpa os campos após adicionar
             document.getElementById(itemNameId).value = '';
             additionalIds.forEach(id => document.getElementById(id).value = '');
         }
@@ -106,13 +177,14 @@
         }
 
         function editItem(index, itemNameId, additionalIds) {
-            const list = document.getElementById('maquinasList');
-            const itemButton = list.children[index * 2];
+            const list = document.getElementById(listId);
+            const itemButton = list.children[index * 2]; // O botão é o filho de índice par
             const details = document.getElementById(`item-${index}`);
 
+            // Preenche os campos com os dados atuais
             document.getElementById(itemNameId).value = itemButton.innerHTML;
-            const values = details.innerText.split('\n').map(line => line.split(': ')[1]);
             additionalIds.forEach((id, i) => {
+                const values = details.innerText.split(', ');
                 document.getElementById(id).value = values[i];
             });
 
@@ -120,19 +192,17 @@
         }
 
         function deleteItem(button) {
-            const itemButton = button.parentElement.previousSibling;
-            itemButton.remove();
-            button.parentElement.remove();
+            const itemButton = button.parentElement.previousSibling; // O botão de expandir
+            itemButton.remove(); // Remove o botão
+            button.parentElement.remove(); // Remove os detalhes
         }
 
         function goBack(sectionId) {
             document.getElementById(sectionId).style.display = 'none';
+            showSection('mainSection'); // Mostra a seção principal, se necessário
         }
-
-        function showList(listId) {
-            const list = document.getElementById(listId);
-            list.classList.toggle('collapsed');
-        }
+        
+        showSection('maquinasSection'); // Mostra a seção de máquinas ao carregar
     </script>
 </body>
 </html>
