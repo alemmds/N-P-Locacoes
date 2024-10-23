@@ -242,7 +242,7 @@ function editItem(type, index) {
         item = empresas[index];
         document.getElementById('nomeEmpresa').value = item.nome;
         document.getElementById('areaCnpj').value = item.areaCnpj;
-        document.getElementById('areaAtuacao').value = item.areaAtuacao;
+        document.getElementById('areaAtuacao').value = itewm.areaAtuacao;
         document.getElementById('representanteEmpresa').value = item.representante;
         document.getElementById('telefoneEmpresa').value = item.telefone;
         document.getElementById('emailEmpresa').value = item.email;
