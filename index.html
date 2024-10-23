@@ -168,9 +168,7 @@
                 detailsDiv.className = 'collapsed';
                 detailsDiv.innerHTML = `
                     <p><strong>Nome:</strong> ${itemName}</p>
-                    <p><strong>${additionalIds[0].charAt(0).to
-
-UpperCase() + additionalIds[0].slice(1)}:</strong> ${additionalData[0]}</p>
+                    <p><strong>${additionalIds[0].charAt(0).toUpperCase() + additionalIds[0].slice(1)}:</strong> ${additionalData[0]}</p>
                     <p><strong>${additionalIds[1].charAt(0).toUpperCase() + additionalIds[1].slice(1)}:</strong> ${additionalData[1]}</p>
                     <p><strong>${additionalIds[2].charAt(0).toUpperCase() + additionalIds[2].slice(1)}:</strong> ${additionalData[2]}</p>
                     <p><strong>${additionalIds[3].charAt(0).toUpperCase() + additionalIds[3].slice(1)}:</strong> ${additionalData[3]}</p>
@@ -178,15 +176,11 @@ UpperCase() + additionalIds[0].slice(1)}:</strong> ${additionalData[0]}</p>
 
                 list.appendChild(button);
                 list.appendChild(detailsDiv);
-
-                // Adiciona o novo item ao localStorage
-                items.push({ name: itemName, additionalData });
+                items.push({ itemName, additionalData });
             } else {
                 // Atualizar item existente
-                const itemToUpdate = list.children[editIndex * 2];
-                itemToUpdate.innerHTML = itemName;
-
-                // Atualiza os detalhes do item
+                items[editIndex] = { itemName, additionalData };
+                list.children[editIndex * 2].innerHTML = itemName; // Atualiza o botão
                 const detailsDiv = document.getElementById(`item-${editIndex}`);
                 detailsDiv.innerHTML = `
                     <p><strong>Nome:</strong> ${itemName}</p>
@@ -195,13 +189,11 @@ UpperCase() + additionalIds[0].slice(1)}:</strong> ${additionalData[0]}</p>
                     <p><strong>${additionalIds[2].charAt(0).toUpperCase() + additionalIds[2].slice(1)}:</strong> ${additionalData[2]}</p>
                     <p><strong>${additionalIds[3].charAt(0).toUpperCase() + additionalIds[3].slice(1)}:</strong> ${additionalData[3]}</p>
                 `;
-                items[editIndex] = { name: itemName, additionalData };
-                editIndex = -1; // Reseta o índice após a atualização
             }
 
-            localStorage.setItem(type, JSON.stringify(items)); // Atualiza o localStorage
-            clearForm(event.target.id); // Limpa o formulário
-            showList(listId); // Atualiza a lista visível
+            localStorage.setItem(type, JSON.stringify(items));
+            clearForm(event.target.id);
+            editIndex = -1; // Resetando o índice de edição
         }
 
         function toggleDetails(itemId) {
@@ -211,56 +203,17 @@ UpperCase() + additionalIds[0].slice(1)}:</strong> ${additionalData[0]}</p>
         }
 
         function showList(listId) {
-            const listDiv = document.getElementById(listId);
-            listDiv.style.display = 'block'; // Exibe a lista
-
-            // Adiciona os itens do localStorage
-            let items = JSON.parse(localStorage.getItem(listId)) || [];
-            items.forEach((item, index) => {
-                const button = document.createElement('button');
-                button.innerHTML = item.name;
-                button.onclick = () => toggleDetails(`item-${index}`);
-
-                const detailsDiv = document.createElement('div');
-                detailsDiv.id = `item-${index}`;
-                detailsDiv.className = 'collapsed';
-                detailsDiv.innerHTML = `
-                    <p><strong>Nome:</strong> ${item.name}</p>
-                    <p><strong>Dados adicionais:</strong> ${item.additionalData.join(', ')}</p>
-                `;
-
-                listDiv.appendChild(button);
-                listDiv.appendChild(detailsDiv);
-            });
+            const list = document.getElementById(listId);
+            list.style.display = list.style.display === 'none' ? 'block' : 'none'; // Alterna a visibilidade da lista
         }
 
         function clearForm(formId) {
-            document.getElementById(formId).reset(); // Reseta o formulário
+            document.getElementById(formId).reset();
             editIndex = -1; // Reseta o índice de edição
         }
 
         function loadData() {
-            const types = ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'];
-            types.forEach(type => {
-                let items = JSON.parse(localStorage.getItem(type)) || [];
-                const listDiv = document.getElementById(`${type}List`);
-                items.forEach((item, index) => {
-                    const button = document.createElement('button');
-                    button.innerHTML = item.name;
-                    button.onclick = () => toggleDetails(`item-${type}-${index}`);
-
-                    const detailsDiv = document.createElement('div');
-                    detailsDiv.id = `item-${type}-${index}`;
-                    detailsDiv.className = 'collapsed';
-                    detailsDiv.innerHTML = `
-                        <p><strong>Nome:</strong> ${item.name}</p>
-                        <p><strong>Dados adicionais:</strong> ${item.additionalData.join(', ')}</p>
-                    `;
-
-                    listDiv.appendChild(button);
-                    listDiv.appendChild(detailsDiv);
-                });
-            });
+            // Lógica para carregar dados do localStorage se necessário
         }
     </script>
 </body>
