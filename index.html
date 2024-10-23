@@ -26,166 +26,133 @@
             <h1>Sistema de Cadastro</h1>
 
             <!-- Seção de Máquinas -->
-           <section id="maquinasSection" class="section">
-    <h2>Cadastro de Máquinas</h2>
-    <form id="formMaquina">
-        <label>Nome da Máquina:</label><input type="text" id="nomeMaquina"><br>
-        <label>Tipo:</label><input type="text" id="tipoMaquina"><br>
-        <label>Valor:</label><input type="number" id="valorMaquina"><br>
-        <div class="buttons">
-            <button type="submit">Confirmar</button>
-            <button type="button" onclick="showList('maquinas')">Listar</button>
-            <button type="button" onclick="goBack('maquinasSection')">Voltar</button>
-        </div>
-    </form>
+            <section id="maquinasSection" class="section">
+                <h2>Cadastro de Máquinas</h2>
+                <form id="formMaquina" onsubmit="handleFormSubmit(event, 'maquinas', 'nomeMaquina')">
+                    <label>Nome da Máquina:</label><input type="text" id="nomeMaquina"><br>
+                    <label>Tipo:</label><input type="text" id="tipoMaquina"><br>
+                    <label>Valor:</label><input type="number" id="valorMaquina"><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" onclick="showList('maquinas')">Listar</button>
+                        <button type="button" onclick="goBack('maquinasSection')">Voltar</button>
+                    </div>
+                </form>
 
-    <!-- Lista de Máquinas -->
-    <div id="maquinasList">
-        <div class="machine-item">
-            <div class="header" onclick="toggleDetails('maquinaDetails1')">
-                <span>Máquina 1</span>
-                <span class="arrow">&#x25BC;</span>
-            </div>
-            <div class="details" id="maquinaDetails1">
-                <p><strong>Nome:</strong> Escavadeira</p>
-                <p><strong>Tipo:</strong> Pesada</p>
-                <p><strong>Valor:</strong> R$ 300.000</p>
-                <div class="buttons">
-                    <button class="alterar">Alterar</button>
-                    <button class="excluir">Excluir</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+                <!-- Lista de Máquinas -->
+                <div id="maquinasList"></div>
+            </section>
 
             <!-- Seção de Contas -->
             <section id="contasSection" class="section">
-    <h2>Cadastro de Contas</h2>
-    <form id="formConta">
-        <label>Tipo:</label><input type="text" id="tipoConta"><br>
-        <label>Data de Vencimento:</label><input type="date" id="dataVencimentoConta"><br>
-        <label>Valor:</label><input type="number" id="valorConta"><br>
-        <div class="buttons">
-            <button type="submit">Confirmar</button>
-            <button type="button" onclick="showList('contas')">Listar</button>
-            <button type="button" onclick="goBack('contasSection')">Voltar</button>
-        </div>
-    </form>
+                <h2>Cadastro de Contas</h2>
+                <form id="formConta" onsubmit="handleFormSubmit(event, 'contas', 'tipoConta')">
+                    <label>Tipo:</label><input type="text" id="tipoConta"><br>
+                    <label>Data de Vencimento:</label><input type="date" id="dataVencimentoConta"><br>
+                    <label>Valor:</label><input type="number" id="valorConta"><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" onclick="showList('contas')">Listar</button>
+                        <button type="button" onclick="goBack('contasSection')">Voltar</button>
+                    </div>
+                </form>
 
-    <!-- Lista de Contas -->
-    <div id="contasList">
-        <button class="maximize-button" onclick="toggleDetails('contaDetails1')">Conta Y</button>
-        <div class="info-container" id="contaDetails1" style="display:none;">
-            <p><strong>Tipo:</strong> Luz</p>
-            <p><strong>Data de Vencimento:</strong> 2023-12-01</p>
-            <p><strong>Valor:</strong> 500,00</p>
-            <div class="buttons">
-                <button class="alterar">Alterar</button>
-                <button class="excluir">Excluir</button>
-            </div>
-        </div>
-    </div>
-</section>
+                <!-- Lista de Contas -->
+                <div id="contasList"></div>
+            </section>
 
             <!-- Seção de Recebimentos -->
-           <section id="recebimentosSection" class="section">
-    <h2>Cadastro de Recebimentos</h2>
-    <form id="formRecebimento">
-        <label>Origem:</label><input type="text" id="origemRecebimento"><br>
-        <label>Data:</label><input type="date" id="dataRecebimento"><br>
-        <label>Valor:</label><input type="number" id="valorRecebimento"><br>
-        <div class="buttons">
-            <button type="submit">Confirmar</button>
-            <button type="button" onclick="showList('recebimentos')">Listar</button>
-            <button type="button" onclick="goBack('recebimentosSection')">Voltar</button>
-        </div>
-    </form>
+            <section id="recebimentosSection" class="section">
+                <h2>Cadastro de Recebimentos</h2>
+                <form id="formRecebimento" onsubmit="handleFormSubmit(event, 'recebimentos', 'origemRecebimento')">
+                    <label>Origem:</label><input type="text" id="origemRecebimento"><br>
+                    <label>Data:</label><input type="date" id="dataRecebimento"><br>
+                    <label>Valor:</label><input type="number" id="valorRecebimento"><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" onclick="showList('recebimentos')">Listar</button>
+                        <button type="button" onclick="goBack('recebimentosSection')">Voltar</button>
+                    </div>
+                </form>
 
-    <!-- Lista de Recebimentos -->
-    <div id="recebimentosList">
-        <button class="maximize-button" onclick="toggleDetails('recebimentoDetails1')">Recebimento ABC</button>
-        <div class="info-container" id="recebimentoDetails1" style="display:none;">
-            <p><strong>Origem:</strong> Empresa XYZ</p>
-            <p><strong>Data:</strong> 2024-10-15</p>
-            <p><strong>Valor:</strong> R$ 2.500,00</p>
-            <div class="buttons">
-                <button class="alterar">Alterar</button>
-                <button class="excluir">Excluir</button>
-            </div>
-        </div>
-    </div>
-</section>
+                <!-- Lista de Recebimentos -->
+                <div id="recebimentosList"></div>
+            </section>
+
             <!-- Seção de Contratos -->
             <section id="contratosSection" class="section">
-    <h2>Cadastro de Contratos</h2>
-    <form id="formContrato">
-        <label>Empresa:</label><input type="text" id="empresaContrato"><br>
-        <label>Locatário:</label><input type="text" id="locatarioContrato"><br>
-        <label>CNPJ:</label><input type="text" id="cnpjContrato"><br>
-        <label>Representante:</label><input type="text" id="representanteContrato"><br>
-        <label>Período:</label><input type="text" id="periodoContrato"><br>
-        <label>Valor:</label><input type="number" id="valorContrato"><br>
-        <label>Data de Término:</label><input type="date" id="dataTerminoContrato"><br>
-        <label>Equipamento:</label><input type="text" id="equipamentoContrato"><br>
-        <div class="buttons">
-            <button type="submit">Confirmar</button>
-            <button type="button" onclick="showList('contratos')">Listar</button>
-            <button type="button" onclick="goBack('contratosSection')">Voltar</button>
-        </div>
-    </form>
+                <h2>Cadastro de Contratos</h2>
+                <form id="formContrato" onsubmit="handleFormSubmit(event, 'contratos', 'empresaContrato')">
+                    <label>Empresa:</label><input type="text" id="empresaContrato"><br>
+                    <label>Locatário:</label><input type="text" id="locatarioContrato"><br>
+                    <label>CNPJ:</label><input type="text" id="cnpjContrato"><br>
+                    <label>Representante:</label><input type="text" id="representanteContrato"><br>
+                    <label>Período:</label><input type="text" id="periodoContrato"><br>
+                    <label>Valor:</label><input type="number" id="valorContrato"><br>
+                    <label>Data de Término:</label><input type="date" id="dataTerminoContrato"><br>
+                    <label>Equipamento:</label><input type="text" id="equipamentoContrato"><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" onclick="showList('contratos')">Listar</button>
+                        <button type="button" onclick="goBack('contratosSection')">Voltar</button>
+                    </div>
+                </form>
 
-    <!-- Lista de Contratos -->
-    <div id="contratosList">
-        <button class="maximize-button" onclick="toggleDetails('contratoDetails1')">Contrato Z</button>
-        <div class="info-container" id="contratoDetails1" style="display:none;">
-            <p><strong>Empresa:</strong> ABC Ltda</p>
-            <p><strong>Locatário:</strong> Fulano de Tal</p>
-            <p><strong>CNPJ:</strong> 12.345.678/0001-90</p>
-            <p><strong>Representante:</strong> João Silva</p>
-            <p><strong>Período:</strong> 12 meses</p>
-            <p><strong>Valor:</strong> R$ 10.000,00</p>
-            <p><strong>Data de Término:</strong> 2024-12-01</p>
-            <p><strong>Equipamento:</strong> Trator</p>
-            <div class="buttons">
-                <button class="alterar">Alterar</button>
-                <button class="excluir">Excluir</button>
-            </div>
-        </div>
-    </div>
-</section>
+                <!-- Lista de Contratos -->
+                <div id="contratosList"></div>
+            </section>
 
             <!-- Seção de Empresas -->
             <section id="empresasSection" class="section">
-    <h2>Cadastro de Empresas</h2>
-    <form id="formEmpresa">
-        <label>Nome da Empresa:</label><input type="text" id="nomeEmpresa"><br>
-        <label>CNPJ:</label><input type="text" id="cnpjEmpresa"><br>
-        <label>Endereço:</label><input type="text" id="enderecoEmpresa"><br>
-        <div class="buttons">
-            <button type="submit">Confirmar</button>
-            <button type="button" onclick="showList('empresas')">Listar</button>
-            <button type="button" onclick="goBack('empresasSection')">Voltar</button>
-        </div>
-    </form>
+                <h2>Cadastro de Empresas</h2>
+                <form id="formEmpresa" onsubmit="handleFormSubmit(event, 'empresas', 'nomeEmpresa')">
+                    <label>Nome da Empresa:</label><input type="text" id="nomeEmpresa"><br>
+                    <label>CNPJ:</label><input type="text" id="cnpjEmpresa"><br>
+                    <label>Endereço:</label><input type="text" id="enderecoEmpresa"><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" onclick="showList('empresas')">Listar</button>
+                        <button type="button" onclick="goBack('empresasSection')">Voltar</button>
+                    </div>
+                </form>
 
-    <!-- Lista de Empresas -->
-    <div id="empresasList">
-        <button class="maximize-button" onclick="toggleDetails('empresaDetails1')">Empresa DEF</button>
-        <div class="info-container" id="empresaDetails1" style="display:none;">
-            <p><strong>Nome:</strong> Empresa DEF</p>
-            <p><strong>CNPJ:</strong> 98.765.432/0001-12</p>
-            <p><strong>Endereço:</strong> Rua Central, 123</p>
-            <div class="buttons">
-                <button class="alterar">Alterar</button>
-                <button class="excluir">Excluir</button>
-            </div>
-        </div>
-    </div>
-</section>
+                <!-- Lista de Empresas -->
+                <div id="empresasList"></div>
+            </section>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        function handleFormSubmit(event, section, inputId) {
+            event.preventDefault(); // Impede o envio do formulário
+            const inputValue = document.getElementById(inputId).value;
+
+            // Cria um novo elemento de lista para a seção correspondente
+            const listContainer = document.getElementById(section + 'List');
+            const itemButton = document.createElement('button');
+            itemButton.className = 'maximize-button';
+            itemButton.onclick = () => toggleDetails(section + 'Details' + (listContainer.children.length + 1));
+            itemButton.textContent = inputValue; // Usa o valor do campo como texto do botão
+
+            const detailsDiv = document.createElement('div');
+            detailsDiv.className = 'info-container';
+            detailsDiv.id = section + 'Details' + (listContainer.children.length + 1);
+            detailsDiv.style.display = 'none';
+            detailsDiv.innerHTML = `<p><strong>${inputId.charAt(0).toUpperCase() + inputId.slice(1)}:</strong> ${inputValue}</p>
+                                    <div class="buttons">
+                                        <button class="alterar">Alterar</button>
+                                        <button class="excluir">Excluir</button>
+                                    </div>`;
+
+            // Adiciona o botão e os detalhes à lista
+            listContainer.appendChild(itemButton);
+            listContainer.appendChild(detailsDiv);
+        }
+
+        function toggleDetails(detailsId) {
+            const details = document.getElementById(detailsId);
+            details.style.display = details.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
 </body>
 </html>
