@@ -9,6 +9,20 @@
         .collapsed {
             display: none;
         }
+        button.expand-collapse {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            margin: 5px;
+        }
+        button.expand-collapse:hover {
+            background-color: #45a049;
+        }
+        .details {
+            margin-left: 20px;
+        }
     </style>
 </head>
 <body>
@@ -144,65 +158,70 @@
         function addOrUpdateItem(listId, itemNameId, additionalIds) {
             const list = document.getElementById(listId);
             const itemName = document.getElementById(itemNameId).value;
-            const additionalData = additionalIds.map(id => document.getElementById(id).value);
-            
-            // Gerando um ID único para o item
-            const itemId = `item-${list.children.length}`;
+            const additionalValues = additionalIds.map(id => document.getElementById(id).value);
 
-            // Criando o botão que irá expandir/colapsar as informações
-            const button = document.createElement('button');
-            button.innerHTML = itemName;
-            button.onclick = () => toggleDetails(itemId);
+            if (editIndex === -1) {
+                // Adicionar novo item
+                const newItem = document.createElement('div');
+                newItem.className = 'item';
 
-            const detailsDiv = document.createElement('div');
-            detailsDiv.id = itemId;
-            detailsDiv.class
+                const expandCollapseButton = document.createElement('button');
+                expandCollapseButton.className = 'expand-collapse';
+                expandCollapseButton.textContent = itemName;
+                expandCollapseButton.onclick = function() {
+                    const details = newItem.querySelector('.details');
+                    details.classList.toggle('collapsed');
+                };
 
-Name = 'collapsed';
-            detailsDiv.innerHTML = `<p>${additionalData.join(', ')}</p>
-                <button onclick="editItem(${list.children.length}, '${itemNameId}', ${JSON.stringify(additionalIds)})">Alterar</button>
-                <button onclick="deleteItem(this)">Excluir</button>`;
+                const details = document.createElement('div');
+                details.className = 'details collapsed';
+                details.innerHTML = additionalValues.map((value, index) => `<p>${value}</p>`).join('');
+                
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Excluir';
+                deleteButton.onclick = function() {
+                    newItem.remove();
+                };
 
-            list.appendChild(button);
-            list.appendChild(detailsDiv);
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Alterar';
+                editButton.onclick = function() {
+                    document.getElementById(itemNameId).value = itemName;
+                    additionalIds.forEach((id, index) => document.getElementById(id).value = additionalValues[index]);
+                    editIndex = Array.from(list.children).indexOf(newItem);
+                    newItem.remove();
+                };
 
-            // Limpa os campos após adicionar
+                newItem.appendChild(expandCollapseButton);
+                newItem.appendChild(details);
+                newItem.appendChild(deleteButton);
+                newItem.appendChild(editButton);
+                list.appendChild(newItem);
+            } else {
+                // Editar item existente
+                const itemToEdit = list.children[editIndex];
+                const expandCollapseButton = itemToEdit.querySelector('.expand-collapse');
+                expandCollapseButton.textContent = itemName;
+
+                const details = itemToEdit.querySelector('.details');
+                details.innerHTML = additionalValues.map((value, index) => `<p>${value}</p>`).join('');
+                
+                editIndex = -1; // Resetar índice de edição
+            }
+
+            // Limpar campos do formulário
             document.getElementById(itemNameId).value = '';
             additionalIds.forEach(id => document.getElementById(id).value = '');
         }
 
-        function toggleDetails(itemId) {
-            const details = document.getElementById(itemId);
-            details.classList.toggle('collapsed');
-        }
-
-        function editItem(index, itemNameId, additionalIds) {
+        function showList(listId) {
             const list = document.getElementById(listId);
-            const itemButton = list.children[index * 2]; // O botão é o filho de índice par
-            const details = document.getElementById(`item-${index}`);
-
-            // Preenche os campos com os dados atuais
-            document.getElementById(itemNameId).value = itemButton.innerHTML;
-            additionalIds.forEach((id, i) => {
-                const values = details.innerText.split(', ');
-                document.getElementById(id).value = values[i];
-            });
-
-            editIndex = index;
-        }
-
-        function deleteItem(button) {
-            const itemButton = button.parentElement.previousSibling; // O botão de expandir
-            itemButton.remove(); // Remove o botão
-            button.parentElement.remove(); // Remove os detalhes
+            list.style.display = list.style.display === 'none' ? 'block' : 'none';
         }
 
         function goBack(sectionId) {
             document.getElementById(sectionId).style.display = 'none';
-            showSection('mainSection'); // Mostra a seção principal, se necessário
         }
-        
-        showSection('maquinasSection'); // Mostra a seção de máquinas ao carregar
     </script>
 </body>
 </html>
