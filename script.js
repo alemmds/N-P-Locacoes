@@ -11,18 +11,52 @@ if (maquinas.length > 0 && maquinas[0].nome === "MAQUINA 1") {
     saveToLocalStorage();
 }
 
-// Função para carregar dados do LocalStorage ao inicializar
+// Função para carregar dados do Local Storage com verificação de validade
 function loadFromLocalStorage() {
-    maquinas = JSON.parse(localStorage.getItem('maquinas')) || [];
-    contas = JSON.parse(localStorage.getItem('contas')) || [];
-    recebimentos = JSON.parse(localStorage.getItem('recebimentos')) || [];
-    contratos = JSON.parse(localStorage.getItem('contratos')) || [];
-    empresas = JSON.parse(localStorage.getItem('empresas')) || [];
+    try {
+        maquinas = JSON.parse(localStorage.getItem('maquinas')) || [];
+        contas = JSON.parse(localStorage.getItem('contas')) || [];
+        recebimentos = JSON.parse(localStorage.getItem('recebimentos')) || [];
+        contratos = JSON.parse(localStorage.getItem('contratos')) || [];
+        empresas = JSON.parse(localStorage.getItem('empresas')) || [];
+        
+        // Verificando se os dados carregados são arrays válidos
+        if (!Array.isArray(maquinas)) maquinas = [];
+        if (!Array.isArray(contas)) contas = [];
+        if (!Array.isArray(recebimentos)) recebimentos = [];
+        if (!Array.isArray(contratos)) contratos = [];
+        if (!Array.isArray(empresas)) empresas = [];
+
+        console.log("Dados carregados:", { maquinas, contas, recebimentos, contratos, empresas });
+    } catch (error) {
+        console.error("Erro ao carregar dados do Local Storage:", error);
+        // Se ocorrer erro ao carregar os dados, inicializa como arrays vazios
+        maquinas = [];
+        contas = [];
+        recebimentos = [];
+        contratos = [];
+        empresas = [];
+    }
 }
-// Adicionar esta função logo após o carregamento da página
+
+// Função para salvar dados no Local Storage
+function saveToLocalStorage() {
+    try {
+        localStorage.setItem('maquinas', JSON.stringify(maquinas));
+        localStorage.setItem('contas', JSON.stringify(contas));
+        localStorage.setItem('recebimentos', JSON.stringify(recebimentos));
+        localStorage.setItem('contratos', JSON.stringify(contratos));
+        localStorage.setItem('empresas', JSON.stringify(empresas));
+        console.log("Dados salvos com sucesso no Local Storage.");
+    } catch (error) {
+        console.error("Erro ao salvar dados no Local Storage:", error);
+    }
+}
+
+// Carregar os dados ao iniciar a página
 window.onload = function() {
     loadFromLocalStorage();
-    showList('maquinas'); // ou qualquer aba que deseja mostrar ao carregar a página
+    showList('maquinas');  // Ou qualquer outra aba padrão
 };
 
 // Função para exibir a aba correspondente do menu
