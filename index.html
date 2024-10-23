@@ -201,7 +201,7 @@
         function editItem(listId, index, storageKey, fieldIds) {
             let storedItems = JSON.parse(localStorage.getItem(storageKey));
             const item = storedItems[index];
-            
+
             document.getElementById(fieldIds[0]).value = item.mainField;
             item.fields.forEach((field, i) => {
                 document.getElementById(fieldIds[i + 1]).value = field;
