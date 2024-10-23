@@ -162,93 +162,66 @@
             const item = { itemName, additionalData };
             items.push(item);
             localStorage.setItem(type, JSON.stringify(items));
-            addItemToList(itemId, itemName, additionalData, list);
+            addItemToList(itemId, listId, item);
         } else {
             // Atualizar item existente
-            items[editIndex] = { itemName, additionalData };
+            const item = items[editIndex];
+            item.itemName = itemName;
+            item.additionalData = additionalData;
+            items[editIndex] = item;
             localStorage.setItem(type, JSON.stringify(items));
-            updateListItem(editIndex, itemName, additionalData, list);
+            updateItemInList(editIndex, listId, item);
+            editIndex = -1;
         }
-
-        clearForm(`form${type.charAt(0).toUpperCase() + type.slice(1)}`);
-        loadData();
+        clearForm();
     }
 
-    function addItemToList(index, itemName, additionalData, list) {
-        const button = document.createElement('button');
-        button.innerHTML = itemName;
-        button.onclick = () => toggleDetails(`item-${index}`);
-
-        const detailsDiv = document.createElement('div');
-        detailsDiv.id = `item-${index}`;
-        detailsDiv.className = 'collapsed';
-        detailsDiv.innerHTML = `
-            <p><strong>Nome:</strong> ${itemName}</p>
-            ${additionalData.map((data, i) => `<p><strong>${currentType.charAt(0).toUpperCase() + currentType.slice(1)}:</strong> ${data}</p>`).join('')}
-            <button onclick="editItem(${index}, '${currentType}')">Alterar</button>
-            <button onclick="deleteItem(${index}, '${currentType}')">Excluir</button>
+    function addItemToList(itemId, listId, item) {
+        const list = document.getElementById(listId);
+        const itemDiv = document.createElement('div');
+        itemDiv.id = `${listId}-${itemId}`;
+        itemDiv.innerHTML = `
+            <span><strong>${item.itemName}</strong></span>
+            <button onclick="editItem('${listId}', ${itemId}, '${currentType}')">Editar</button>
+            <button onclick="deleteItem('${listId}', ${itemId}, '${currentType}')">Excluir</button>
         `;
-
-        list.appendChild(button);
-        list.appendChild(detailsDiv);
+        list.appendChild(itemDiv);
     }
 
-    function updateListItem(index, itemName, additionalData, list) {
-        const button = list.children[index * 2];
-        button.innerHTML = itemName;
-        const detailsDiv = document.getElementById(`item-${index}`);
-        detailsDiv.innerHTML = `
-            <p><strong>Nome:</strong> ${itemName}</p>
-            ${additionalData.map((data, i) => `<p><strong>${currentType.charAt(0).toUpperCase() + currentType.slice(1)}:</strong> ${data}</p>`).join('')}
-            <button onclick="editItem(${index}, '${currentType}')">Alterar</button>
-            <button onclick="deleteItem(${index}, '${currentType}')">Excluir</button>
-        `;
+    function updateItemInList(itemId, listId, item) {
+        const itemDiv = document.getElementById(`${listId}-${itemId}`);
+        itemDiv.querySelector('span').textContent = item.itemName;
     }
 
-    function editItem(index, type) {
-        currentType = type;
-        const items = JSON.parse(localStorage.getItem(currentType));
-        const item = items[index];
-
-        document.getElementById('nome' + currentType.charAt(0).toUpperCase() + currentType.slice(1)).value = item.itemName;
-        const additionalIds = currentType === 'maquinas' ? ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'] :
-            currentType === 'contas' ? ['tipoConta', 'saldoConta'] :
-            currentType === 'recebimentos' ? ['valorRecebimento', 'dataRecebimento'] :
-            currentType === 'contratos' ? ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'] :
-            ['cnpjEmpresa', 'enderecoEmpresa'];
-
-        additionalIds.forEach((id, i) => {
-            document.getElementById(id).value = item.additionalData[i];
-        });
-        editIndex = index;
-    }
-
-    function deleteItem(index, type) {
-        const items = JSON.parse(localStorage.getItem(type));
-        items.splice(index, 1);
+    function deleteItem(listId, itemId, type) {
+        let items = JSON.parse(localStorage.getItem(type));
+        items.splice(itemId, 1);
         localStorage.setItem(type, JSON.stringify(items));
-        loadData();
+        const itemDiv = document.getElementById(`${listId}-${itemId}`);
+        itemDiv.remove();
     }
 
-    function toggleDetails(itemId) {
-        const detailsDiv = document.getElementById(itemId);
-        detailsDiv.classList.toggle('collapsed');
-        detailsDiv.classList.toggle('expanded');
+    function editItem(listId, itemId, type) {
+        editIndex = itemId;
+        currentType = type;
+        const items = JSON.parse(localStorage.getItem(type));
+        const item = items[itemId];
+
+        document.getElementById('nomeMaquina').value = item.itemName; // Preencha os campos aqui
+        // Continue para preencher outros campos, conforme necessário
     }
 
     function clearForm(formId) {
         document.getElementById(formId).reset();
-        editIndex = -1; // Reseta o índice de edição
+        editIndex = -1;
     }
 
     function loadData() {
-        ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'].forEach(type => {
+        const sections = ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'];
+        sections.forEach(type => {
             const items = JSON.parse(localStorage.getItem(type)) || [];
-            const list = document.getElementById(type + 'List');
-            list.innerHTML = ''; // Limpa a lista
-
             items.forEach((item, index) => {
-                addItemToList(index, item.itemName, item.additionalData, list);
+                addItemToList(index, `${type}List`, item);
             });
         });
     }
