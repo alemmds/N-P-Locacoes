@@ -1,94 +1,112 @@
-// Funções de salvar e listar para Máquinas, Contas, Recebimentos, Contratos e Empresas
 document.addEventListener('DOMContentLoaded', () => {
-    const categorias = ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'];
-    
-    categorias.forEach(key => {
-        const form = document.getElementById(`form${capitalizeFirstLetter(key)}`);
-        const confirmarBtn = document.getElementById(`confirmar${capitalizeFirstLetter(key)}`);
-        const listaBtn = document.getElementById(`lista${capitalizeFirstLetter(key)}`);
-        const listContainer = document.getElementById(`${key}List`);
+    const sections = ['maquinas', 'contas'];
 
-        confirmarBtn.addEventListener('click', () => {
-            const item = getFormData(form);
-            saveToLocalStorage(key, item);
-            renderItems(listContainer, [item], form);
-            form.reset();
-        });
-
-        listaBtn.addEventListener('click', () => {
-            const storedItems = getFromLocalStorage(key);
-            renderItems(listContainer, storedItems, form);
-        });
-
-        // Carrega os itens já salvos
-        const storedItems = getFromLocalStorage(key);
-        renderItems(listContainer, storedItems, form);
+    sections.forEach(section => {
+        loadFromLocalStorage(section);
     });
 
-    function getFormData(form) {
-        const data = {};
-        Array.from(form.elements).forEach(input => {
-            if (input.tagName === 'INPUT') {
-                data[input.id] = input.value;
-            }
+    document.getElementById('confirmarMaquina').onclick = () => {
+        const newItem = {
+            nomeMaquina: document.getElementById('nomeMaquina').value,
+            serieMaquina: document.getElementById('serieMaquina').value,
+            anosUsoMaquina: document.getElementById('anosUsoMaquina').value,
+            horimetroMaquina: document.getElementById('horimetroMaquina').value,
+            ultimaManutencaoMaquina: document.getElementById('ultimaManutencaoMaquina').value,
+            dataEntradaMaquina: document.getElementById('dataEntradaMaquina').value
+        };
+        saveToLocalStorage('maquinas', newItem);
+        loadFromLocalStorage('maquinas');
+        document.getElementById('form-maquinas').reset();
+    };
+
+    document.getElementById('confirmarConta').onclick = () => {
+        const newItem = {
+            tipoConta: document.getElementById('tipoConta').value,
+            dataEmissaoConta: document.getElementById('dataEmissaoConta').value,
+            dataVencimentoConta: document.getElementById('dataVencimentoConta').value,
+            valorConta: document.getElementById('valorConta').value
+        };
+        saveToLocalStorage('contas', newItem);
+        loadFromLocalStorage('contas');
+        document.getElementById('form-contas').reset();
+    };
+
+    function saveToLocalStorage(key, newItem) {
+        const items = JSON.parse(localStorage.getItem(key)) || [];
+        items.push(newItem);
+        localStorage.setItem(key, JSON.stringify(items));
+    }
+
+    function loadFromLocalStorage(key) {
+        const items = JSON.parse(localStorage.getItem(key)) || [];
+        const listId = key + 'List';
+        renderItems(listId, items, key);
+    }
+
+    function renderItems(listId, items, section) {
+        const list = document.getElementById(listId);
+        list.innerHTML = '';
+
+        items.forEach((item, index) => {
+            const button = document.createElement('button');
+            button.innerText = item[Object.keys(item)[0]];
+            button.onclick = () => toggleDetails(index, section);
+
+            const detailsDiv = document.createElement('div');
+            detailsDiv.style.display = 'none';
+
+            Object.keys(item).forEach(field => {
+                const fieldInfo = document.createElement('p');
+                fieldInfo.innerText = `${field.replace(/([A-Z])/g, ' $1')}: ${item[field]}`;
+                detailsDiv.appendChild(fieldInfo);
+            });
+
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = 'Excluir';
+            deleteButton.onclick = () => removeItem(section, index);
+
+            const editButton = document.createElement('button');
+            editButton.innerText = 'Alterar';
+            editButton.onclick = () => editItem(section, index);
+
+            list.appendChild(button);
+            list.appendChild(detailsDiv);
+            list.appendChild(deleteButton);
+            list.appendChild(editButton);
         });
-        return data;
     }
 
-    function saveToLocalStorage(key, item) {
-        const storedItems = JSON.parse(localStorage.getItem(key)) || [];
-        storedItems.push(item);
-        localStorage.setItem(key, JSON.stringify(storedItems));
+    function toggleDetails(index, section) {
+        const details = document.querySelectorAll(`#${section}List div`)[index];
+        details.style.display = details.style.display === 'none' ? 'block' : 'none';
     }
 
-    function getFromLocalStorage(key) {
-        return JSON.parse(localStorage.getItem(key)) || [];
+    function removeItem(section, index) {
+        const items = JSON.parse(localStorage.getItem(section)) || [];
+        items.splice(index, 1);
+        localStorage.setItem(section, JSON.stringify(items));
+        loadFromLocalStorage(section);
     }
 
-    function renderItems(container, items, form) {
-        container.innerHTML = '';
-        items.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'item';
-            for (let field in item) {
-                const p = document.createElement('p');
-                p.textContent = `${getFriendlyFieldName(field)}: ${item[field]}`;
-                div.appendChild(p);
-            }
-            container.appendChild(div);
+    function editItem(section, index) {
+        const items = JSON.parse(localStorage.getItem(section)) || [];
+        const item = items[index];
+        Object.keys(item).forEach(field => {
+            document.getElementById(field).value = item[field];
         });
+
+        document.getElementById(`confirmar${capitalizeFirstLetter(section)}`).onclick = () => {
+            items[index] = {};
+            Object.keys(item).forEach(field => {
+                items[index][field] = document.getElementById(field).value;
+            });
+            localStorage.setItem(section, JSON.stringify(items));
+            loadFromLocalStorage(section);
+            document.getElementById(`form-${section}`).reset();
+        };
     }
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
-    function getFriendlyFieldName(field) {
-        const fieldsMap = {
-            nomeMaquina: 'Nome',
-            serieMaquina: 'Série',
-            anosUsoMaquina: 'Anos de Uso',
-            horimetroMaquina: 'Horímetro',
-            ultimaManutencaoMaquina: 'Última Manutenção',
-            dataEntradaMaquina: 'Data de Entrada',
-            nomeConta: 'Nome',
-            tipoConta: 'Tipo',
-            saldoConta: 'Saldo',
-            descricaoRecebimento: 'Descrição',
-            valorRecebimento: 'Valor',
-            dataRecebimento: 'Data',
-            nomeContrato: 'Nome',
-            locatarioContrato: 'Locatário',
-            cnpjContrato: 'CNPJ',
-            representanteContrato: 'Representante',
-            periodoContrato: 'Período',
-            valorContrato: 'Valor',
-            dataTerminoContrato: 'Data de Término',
-            equipamentoContrato: 'Equipamento',
-            nomeEmpresa: 'Nome',
-            cnpjEmpresa: 'CNPJ',
-            enderecoEmpresa: 'Endereço'
-        };
-        return fieldsMap[field] || field;
     }
 });
