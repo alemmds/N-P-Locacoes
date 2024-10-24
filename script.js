@@ -1,273 +1,94 @@
-let maquinas = JSON.parse(localStorage.getItem('maquinas')) || [];
-let contas = JSON.parse(localStorage.getItem('contas')) || [];
-let recebimentos = JSON.parse(localStorage.getItem('recebimentos')) || [];
-let contratos = JSON.parse(localStorage.getItem('contratos')) || [];
-let empresas = JSON.parse(localStorage.getItem('empresas')) || [];
-
-// Remover "MAQUINA 1" (caso exista)
-if (maquinas.length > 0 && maquinas[0].nome === "MAQUINA 1") {
-    maquinas.splice(0, 1);
-    saveToLocalStorage();
-}
-
-// Função para carregar dados do Local Storage com verificação de validade
-function loadFromLocalStorage() {
-    try {
-        maquinas = JSON.parse(localStorage.getItem('maquinas')) || [];
-        contas = JSON.parse(localStorage.getItem('contas')) || [];
-        recebimentos = JSON.parse(localStorage.getItem('recebimentos')) || [];
-        contratos = JSON.parse(localStorage.getItem('contratos')) || [];
-        empresas = JSON.parse(localStorage.getItem('empresas')) || [];
-        
-        // Verificando se os dados carregados são arrays válidos
-        if (!Array.isArray(maquinas)) maquinas = [];
-        if (!Array.isArray(contas)) contas = [];
-        if (!Array.isArray(recebimentos)) recebimentos = [];
-        if (!Array.isArray(contratos)) contratos = [];
-        if (!Array.isArray(empresas)) empresas = [];
-
-        console.log("Dados carregados:", { maquinas, contas, recebimentos, contratos, empresas });
-    } catch (error) {
-        console.error("Erro ao carregar dados do Local Storage:", error);
-        // Se ocorrer erro ao carregar os dados, inicializa como arrays vazios
-        maquinas = [];
-        contas = [];
-        recebimentos = [];
-        contratos = [];
-        empresas = [];
-    }
-}
-
-// Função para salvar dados no Local Storage
-function saveToLocalStorage() {
-    try {
-        localStorage.setItem('maquinas', JSON.stringify(maquinas));
-        localStorage.setItem('contas', JSON.stringify(contas));
-        localStorage.setItem('recebimentos', JSON.stringify(recebimentos));
-        localStorage.setItem('contratos', JSON.stringify(contratos));
-        localStorage.setItem('empresas', JSON.stringify(empresas));
-        console.log("Dados salvos com sucesso no Local Storage.");
-    } catch (error) {
-        console.error("Erro ao salvar dados no Local Storage:", error);
-    }
-}
-
-// Carregar os dados ao iniciar a página
-window.onload = function() {
-    loadFromLocalStorage();
-    showList('maquinas');  // Ou qualquer outra aba padrão
-};
-
-// Função para limpar e resetar o Local Storage manualmente (pode ser chamada para depuração)
-function resetLocalStorage() {
-    if (confirm("Tem certeza que deseja resetar o Local Storage? Todos os dados serão perdidos.")) {
-        localStorage.removeItem('maquinas');
-        localStorage.removeItem('contas');
-        localStorage.removeItem('recebimentos');
-        localStorage.removeItem('contratos');
-        localStorage.removeItem('empresas');
-        
-        // Inicializa novamente como arrays vazios
-        maquinas = [];
-        contas = [];
-        recebimentos = [];
-        contratos = [];
-        empresas = [];
-        
-        saveToLocalStorage(); // Salva os arrays vazios
-        console.log("Local Storage resetado.");
-    }
-}
-
-// Função para exibir a aba correspondente do menu
-function showSection(section) {
-    document.querySelectorAll('.section').forEach(sec => {
-        sec.style.display = 'none';
-    });
+// Funções de salvar e listar para Máquinas, Contas, Recebimentos, Contratos e Empresas
+document.addEventListener('DOMContentLoaded', () => {
+    const categorias = ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'];
     
-    const currentSection = document.getElementById(section);
-    currentSection.style.display = 'block';
+    categorias.forEach(key => {
+        const form = document.getElementById(`form${capitalizeFirstLetter(key)}`);
+        const confirmarBtn = document.getElementById(`confirmar${capitalizeFirstLetter(key)}`);
+        const listaBtn = document.getElementById(`lista${capitalizeFirstLetter(key)}`);
+        const listContainer = document.getElementById(`${key}List`);
 
-    const buttonsSection = document.querySelector(`#${section} .buttons`);
-    if (buttonsSection) {
-        buttonsSection.style.display = 'block';
-    }
-}
+        confirmarBtn.addEventListener('click', () => {
+            const item = getFormData(form);
+            saveToLocalStorage(key, item);
+            renderItems(listContainer, [item], form);
+            form.reset();
+        });
 
-// Função para exibir a lista com base no tipo
-function showList(type) {
-    let data, listId;
+        listaBtn.addEventListener('click', () => {
+            const storedItems = getFromLocalStorage(key);
+            renderItems(listContainer, storedItems, form);
+        });
 
-    switch (type) {
-        case 'maquinas':
-            data = maquinas;
-            listId = '#maquinasList';
-            break;
-        case 'contas':
-            data = contas;
-            listId = '#contasList';
-            break;
-        case 'recebimentos':
-            data = recebimentos;
-            listId = '#recebimentosList';
-            break;
-        case 'contratos':
-            data = contratos;
-            listId = '#contratosList';
-            break;
-        case 'empresas':
-            data = empresas;
-            listId = '#empresasList';
-            break;
-    }
-
-    const listElement = document.querySelector(listId);
-    listElement.innerHTML = ''; // Limpar lista
-
-    data.forEach((item, index) => {
-        const itemHTML = `
-            <div class="item">
-                <div class="header" onclick="toggleAccordion(this)">
-                    <span>${item.nome || item.tipo || item.empresa}</span>
-                    <div class="arrow">▼</div>
-                </div>
-                <div class="details" style="display:none;">
-                    ${Object.keys(item).map(key => `<p><strong>${key}:</strong> ${item[key]}</p>`).join('')}
-                    <div class="buttons">
-                        <button onclick="editItem('${type}', ${index})">Alterar</button>
-                        <button onclick="deleteItem('${type}', ${index})" class="delete">Excluir</button>
-                    </div>
-                </div>
-            </div>
-        `;
-        listElement.innerHTML += itemHTML;
+        // Carrega os itens já salvos
+        const storedItems = getFromLocalStorage(key);
+        renderItems(listContainer, storedItems, form);
     });
 
-    ativarAccordion(); // Reativar funcionalidade do accordion
-}
-
-// Função para exibir/ocultar detalhes do item
-function toggleAccordion(header) {
-    const details = header.nextElementSibling;
-    const arrow = header.querySelector('.arrow');
-
-    if (details.style.display === 'block') {
-        details.style.display = 'none';
-        arrow.textContent = '▼';
-    } else {
-        details.style.display = 'block';
-        arrow.textContent = '▲';
-    }
-}
-
-// Função de edição de um item
-function editItem(type, index) {
-    let item;
-    switch (type) {
-        case 'maquinas':
-            item = maquinas[index];
-            break;
-        case 'contas':
-            item = contas[index];
-            break;
-        case 'recebimentos':
-            item = recebimentos[index];
-            break;
-        case 'contratos':
-            item = contratos[index];
-            break;
-        case 'empresas':
-            item = empresas[index];
-            break;
+    function getFormData(form) {
+        const data = {};
+        Array.from(form.elements).forEach(input => {
+            if (input.tagName === 'INPUT') {
+                data[input.id] = input.value;
+            }
+        });
+        return data;
     }
 
-    const fields = Object.keys(item);
-    fields.forEach(field => {
-        const inputField = document.getElementById(`edit${capitalizeFirstLetter(field)}`);
-        if (inputField) {
-            inputField.value = item[field];
-        }
-    });
-
-    document.getElementById('currentEditType').value = type;
-    document.getElementById('currentEditIndex').value = index;
-
-    // Mudar a visibilidade do formulário de edição
-    document.getElementById('editForm').style.display = 'block';
-}
-
-// Função para confirmar a edição de um item
-document.getElementById('editForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const type = document.getElementById('currentEditType').value;
-    const index = document.getElementById('currentEditIndex').value;
-
-    const fields = Array.from(document.querySelectorAll('#editForm input'));
-    const editedItem = { ...maquinas[index], ...contas[index], ...recebimentos[index], ...contratos[index], ...empresas[index] };  // Clonar o item original
-
-    fields.forEach(input => {
-        if (input.value) {
-            editedItem[input.name] = input.value;
-        }
-    });
-
-    switch (type) {
-        case 'maquinas':
-            maquinas[index] = editedItem;
-            break;
-        case 'contas':
-            contas[index] = editedItem;
-            break;
-        case 'recebimentos':
-            recebimentos[index] = editedItem;
-            break;
-        case 'contratos':
-            contratos[index] = editedItem;
-            break;
-        case 'empresas':
-            empresas[index] = editedItem;
-            break;
+    function saveToLocalStorage(key, item) {
+        const storedItems = JSON.parse(localStorage.getItem(key)) || [];
+        storedItems.push(item);
+        localStorage.setItem(key, JSON.stringify(storedItems));
     }
 
-    saveToLocalStorage();
-    document.getElementById('editForm').style.display = 'none';
-    showList(type);
-});
-
-// Função de exclusão de um item
-function deleteItem(type, index) {
-    if (confirm('Tem certeza que deseja excluir este item?')) {
-        switch (type) {
-            case 'maquinas':
-                maquinas.splice(index, 1);
-                break;
-            case 'contas':
-                contas.splice(index, 1);
-                break;
-            case 'recebimentos':
-                recebimentos.splice(index, 1);
-                break;
-            case 'contratos':
-                contratos.splice(index, 1);
-                break;
-            case 'empresas':
-                empresas.splice(index, 1);
-                break;
-        }
-
-        saveToLocalStorage();
-        showList(type);
+    function getFromLocalStorage(key) {
+        return JSON.parse(localStorage.getItem(key)) || [];
     }
-}
 
-// Função para capitalizar a primeira letra
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
+    function renderItems(container, items, form) {
+        container.innerHTML = '';
+        items.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'item';
+            for (let field in item) {
+                const p = document.createElement('p');
+                p.textContent = `${getFriendlyFieldName(field)}: ${item[field]}`;
+                div.appendChild(p);
+            }
+            container.appendChild(div);
+        });
+    }
 
-// Inicialização
-document.addEventListener('DOMContentLoaded', function() {
-    loadFromLocalStorage(); // Carregar dados do LocalStorage
-    showSection('maquinasSection'); // Mostrar a seção inicial
-    showList('maquinas'); // Mostrar a lista inicial
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function getFriendlyFieldName(field) {
+        const fieldsMap = {
+            nomeMaquina: 'Nome',
+            serieMaquina: 'Série',
+            anosUsoMaquina: 'Anos de Uso',
+            horimetroMaquina: 'Horímetro',
+            ultimaManutencaoMaquina: 'Última Manutenção',
+            dataEntradaMaquina: 'Data de Entrada',
+            nomeConta: 'Nome',
+            tipoConta: 'Tipo',
+            saldoConta: 'Saldo',
+            descricaoRecebimento: 'Descrição',
+            valorRecebimento: 'Valor',
+            dataRecebimento: 'Data',
+            nomeContrato: 'Nome',
+            locatarioContrato: 'Locatário',
+            cnpjContrato: 'CNPJ',
+            representanteContrato: 'Representante',
+            periodoContrato: 'Período',
+            valorContrato: 'Valor',
+            dataTerminoContrato: 'Data de Término',
+            equipamentoContrato: 'Equipamento',
+            nomeEmpresa: 'Nome',
+            cnpjEmpresa: 'CNPJ',
+            enderecoEmpresa: 'Endereço'
+        };
+        return fieldsMap[field] || field;
+    }
 });
