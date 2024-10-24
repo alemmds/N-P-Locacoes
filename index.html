@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Cadastro</title>
+    <title>Sistema de Cadastro Premium</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Sistema de Cadastro</h1>
-        <nav>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="logo.png" alt="Logo" />
+        </div>
+        <nav class="menu">
             <ul>
                 <li><a href="#maquinas">Máquinas</a></li>
                 <li><a href="#contas">Contas</a></li>
@@ -18,77 +20,79 @@
                 <li><a href="#empresas">Empresas</a></li>
             </ul>
         </nav>
-    </header>
+    </div>
 
-    <div class="container">
-        <section id="maquinas">
+    <div class="content">
+        <header>
+            <h1>Sistema de Cadastro</h1>
+        </header>
+
+        <section id="maquinas" class="section">
             <h2>Cadastro de Máquinas</h2>
             <form id="form-maquinas">
-                <label>Nome:</label><input type="text" name="nomeMaquina">
-                <label>Série:</label><input type="text" name="serieMaquina">
-                <label>Anos de Uso:</label><input type="number" name="anosUso">
-                <label>Horímetro:</label><input type="number" name="horimetro">
-                <label>Última Manutenção:</label><input type="date" name="ultimaManutencao">
-                <label>Data de Entrada:</label><input type="date" name="dataEntrada">
-                <button type="submit">Confirmar</button>
+                <label>Nome:</label><input type="text" name="nomeMaquina" required>
+                <label>Série:</label><input type="text" name="serieMaquina" required>
+                <label>Anos de Uso:</label><input type="number" name="anosUso" required>
+                <label>Horímetro:</label><input type="number" name="horimetro" required>
+                <label>Última Manutenção:</label><input type="date" name="ultimaManutencao" required>
+                <label>Data de Entrada:</label><input type="date" name="dataEntrada" required>
+                <button type="button" id="confirmarMaquina" class="confirmar-btn">Confirmar</button>
             </form>
-            <div id="lista-maquinas"></div>
+            <div id="lista-maquinas" class="lista"></div>
         </section>
 
-        <section id="contas">
+        <section id="contas" class="section">
             <h2>Cadastro de Contas</h2>
             <form id="form-contas">
-                <label>Tipo de Conta:</label><input type="text" name="tipoConta">
-                <label>Data de Emissão:</label><input type="date" name="dataEmissaoConta">
-                <label>Data de Vencimento:</label><input type="date" name="dataVencimentoConta">
-                <label>Valor:</label><input type="text" name="valorConta">
-                <button type="submit">Confirmar</button>
+                <label>Tipo de Conta:</label><input type="text" name="tipoConta" required>
+                <label>Data de Emissão:</label><input type="date" name="dataEmissao" required>
+                <label>Data de Vencimento:</label><input type="date" name="dataVencimento" required>
+                <label>Valor:</label><input type="number" name="valorConta" required>
+                <button type="button" id="confirmarConta" class="confirmar-btn">Confirmar</button>
             </form>
-            <div id="lista-contas"></div>
+            <div id="lista-contas" class="lista"></div>
         </section>
 
-        <section id="recebimentos">
+        <section id="recebimentos" class="section">
             <h2>Cadastro de Recebimentos</h2>
             <form id="form-recebimentos">
-                <label>Empresa:</label><input type="text" name="empresaRecebimento">
-                <label>Valor:</label><input type="text" name="valorRecebimento">
-                <label>Data de Início:</label><input type="date" name="dataInicioRecebimento">
-                <label>Data de Vencimento:</label><input type="date" name="dataVencimentoRecebimento">
+                <label>Empresa:</label><input type="text" name="empresa" required>
+                <label>Valor:</label><input type="number" name="valorRecebimento" required>
+                <label>Data de Início:</label><input type="date" name="dataInicio" required>
+                <label>Data de Vencimento:</label><input type="date" name="dataVencimento" required>
                 <label>Status:</label>
-                <select name="statusRecebimento">
-                    <option value="Pago">Pago</option>
-                    <option value="A Vencer">A Vencer</option>
+                <select name="statusRecebimento" required>
+                    <option value="pago">Pago</option>
+                    <option value="aVencer">A Vencer</option>
                 </select>
-                <button type="submit">Confirmar</button>
+                <button type="button" id="confirmarRecebimento" class="confirmar-btn">Confirmar</button>
             </form>
-            <div id="lista-recebimentos"></div>
+            <div id="lista-recebimentos" class="lista"></div>
         </section>
 
-        <section id="contratos">
+        <section id="contratos" class="section">
             <h2>Cadastro de Contratos</h2>
             <form id="form-contratos">
-                <label>Nome do Contrato:</label><input type="text" name="nomeContrato">
-                <label>Empresa:</label><input type="text" name="empresaContrato">
-                <label>Data de Início:</label><input type="date" name="dataInicioContrato">
-                <label>Data de Vencimento:</label><input type="date" name="dataVencimentoContrato">
-                <label>Valor:</label><input type="text" name="valorContrato">
-                <button type="submit">Confirmar</button>
+                <label>Nome do Contrato:</label><input type="text" name="nomeContrato" required>
+                <label>Data de Assinatura:</label><input type="date" name="dataAssinatura" required>
+                <label>Valor:</label><input type="number" name="valorContrato" required>
+                <button type="button" id="confirmarContrato" class="confirmar-btn">Confirmar</button>
             </form>
-            <div id="lista-contratos"></div>
+            <div id="lista-contratos" class="lista"></div>
         </section>
 
-        <section id="empresas">
+        <section id="empresas" class="section">
             <h2>Cadastro de Empresas</h2>
             <form id="form-empresas">
-                <label>Nome:</label><input type="text" name="nomeEmpresa">
-                <label>CNPJ:</label><input type="text" name="cnpjEmpresa">
-                <label>Área de Atuação:</label><input type="text" name="areaAtuacaoEmpresa">
-                <label>Representante:</label><input type="text" name="representanteEmpresa">
-                <label>Telefone:</label><input type="text" name="telefoneEmpresa">
-                <label>E-mail:</label><input type="email" name="emailEmpresa">
-                <button type="submit">Confirmar</button>
+                <label>Nome:</label><input type="text" name="nomeEmpresa" required>
+                <label>CNPJ:</label><input type="text" name="cnpj" required>
+                <label>Área de Atuação:</label><input type="text" name="areaAtuacao" required>
+                <label>Representante:</label><input type="text" name="representante" required>
+                <label>Telefone:</label><input type="text" name="telefone" required>
+                <label>E-mail:</label><input type="email" name="email" required>
+                <button type="button" id="confirmarEmpresa" class="confirmar-btn">Confirmar</button>
             </form>
-            <div id="lista-empresas"></div>
+            <div id="lista-empresas" class="lista"></div>
         </section>
     </div>
 
