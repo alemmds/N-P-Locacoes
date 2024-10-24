@@ -85,8 +85,8 @@ function editRow(button) {
     for (let i = 0; i < cells.length - 1; i++) {
         const input = document.createElement('input');
         input.value = cells[i].textContent;
-        cells[i].innerHTML = '';
-        cells[i].appendChild(input);
+        cells[i].innerHTML = ''; // Limpa o conteúdo da célula
+        cells[i].appendChild(input); // Adiciona o input à célula
     }
     button.textContent = 'Salvar';
     button.setAttribute('onclick', 'saveRow(this)');
@@ -98,10 +98,11 @@ function saveRow(button) {
     const inputs = row.getElementsByTagName('input');
     for (let i = 0; i < inputs.length; i++) {
         const cell = row.cells[i];
-        cell.textContent = inputs[i].value;
+        cell.textContent = inputs[i].value; // Atualiza o texto da célula
     }
     button.textContent = 'Alterar';
     button.setAttribute('onclick', 'editRow(this)');
+    
     // Salvar os dados atualizados
     const listId = row.parentNode.parentNode.parentNode.id; // Pega o ID da tabela
     saveData(listId.toLowerCase(), getTableData(listId));
