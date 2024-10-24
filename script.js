@@ -1,54 +1,3 @@
-// Função para adicionar uma nova linha na tabela e armazenar no localStorage
-function addRow(listId, form) {
-    const table = document.getElementById(listId).getElementsByTagName('tbody')[0]; // Adicionando na tag <tbody>
-    const newRow = table.insertRow();
-    
-    let rowData = [];
-
-    for (let i = 0; i < form.elements.length; i++) {
-        if (form.elements[i].type !== 'submit') {
-            const newCell = newRow.insertCell(i);
-            const inputValue = form.elements[i].value;
-            newCell.textContent = inputValue;
-            rowData.push(inputValue);
-        }
-    }
-
-    const actionCell = newRow.insertCell(form.elements.length - 1);
-    actionCell.innerHTML = `<button onclick="editRow(this)" class="button-edit">Alterar</button> <button onclick="deleteRow(this)" class="button-delete">Excluir</button>`;
-    
-    // Armazenar no localStorage
-    let storedData = JSON.parse(localStorage.getItem(listId)) || [];
-    storedData.push(rowData);
-    localStorage.setItem(listId, JSON.stringify(storedData));
-
-    form.reset();
-}
-
-// Função para carregar os dados do localStorage ao carregar a página
-function loadTableData() {
-    const lists = ['maquinaList', 'recebimentoList', 'contratoList', 'contaList', 'empresaList'];
-
-    lists.forEach(listId => {
-        const table = document.getElementById(listId).getElementsByTagName('tbody')[0]; // Adicionando na tag <tbody>
-        const storedData = JSON.parse(localStorage.getItem(listId)) || [];
-
-        storedData.forEach(rowData => {
-            const newRow = table.insertRow();
-            rowData.forEach((cellData, index) => {
-                const newCell = newRow.insertCell(index);
-                newCell.textContent = cellData;
-            });
-            const actionCell = newRow.insertCell(rowData.length);
-            actionCell.innerHTML = `<button onclick="editRow(this)" class="button-edit">Alterar</button> <button onclick="deleteRow(this)" class="button-delete">Excluir</button>`;
-        });
-    });
-}
-
-// Função para carregar os dados ao iniciar
-window.onload = loadTableData;
-
-// Adicionar evento de submit para os formulários
 document.getElementById('maquinaForm').addEventListener('submit', function(event) {
     event.preventDefault();
     addRow('maquinaList', this);
@@ -73,3 +22,52 @@ document.getElementById('empresaForm').addEventListener('submit', function(event
     event.preventDefault();
     addRow('empresaList', this);
 });
+
+function addRow(listId, form) {
+    const table = document.getElementById(listId).getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow();
+    for (let i = 0; i < form.elements.length; i++) {
+        const newCell = newRow.insertCell(i);
+        newCell.textContent = form.elements[i].value;
+    }
+    const actionCell = newRow.insertCell(form.elements.length);
+    actionCell.innerHTML = `<button onclick="editRow(this)">Alterar</button> <button onclick="deleteRow(this)">Excluir</button>`;
+    form.reset();
+}
+
+function editRow(button) {
+    const row = button.parentNode.parentNode;
+    const cells = row.getElementsByTagName('td');
+    for (let i = 0; i < cells.length - 1; i++) {
+        const input = document.createElement('input');
+        input.value = cells[i].textContent;
+        cells[i].innerHTML = '';
+        cells[i].appendChild(input);
+    }
+    button.textContent = 'Salvar';
+    button.setAttribute('onclick', 'saveRow(this)');
+}
+
+function saveRow(button) {
+    const row = button.parentNode.parentNode;
+    const cells = row.getElementsByTagName('td');
+    for (let i = 0; i < cells.length - 1; i++) {
+        const input = cells[i].getElementsByTagName('input')[0];
+        cells[i].textContent = input.value;
+    }
+    button.textContent = 'Alterar';
+    button.setAttribute('onclick', 'editRow(this)');
+}
+
+function deleteRow(button) {
+    const row = button.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+}
+
+function showSection(sectionId) {
+    const sections = document.getElementsByClassName('section');
+    for (const section of sections) {
+        section.style.display = 'none';
+    }
+    document.getElementById(sectionId).style.display = 'block';
+}
