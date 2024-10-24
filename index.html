@@ -96,6 +96,7 @@
     <div class="app">
         <!-- Menu lateral -->
         <div class="sidebar">
+            <img src="logo.png" alt="Logo" style="width: 100%; height: auto; margin-bottom: 20px;">
             <button onclick="showSection('maquinasSection')">Máquinas</button>
             <button onclick="showSection('contasSection')">Contas</button>
             <button onclick="showSection('recebimentosSection')">Recebimentos</button>
@@ -128,12 +129,12 @@
             <!-- Seção de Contas -->
             <section id="contasSection" class="section" style="display:none;">
                 <h2>Cadastro de Contas</h2>
-                <form id="formConta" onsubmit="addOrUpdateItem(event, 'contas', 'nomeConta', ['tipoConta', 'dataEmissaoConta', 'dataVencimentoConta', 'valorConta'])">
+                <form id="formConta" onsubmit="addOrUpdateItem(event, 'contas', 'nomeConta', ['tipoConta', 'dataEmissaoConta', 'dataVencimentoConta', 'saldoConta'])">
                     <label>Nome da Conta:</label><input type="text" id="nomeConta" required><br>
                     <label>Tipo:</label><input type="text" id="tipoConta" required><br>
                     <label>Data de Emissão:</label><input type="date" id="dataEmissaoConta" required><br>
                     <label>Data de Vencimento:</label><input type="date" id="dataVencimentoConta" required><br>
-                    <label>Valor:</label><input type="number" id="valorConta" required><br>
+                    <label>Saldo:</label><input type="number" id="saldoConta" required><br>
                     <div class="buttons">
                         <button type="submit">Confirmar</button>
                         <button type="button" class="clear-btn" onclick="clearForm('formConta')">Limpar</button>
@@ -153,7 +154,7 @@
                     <label>Data de Início:</label><input type="date" id="dataInicioRecebimento" required><br>
                     <label>Data de Vencimento:</label><input type="date" id="dataVencimentoRecebimento" required><br>
                     <label>Status:</label>
-                    <select id="statusRecebimento">
+                    <select id="statusRecebimento" required>
                         <option value="pago">Pago</option>
                         <option value="a vencer">A Vencer</option>
                     </select><br>
@@ -192,11 +193,12 @@
             <!-- Seção de Empresas -->
             <section id="empresasSection" class="section" style="display:none;">
                 <h2>Cadastro de Empresas</h2>
-                <form id="formEmpresa" onsubmit="addOrUpdateItem(event, 'empresas', 'nomeEmpresa', ['cnpjEmpresa', 'areaAtuacaoEmpresa', 'representanteEmpresa', 'telefoneEmpresa', 'emailEmpresa'])">
-                    <label>Nome da Empresa:</label><input type="text" id="nomeEmpresa" required><br>
-                    <label>CNPJ:</label><input type="
+                <form id="formEmpresa" onsubmit="addOrUpdateItem(event, 'empresas', 'nomeEmpresa', ['cnpjEmpresa', 'enderecoEmpresa', 'areaAtuacaoEmpresa', 'representanteEmpresa',
 
-text" id="cnpjEmpresa" required><br>
+ 'telefoneEmpresa', 'emailEmpresa'])">
+                    <label>Nome:</label><input type="text" id="nomeEmpresa" required><br>
+                    <label>CNPJ:</label><input type="text" id="cnpjEmpresa" required><br>
+                    <label>Endereço:</label><input type="text" id="enderecoEmpresa" required><br>
                     <label>Área de Atuação:</label><input type="text" id="areaAtuacaoEmpresa" required><br>
                     <label>Representante:</label><input type="text" id="representanteEmpresa" required><br>
                     <label>Telefone:</label><input type="text" id="telefoneEmpresa" required><br>
@@ -214,26 +216,12 @@ text" id="cnpjEmpresa" required><br>
     </div>
 
     <script>
-        // Exibir a seção selecionada
+        // Mostrar seção
         function showSection(sectionId) {
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
-                section.style.display = section.id === sectionId ? 'block' : 'none';
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.display = 'none';
             });
-        }
-
-        // Adicionar ou atualizar item
-        function addOrUpdateItem(event, key, nameFieldId, otherFieldIds) {
-            event.preventDefault();
-            const storedItems = JSON.parse(localStorage.getItem(key)) || [];
-            const item = {
-                name: document.getElementById(nameFieldId).value,
-                otherFields: otherFieldIds.map(fieldId => document.getElementById(fieldId).value)
-            };
-            storedItems.push(item);
-            localStorage.setItem(key, JSON.stringify(storedItems));
-            renderItems(key + 'List', storedItems, nameFieldId, otherFieldIds, key);
-            clearForm(event.target.id);
+            document.getElementById(sectionId).style.display = 'block';
         }
 
         // Limpar formulário
@@ -241,8 +229,28 @@ text" id="cnpjEmpresa" required><br>
             document.getElementById(formId).reset();
         }
 
-        // Renderizar itens da lista
-        function renderItems(listId, items, nameFieldId, otherFieldIds, key) {
+        // Adicionar ou atualizar item
+        function addOrUpdateItem(event, key, nameField, otherFields) {
+            event.preventDefault();
+
+            const storedItems = JSON.parse(localStorage.getItem(key)) || [];
+            const item = {
+                name: document.getElementById(nameField).value,
+                other: otherFields.reduce((acc, field) => {
+                    acc[field] = document.getElementById(field).value;
+                    return acc;
+                }, {})
+            };
+
+            storedItems.push(item);
+            localStorage.setItem(key, JSON.stringify(storedItems));
+
+            renderItems(key + 'List', storedItems, nameField, otherFields, key);
+            clearForm('form' + key.charAt(0).toUpperCase() + key.slice(1));
+        }
+
+        // Renderizar itens
+        function renderItems(listId, items, nameField, otherFields, key) {
             const listElement = document.getElementById(listId);
             listElement.innerHTML = '';
 
@@ -252,44 +260,54 @@ text" id="cnpjEmpresa" required><br>
 
                 const header = document.createElement('div');
                 header.className = 'header';
-                header.textContent = item[nameFieldId];
+                header.innerText = item.name;
 
                 const detailsDiv = document.createElement('div');
                 detailsDiv.className = 'details';
-                detailsDiv.innerHTML = otherFieldIds.map((fieldId, i) => `<strong>${fieldId.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</strong> ${item.otherFields[i]}<br>`).join('');
+                detailsDiv.innerHTML = otherFields.map(field => `<strong>${field.charAt(0).toUpperCase() + field.slice(1)}:</strong> ${item.other[field]}`).join('<br>');
 
                 const editButton = document.createElement('button');
-                editButton.textContent = 'Editar';
                 editButton.className = 'edit-button';
-                editButton.onclick = () => editItem(key, index);
+                editButton.innerText = 'Editar';
+                editButton.onclick = () => editItem(index, key, item.name, item.other);
 
                 const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Excluir';
                 deleteButton.className = 'delete-button';
-                deleteButton.onclick = () => deleteItem(key, index);
+                deleteButton.innerText = 'Excluir';
+                deleteButton.onclick = () => deleteItem(index, key);
 
+                header.appendChild(editButton);
+                header.appendChild(deleteButton);
                 itemDiv.appendChild(header);
                 itemDiv.appendChild(detailsDiv);
-                itemDiv.appendChild(editButton);
-                itemDiv.appendChild(deleteButton);
                 listElement.appendChild(itemDiv);
+
+                header.onclick = () => {
+                    detailsDiv.classList.toggle('expanded');
+                };
             });
         }
 
         // Editar item
-        function editItem(key, index) {
-            const storedItems = JSON.parse(localStorage.getItem(key));
-            const item = storedItems[index];
-            document.getElementById(key === 'maquinas' ? 'nomeMaquina' : key === 'contas' ? 'nomeConta' : key === 'recebimentos' ? 'empresaRecebimento' : key === 'contratos' ? 'nomeContrato' : 'nomeEmpresa').value = item.name;
-            otherFieldIds.forEach((fieldId, i) => document.getElementById(fieldId).value = item.otherFields[i]);
-        }
+        function editItem(index, key, name, other) {
+            const form = document.getElementById('form' + key.charAt(0).toUpperCase() + key.slice(1));
+            document.getElementById(name).value = name;
+            Object.keys(other).forEach(field => {
+                document.getElementById(field).value = other[field];
+            });
 
-        // Excluir item
-        function deleteItem(key, index) {
             const storedItems = JSON.parse(localStorage.getItem(key));
             storedItems.splice(index, 1);
             localStorage.setItem(key, JSON.stringify(storedItems));
-            renderItems(key + 'List', storedItems, 'nome' + key.charAt(0).toUpperCase() + key.slice(1), [], key);
+            renderItems(key + 'List', storedItems, name, Object.keys(other), key);
+        }
+
+        // Excluir item
+        function deleteItem(index, key) {
+            const storedItems = JSON.parse(localStorage.getItem(key));
+            storedItems.splice(index, 1);
+            localStorage.setItem(key, JSON.stringify(storedItems));
+            renderItems(key + 'List', storedItems, 'nome' + key.charAt(0).toUpperCase() + key.slice(1), Object.keys(storedItems[0]?.other || {}), key);
         }
 
         // Carregar itens do localStorage ao iniciar
@@ -297,14 +315,14 @@ text" id="cnpjEmpresa" required><br>
             ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'].forEach(key => {
                 const listId = key + 'List';
                 const nameField = key === 'maquinas' ? 'nomeMaquina' :
-                                 key === 'contas' ? 'nomeConta' :
-                                 key === 'recebimentos' ? 'empresaRecebimento' :
-                                 key === 'contratos' ? 'nomeContrato' : 'nomeEmpresa';
+                    key === 'contas' ? 'nomeConta' :
+                    key === 'recebimentos' ? 'empresaRecebimento' :
+                    key === 'contratos' ? 'nomeContrato' : 'nomeEmpresa';
                 const otherFields = key === 'maquinas' ? ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'] :
-                                    key === 'contas' ? ['tipoConta', 'dataEmissaoConta', 'dataVencimentoConta', 'valorConta'] :
-                                    key === 'recebimentos' ? ['valorRecebimento', 'dataInicioRecebimento', 'dataVencimentoRecebimento', 'statusRecebimento'] :
-                                    key === 'contratos' ? ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'] :
-                                    ['cnpjEmpresa', 'areaAtuacaoEmpresa', 'representanteEmpresa', 'telefoneEmpresa', 'emailEmpresa'];
+                    key === 'contas' ? ['tipoConta', 'dataEmissaoConta', 'dataVencimentoConta', 'saldoConta'] :
+                    key === 'recebimentos' ? ['valorRecebimento', 'dataInicioRecebimento', 'dataVencimentoRecebimento', 'statusRecebimento'] :
+                    key === 'contratos' ? ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'] :
+                    ['cnpjEmpresa', 'enderecoEmpresa', 'areaAtuacaoEmpresa', 'representanteEmpresa', 'telefoneEmpresa', 'emailEmpresa'];
 
                 const storedItems = JSON.parse(localStorage.getItem(key)) || [];
                 renderItems(listId, storedItems, nameField, otherFields, key);
