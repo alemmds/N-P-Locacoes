@@ -100,9 +100,9 @@ th {
     color: white;
 }
 
-/* Aumentando mais o tamanho da coluna "Cláusulas" e permitindo quebra de linha */
+/* Aumentando o tamanho da coluna "Cláusulas" e permitindo quebra de linha */
 th.clausulas, td.clausulas {
-    width: 400px; /* Aumenta mais o espaço para cláusulas */
+    width: 400px; /* Aumenta o espaço da coluna de cláusulas */
     white-space: pre-wrap; /* Permite quebra de linha */
 }
 
@@ -116,6 +116,7 @@ td button {
 /* Ajuste para alinhar os botões de "Excluir" e "Alterar" lado a lado */
 .actions {
     display: flex;
+    justify-content: flex-start; /* Alinha os botões à esquerda */
     gap: 10px; /* Espaçamento entre os botões */
 }
 
