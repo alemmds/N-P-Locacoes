@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,24 +7,27 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="menu-lateral">
-        <ul>
-            <li><a href="#maquinas">Máquinas</a></li>
-            <li><a href="#contas">Contas</a></li>
-            <li><a href="#recebimentos">Recebimentos</a></li>
-            <li><a href="#contratos">Contratos</a></li>
-            <li><a href="#empresas">Empresas</a></li>
-        </ul>
-    </div>
+    <header>
+        <h1>Sistema de Cadastro</h1>
+        <nav>
+            <ul>
+                <li><a href="#maquinas">Máquinas</a></li>
+                <li><a href="#contas">Contas</a></li>
+                <li><a href="#recebimentos">Recebimentos</a></li>
+                <li><a href="#contratos">Contratos</a></li>
+                <li><a href="#empresas">Empresas</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <div class="conteudo">
+    <div class="container">
         <section id="maquinas">
             <h2>Cadastro de Máquinas</h2>
             <form id="form-maquinas">
                 <label>Nome:</label><input type="text" name="nomeMaquina">
                 <label>Série:</label><input type="text" name="serieMaquina">
-                <label>Anos de Uso:</label><input type="text" name="anosUso">
-                <label>Horímetro:</label><input type="text" name="horimetro">
+                <label>Anos de Uso:</label><input type="number" name="anosUso">
+                <label>Horímetro:</label><input type="number" name="horimetro">
                 <label>Última Manutenção:</label><input type="date" name="ultimaManutencao">
                 <label>Data de Entrada:</label><input type="date" name="dataEntrada">
                 <button type="submit">Confirmar</button>
@@ -36,8 +39,8 @@
             <h2>Cadastro de Contas</h2>
             <form id="form-contas">
                 <label>Tipo de Conta:</label><input type="text" name="tipoConta">
-                <label>Data de Emissão:</label><input type="date" name="dataEmissao">
-                <label>Data de Vencimento:</label><input type="date" name="dataVencimento">
+                <label>Data de Emissão:</label><input type="date" name="dataEmissaoConta">
+                <label>Data de Vencimento:</label><input type="date" name="dataVencimentoConta">
                 <label>Valor:</label><input type="text" name="valorConta">
                 <button type="submit">Confirmar</button>
             </form>
@@ -51,7 +54,11 @@
                 <label>Valor:</label><input type="text" name="valorRecebimento">
                 <label>Data de Início:</label><input type="date" name="dataInicioRecebimento">
                 <label>Data de Vencimento:</label><input type="date" name="dataVencimentoRecebimento">
-                <label>Status:</label><select name="statusRecebimento"><option>Pago</option><option>A Vencer</option></select>
+                <label>Status:</label>
+                <select name="statusRecebimento">
+                    <option value="Pago">Pago</option>
+                    <option value="A Vencer">A Vencer</option>
+                </select>
                 <button type="submit">Confirmar</button>
             </form>
             <div id="lista-recebimentos"></div>
