@@ -1,46 +1,28 @@
-/* Reset padrão para garantir consistência entre navegadores */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f0f5;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
     display: flex;
-    min-height: 100vh;
 }
 
-/* Estilo da barra lateral */
 .sidebar {
-    width: 220px;
-    background-color: #1a1a2e;
+    width: 200px;
+    background-color: #333;
     color: white;
     height: 100vh;
     padding: 20px;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
-    position: fixed;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar img.logo {
-    width: 180px;
-    margin-bottom: 30px;
-    border-radius: 8px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    object-fit: cover;
-    padding: 10px;
-    background-color: white;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 .sidebar nav ul {
     list-style: none;
     padding: 0;
-    margin-top: 20px;
 }
 
 .sidebar nav ul li {
@@ -51,121 +33,60 @@ body {
     color: white;
     text-decoration: none;
     font-size: 18px;
-    display: block;
-    padding: 10px 20px;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
 }
 
-.sidebar nav ul li a:hover {
-    background-color: #ff4b5c;
-}
-
-/* Estilo do conteúdo principal */
 .main-content {
     flex-grow: 1;
-    padding: 40px;
-    margin-left: 240px;
+    padding: 20px;
 }
 
 h2 {
     color: #333;
-    margin-bottom: 20px;
-    font-size: 28px;
 }
 
 form {
     background-color: white;
-    padding: 30px;
-    margin-bottom: 30px;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 label {
     display: block;
     margin-bottom: 10px;
     font-weight: bold;
-    font-size: 14px;
-    color: #555;
 }
 
-input, select {
+input {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-}
-
-input:focus, select:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-radius: 4px;
 }
 
 button {
-    padding: 12px 30px;
+    padding: 10px 20px;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
 }
 
 button:hover {
     background-color: #0056b3;
 }
 
-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
-
-/* Estilo dos itens listados */
 .item {
     background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
-    transition: box-shadow 0.3s ease;
-}
-
-.item:hover {
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .item p {
-    margin: 8px 0;
-    font-size: 14px;
-    color: #333;
-}
-
-/* Estilo para tornar os itens mais legíveis e organizados */
-.item p span {
-    font-weight: bold;
-    color: #007bff;
-}
-
-/* Ajustes responsivos */
-@media screen and (max-width: 768px) {
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-    }
-
-    .sidebar img.logo {
-        width: 100px;
-        margin: 0 auto 20px;
-    }
-
-    .main-content {
-        margin-left: 0;
-        padding: 20px;
-    }
+    margin: 5px 0;
 }
