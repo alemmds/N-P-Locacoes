@@ -126,3 +126,29 @@ function toggleList(listId) {
 
 // Mostrar a primeira seção por padrão
 showSection('maquinasSection');
+
+// Adicionar evento de submit para os formulários
+document.getElementById('maquinaForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    addRow('maquinaList', this);
+});
+
+document.getElementById('recebimentoForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    addRow('recebimentoList', this);
+});
+
+document.getElementById('contratoForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    addRow('contratoList', this);
+});
+
+document.getElementById('contaForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    addRow('contaList', this);
+});
+
+document.getElementById('empresaForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    addRow('empresaList', this);
+});
