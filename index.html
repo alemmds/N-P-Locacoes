@@ -193,16 +193,13 @@
             <!-- Seção de Empresas -->
             <section id="empresasSection" class="section" style="display:none;">
                 <h2>Cadastro de Empresas</h2>
-                <form id="formEmpresa" onsubmit="addOrUpdateItem(event, 'empresas', 'nomeEmpresa', ['cnpjEmpresa', 'enderecoEmpresa', 'areaAtuacaoEmpresa', 'representanteEmpresa',
-
- 'telefoneEmpresa', 'emailEmpresa'])">
-                    <label>Nome:</label><input type="text" id="nomeEmpresa" required><br>
+                <form id="formEmpresa" onsubmit="addOrUpdateItem(event, 'empresas', 'nomeEmpresa', ['cnpjEmpresa', 'areaAtuacaoEmpresa', 'representanteEmpresa', 'telefoneEmpresa', 'emailEmpresa'])">
+                    <label>Nome da Empresa:</label><input type="text" id="nomeEmpresa" required><br>
                     <label>CNPJ:</label><input type="text" id="cnpjEmpresa" required><br>
-                    <label>Endereço:</label><input type="text" id="enderecoEmpresa" required><br>
                     <label>Área de Atuação:</label><input type="text" id="areaAtuacaoEmpresa" required><br>
                     <label>Representante:</label><input type="text" id="representanteEmpresa" required><br>
                     <label>Telefone:</label><input type="text" id="telefoneEmpresa" required><br>
-                    <label>Email:</label><input type="email" id="emailEmpresa" required><br>
+                    <label>E-mail:</label><input type="email" id="emailEmpresa" required><br>
                     <div class="buttons">
                         <button type="submit">Confirmar</button>
                         <button type="button" class="clear-btn" onclick="clearForm('formEmpresa')">Limpar</button>
@@ -216,12 +213,14 @@
     </div>
 
     <script>
-        // Mostrar seção
+        // Exibir seção selecionada
         function showSection(sectionId) {
-            document.querySelectorAll('.section').forEach(section => {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
                 section.style.display = 'none';
             });
             document.getElementById(sectionId).style.display = 'block';
+            loadItems(sectionId.replace('Section', 's'));
         }
 
         // Limpar formulário
@@ -229,105 +228,59 @@
             document.getElementById(formId).reset();
         }
 
-        // Adicionar ou atualizar item
-        function addOrUpdateItem(event, key, nameField, otherFields) {
+        // Adicionar ou atualizar item no localStorage
+        function addOrUpdateItem(event, storageKey, itemNameId, detailsIds) {
             event.preventDefault();
+            const items = JSON.parse(localStorage.getItem(storageKey)) || [];
+            const itemName = document.getElementById(itemNameId).value;
 
-            const storedItems = JSON.parse(localStorage.getItem(key)) || [];
-            const item = {
-                name: document.getElementById(nameField).value,
-                other: otherFields.reduce((acc, field) => {
-                    acc[field] = document.getElementById(field).value;
-                    return acc;
-                }, {})
-            };
+            const details = {};
+            detailsIds.forEach(id => {
+                details[id] = document.getElementById(id).value;
+            });
 
-            storedItems.push(item);
-            localStorage.setItem(key, JSON.stringify(storedItems));
+            const existingIndex = items.findIndex(item => item[itemNameId] === itemName);
+            if (existingIndex > -1) {
+                items[existingIndex] = { [itemNameId]: itemName, ...details };
+            } else {
+                items.push({ [itemNameId]: itemName, ...details });
+            }
 
-            renderItems(key + 'List', storedItems, nameField, otherFields, key);
-            clearForm('form' + key.charAt(0).toUpperCase() + key.slice(1));
+            localStorage.setItem(storageKey, JSON.stringify(items));
+            loadItems(storageKey);
+            clearForm(event.target.id);
         }
 
-        // Renderizar itens
-        function renderItems(listId, items, nameField, otherFields, key) {
-            const listElement = document.getElementById(listId);
-            listElement.innerHTML = '';
+        // Carregar itens do localStorage
+        function loadItems(storageKey) {
+            const items = JSON.parse(localStorage.getItem(storageKey)) || [];
+            const listId = storageKey + 'List';
+            const listContainer = document.getElementById(listId);
+            listContainer.innerHTML = '';
 
-            items.forEach((item, index) => {
+            items.forEach(item => {
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'item';
 
-                const header = document.createElement('div');
-                header.className = 'header';
-                header.innerText = item.name;
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'header';
+                headerDiv.innerHTML = item[Object.keys(item)[0]]; // Nome do item
+                itemDiv.appendChild(headerDiv);
 
                 const detailsDiv = document.createElement('div');
                 detailsDiv.className = 'details';
-                detailsDiv.innerHTML = otherFields.map(field => `<strong>${field.charAt(0).toUpperCase() + field.slice(1)}:</strong> ${item.other[field]}`).join('<br>');
-
-                const editButton = document.createElement('button');
-                editButton.className = 'edit-button';
-                editButton.innerText = 'Editar';
-                editButton.onclick = () => editItem(index, key, item.name, item.other);
-
-                const deleteButton = document.createElement('button');
-                deleteButton.className = 'delete-button';
-                deleteButton.innerText = 'Excluir';
-                deleteButton.onclick = () => deleteItem(index, key);
-
-                header.appendChild(editButton);
-                header.appendChild(deleteButton);
-                itemDiv.appendChild(header);
+                for (const [key, value] of Object.entries(item)) {
+                    if (key !== Object.keys(item)[0]) { // Ignorar o nome do item
+                        detailsDiv.innerHTML += `<strong>${key}:</strong> ${value}<br>`;
+                    }
+                }
                 itemDiv.appendChild(detailsDiv);
-                listElement.appendChild(itemDiv);
-
-                header.onclick = () => {
-                    detailsDiv.classList.toggle('expanded');
-                };
+                listContainer.appendChild(itemDiv);
             });
         }
 
-        // Editar item
-        function editItem(index, key, name, other) {
-            const form = document.getElementById('form' + key.charAt(0).toUpperCase() + key.slice(1));
-            document.getElementById(name).value = name;
-            Object.keys(other).forEach(field => {
-                document.getElementById(field).value = other[field];
-            });
-
-            const storedItems = JSON.parse(localStorage.getItem(key));
-            storedItems.splice(index, 1);
-            localStorage.setItem(key, JSON.stringify(storedItems));
-            renderItems(key + 'List', storedItems, name, Object.keys(other), key);
-        }
-
-        // Excluir item
-        function deleteItem(index, key) {
-            const storedItems = JSON.parse(localStorage.getItem(key));
-            storedItems.splice(index, 1);
-            localStorage.setItem(key, JSON.stringify(storedItems));
-            renderItems(key + 'List', storedItems, 'nome' + key.charAt(0).toUpperCase() + key.slice(1), Object.keys(storedItems[0]?.other || {}), key);
-        }
-
-        // Carregar itens do localStorage ao iniciar
-        document.addEventListener('DOMContentLoaded', () => {
-            ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'].forEach(key => {
-                const listId = key + 'List';
-                const nameField = key === 'maquinas' ? 'nomeMaquina' :
-                    key === 'contas' ? 'nomeConta' :
-                    key === 'recebimentos' ? 'empresaRecebimento' :
-                    key === 'contratos' ? 'nomeContrato' : 'nomeEmpresa';
-                const otherFields = key === 'maquinas' ? ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'] :
-                    key === 'contas' ? ['tipoConta', 'dataEmissaoConta', 'dataVencimentoConta', 'saldoConta'] :
-                    key === 'recebimentos' ? ['valorRecebimento', 'dataInicioRecebimento', 'dataVencimentoRecebimento', 'statusRecebimento'] :
-                    key === 'contratos' ? ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'] :
-                    ['cnpjEmpresa', 'enderecoEmpresa', 'areaAtuacaoEmpresa', 'representanteEmpresa', 'telefoneEmpresa', 'emailEmpresa'];
-
-                const storedItems = JSON.parse(localStorage.getItem(key)) || [];
-                renderItems(listId, storedItems, nameField, otherFields, key);
-            });
-        });
+        // Para exibir a seção inicial
+        showSection('maquinasSection');
     </script>
 </body>
 </html>
