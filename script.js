@@ -39,6 +39,7 @@ function updateTable(listId, storageKey) {
             newCell.textContent = value;
         });
         const actionCell = newRow.insertCell();
+        actionCell.classList.add('actions');
         actionCell.innerHTML = `<button class="button-edit" onclick="editRow('${listId}', '${storageKey}', ${index})">Alterar</button>
                                 <button class="button-delete" onclick="deleteRow('${listId}', '${storageKey}', ${index})">Excluir</button>`;
     });
