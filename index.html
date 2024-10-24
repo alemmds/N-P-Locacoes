@@ -3,200 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Sistema</title>
+    <title>Sistema de Cadastro</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-        }
-
-        .container {
-            display: flex;
-        }
-
-        .sidebar {
-            width: 250px;
-            background-color: #333;
-            padding: 15px;
-            color: white;
-            height: 100vh;
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .logo {
-            width: 200px;
-            margin: 0 auto 20px;
-            display: block;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .sidebar li {
-            margin-bottom: 10px;
-        }
-
-        .sidebar button {
-            width: 100%;
-            padding: 10px;
-            background-color: #444;
-            border: none;
-            color: white;
-            text-align: left;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .sidebar button:hover {
-            background-color: #555;
-        }
-
-        .content {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            background-color: #fff;
-        }
-
-        .section {
-            margin-bottom: 30px;
-        }
-
-        h1, h2 {
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        form label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        form input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        .buttons {
-            margin-top: 10px;
-        }
-
-        .buttons button {
-            padding: 10px 15px;
-            margin-right: 10px;
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .buttons button:hover {
-            background-color: #45a049;
-        }
-
-        button.clear-btn {
-            background-color: #f44336;
-        }
-
-        button.clear-btn:hover {
-            background-color: #e53935;
-        }
-
-        .item {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .details {
-            margin-top: 10px;
-            border-top: 1px solid #ddd;
-            padding-top: 10px;
-            display: none; /* Collapsed by default */
-        }
-
-        .expanded .details {
-            display: block;
-        }
-
-        .edit-button, .delete-button {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-right: 10px;
-        }
-
-        .edit-button {
-            background-color: #2196F3;
-            color: white;
-        }
-
-        .edit-button:hover {
-            background-color: #1976D2;
-        }
-
-        .delete-button {
-            background-color: #f44336;
-            color: white;
-        }
-
-        .delete-button:hover {
-            background-color: #d32f2f;
-        }
+        /* Estilos básicos */
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .container { display: flex; }
+        .menu { width: 200px; background-color: #333; color: #fff; padding: 20px; }
+        .menu button { display: block; width: 100%; padding: 10px; margin-bottom: 10px; background-color: #444; color: #fff; border: none; cursor: pointer; }
+        .menu button:hover { background-color: #555; }
+        .content { flex-grow: 1; padding: 20px; }
+        .section { display: none; }
+        .section h2 { margin-top: 0; }
+        .item { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
+        .item .header { cursor: pointer; background-color: #f4f4f4; padding: 10px; font-weight: bold; }
+        .item.expanded .details { display: block; }
+        .item .details { display: none; padding: 10px; }
+        .buttons { margin-top: 10px; }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <!-- Menu Lateral -->
-        <div class="sidebar">
-            <img src="logo.png" alt="Logo" class="logo">
-            <h2>Menu</h2>
-            <ul>
-                <li><button onclick="showSection('maquinasSection')">Máquinas</button></li>
-                <li><button onclick="showSection('contasSection')">Contas</button></li>
-                <li><button onclick="showSection('recebimentosSection')">Recebimentos</button></li>
-                <li><button onclick="showSection('contratosSection')">Contratos</button></li>
-                <li><button onclick="showSection('empresasSection')">Empresas</button></li>
-            </ul>
+        <div class="menu">
+            <button onclick="showSection('maquinasSection')">Máquinas</button>
+            <button onclick="showSection('contasSection')">Contas</button>
+            <button onclick="showSection('recebimentosSection')">Recebimentos</button>
+            <button onclick="showSection('contratosSection')">Contratos</button>
+            <button onclick="showSection('empresasSection')">Empresas</button>
         </div>
-
-        <!-- Conteúdo Principal -->
         <div class="content">
-            <h1>Central de Informações</h1>
-
             <!-- Seção de Máquinas -->
-            <section id="maquinasSection" class="section">
+            <section id="maquinasSection" class="section" style="display:none;">
                 <h2>Cadastro de Máquinas</h2>
                 <form id="formMaquina" onsubmit="addOrUpdateItem(event, 'maquinasList', 'Maquina', ['Série', 'Anos de Uso', 'Horímetro', 'Última Manutenção', 'Data de Entrada'], 'maquinas')">
-                    <label>Nome da Máquina:</label><input type="text" id="Maquina" required><br>
+                    <label>Máquina:</label><input type="text" id="Maquina" required><br>
                     <label>Série:</label><input type="text" id="Série" required><br>
                     <label>Anos de Uso:</label><input type="number" id="Anos de Uso" required><br>
                     <label>Horímetro:</label><input type="number" id="Horímetro" required><br>
@@ -295,97 +135,87 @@
 
     <script>
         function showSection(sectionId) {
-            // Ocultar todas as seções
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => section.style.display = 'none');
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.display = section.id === sectionId ? 'block' : 'none';
+            });
+        }
 
-            // Mostrar a seção selecionada
-            document.getElementById(sectionId).style.display = 'block';
+        function addOrUpdateItem(event, listId, nameFieldId, otherFieldIds, key) {
+            event.preventDefault();
+            const name = document.getElementById(nameFieldId).value;
+            const otherFields = otherFieldIds.map(field => document.getElementById(field).value);
+            const newItem = { name, otherFields };
+            
+            // Armazenar no localStorage
+            let storedItems = JSON.parse(localStorage.getItem(key)) || [];
+            storedItems.push(newItem);
+            localStorage.setItem(key, JSON.stringify(storedItems));
+            
+            // Renderizar a lista novamente
+            renderItems(listId, storedItems, nameFieldId, otherFieldIds, key);
+        }
+
+        function renderItems(listId, items, nameField, otherFields, key) {
+            const list = document.getElementById(listId);
+            list.innerHTML = '';
+            items.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'item';
+                itemDiv.innerHTML = `
+                    <div class="header" onclick="toggleDetails(this)">
+                        ${item.name}
+                    </div>
+                    <div class="details">
+                        ${otherFields.map((field, i) => `<p>${field}: ${item.otherFields[i]}</p>`).join('')}
+                        <button onclick="editItem(${index}, '${key}')">Editar</button>
+                        <button onclick="deleteItem(${index}, '${key}', '${listId}')">Excluir</button>
+                    </div>
+                `;
+                list.appendChild(itemDiv);
+            });
+        }
+
+        function toggleDetails(headerElement) {
+            const itemDiv = headerElement.parentElement;
+            itemDiv.classList.toggle('expanded');
         }
 
         function clearForm(formId) {
             document.getElementById(formId).reset();
         }
 
-        function addOrUpdateItem(event, listId, primaryFieldId, fieldsArray, storageKey) {
-            event.preventDefault();
-
-            const primaryField = document.getElementById(primaryFieldId).value;
-            const fieldValues = fieldsArray.map(field => `${field}: ${document.getElementById(field).value}`);
-            const newItem = {
-                id: Date.now(),
-                primary: primaryField,
-                details: fieldValues
-            };
-
-            let items = JSON.parse(localStorage.getItem(storageKey)) || [];
-            items.push(newItem);
-            localStorage.setItem(storageKey, JSON.stringify(items));
-
-            renderItems(listId, storageKey, primaryFieldId, fieldsArray);
-            clearForm(event.target.id);
+        function editItem(index, key) {
+            const storedItems = JSON.parse(localStorage.getItem(key));
+            const item = storedItems[index];
+            // Preencher o formulário com os dados para edição (implemente essa parte)
         }
 
-        function renderItems(listId, storageKey, primaryFieldId, fieldsArray) {
-            const listElement = document.getElementById(listId);
-            listElement.innerHTML = '';
+        function deleteItem(index, key, listId) {
+            let storedItems = JSON.parse(localStorage.getItem(key));
+            storedItems.splice(index, 1);
+            localStorage.setItem(key, JSON.stringify(storedItems));
+            renderItems(listId, storedItems, key);
+        }
 
-            const items = JSON.parse(localStorage.getItem(storageKey)) || [];
-            items.forEach(item => {
-                const itemElement = document.createElement('div');
-                itemElement.className = 'item';
-                itemElement.innerHTML = `
-                    <div class="header" onclick="toggleDetails(this)">
-                        ${item.primary}
-                    </div>
-                    <div class="details">
-                        ${item.details.join('<br>')}
-                    </div>
-                    <div class="buttons">
-                        <button class="edit-button" onclick="editItem('${item.id}', '${storageKey}', '${primaryFieldId}', ${JSON.stringify(fieldsArray)})">Editar</button>
-                        <button class="delete-button" onclick="deleteItem('${item.id}', '${storageKey}', '${listId}', '${primaryFieldId}', ${JSON.stringify(fieldsArray)})">Excluir</button>
-                    </div>
-                `;
-                listElement.appendChild(itemElement);
+        // Carregar itens do localStorage ao iniciar
+        document.addEventListener('DOMContentLoaded', () => {
+            ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'].forEach(key => {
+                const listId = key + 'List';
+                const nameField = key === 'maquinas' ? 'nomeMaquina' :
+                                 key === 'contas' ? 'nomeConta' :
+                                 key === 'recebimentos' ? 'descricaoRecebimento' :
+                                 key === 'contratos' ? 'nomeContrato' : 'nomeEmpresa';
+                const otherFields = key === 'maquinas' ? ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'] :
+                                  key === 'contas' ? ['tipoConta', 'saldoConta'] :
+                                  key === 'recebimentos' ? ['valorRecebimento', 'dataRecebimento'] :
+                                  key === 'contratos' ? ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'] :
+                                  ['cnpjEmpresa', 'enderecoEmpresa'];
+
+                const storedItems = JSON.parse(localStorage.getItem(key)) || [];
+                renderItems(listId, storedItems, nameField, otherFields, key);
             });
-        }
-
-        function toggleDetails(headerElement) {
-            const itemElement = headerElement.parentElement;
-            itemElement.classList.toggle('expanded');
-        }
-
-        function deleteItem(id, storageKey, listId, primaryFieldId, fieldsArray) {
-            let items = JSON.parse(localStorage.getItem(storageKey)) || [];
-            items = items.filter(item => item.id !== parseInt(id));
-            localStorage.setItem(storageKey, JSON.stringify(items));
-
-            renderItems(listId, storageKey, primaryFieldId, fieldsArray);
-        }
-
-        function editItem(id, storageKey, primaryFieldId, fieldsArray) {
-            const items = JSON.parse(localStorage.getItem(storageKey)) || [];
-            const itemToEdit = items.find(item => item.id === parseInt(id));
-
-            if (itemToEdit) {
-                document.getElementById(primaryFieldId).value = itemToEdit.primary;
-                fieldsArray.forEach((field, index) => {
-                    const value = itemToEdit.details[index].split(': ')[1];
-                    document.getElementById(field).value = value;
-                });
-
-                deleteItem(id, storageKey, `form${primaryFieldId}`, primaryFieldId, fieldsArray);
-            }
-        }
-
-        // Renderizar itens de todas as listas ao carregar a página
-        window.onload = function() {
-            renderItems('maquinasList', 'maquinas', 'Maquina', ['Série', 'Anos de Uso', 'Horímetro', 'Última Manutenção', 'Data de Entrada']);
-            renderItems('contasList', 'contas', 'Nome da Conta', ['Tipo', 'Valor', 'Data de Vencimento']);
-            renderItems('recebimentosList', 'recebimentos', 'Empresa', ['Valor', 'Data de Início', 'Data do Vencimento']);
-            renderItems('contratosList', 'contratos', 'Empresa', ['Locatário', 'CNPJ', 'Representante', 'Período de Locação', 'Valor', 'Data de Início', 'Data de Término', 'Equipamento', 'Operador']);
-            renderItems('empresasList', 'empresas', 'Nome da Empresa', ['CNPJ', 'Endereço', 'Telefone', 'Email']);
-        };
+        });
     </script>
+
 </body>
 </html>
