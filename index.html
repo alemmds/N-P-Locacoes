@@ -198,7 +198,7 @@
                 <h2>Cadastro de Máquinas</h2>
                 <form id="formMaquina" onsubmit="addOrUpdateItem(event, 'maquinas', 'nomeMaquina', ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'])">
                     <label>Nome da Máquina:</label><input type="text" id="nomeMaquina" required><br>
-                    <label>Série:</label><input type="text" id="serieMaquina" required><br>
+                    <label>Série:</label><input type="text" id="Série" required><br>
                     <label>Anos de Uso:</label><input type="number" id="anosUsoMaquina" required><br>
                     <label>Horímetro:</label><input type="number" id="horimetroMaquina" required><br>
                     <label>Última Manutenção:</label><input type="date" id="ultimaManutencaoMaquina" required><br>
@@ -375,7 +375,7 @@
                                   key === 'contas' ? 'nomeConta' :
                                   key === 'recebimentos' ? 'descricaoRecebimento' :
                                   key === 'contratos' ? 'nomeContrato' : 'nomeEmpresa';
-                const otherFields = key === 'maquinas' ? ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'] :
+                const otherFields = key === 'maquinas' ? ['Série', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'] :
                                     key === 'contas' ? ['tipoConta', 'saldoConta'] :
                                     key === 'recebimentos' ? ['valorRecebimento', 'dataRecebimento'] :
                                     key === 'contratos' ? ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'] :
