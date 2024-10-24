@@ -195,13 +195,13 @@
             <!-- Seção de Máquinas -->
             <section id="maquinasSection" class="section">
                 <h2>Cadastro de Máquinas</h2>
-                <form id="formMaquina" onsubmit="addOrUpdateItem(event, 'maquinasList', 'nomeMaquina', ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'], 'maquinas')">
-                    <label>Nome da Máquina:</label><input type="text" id="nomeMaquina" required><br>
-                    <label>Série:</label><input type="text" id="serieMaquina" required><br>
-                    <label>Anos de Uso:</label><input type="number" id="anosUsoMaquina" required><br>
-                    <label>Horímetro:</label><input type="number" id="horimetroMaquina" required><br>
-                    <label>Última Manutenção:</label><input type="date" id="ultimaManutencaoMaquina" required><br>
-                    <label>Data de Entrada:</label><input type="date" id="dataEntradaMaquina" required><br>
+                <form id="formMaquina" onsubmit="addOrUpdateItem(event, 'maquinasList', 'Maquina', ['Série', 'Anos de Uso', 'Horímetro', 'Última Manutenção', 'Data de Entrada'], 'maquinas')">
+                    <label>Nome da Máquina:</label><input type="text" id="Maquina" required><br>
+                    <label>Série:</label><input type="text" id="Série" required><br>
+                    <label>Anos de Uso:</label><input type="number" id="Anos de Uso" required><br>
+                    <label>Horímetro:</label><input type="number" id="Horímetro" required><br>
+                    <label>Última Manutenção:</label><input type="date" id="Última Manutenção" required><br>
+                    <label>Data de Entrada:</label><input type="date" id="Data de Entrada" required><br>
                     <div class="buttons">
                         <button type="submit">Confirmar</button>
                         <button type="button" class="clear-btn" onclick="clearForm('formMaquina')">Limpar</button>
@@ -215,8 +215,8 @@
             <!-- Seção de Contas -->
             <section id="contasSection" class="section" style="display:none;">
                 <h2>Cadastro de Contas</h2>
-                <form id="formConta" onsubmit="addOrUpdateItem(event, 'contasList', 'nomeConta', ['tipoConta', 'saldoConta'], 'contas')">
-                    <label>Nome da Conta:</label><input type="text" id="nomeConta" required><br>
+                <form id="formConta" onsubmit="addOrUpdateItem(event, 'contasList', 'Nome da Conta', ['Tipo', 'Valor', 'Data de Vencimento'], 'contas')">
+                    <label>Nome da Conta:</label><input type="text" id="Nome da Conta" required><br>
                     <label>Tipo:</label><input type="text" id="Tipo" required><br>
                     <label>Valor:</label><input type="number" id="Valor" required><br>
                     <label>Data de Vencimento:</label><input type="date" id="Data de Vencimento" required><br>
@@ -233,9 +233,9 @@
             <!-- Seção de Recebimentos -->
             <section id="recebimentosSection" class="section" style="display:none;">
                 <h2>Cadastro de Recebimentos</h2>
-                <form id="formRecebimento" onsubmit="addOrUpdateItem(event, 'recebimentosList', 'descricaoRecebimento', ['valorRecebimento', 'dataRecebimento'], 'recebimentos')">
+                <form id="formRecebimento" onsubmit="addOrUpdateItem(event, 'recebimentosList', 'Empresa', ['Valor', 'Data de Início', 'Data do Vencimento'], 'recebimentos')">
                     <label>Empresa:</label><input type="text" id="Empresa" required><br>
-                    <label>Valor:</label><input type="number" id="valorRecebimento" required><br>
+                    <label>Valor:</label><input type="number" id="Valor" required><br>
                     <label>Data de Início:</label><input type="date" id="Data de Início" required><br>
                     <label>Data do Vencimento:</label><input type="date" id="Data do Vencimento" required><br>
                     <div class="buttons">
@@ -251,13 +251,13 @@
             <!-- Seção de Contratos -->
             <section id="contratosSection" class="section" style="display:none;">
                 <h2>Cadastro de Contratos</h2>
-                <form id="formContrato" onsubmit="addOrUpdateItem(event, 'contratosList', 'nomeContrato', ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'], 'contratos')">
-                    <label>Empresa:</label><input type="text" id="nomeContrato" required><br>
-                    <label>Locatário:</label><input type="text" id="locatarioContrato" required><br>
-                    <label>CNPJ:</label><input type="text" id="cnpjContrato" required><br>
-                    <label>Representante:</label><input type="text" id="representanteContrato" required><br>
-                    <label>Período de Locação:</label><input type="text" id="periodoContrato" required><br>
-                    <label>Valor:</label><input type="number" id="valorContrato" required><br>
+                <form id="formContrato" onsubmit="addOrUpdateItem(event, 'contratosList', 'Empresa', ['Locatário', 'CNPJ', 'Representante', 'Período de Locação', 'Valor', 'Data de Início', 'Data de Término', 'Equipamento', 'Operador'], 'contratos')">
+                    <label>Empresa:</label><input type="text" id="Empresa" required><br>
+                    <label>Locatário:</label><input type="text" id="Locatário" required><br>
+                    <label>CNPJ:</label><input type="text" id="CNPJ" required><br>
+                    <label>Representante:</label><input type="text" id="Representante" required><br>
+                    <label>Período de Locação:</label><input type="text" id="Período de Locação" required><br>
+                    <label>Valor:</label><input type="number" id="Valor" required><br>
                     <label>Data de Início:</label><input type="date" id="Data de Início" required><br>
                     <label>Data de Término:</label><input type="date" id="Data de Término" required><br>
                     <label>Equipamento:</label><input type="text" id="Equipamento" required><br>
@@ -275,14 +275,12 @@
             <!-- Seção de Empresas -->
             <section id="empresasSection" class="section" style="display:none;">
                 <h2>Cadastro de Empresas</h2>
-                <form id="formEmpresa" onsubmit="addOrUpdateItem(event, 'empresasList', 'nomeEmpresa', ['cnpjEmpresa', 'enderecoEmpresa'], 'empresas')">
-                    <label>Nome da Empresa:</label><input type="text" id="nomeEmpresa" required><br>
+                <form id="formEmpresa" onsubmit="addOrUpdateItem(event, 'empresasList', 'Nome da Empresa', ['CNPJ', 'Endereço', 'Telefone', 'Email'], 'empresas')">
+                    <label>Nome da Empresa:</label><input type="text" id="Nome da Empresa" required><br>
                     <label>CNPJ:</label><input type="text" id="CNPJ" required><br>
-                    <label>Área de Atuação:</label><input type="text" id="Área de Atuação" required><br>
-                    <label>Representante:</label><input type="text" id="Representante" required><br>
-                    <label>Telefone:</label><input type="number" id="Telefone" required><br>
-                    <label>E-mail:</label><input type="text" id="Email" required><br>
-                    
+                    <label>Endereço:</label><input type="text" id="Endereço" required><br>
+                    <label>Telefone:</label><input type="tel" id="Telefone" required><br>
+                    <label>Email:</label><input type="email" id="Email" required><br>
                     <div class="buttons">
                         <button type="submit">Confirmar</button>
                         <button type="button" class="clear-btn" onclick="clearForm('formEmpresa')">Limpar</button>
@@ -296,126 +294,98 @@
     </div>
 
     <script>
-        // Função para exibir a seção correta
         function showSection(sectionId) {
+            // Ocultar todas as seções
             const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
-                section.style.display = section.id === sectionId ? 'block' : 'none';
-            });
+            sections.forEach(section => section.style.display = 'none');
+
+            // Mostrar a seção selecionada
+            document.getElementById(sectionId).style.display = 'block';
         }
 
-        // Função para limpar o formulário
         function clearForm(formId) {
             document.getElementById(formId).reset();
         }
 
-        // Função para adicionar ou editar item
-        function addOrUpdateItem(event, listId, nameField, otherFields, storageKey) {
+        function addOrUpdateItem(event, listId, primaryFieldId, fieldsArray, storageKey) {
             event.preventDefault();
-            const name = document.getElementById(nameField).value;
-            const itemData = { [nameField]: name };
 
-            otherFields.forEach(field => {
-                itemData[field] = document.getElementById(field).value;
-            });
+            const primaryField = document.getElementById(primaryFieldId).value;
+            const fieldValues = fieldsArray.map(field => `${field}: ${document.getElementById(field).value}`);
+            const newItem = {
+                id: Date.now(),
+                primary: primaryField,
+                details: fieldValues
+            };
 
-            // Obter a lista de itens armazenados
-            let storedItems = JSON.parse(localStorage.getItem(storageKey)) || [];
+            let items = JSON.parse(localStorage.getItem(storageKey)) || [];
+            items.push(newItem);
+            localStorage.setItem(storageKey, JSON.stringify(items));
 
-            // Verificar se estamos editando um item existente
-            const index = storedItems.findIndex(item => item[nameField] === name);
-            if (index > -1) {
-                storedItems[index] = itemData; // Atualizar item existente
-            } else {
-                storedItems.push(itemData); // Adicionar novo item
-            }
-
-            // Armazenar no localStorage
-            localStorage.setItem(storageKey, JSON.stringify(storedItems));
-
-            // Renderizar lista de itens
-            renderItems(listId, storedItems, nameField, otherFields, storageKey);
-
-            // Limpar formulário
+            renderItems(listId, storageKey, primaryFieldId, fieldsArray);
             clearForm(event.target.id);
         }
 
-        // Função para renderizar a lista de itens
-        function renderItems(listId, items, nameField, otherFields, storageKey) {
-            const list = document.getElementById(listId);
-            list.innerHTML = '';
+        function renderItems(listId, storageKey, primaryFieldId, fieldsArray) {
+            const listElement = document.getElementById(listId);
+            listElement.innerHTML = '';
 
+            const items = JSON.parse(localStorage.getItem(storageKey)) || [];
             items.forEach(item => {
-                const div = document.createElement('div');
-                div.classList.add('item');
+                const itemElement = document.createElement('div');
+                itemElement.className = 'item';
+                itemElement.innerHTML = `
+                    <div class="header" onclick="toggleDetails(this)">
+                        ${item.primary}
+                    </div>
+                    <div class="details">
+                        ${item.details.join('<br>')}
+                    </div>
+                    <div class="buttons">
+                        <button class="edit-button" onclick="editItem('${item.id}', '${storageKey}', '${primaryFieldId}', ${JSON.stringify(fieldsArray)})">Editar</button>
+                        <button class="delete-button" onclick="deleteItem('${item.id}', '${storageKey}', '${listId}', '${primaryFieldId}', ${JSON.stringify(fieldsArray)})">Excluir</button>
+                    </div>
+                `;
+                listElement.appendChild(itemElement);
+            });
+        }
 
-                const header = document.createElement('div');
-                header.classList.add('header');
-                header.textContent = item[nameField];
-                header.onclick = () => div.classList.toggle('expanded');
-                div.appendChild(header);
+        function toggleDetails(headerElement) {
+            const itemElement = headerElement.parentElement;
+            itemElement.classList.toggle('expanded');
+        }
 
-                const details = document.createElement('div');
-                details.classList.add('details');
+        function deleteItem(id, storageKey, listId, primaryFieldId, fieldsArray) {
+            let items = JSON.parse(localStorage.getItem(storageKey)) || [];
+            items = items.filter(item => item.id !== parseInt(id));
+            localStorage.setItem(storageKey, JSON.stringify(items));
 
-                otherFields.forEach(field => {
-                    const p = document.createElement('p');
-                    p.textContent = `${field}: ${item[field]}`;
-                    details.appendChild(p);
+            renderItems(listId, storageKey, primaryFieldId, fieldsArray);
+        }
+
+        function editItem(id, storageKey, primaryFieldId, fieldsArray) {
+            const items = JSON.parse(localStorage.getItem(storageKey)) || [];
+            const itemToEdit = items.find(item => item.id === parseInt(id));
+
+            if (itemToEdit) {
+                document.getElementById(primaryFieldId).value = itemToEdit.primary;
+                fieldsArray.forEach((field, index) => {
+                    const value = itemToEdit.details[index].split(': ')[1];
+                    document.getElementById(field).value = value;
                 });
 
-                // Botões de editar e excluir
-                const editButton = document.createElement('button');
-                editButton.textContent = 'Editar';
-                editButton.classList.add('edit-button');
-                editButton.onclick = () => loadItemForEditing(item, nameField, otherFields);
-                details.appendChild(editButton);
-
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Excluir';
-                deleteButton.classList.add('delete-button');
-                deleteButton.onclick = () => deleteItem(item[nameField], storageKey, listId, nameField, otherFields);
-                details.appendChild(deleteButton);
-
-                div.appendChild(details);
-                list.appendChild(div);
-            });
+                deleteItem(id, storageKey, `form${primaryFieldId}`, primaryFieldId, fieldsArray);
+            }
         }
 
-        // Função para carregar item para edição
-        function loadItemForEditing(item, nameField, otherFields) {
-            document.getElementById(nameField).value = item[nameField];
-            otherFields.forEach(field => {
-                document.getElementById(field).value = item[field];
-            });
-        }
-
-        // Função para excluir item
-        function deleteItem(itemName, storageKey, listId, nameField, otherFields) {
-            let storedItems = JSON.parse(localStorage.getItem(storageKey)) || [];
-            storedItems = storedItems.filter(item => item[nameField] !== itemName);
-            localStorage.setItem(storageKey, JSON.stringify(storedItems));
-            renderItems(listId, storedItems, nameField, otherFields, storageKey);
-        }
-
-        // Carregar itens do localStorage ao iniciar
-        document.addEventListener('DOMContentLoaded', () => {
-            ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'].forEach(key => {
-                const listId = key + 'List';
-                const nameField = key === 'maquinas' ? 'nomeMaquina' :
-                                 key === 'contas' ? 'nomeConta' :
-                                 key === 'recebimentos' ? 'descricaoRecebimento' :
-                                 key === 'contratos' ? 'nomeContrato' : 'nomeEmpresa';
-                const otherFields = key === 'maquinas' ? ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'] :
-                                  key === 'contas' ? ['tipoConta', 'saldoConta'] :
-                                  key === 'recebimentos' ? ['valorRecebimento', 'dataRecebimento'] :
-                                  key === 'contratos' ? ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'] :
-                                  ['cnpjEmpresa', 'enderecoEmpresa'];
-
-                const storedItems = JSON.parse(localStorage.getItem(key)) || [];
-                renderItems(listId, storedItems, nameField, otherFields, key);
-            });
-        });
+        // Renderizar itens de todas as listas ao carregar a página
+        window.onload = function() {
+            renderItems('maquinasList', 'maquinas', 'Maquina', ['Série', 'Anos de Uso', 'Horímetro', 'Última Manutenção', 'Data de Entrada']);
+            renderItems('contasList', 'contas', 'Nome da Conta', ['Tipo', 'Valor', 'Data de Vencimento']);
+            renderItems('recebimentosList', 'recebimentos', 'Empresa', ['Valor', 'Data de Início', 'Data do Vencimento']);
+            renderItems('contratosList', 'contratos', 'Empresa', ['Locatário', 'CNPJ', 'Representante', 'Período de Locação', 'Valor', 'Data de Início', 'Data de Término', 'Equipamento', 'Operador']);
+            renderItems('empresasList', 'empresas', 'Nome da Empresa', ['CNPJ', 'Endereço', 'Telefone', 'Email']);
+        };
     </script>
 </body>
 </html>
