@@ -1,60 +1,45 @@
-// Função para renderizar os itens armazenados no localStorage
-function renderItems(listId, items, nameField, otherFields, key) {
-    const listContainer = document.getElementById(listId);
-    listContainer.innerHTML = '';
-    items.forEach((item, index) => {
-        const itemDiv = document.createElement('div');
-        itemDiv.classList.add('item');
-        
-        const button = document.createElement('button');
-        button.textContent = item[nameField];  // Nome do primeiro campo
-        
-        const infoDiv = document.createElement('div');
-        otherFields.forEach(field => {
-            const p = document.createElement('p');
-            p.innerHTML = `<span>${field.replace(/([A-Z])/g, ' $1').trim()}</span>: ${item[field]}`;
-            infoDiv.appendChild(p);
-        });
-
-        const alterarBtn = document.createElement('button');
-        alterarBtn.textContent = 'Alterar';
-        alterarBtn.addEventListener('click', () => alterarItem(key, index));
-
-        const excluirBtn = document.createElement('button');
-        excluirBtn.textContent = 'Excluir';
-        excluirBtn.addEventListener('click', () => excluirItem(key, index));
-
-        itemDiv.appendChild(button);
-        itemDiv.appendChild(infoDiv);
-        itemDiv.appendChild(alterarBtn);
-        itemDiv.appendChild(excluirBtn);
-
-        listContainer.appendChild(itemDiv);
-    });
-}
-
-// Funções de adicionar, alterar e excluir (similares para cada sessão)
-document.getElementById('confirmarMaquina').addEventListener('click', () => {
-    const nomeMaquina = document.getElementById('nomeMaquina').value;
-    const serieMaquina = document.getElementById('serieMaquina').value;
-    const anosUsoMaquina = document.getElementById('anosUsoMaquina').value;
-    
-    const maquinas = JSON.parse(localStorage.getItem('maquinas')) || [];
-    maquinas.push({ nomeMaquina, serieMaquina, anosUsoMaquina });
-    localStorage.setItem('maquinas', JSON.stringify(maquinas));
-
-    renderItems('maquinasList', maquinas, 'nomeMaquina', ['serieMaquina', 'anosUsoMaquina'], 'maquinas');
-});
-
-function excluirItem(key, index) {
-    const items = JSON.parse(localStorage.getItem(key));
-    items.splice(index, 1);
+// Função para adicionar itens ao localStorage
+function addToLocalStorage(key, item) {
+    const items = JSON.parse(localStorage.getItem(key)) || [];
+    items.push(item);
     localStorage.setItem(key, JSON.stringify(items));
-    renderItems(`${key}List`, items, key === 'maquinas' ? 'nomeMaquina' : 'nomeConta', ['serieMaquina', 'anosUsoMaquina'], key);
 }
 
-function alterarItem(key, index) {
-    // Função para alterar item, abre campos editáveis
+// Função para renderizar itens
+function renderItems(listId, items, nameField, otherFields) {
+    const listElement = document.getElementById(listId);
+    listElement.innerHTML = '';
+
+    items.forEach((item, index) => {
+        const button = document.createElement('div');
+        button.className = 'item-button';
+        button.innerText = item[nameField];
+
+        const buttonsDiv = document.createElement('div');
+        buttonsDiv.className = 'item-buttons';
+
+        const alterButton = document.createElement('button');
+        alterButton.innerText = 'Alterar';
+        alterButton.onclick = () => {
+            // Lógica para alterar o item
+            alert(`Alterar: ${item[nameField]}`);
+        };
+
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = 'Excluir';
+        deleteButton.onclick = () => {
+            // Lógica para excluir o item
+            alert(`Excluir: ${item[nameField]}`);
+            items.splice(index, 1);
+            localStorage.setItem(listId.replace('List', ''), JSON.stringify(items));
+            renderItems(listId, items, nameField, otherFields);
+        };
+
+        buttonsDiv.appendChild(alterButton);
+        buttonsDiv.appendChild(deleteButton);
+        button.appendChild(buttonsDiv);
+        listElement.appendChild(button);
+    });
 }
 
 // Carregar itens do localStorage ao iniciar
@@ -62,14 +47,71 @@ document.addEventListener('DOMContentLoaded', () => {
     ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'].forEach(key => {
         const listId = key + 'List';
         const nameField = key === 'maquinas' ? 'nomeMaquina' :
-                         key === 'contas' ? 'nomeConta' :
-                         key === 'recebimentos' ? 'descricaoRecebimento' :
-                         key === 'contratos' ? 'nomeContrato' : 'nomeEmpresa';
+                          key === 'contas' ? 'tipoConta' :
+                          key === 'recebimentos' ? 'empresaRecebimento' :
+                          key === 'contratos' ? 'nomeContrato' : 'nomeEmpresa';
         const otherFields = key === 'maquinas' ? ['serieMaquina', 'anosUsoMaquina'] :
-                             key === 'contas' ? ['saldoConta'] :
-                             key === 'recebimentos' ? ['valorRecebimento'] :
-                             key === 'contratos' ? ['valorContrato'] : ['cnpjEmpresa'];
-        const items = JSON.parse(localStorage.getItem(key)) || [];
-        renderItems(listId, items, nameField, otherFields, key);
+                            key === 'contas' ? ['saldoConta'] :
+                            key === 'recebimentos' ? ['valorRecebimento', 'dataRecebimento'] :
+                            key === 'contratos' ? ['locatarioContrato', 'valorContrato'] :
+                            ['cnpjEmpresa', 'enderecoEmpresa'];
+
+        const storedItems = JSON.parse(localStorage.getItem(key)) || [];
+        renderItems(listId, storedItems, nameField, otherFields);
     });
+
+    // Eventos de cadastro
+    document.getElementById('confirmarMaquina').onclick = () => {
+        const newItem = {
+            nomeMaquina: document.getElementById('nomeMaquina').value,
+            serieMaquina: document.getElementById('serieMaquina').value,
+            anosUsoMaquina: document.getElementById('anosUsoMaquina').value
+        };
+        addToLocalStorage('maquinas', newItem);
+        renderItems('maquinasList', JSON.parse(localStorage.getItem('maquinas')), 'nomeMaquina');
+        document.getElementById('form-maquinas').reset();
+    };
+
+    document.getElementById('confirmarConta').onclick = () => {
+        const newItem = {
+            tipoConta: document.getElementById('tipoConta').value,
+            saldoConta: document.getElementById('saldoConta').value
+        };
+        addToLocalStorage('contas', newItem);
+        renderItems('contasList', JSON.parse(localStorage.getItem('contas')), 'tipoConta');
+        document.getElementById('form-contas').reset();
+    };
+
+    document.getElementById('confirmarRecebimento').onclick = () => {
+        const newItem = {
+            empresaRecebimento: document.getElementById('empresaRecebimento').value,
+            valorRecebimento: document.getElementById('valorRecebimento').value,
+            dataRecebimento: document.getElementById('dataRecebimento').value
+        };
+        addToLocalStorage('recebimentos', newItem);
+        renderItems('recebimentosList', JSON.parse(localStorage.getItem('recebimentos')), 'empresaRecebimento');
+        document.getElementById('form-recebimentos').reset();
+    };
+
+    document.getElementById('confirmarContrato').onclick = () => {
+        const newItem = {
+            nomeContrato: document.getElementById('nomeContrato').value,
+            locatarioContrato: document.getElementById('locatarioContrato').value,
+            valorContrato: document.getElementById('valorContrato').value
+        };
+        addToLocalStorage('contratos', newItem);
+        renderItems('contratosList', JSON.parse(localStorage.getItem('contratos')), 'nomeContrato');
+        document.getElementById('form-contratos').reset();
+    };
+
+    document.getElementById('confirmarEmpresa').onclick = () => {
+        const newItem = {
+            nomeEmpresa: document.getElementById('nomeEmpresa').value,
+            cnpjEmpresa: document.getElementById('cnpjEmpresa').value,
+            enderecoEmpresa: document.getElementById('enderecoEmpresa').value
+        };
+        addToLocalStorage('empresas', newItem);
+        renderItems('empresasList', JSON.parse(localStorage.getItem('empresas')), 'nomeEmpresa');
+        document.getElementById('form-empresas').reset();
+    };
 });
