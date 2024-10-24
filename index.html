@@ -24,6 +24,7 @@
 
     <!-- Conteúdo Principal -->
     <div class="main-content">
+        <!-- Seção Máquinas -->
         <section id="maquinas">
             <h2>Cadastro de Máquinas</h2>
             <form id="form-maquinas">
@@ -33,7 +34,6 @@
                 <label for="serieMaquina">Série</label>
                 <input type="text" id="serieMaquina" required>
 
-                <!-- Outros campos de Máquinas -->
                 <label for="anosUsoMaquina">Anos de Uso</label>
                 <input type="number" id="anosUsoMaquina" required>
 
@@ -44,11 +44,12 @@
             <div id="maquinasList"></div>
         </section>
 
+        <!-- Seção Contas -->
         <section id="contas">
             <h2>Cadastro de Contas</h2>
             <form id="form-contas">
-                <label for="nomeConta">Tipo de Conta</label>
-                <input type="text" id="nomeConta" required>
+                <label for="tipoConta">Tipo de Conta</label>
+                <input type="text" id="tipoConta" required>
 
                 <label for="saldoConta">Saldo</label>
                 <input type="number" id="saldoConta" required>
@@ -60,14 +61,18 @@
             <div id="contasList"></div>
         </section>
 
+        <!-- Seção Recebimentos -->
         <section id="recebimentos">
             <h2>Cadastro de Recebimentos</h2>
             <form id="form-recebimentos">
-                <label for="descricaoRecebimento">Descrição</label>
-                <input type="text" id="descricaoRecebimento" required>
+                <label for="empresaRecebimento">Empresa</label>
+                <input type="text" id="empresaRecebimento" required>
 
                 <label for="valorRecebimento">Valor</label>
                 <input type="number" id="valorRecebimento" required>
+
+                <label for="dataRecebimento">Data</label>
+                <input type="date" id="dataRecebimento" required>
 
                 <button type="button" id="confirmarRecebimento">Confirmar</button>
             </form>
@@ -76,14 +81,17 @@
             <div id="recebimentosList"></div>
         </section>
 
+        <!-- Seção Contratos -->
         <section id="contratos">
             <h2>Cadastro de Contratos</h2>
             <form id="form-contratos">
                 <label for="nomeContrato">Nome do Contrato</label>
                 <input type="text" id="nomeContrato" required>
 
-                <!-- Outros campos de Contratos -->
-                <label for="valorContrato">Valor do Contrato</label>
+                <label for="locatarioContrato">Locatário</label>
+                <input type="text" id="locatarioContrato" required>
+
+                <label for="valorContrato">Valor</label>
                 <input type="number" id="valorContrato" required>
 
                 <button type="button" id="confirmarContrato">Confirmar</button>
@@ -93,14 +101,18 @@
             <div id="contratosList"></div>
         </section>
 
+        <!-- Seção Empresas -->
         <section id="empresas">
             <h2>Cadastro de Empresas</h2>
             <form id="form-empresas">
-                <label for="nomeEmpresa">Nome da Empresa</label>
+                <label for="nomeEmpresa">Nome</label>
                 <input type="text" id="nomeEmpresa" required>
 
                 <label for="cnpjEmpresa">CNPJ</label>
                 <input type="text" id="cnpjEmpresa" required>
+
+                <label for="enderecoEmpresa">Endereço</label>
+                <input type="text" id="enderecoEmpresa" required>
 
                 <button type="button" id="confirmarEmpresa">Confirmar</button>
             </form>
