@@ -1,216 +1,315 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Cadastro</title>
     <style>
-        .item {
-            border: 1px solid #ddd;
-            margin: 10px 0;
-            padding: 10px;
+        /* Estilos gerais */
+        body {
+            font-family: Arial, sans-serif;
         }
+
+        /* Estilo do layout do app */
+        .app {
+            display: flex;
+        }
+
+        /* Menu lateral */
+        .sidebar {
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Botões do menu lateral */
+        .sidebar button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #444;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        /* Área de conteúdo */
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        /* Seções ocultas inicialmente */
+        .section {
+            display: none;
+        }
+
+        /* Estilos dos formulários */
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: inline-block;
+            width: 150px;
+        }
+
+        input, select {
+            margin-bottom: 10px;
+        }
+
+        .buttons {
+            margin-top: 10px;
+        }
+
+        /* Estilo da lista de itens */
+        .item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
         .header {
             font-weight: bold;
             cursor: pointer;
         }
+
         .details {
             display: none;
         }
+
         .expanded .details {
             display: block;
         }
+
         .edit-button, .delete-button {
-            margin-left: 10px;
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
+    <div class="app">
+        <!-- Menu lateral -->
+        <div class="sidebar">
+            <button onclick="showSection('maquinasSection')">Máquinas</button>
+            <button onclick="showSection('contasSection')">Contas</button>
+            <button onclick="showSection('recebimentosSection')">Recebimentos</button>
+            <button onclick="showSection('contratosSection')">Contratos</button>
+            <button onclick="showSection('empresasSection')">Empresas</button>
+        </div>
 
-    <div id="maquinas" class="section">
-        <form id="formMaquinas" onsubmit="addOrUpdateItem(event, 'maquinas', 'nomeMaquina', ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'])">
-            <input type="text" id="nomeMaquina" placeholder="Nome da Máquina">
-            <input type="text" id="serieMaquina" placeholder="Série">
-            <input type="number" id="anosUsoMaquina" placeholder="Anos de Uso">
-            <input type="number" id="horimetroMaquina" placeholder="Horímetro">
-            <input type="date" id="ultimaManutencaoMaquina" placeholder="Última Manutenção">
-            <input type="date" id="dataEntradaMaquina" placeholder="Data de Entrada">
-            <button type="submit">Confirmar</button>
-        </form>
-        <div id="maquinasList"></div>
-    </div>
+        <!-- Área de conteúdo -->
+        <div class="content">
+            <!-- Seção de Máquinas -->
+            <section id="maquinasSection" class="section" style="display:none;">
+                <h2>Cadastro de Máquinas</h2>
+                <form id="formMaquina" onsubmit="addOrUpdateItem(event, 'maquinas', 'nomeMaquina', ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'])">
+                    <label>Nome da Máquina:</label><input type="text" id="nomeMaquina" required><br>
+                    <label>Série:</label><input type="text" id="serieMaquina" required><br>
+                    <label>Anos de Uso:</label><input type="number" id="anosUsoMaquina" required><br>
+                    <label>Horímetro:</label><input type="number" id="horimetroMaquina" required><br>
+                    <label>Última Manutenção:</label><input type="date" id="ultimaManutencaoMaquina" required><br>
+                    <label>Data de Entrada:</label><input type="date" id="dataEntradaMaquina" required><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" class="clear-btn" onclick="clearForm('formMaquina')">Limpar</button>
+                    </div>
+                </form>
 
-    <div id="contas" class="section">
-        <form id="formContas" onsubmit="addOrUpdateItem(event, 'contas', 'nomeConta', ['tipoConta', 'saldoConta'])">
-            <input type="text" id="nomeConta" placeholder="Nome da Conta">
-            <input type="text" id="tipoConta" placeholder="Tipo da Conta">
-            <input type="number" id="saldoConta" placeholder="Saldo">
-            <button type="submit">Confirmar</button>
-        </form>
-        <div id="contasList"></div>
-    </div>
+                <!-- Lista de Máquinas -->
+                <div id="maquinasList"></div>
+            </section>
 
-    <div id="recebimentos" class="section">
-        <form id="formRecebimentos" onsubmit="addOrUpdateItem(event, 'recebimentos', 'descricaoRecebimento', ['valorRecebimento', 'dataRecebimento'])">
-            <input type="text" id="descricaoRecebimento" placeholder="Descrição do Recebimento">
-            <input type="number" id="valorRecebimento" placeholder="Valor">
-            <input type="date" id="dataRecebimento" placeholder="Data de Recebimento">
-            <button type="submit">Confirmar</button>
-        </form>
-        <div id="recebimentosList"></div>
-    </div>
+            <!-- Seção de Contas -->
+            <section id="contasSection" class="section" style="display:none;">
+                <h2>Cadastro de Contas</h2>
+                <form id="formConta" onsubmit="addOrUpdateItem(event, 'contas', 'nomeConta', ['tipoConta', 'dataEmissaoConta', 'dataVencimentoConta', 'valorConta'])">
+                    <label>Nome da Conta:</label><input type="text" id="nomeConta" required><br>
+                    <label>Tipo:</label><input type="text" id="tipoConta" required><br>
+                    <label>Data de Emissão:</label><input type="date" id="dataEmissaoConta" required><br>
+                    <label>Data de Vencimento:</label><input type="date" id="dataVencimentoConta" required><br>
+                    <label>Valor:</label><input type="number" id="valorConta" required><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" class="clear-btn" onclick="clearForm('formConta')">Limpar</button>
+                    </div>
+                </form>
 
-    <div id="contratos" class="section">
-        <form id="formContratos" onsubmit="addOrUpdateItem(event, 'contratos', 'nomeContrato', ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'])">
-            <input type="text" id="nomeContrato" placeholder="Nome do Contrato">
-            <input type="text" id="locatarioContrato" placeholder="Locatário">
-            <input type="text" id="cnpjContrato" placeholder="CNPJ">
-            <input type="text" id="representanteContrato" placeholder="Representante">
-            <input type="text" id="periodoContrato" placeholder="Período">
-            <input type="number" id="valorContrato" placeholder="Valor">
-            <input type="date" id="dataTerminoContrato" placeholder="Data de Término">
-            <input type="text" id="equipamentoContrato" placeholder="Equipamento">
-            <button type="submit">Confirmar</button>
-        </form>
-        <div id="contratosList"></div>
-    </div>
+                <!-- Lista de Contas -->
+                <div id="contasList"></div>
+            </section>
 
-    <div id="empresas" class="section">
-        <form id="formEmpresas" onsubmit="addOrUpdateItem(event, 'empresas', 'nomeEmpresa', ['cnpjEmpresa', 'enderecoEmpresa'])">
-            <input type="text" id="nomeEmpresa" placeholder="Nome da Empresa">
-            <input type="text" id="cnpjEmpresa" placeholder="CNPJ">
-            <input type="text" id="enderecoEmpresa" placeholder="Endereço">
-            <button type="submit">Confirmar</button>
-        </form>
-        <div id="empresasList"></div>
+            <!-- Seção de Recebimentos -->
+            <section id="recebimentosSection" class="section" style="display:none;">
+                <h2>Cadastro de Recebimentos</h2>
+                <form id="formRecebimento" onsubmit="addOrUpdateItem(event, 'recebimentos', 'empresaRecebimento', ['valorRecebimento', 'dataInicioRecebimento', 'dataVencimentoRecebimento', 'statusRecebimento'])">
+                    <label>Empresa:</label><input type="text" id="empresaRecebimento" required><br>
+                    <label>Valor:</label><input type="number" id="valorRecebimento" required><br>
+                    <label>Data de Início:</label><input type="date" id="dataInicioRecebimento" required><br>
+                    <label>Data de Vencimento:</label><input type="date" id="dataVencimentoRecebimento" required><br>
+                    <label>Status:</label>
+                    <select id="statusRecebimento">
+                        <option value="pago">Pago</option>
+                        <option value="a vencer">A Vencer</option>
+                    </select><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" class="clear-btn" onclick="clearForm('formRecebimento')">Limpar</button>
+                    </div>
+                </form>
+
+                <!-- Lista de Recebimentos -->
+                <div id="recebimentosList"></div>
+            </section>
+
+            <!-- Seção de Contratos -->
+            <section id="contratosSection" class="section" style="display:none;">
+                <h2>Cadastro de Contratos</h2>
+                <form id="formContrato" onsubmit="addOrUpdateItem(event, 'contratos', 'nomeContrato', ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'])">
+                    <label>Nome do Contrato:</label><input type="text" id="nomeContrato" required><br>
+                    <label>Locatário:</label><input type="text" id="locatarioContrato" required><br>
+                    <label>CNPJ:</label><input type="text" id="cnpjContrato" required><br>
+                    <label>Representante:</label><input type="text" id="representanteContrato" required><br>
+                    <label>Período:</label><input type="text" id="periodoContrato" required><br>
+                    <label>Valor:</label><input type="number" id="valorContrato" required><br>
+                    <label>Data de Término:</label><input type="date" id="dataTerminoContrato" required><br>
+                    <label>Equipamento:</label><input type="text" id="equipamentoContrato" required><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" class="clear-btn" onclick="clearForm('formContrato')">Limpar</button>
+                    </div>
+                </form>
+
+                <!-- Lista de Contratos -->
+                <div id="contratosList"></div>
+            </section>
+
+            <!-- Seção de Empresas -->
+            <section id="empresasSection" class="section" style="display:none;">
+                <h2>Cadastro de Empresas</h2>
+                <form id="formEmpresa" onsubmit="addOrUpdateItem(event, 'empresas', 'nomeEmpresa', ['cnpjEmpresa', 'areaAtuacaoEmpresa', 'representanteEmpresa', 'telefoneEmpresa', 'emailEmpresa'])">
+                    <label>Nome da Empresa:</label><input type="text" id="nomeEmpresa" required><br>
+                    <label>CNPJ:</label><input type="
+
+text" id="cnpjEmpresa" required><br>
+                    <label>Área de Atuação:</label><input type="text" id="areaAtuacaoEmpresa" required><br>
+                    <label>Representante:</label><input type="text" id="representanteEmpresa" required><br>
+                    <label>Telefone:</label><input type="text" id="telefoneEmpresa" required><br>
+                    <label>Email:</label><input type="email" id="emailEmpresa" required><br>
+                    <div class="buttons">
+                        <button type="submit">Confirmar</button>
+                        <button type="button" class="clear-btn" onclick="clearForm('formEmpresa')">Limpar</button>
+                    </div>
+                </form>
+
+                <!-- Lista de Empresas -->
+                <div id="empresasList"></div>
+            </section>
+        </div>
     </div>
 
     <script>
-        // Carregar itens do localStorage ao iniciar
-        document.addEventListener('DOMContentLoaded', () => {
-            ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'].forEach(key => {
-                const listId = key + 'List';
-                const nameField = key === 'maquinas' ? 'nomeMaquina' :
-                                  key === 'contas' ? 'nomeConta' :
-                                  key === 'recebimentos' ? 'descricaoRecebimento' :
-                                  key === 'contratos' ? 'nomeContrato' : 'nomeEmpresa';
-                const otherFields = key === 'maquinas' ? ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'] :
-                                    key === 'contas' ? ['tipoConta', 'saldoConta'] :
-                                    key === 'recebimentos' ? ['valorRecebimento', 'dataRecebimento'] :
-                                    key === 'contratos' ? ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'] :
-                                    ['cnpjEmpresa', 'enderecoEmpresa'];
-
-                const storedItems = JSON.parse(localStorage.getItem(key)) || [];
-                renderItems(listId, storedItems, nameField, otherFields, key);
+        // Exibir a seção selecionada
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.display = section.id === sectionId ? 'block' : 'none';
             });
-        });
+        }
 
-        function renderItems(listId, items, nameField, otherFields, section) {
-            const list = document.getElementById(listId);
-            list.innerHTML = '';
+        // Adicionar ou atualizar item
+        function addOrUpdateItem(event, key, nameFieldId, otherFieldIds) {
+            event.preventDefault();
+            const storedItems = JSON.parse(localStorage.getItem(key)) || [];
+            const item = {
+                name: document.getElementById(nameFieldId).value,
+                otherFields: otherFieldIds.map(fieldId => document.getElementById(fieldId).value)
+            };
+            storedItems.push(item);
+            localStorage.setItem(key, JSON.stringify(storedItems));
+            renderItems(key + 'List', storedItems, nameFieldId, otherFieldIds, key);
+            clearForm(event.target.id);
+        }
+
+        // Limpar formulário
+        function clearForm(formId) {
+            document.getElementById(formId).reset();
+        }
+
+        // Renderizar itens da lista
+        function renderItems(listId, items, nameFieldId, otherFieldIds, key) {
+            const listElement = document.getElementById(listId);
+            listElement.innerHTML = '';
 
             items.forEach((item, index) => {
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'item';
 
-                const headerDiv = document.createElement('div');
-                headerDiv.className = 'header';
-                headerDiv.textContent = item[nameField];
-                headerDiv.addEventListener('click', () => {
-                    itemDiv.classList.toggle('expanded');
-                });
+                const header = document.createElement('div');
+                header.className = 'header';
+                header.textContent = item[nameFieldId];
 
                 const detailsDiv = document.createElement('div');
                 detailsDiv.className = 'details';
-                otherFields.forEach(field => {
-                    const fieldDiv = document.createElement('div');
-                    fieldDiv.textContent = `${field}: ${item[field]}`;
-                    detailsDiv.appendChild(fieldDiv);
-                });
+                detailsDiv.innerHTML = otherFieldIds.map((fieldId, i) => `<strong>${fieldId.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</strong> ${item.otherFields[i]}<br>`).join('');
 
                 const editButton = document.createElement('button');
                 editButton.textContent = 'Editar';
                 editButton.className = 'edit-button';
-                editButton.addEventListener('click', () => editItem(section, index));
+                editButton.onclick = () => editItem(key, index);
 
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Excluir';
                 deleteButton.className = 'delete-button';
-                deleteButton.addEventListener('click', () => deleteItem(section, index));
+                deleteButton.onclick = () => deleteItem(key, index);
 
-                itemDiv.appendChild(headerDiv);
+                itemDiv.appendChild(header);
                 itemDiv.appendChild(detailsDiv);
                 itemDiv.appendChild(editButton);
                 itemDiv.appendChild(deleteButton);
-
-                list.appendChild(itemDiv);
+                listElement.appendChild(itemDiv);
             });
         }
 
-        function addOrUpdateItem(event, section, mainFieldId, otherFieldsIds) {
-            event.preventDefault();
-
-            const mainField = document.getElementById(mainFieldId).value;
-            const otherFields = otherFieldsIds.reduce((acc, id) => {
-                acc[id] = document.getElementById(id).value;
-                return acc;
-            }, {});
-
-            const item = {
-                [mainFieldId]: mainField,
-                ...otherFields
-            };
-
-            let items = JSON.parse(localStorage.getItem(section)) || [];
-            items.push(item);
-            localStorage.setItem(section, JSON.stringify(items));
-
-            loadDataFromLocalStorage(section);
-            clearForm(`form${capitalizeFirstLetter(section)}`);
+        // Editar item
+        function editItem(key, index) {
+            const storedItems = JSON.parse(localStorage.getItem(key));
+            const item = storedItems[index];
+            document.getElementById(key === 'maquinas' ? 'nomeMaquina' : key === 'contas' ? 'nomeConta' : key === 'recebimentos' ? 'empresaRecebimento' : key === 'contratos' ? 'nomeContrato' : 'nomeEmpresa').value = item.name;
+            otherFieldIds.forEach((fieldId, i) => document.getElementById(fieldId).value = item.otherFields[i]);
         }
 
-        function loadDataFromLocalStorage(section) {
-            const listId = section + 'List';
-            const nameField = section === 'maquinas' ? 'nomeMaquina' :
-                              section === 'contas' ? 'nomeConta' :
-                              section === 'recebimentos' ? 'descricaoRecebimento' :
-                              section === 'contratos' ? 'nomeContrato' : 'nomeEmpresa';
-            const otherFields = section === 'maquinas' ? ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'] :
-                                section === 'contas' ? ['tipoConta', 'saldoConta'] :
-                                section === 'recebimentos' ? ['valorRecebimento', 'dataRecebimento'] :
-                                section === 'contratos' ? ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'] :
-                                ['cnpjEmpresa', 'enderecoEmpresa'];
-
-            const items = JSON.parse(localStorage.getItem(section)) || [];
-            renderItems(listId, items, nameField, otherFields, section);
+        // Excluir item
+        function deleteItem(key, index) {
+            const storedItems = JSON.parse(localStorage.getItem(key));
+            storedItems.splice(index, 1);
+            localStorage.setItem(key, JSON.stringify(storedItems));
+            renderItems(key + 'List', storedItems, 'nome' + key.charAt(0).toUpperCase() + key.slice(1), [], key);
         }
 
-        function deleteItem(section, index) {
-            let items = JSON.parse(localStorage.getItem(section));
-            items.splice(index, 1);
-            localStorage.setItem(section, JSON.stringify(items));
-            loadDataFromLocalStorage(section);
-        }
+        // Carregar itens do localStorage ao iniciar
+        document.addEventListener('DOMContentLoaded', () => {
+            ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'].forEach(key => {
+                const listId = key + 'List';
+                const nameField = key === 'maquinas' ? 'nomeMaquina' :
+                                 key === 'contas' ? 'nomeConta' :
+                                 key === 'recebimentos' ? 'empresaRecebimento' :
+                                 key === 'contratos' ? 'nomeContrato' : 'nomeEmpresa';
+                const otherFields = key === 'maquinas' ? ['serieMaquina', 'anosUsoMaquina', 'horimetroMaquina', 'ultimaManutencaoMaquina', 'dataEntradaMaquina'] :
+                                    key === 'contas' ? ['tipoConta', 'dataEmissaoConta', 'dataVencimentoConta', 'valorConta'] :
+                                    key === 'recebimentos' ? ['valorRecebimento', 'dataInicioRecebimento', 'dataVencimentoRecebimento', 'statusRecebimento'] :
+                                    key === 'contratos' ? ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'] :
+                                    ['cnpjEmpresa', 'areaAtuacaoEmpresa', 'representanteEmpresa', 'telefoneEmpresa', 'emailEmpresa'];
 
-        function editItem(section, index) {
-            let items = JSON.parse(localStorage.getItem(section));
-            const item = items[index];
-
-            document.getElementById(`${section}Form`).scrollIntoView();
-
-            document.getElementById(`nome${capitalizeFirstLetter(section)}`).value = item.mainField;
-            item.otherFields.forEach((field, idx) => {
-                document.getElementById(`field${idx}`).value = field;
+                const storedItems = JSON.parse(localStorage.getItem(key)) || [];
+                renderItems(listId, storedItems, nameField, otherFields, key);
             });
-        }
-
-        function clearForm(formId) {
-            document.getElementById(formId).reset();
-        }
-
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
+        });
     </script>
 </body>
 </html>
