@@ -110,3 +110,21 @@ td button {
 td button:hover {
     background-color: #c0392b;
 }
+
+/* Estilos para os botões de "alterar" e "excluir" */
+.button-edit {
+    background-color: #4CAF50; /* Verde para o botão de alterar */
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.button-delete {
+    background-color: #f44336; /* Vermelho para o botão de excluir */
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
