@@ -1,94 +1,75 @@
-// Funções de salvar e listar para Máquinas, Contas, Recebimentos, Contratos e Empresas
-document.addEventListener('DOMContentLoaded', () => {
-    const categorias = ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'];
-    
-    categorias.forEach(key => {
-        const form = document.getElementById(`form${capitalizeFirstLetter(key)}`);
-        const confirmarBtn = document.getElementById(`confirmar${capitalizeFirstLetter(key)}`);
-        const listaBtn = document.getElementById(`lista${capitalizeFirstLetter(key)}`);
-        const listContainer = document.getElementById(`${key}List`);
-
-        confirmarBtn.addEventListener('click', () => {
-            const item = getFormData(form);
-            saveToLocalStorage(key, item);
-            renderItems(listContainer, [item], form);
-            form.reset();
+// Função para renderizar os itens armazenados no localStorage
+function renderItems(listId, items, nameField, otherFields, key) {
+    const listContainer = document.getElementById(listId);
+    listContainer.innerHTML = '';
+    items.forEach((item, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('item');
+        
+        const button = document.createElement('button');
+        button.textContent = item[nameField];  // Nome do primeiro campo
+        
+        const infoDiv = document.createElement('div');
+        otherFields.forEach(field => {
+            const p = document.createElement('p');
+            p.innerHTML = `<span>${field.replace(/([A-Z])/g, ' $1').trim()}</span>: ${item[field]}`;
+            infoDiv.appendChild(p);
         });
 
-        listaBtn.addEventListener('click', () => {
-            const storedItems = getFromLocalStorage(key);
-            renderItems(listContainer, storedItems, form);
-        });
+        const alterarBtn = document.createElement('button');
+        alterarBtn.textContent = 'Alterar';
+        alterarBtn.addEventListener('click', () => alterarItem(key, index));
 
-        // Carrega os itens já salvos
-        const storedItems = getFromLocalStorage(key);
-        renderItems(listContainer, storedItems, form);
+        const excluirBtn = document.createElement('button');
+        excluirBtn.textContent = 'Excluir';
+        excluirBtn.addEventListener('click', () => excluirItem(key, index));
+
+        itemDiv.appendChild(button);
+        itemDiv.appendChild(infoDiv);
+        itemDiv.appendChild(alterarBtn);
+        itemDiv.appendChild(excluirBtn);
+
+        listContainer.appendChild(itemDiv);
     });
+}
 
-    function getFormData(form) {
-        const data = {};
-        Array.from(form.elements).forEach(input => {
-            if (input.tagName === 'INPUT') {
-                data[input.id] = input.value;
-            }
-        });
-        return data;
-    }
+// Funções de adicionar, alterar e excluir (similares para cada sessão)
+document.getElementById('confirmarMaquina').addEventListener('click', () => {
+    const nomeMaquina = document.getElementById('nomeMaquina').value;
+    const serieMaquina = document.getElementById('serieMaquina').value;
+    const anosUsoMaquina = document.getElementById('anosUsoMaquina').value;
+    
+    const maquinas = JSON.parse(localStorage.getItem('maquinas')) || [];
+    maquinas.push({ nomeMaquina, serieMaquina, anosUsoMaquina });
+    localStorage.setItem('maquinas', JSON.stringify(maquinas));
 
-    function saveToLocalStorage(key, item) {
-        const storedItems = JSON.parse(localStorage.getItem(key)) || [];
-        storedItems.push(item);
-        localStorage.setItem(key, JSON.stringify(storedItems));
-    }
+    renderItems('maquinasList', maquinas, 'nomeMaquina', ['serieMaquina', 'anosUsoMaquina'], 'maquinas');
+});
 
-    function getFromLocalStorage(key) {
-        return JSON.parse(localStorage.getItem(key)) || [];
-    }
+function excluirItem(key, index) {
+    const items = JSON.parse(localStorage.getItem(key));
+    items.splice(index, 1);
+    localStorage.setItem(key, JSON.stringify(items));
+    renderItems(`${key}List`, items, key === 'maquinas' ? 'nomeMaquina' : 'nomeConta', ['serieMaquina', 'anosUsoMaquina'], key);
+}
 
-    function renderItems(container, items, form) {
-        container.innerHTML = '';
-        items.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'item';
-            for (let field in item) {
-                const p = document.createElement('p');
-                p.textContent = `${getFriendlyFieldName(field)}: ${item[field]}`;
-                div.appendChild(p);
-            }
-            container.appendChild(div);
-        });
-    }
+function alterarItem(key, index) {
+    // Função para alterar item, abre campos editáveis
+}
 
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
-    function getFriendlyFieldName(field) {
-        const fieldsMap = {
-            nomeMaquina: 'Nome',
-            serieMaquina: 'Série',
-            anosUsoMaquina: 'Anos de Uso',
-            horimetroMaquina: 'Horímetro',
-            ultimaManutencaoMaquina: 'Última Manutenção',
-            dataEntradaMaquina: 'Data de Entrada',
-            nomeConta: 'Nome',
-            tipoConta: 'Tipo',
-            saldoConta: 'Saldo',
-            descricaoRecebimento: 'Descrição',
-            valorRecebimento: 'Valor',
-            dataRecebimento: 'Data',
-            nomeContrato: 'Nome',
-            locatarioContrato: 'Locatário',
-            cnpjContrato: 'CNPJ',
-            representanteContrato: 'Representante',
-            periodoContrato: 'Período',
-            valorContrato: 'Valor',
-            dataTerminoContrato: 'Data de Término',
-            equipamentoContrato: 'Equipamento',
-            nomeEmpresa: 'Nome',
-            cnpjEmpresa: 'CNPJ',
-            enderecoEmpresa: 'Endereço'
-        };
-        return fieldsMap[field] || field;
-    }
+// Carregar itens do localStorage ao iniciar
+document.addEventListener('DOMContentLoaded', () => {
+    ['maquinas', 'contas', 'recebimentos', 'contratos', 'empresas'].forEach(key => {
+        const listId = key + 'List';
+        const nameField = key === 'maquinas' ? 'nomeMaquina' :
+                         key === 'contas' ? 'nomeConta' :
+                         key === 'recebimentos' ? 'descricaoRecebimento' :
+                         key === 'contratos' ? 'nomeContrato' : 'nomeEmpresa';
+        const otherFields = key === 'maquinas' ? ['serieMaquina', 'anosUsoMaquina'] :
+                             key === 'contas' ? ['saldoConta'] :
+                             key === 'recebimentos' ? ['valorRecebimento'] :
+                             key === 'contratos' ? ['valorContrato'] : ['cnpjEmpresa'];
+        const items = JSON.parse(localStorage.getItem(key)) || [];
+        renderItems(listId, items, nameField, otherFields, key);
+    });
 });
