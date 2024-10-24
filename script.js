@@ -1,6 +1,6 @@
 // Função para adicionar uma nova linha na tabela e armazenar no localStorage
 function addRow(listId, form) {
-    const table = document.getElementById(listId);
+    const table = document.getElementById(listId).getElementsByTagName('tbody')[0]; // Adicionando na tag <tbody>
     const newRow = table.insertRow();
     
     let rowData = [];
@@ -25,73 +25,12 @@ function addRow(listId, form) {
     form.reset();
 }
 
-// Função para editar uma linha
-function editRow(button) {
-    const row = button.parentNode.parentNode;
-    const cells = row.getElementsByTagName('td');
-    
-    for (let i = 0; i < cells.length - 1; i++) {
-        const input = document.createElement('input');
-        input.value = cells[i].textContent;
-        cells[i].innerHTML = '';
-        cells[i].appendChild(input);
-    }
-    
-    button.textContent = 'Salvar';
-    button.setAttribute('onclick', 'saveRow(this)');
-}
-
-// Função para salvar uma linha editada
-function saveRow(button) {
-    const row = button.parentNode.parentNode;
-    const cells = row.getElementsByTagName('td');
-    
-    for (let i = 0; i < cells.length - 1; i++) {
-        cells[i].textContent = cells[i].getElementsByTagName('input')[0].value;
-    }
-    
-    button.textContent = 'Alterar';
-    button.setAttribute('onclick', 'editRow(this)');
-
-    // Atualizar o localStorage
-    updateLocalStorage(row);
-}
-
-// Função para excluir uma linha
-function deleteRow(button) {
-    const row = button.parentNode.parentNode;
-    const listId = row.parentNode.parentNode.id;
-    row.parentNode.removeChild(row);
-
-    // Atualizar o localStorage após a exclusão
-    let storedData = JSON.parse(localStorage.getItem(listId)) || [];
-    const rowIndex = row.rowIndex - 1;
-    storedData.splice(rowIndex, 1);
-    localStorage.setItem(listId, JSON.stringify(storedData));
-}
-
-// Função para atualizar localStorage após edição
-function updateLocalStorage(row) {
-    const listId = row.parentNode.parentNode.id;
-    const cells = row.getElementsByTagName('td');
-    const updatedRowData = [];
-
-    for (let i = 0; i < cells.length - 1; i++) {
-        updatedRowData.push(cells[i].textContent);
-    }
-
-    let storedData = JSON.parse(localStorage.getItem(listId)) || [];
-    const rowIndex = row.rowIndex - 1;
-    storedData[rowIndex] = updatedRowData;
-    localStorage.setItem(listId, JSON.stringify(storedData));
-}
-
 // Função para carregar os dados do localStorage ao carregar a página
 function loadTableData() {
     const lists = ['maquinaList', 'recebimentoList', 'contratoList', 'contaList', 'empresaList'];
 
     lists.forEach(listId => {
-        const table = document.getElementById(listId);
+        const table = document.getElementById(listId).getElementsByTagName('tbody')[0]; // Adicionando na tag <tbody>
         const storedData = JSON.parse(localStorage.getItem(listId)) || [];
 
         storedData.forEach(rowData => {
@@ -106,26 +45,8 @@ function loadTableData() {
     });
 }
 
-// Carregar os dados ao iniciar
+// Função para carregar os dados ao iniciar
 window.onload = loadTableData;
-
-// Mostrar ou esconder uma seção
-function showSection(sectionId) {
-    const sections = document.querySelectorAll('.section');
-    sections.forEach(section => {
-        section.style.display = 'none';
-    });
-    document.getElementById(sectionId).style.display = 'block';
-}
-
-// Função para alternar a exibição das listas (expandir/minimizar)
-function toggleList(listId) {
-    const list = document.getElementById(listId);
-    list.style.display = (list.style.display === 'none' || list.style.display === '') ? 'table' : 'none';
-}
-
-// Mostrar a primeira seção por padrão
-showSection('maquinasSection');
 
 // Adicionar evento de submit para os formulários
 document.getElementById('maquinaForm').addEventListener('submit', function(event) {
