@@ -18,7 +18,7 @@ body {
 
 .sidebar {
     width: 250px;
-    background-color: #556b2f; /* Verde musgo */
+    background-color: #556B2F; /* Verde musgo */
     color: white;
     padding: 20px;
     display: flex;
@@ -43,7 +43,7 @@ body {
 }
 
 .sidebar button:hover {
-    background-color: #6b8e23; /* Verde musgo mais claro ao passar o mouse */
+    background-color: #2E8B57; /* Verde musgo mais escuro */
 }
 
 .content {
@@ -100,11 +100,23 @@ th {
     color: white;
 }
 
+/* Aumentando o tamanho da coluna "Cláusulas" e permitindo quebra de linha */
+th.clausulas, td.clausulas {
+    width: 300px; /* Aumenta o espaço para cláusulas */
+    white-space: pre-wrap; /* Permite quebra de linha */
+}
+
 td button {
     background-color: #e74c3c;
     color: white;
     border: none;
     cursor: pointer;
+}
+
+/* Ajuste para alinhar os botões de "Excluir" e "Alterar" lado a lado */
+.actions {
+    display: flex;
+    justify-content: space-between;
 }
 
 td button:hover {
@@ -116,23 +128,14 @@ td button:hover {
     background-color: #4CAF50; /* Verde para o botão de alterar */
     color: white;
     border: none;
-    padding: 10px;
+    padding: 5px;
     cursor: pointer;
-    margin-right: 5px;
 }
 
 .button-delete {
     background-color: #f44336; /* Vermelho para o botão de excluir */
     color: white;
     border: none;
-    padding: 10px;
+    padding: 5px;
     cursor: pointer;
-}
-
-.button-edit:hover {
-    background-color: #45a049; /* Verde mais claro ao passar o mouse */
-}
-
-.button-delete:hover {
-    background-color: #d32f2f; /* Vermelho mais escuro ao passar o mouse */
 }
