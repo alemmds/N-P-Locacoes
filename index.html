@@ -16,6 +16,7 @@
             <button onclick="showSection('contasSection')">Contas</button>
             <button onclick="showSection('empresasSection')">Empresas</button>
         </div>
+
         <div class="content">
             <!-- Máquinas Section -->
             <div id="maquinasSection" class="section">
@@ -23,20 +24,23 @@
                 <form id="maquinaForm">
                     <input type="text" name="nome" placeholder="Nome da Máquina" required>
                     <input type="text" name="serie" placeholder="Série" required>
+                    <input type="number" name="anos" placeholder="Anos de Uso" required>
                     <input type="number" name="horas" placeholder="Horas Trabalhadas" required>
-                    <input type="number" name="tempoUso" placeholder="Tempo de Uso" required>
-                    <input type="number" name="horimetro" placeholder="Horímetro" required>
                     <button type="submit">Confirmar</button>
                 </form>
+
+                <!-- Campo de busca -->
+                <input type="text" id="searchMaquinas" placeholder="Buscar Máquinas...">
+                <button onclick="searchInTable('maquinaList', 'searchMaquinas')">Pesquisar</button>
+
                 <h3>Lista de Máquinas</h3>
                 <table id="maquinaList">
                     <thead>
                         <tr>
                             <th>Nome</th>
                             <th>Série</th>
+                            <th>Anos de Uso</th>
                             <th>Horas Trabalhadas</th>
-                            <th>Tempo de Uso</th>
-                            <th>Horímetro</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -48,16 +52,21 @@
             <div id="recebimentosSection" class="section">
                 <h2>Cadastrar Recebimento</h2>
                 <form id="recebimentoForm">
-                    <input type="text" name="empresa" placeholder="Nome da Empresa" required>
-                    <input type="number" name="valor" placeholder="Valor Recebido" required>
-                    <input type="date" name="inicio" required>
-                    <input type="date" name="vencimento" required>
+                    <input type="text" name="empresa" placeholder="Empresa" required>
+                    <input type="number" name="valor" placeholder="Valor" required>
+                    <input type="date" name="inicio" placeholder="Data de Início" required>
+                    <input type="date" name="vencimento" placeholder="Data de Vencimento" required>
                     <select name="status" required>
                         <option value="pago">Pago</option>
                         <option value="a_vencer">A Vencer</option>
                     </select>
                     <button type="submit">Confirmar</button>
                 </form>
+
+                <!-- Campo de busca -->
+                <input type="text" id="searchRecebimentos" placeholder="Buscar Recebimentos...">
+                <button onclick="searchInTable('recebimentoList', 'searchRecebimentos')">Pesquisar</button>
+
                 <h3>Lista de Recebimentos</h3>
                 <table id="recebimentoList">
                     <thead>
@@ -78,16 +87,21 @@
             <div id="contratosSection" class="section">
                 <h2>Cadastrar Contrato</h2>
                 <form id="contratoForm">
-                    <input type="text" name="empresa" placeholder="Nome da Empresa" required>
-                    <input type="date" name="inicio" required>
-                    <input type="date" name="termino" required>
-                    <input type="number" name="valor" placeholder="Valor" required>
-                    <input type="text" name="clausulas" placeholder="Cláusulas" required>
+                    <input type="text" name="empresa" placeholder="Empresa" required>
+                    <input type="date" name="inicio" placeholder="Data de Início" required>
+                    <input type="date" name="termino" placeholder="Data de Término" required>
+                    <input type="number" name="valor" placeholder="Valor do Contrato" required>
+                    <textarea name="clausulas" placeholder="Cláusulas" rows="4"></textarea>
                     <input type="text" name="contratante" placeholder="Nome do Contratante" required>
                     <input type="text" name="maquina" placeholder="Máquina" required>
-                    <input type="text" name="operador" placeholder="Nome do Operador" required>
+                    <input type="text" name="operador" placeholder="Operador" required>
                     <button type="submit">Confirmar</button>
                 </form>
+
+                <!-- Campo de busca -->
+                <input type="text" id="searchContratos" placeholder="Buscar Contratos...">
+                <button onclick="searchInTable('contratoList', 'searchContratos')">Pesquisar</button>
+
                 <h3>Lista de Contratos</h3>
                 <table id="contratoList">
                     <thead>
@@ -97,9 +111,6 @@
                             <th>Data de Término</th>
                             <th>Valor</th>
                             <th>Cláusulas</th>
-                            <th>Contratante</th>
-                            <th>Máquina</th>
-                            <th>Operador</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -112,11 +123,16 @@
                 <h2>Cadastrar Conta</h2>
                 <form id="contaForm">
                     <input type="text" name="tipo" placeholder="Tipo de Conta" required>
-                    <input type="date" name="emissao" required>
-                    <input type="date" name="vencimento" required>
+                    <input type="date" name="emissao" placeholder="Data de Emissão" required>
+                    <input type="date" name="vencimento" placeholder="Data de Vencimento" required>
                     <input type="number" name="valor" placeholder="Valor" required>
                     <button type="submit">Confirmar</button>
                 </form>
+
+                <!-- Campo de busca -->
+                <input type="text" id="searchContas" placeholder="Buscar Contas...">
+                <button onclick="searchInTable('contaList', 'searchContas')">Pesquisar</button>
+
                 <h3>Lista de Contas</h3>
                 <table id="contaList">
                     <thead>
@@ -140,10 +156,15 @@
                     <input type="text" name="cnpj" placeholder="CNPJ" required>
                     <input type="text" name="area" placeholder="Área de Atuação" required>
                     <input type="text" name="representante" placeholder="Nome do Representante" required>
-                    <input type="text" name="telefone" placeholder="Telefone" required>
-                    <input type="email" name="email" placeholder="E-mail" required>
+                    <input type="tel" name="telefone" placeholder="Telefone" required>
+                    <input type="email" name="email" placeholder="Email" required>
                     <button type="submit">Confirmar</button>
                 </form>
+
+                <!-- Campo de busca -->
+                <input type="text" id="searchEmpresas" placeholder="Buscar Empresas...">
+                <button onclick="searchInTable('empresaList', 'searchEmpresas')">Pesquisar</button>
+
                 <h3>Lista de Empresas</h3>
                 <table id="empresaList">
                     <thead>
@@ -153,7 +174,7 @@
                             <th>Área de Atuação</th>
                             <th>Representante</th>
                             <th>Telefone</th>
-                            <th>E-mail</th>
+                            <th>Email</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -162,6 +183,7 @@
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
