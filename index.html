@@ -217,8 +217,9 @@
                 <h2>Cadastro de Contas</h2>
                 <form id="formConta" onsubmit="addOrUpdateItem(event, 'contasList', 'nomeConta', ['tipoConta', 'saldoConta'], 'contas')">
                     <label>Nome da Conta:</label><input type="text" id="nomeConta" required><br>
-                    <label>Tipo:</label><input type="text" id="tipoConta" required><br>
-                    <label>Saldo:</label><input type="number" id="saldoConta" required><br>
+                    <label>Tipo:</label><input type="text" id="Tipo" required><br>
+                    <label>Valor:</label><input type="number" id="Valor" required><br>
+                    <label>Data de Vencimento:</label><input type="date" id="Data de Vencimento" required><br>
                     <div class="buttons">
                         <button type="submit">Confirmar</button>
                         <button type="button" class="clear-btn" onclick="clearForm('formConta')">Limpar</button>
@@ -233,9 +234,10 @@
             <section id="recebimentosSection" class="section" style="display:none;">
                 <h2>Cadastro de Recebimentos</h2>
                 <form id="formRecebimento" onsubmit="addOrUpdateItem(event, 'recebimentosList', 'descricaoRecebimento', ['valorRecebimento', 'dataRecebimento'], 'recebimentos')">
-                    <label>Descrição:</label><input type="text" id="descricaoRecebimento" required><br>
+                    <label>Empresa:</label><input type="text" id="Empresa" required><br>
                     <label>Valor:</label><input type="number" id="valorRecebimento" required><br>
-                    <label>Data:</label><input type="date" id="dataRecebimento" required><br>
+                    <label>Data de Início:</label><input type="date" id="Data de Início" required><br>
+                    <label>Data do Vencimento:</label><input type="date" id="Data do Vencimento" required><br>
                     <div class="buttons">
                         <button type="submit">Confirmar</button>
                         <button type="button" class="clear-btn" onclick="clearForm('formRecebimento')">Limpar</button>
@@ -250,14 +252,16 @@
             <section id="contratosSection" class="section" style="display:none;">
                 <h2>Cadastro de Contratos</h2>
                 <form id="formContrato" onsubmit="addOrUpdateItem(event, 'contratosList', 'nomeContrato', ['locatarioContrato', 'cnpjContrato', 'representanteContrato', 'periodoContrato', 'valorContrato', 'dataTerminoContrato', 'equipamentoContrato'], 'contratos')">
-                    <label>Nome do Contrato:</label><input type="text" id="nomeContrato" required><br>
+                    <label>Empresa:</label><input type="text" id="nomeContrato" required><br>
                     <label>Locatário:</label><input type="text" id="locatarioContrato" required><br>
                     <label>CNPJ:</label><input type="text" id="cnpjContrato" required><br>
                     <label>Representante:</label><input type="text" id="representanteContrato" required><br>
-                    <label>Período:</label><input type="text" id="periodoContrato" required><br>
+                    <label>Período de Locação:</label><input type="text" id="periodoContrato" required><br>
                     <label>Valor:</label><input type="number" id="valorContrato" required><br>
-                    <label>Data de Término:</label><input type="date" id="dataTerminoContrato" required><br>
-                    <label>Equipamento:</label><input type="text" id="equipamentoContrato" required><br>
+                    <label>Data de Início:</label><input type="date" id="Data de Início" required><br>
+                    <label>Data de Término:</label><input type="date" id="Data de Término" required><br>
+                    <label>Equipamento:</label><input type="text" id="Equipamento" required><br>
+                    <label>Operador:</label><input type="text" id="Operador" required><br>
                     <div class="buttons">
                         <button type="submit">Confirmar</button>
                         <button type="button" class="clear-btn" onclick="clearForm('formContrato')">Limpar</button>
@@ -273,8 +277,12 @@
                 <h2>Cadastro de Empresas</h2>
                 <form id="formEmpresa" onsubmit="addOrUpdateItem(event, 'empresasList', 'nomeEmpresa', ['cnpjEmpresa', 'enderecoEmpresa'], 'empresas')">
                     <label>Nome da Empresa:</label><input type="text" id="nomeEmpresa" required><br>
-                    <label>CNPJ:</label><input type="text" id="cnpjEmpresa" required><br>
-                    <label>Endereço:</label><input type="text" id="enderecoEmpresa" required><br>
+                    <label>CNPJ:</label><input type="text" id="CNPJ" required><br>
+                    <label>Área de Atuação:</label><input type="text" id="Área de Atuação" required><br>
+                    <label>Representante:</label><input type="text" id="Representante" required><br>
+                    <label>Telefone:</label><input type="number" id="Telefone" required><br>
+                    <label>E-mail:</label><input type="text" id="Email" required><br>
+                    
                     <div class="buttons">
                         <button type="submit">Confirmar</button>
                         <button type="button" class="clear-btn" onclick="clearForm('formEmpresa')">Limpar</button>
