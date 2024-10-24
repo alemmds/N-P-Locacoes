@@ -6,13 +6,15 @@ function addRow(listId, form) {
     let rowData = [];
 
     for (let i = 0; i < form.elements.length; i++) {
-        const newCell = newRow.insertCell(i);
-        const inputValue = form.elements[i].value;
-        newCell.textContent = inputValue;
-        rowData.push(inputValue);
+        if (form.elements[i].type !== 'submit') {
+            const newCell = newRow.insertCell(i);
+            const inputValue = form.elements[i].value;
+            newCell.textContent = inputValue;
+            rowData.push(inputValue);
+        }
     }
 
-    const actionCell = newRow.insertCell(form.elements.length);
+    const actionCell = newRow.insertCell(form.elements.length - 1);
     actionCell.innerHTML = `<button onclick="editRow(this)" class="button-edit">Alterar</button> <button onclick="deleteRow(this)" class="button-delete">Excluir</button>`;
     
     // Armazenar no localStorage
@@ -116,10 +118,10 @@ function showSection(sectionId) {
     document.getElementById(sectionId).style.display = 'block';
 }
 
-// Expandir ou minimizar lista
+// Função para alternar a exibição das listas (expandir/minimizar)
 function toggleList(listId) {
     const list = document.getElementById(listId);
-    list.style.display = (list.style.display === 'none') ? 'table' : 'none';
+    list.style.display = (list.style.display === 'none' || list.style.display === '') ? 'table' : 'none';
 }
 
 // Mostrar a primeira seção por padrão
