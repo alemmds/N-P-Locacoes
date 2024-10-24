@@ -1,102 +1,171 @@
-body {
-    font-family: Arial, sans-serif;
+/* Reset padrão para garantir consistência entre navegadores */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f5;
+    margin: 0;
+    padding: 0;
     display: flex;
+    min-height: 100vh;
 }
 
+/* Estilo da barra lateral */
 .sidebar {
-    width: 200px;
-    background-color: #2c3e50;
+    width: 220px;
+    background-color: #1a1a2e;
     color: white;
+    height: 100vh;
     padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    position: fixed;
 }
 
-.sidebar .logo {
-    width: 100%;
-    margin-bottom: 20px;
+.sidebar img.logo {
+    width: 180px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: cover;
+    padding: 10px;
+    background-color: white;
 }
 
 .sidebar nav ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
+    margin-top: 20px;
 }
 
 .sidebar nav ul li {
-    margin: 10px 0;
+    margin: 20px 0;
 }
 
 .sidebar nav ul li a {
     color: white;
     text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 10px 20px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
 }
 
+.sidebar nav ul li a:hover {
+    background-color: #ff4b5c;
+}
+
+/* Estilo do conteúdo principal */
 .main-content {
-    flex: 1;
-    padding: 20px;
+    flex-grow: 1;
+    padding: 40px;
+    margin-left: 240px;
 }
 
 h2 {
-    color: #2c3e50;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 28px;
 }
 
 form {
-    margin-bottom: 20px;
+    background-color: white;
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 label {
     display: block;
-    margin: 5px 0;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #555;
 }
 
-input {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 10px;
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+input:focus, select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 button {
-    background-color: #2980b9;
+    padding: 12px 30px;
+    background-color: #007bff;
     color: white;
-    padding: 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #3498db;
+    background-color: #0056b3;
 }
 
-h3 {
-    margin-top: 20px;
-    color: #2980b9;
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
 
-#maquinasList, #contasList, #recebimentosList, #contratosList, #empresasList {
-    margin-top: 10px;
+/* Estilo dos itens listados */
+.item {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.3s ease;
 }
 
-.item-button {
-    display: flex;
-    justify-content: space-between;
-    background-color: #ecf0f1;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    cursor: pointer;
+.item:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
-.item-button:hover {
-    background-color: #bdc3c7;
+.item p {
+    margin: 8px 0;
+    font-size: 14px;
+    color: #333;
 }
 
-.item-buttons {
-    display: flex;
-    gap: 10px;
+/* Estilo para tornar os itens mais legíveis e organizados */
+.item p span {
+    font-weight: bold;
+    color: #007bff;
 }
 
-.hidden {
-    display: none;
+/* Ajustes responsivos */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .sidebar img.logo {
+        width: 100px;
+        margin: 0 auto 20px;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 20px;
+    }
 }
