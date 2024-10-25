@@ -1,14 +1,13 @@
-// Função para salvar dados no Local Storage
+// Função para salvar dados no Local Storage e carregar os dados salvos
 function saveToLocalStorage(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
 }
 
-// Função para carregar dados do Local Storage
 function loadFromLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key)) || [];
 }
 
-// Função para adicionar um novo item ou atualizar um existente
+// Função para adicionar um novo botão ou salvar edição no Local Storage
 function addButton(containerId, form, storageKey, editIndex = null) {
     const formData = {};
     for (let i = 0; i < form.elements.length; i++) {
@@ -19,16 +18,16 @@ function addButton(containerId, form, storageKey, editIndex = null) {
 
     const dataList = loadFromLocalStorage(storageKey);
     if (editIndex === null) {
-        dataList.push(formData); // Adiciona um novo item se não houver índice de edição
+        dataList.push(formData); // Adiciona novo item
     } else {
-        dataList[editIndex] = formData; // Atualiza o item no índice especificado
+        dataList[editIndex] = formData; // Atualiza item
     }
     saveToLocalStorage(storageKey, dataList);
     
     updateButtons(containerId, storageKey);
     form.reset();
-    form.removeAttribute('data-edit-index'); // Remove o índice de edição após salvar
-    document.getElementById(`alterar${containerId.replace('Container', '')}`).style.display = 'none'; // Oculta o botão de edição
+    form.removeAttribute('data-edit-index'); // Remove índice de edição
+    document.getElementById(`alterar${containerId.replace('Container', '')}`).style.display = 'none';
 }
 
 // Função para atualizar os botões no contêiner com os dados salvos
@@ -36,20 +35,20 @@ function updateButtons(containerId, storageKey) {
     const container = document.getElementById(containerId);
     const dataList = loadFromLocalStorage(storageKey);
     
-    container.innerHTML = ''; // Limpa o contêiner
+    container.innerHTML = ''; // Limpa contêiner
 
     dataList.forEach((data, index) => {
         const button = document.createElement('button');
         button.classList.add('data-button');
-        button.textContent = data[Object.keys(data)[0]]; // Usa o primeiro campo como rótulo do botão
+        button.textContent = data[Object.keys(data)[0]]; // Usa o primeiro campo como rótulo
         button.onclick = () => showDetails(data);
         
         const actionsContainer = document.createElement('div');
         actionsContainer.classList.add('actions');
-        actionsContainer.innerHTML = `<button class="button-edit" onclick="editItem('${containerId}', '${storageKey}', ${index})">Alterar</button>
-                                      <button class="button-delete" onclick="deleteItem('${containerId}', '${storageKey}', ${index})">Excluir</button>`;
+        actionsContainer.innerHTML = `
+            <button class="button-edit" onclick="editItem('${containerId}', '${storageKey}', ${index})">Alterar</button>
+            <button class="button-delete" onclick="deleteItem('${containerId}', '${storageKey}', ${index})">Excluir</button>`;
         
-        // Agrupa o botão e as ações
         const itemActions = document.createElement('div');
         itemActions.classList.add('item-actions');
         itemActions.appendChild(button);
@@ -74,15 +73,11 @@ function editItem(containerId, storageKey, index) {
     const form = document.querySelector(`#${containerId.replace('Container', 'Form')}`);
     const data = dataList[index];
 
-    // Preenche o formulário com os dados do item
     Object.keys(data).forEach(key => {
         form.querySelector(`[name="${key}"]`).value = data[key];
     });
 
-    // Define o índice de edição no formulário
     form.setAttribute('data-edit-index', index);
-    
-    // Exibe o botão de edição
     document.getElementById(`alterar${containerId.replace('Container', '')}`).style.display = 'inline';
 }
 
@@ -103,7 +98,7 @@ function showSection(sectionId) {
     document.getElementById(sectionId).style.display = 'block';
 }
 
-// Função para carregar os botões com os dados salvos ao carregar a página
+// Carregar os botões com dados salvos ao carregar a página
 window.onload = function() {
     updateButtons('maquinasContainer', 'maquinas');
     updateButtons('recebimentosContainer', 'recebimentos');
@@ -156,12 +151,12 @@ function searchInButtons(containerId, searchInputId) {
     });
 }
 
-// Função para confirmar busca ao clicar no botão "Confirmar"
+// Confirmar busca
 function confirmSearch(containerId, searchInputId) {
     searchInButtons(containerId, searchInputId);
 }
 
-// Registrar o Service Worker
+// Registrar Service Worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
