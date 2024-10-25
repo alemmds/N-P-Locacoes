@@ -124,7 +124,7 @@ th {
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.3s;
-    flex: 2; /* Faz o botão ocupar mais espaço */
+    flex: 1; /* Faz o botão ocupar toda a largura disponível */
     text-align: center; /* Centraliza o texto no botão */
     font-size: 16px; /* Aumenta o tamanho da fonte para melhor legibilidade */
 }
@@ -137,6 +137,7 @@ th {
 .button-edit,
 .button-delete {
     padding: 10px 15px; /* Aumentando o padding para botões maiores */
+    width: 100px; /* Definindo uma largura fixa para os botões de editar e excluir */
     margin-left: 10px; /* Espaçamento entre os botões de item e de ação */
     border: none;
     border-radius: 4px;
@@ -201,11 +202,12 @@ th {
 /* Estilos para os botões de itens e informações */
 .item-actions {
     display: flex;
-    justify-content: flex-start; /* Espaça os botões de item e os de ação */
     align-items: center; /* Alinha verticalmente os botões */
     margin-bottom: 10px; /* Espaçamento entre os grupos de botões */
+    justify-content: space-between; /* Espaça os botões de item e os de ação */
 }
 
 .item-actions .data-button {
+    flex: 1; /* Faz o botão de item ocupar todo o espaço disponível */
     margin-right: 10px; /* Margem à direita para espaçamento */
 }
