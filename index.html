@@ -38,6 +38,7 @@
                 <label for="horimetro">Horímetro:</label>
                 <input type="number" name="horimetro" id="horimetro" required>
                 <button type="submit">Adicionar Máquina</button>
+                <button type="button" id="alterarMaquina" style="display: none;">Alterar</button>
             </form>
 
             <!-- Campo de Busca e botão "Todas as Máquinas" -->
@@ -48,20 +49,7 @@
             <button onclick="showAllItems('maquinas')">Todas as Máquinas</button>
 
             <!-- Container de Máquinas -->
-            <div id="maquinasContainer" class="items-container">
-                <!-- Exemplo de um item cadastrado -->
-                <div class="item-actions">
-                    <button class="data-button">Nome da Máquina 1</button>
-                    <button class="button-edit">Alterar</button>
-                    <button class="button-delete">Excluir</button>
-                </div>
-                <div class="item-actions">
-                    <button class="data-button">Nome da Máquina 2</button>
-                    <button class="button-edit">Alterar</button>
-                    <button class="button-delete">Excluir</button>
-                </div>
-                <!-- Adicione mais itens conforme necessário -->
-            </div>
+            <div id="maquinasContainer" class="items-container"></div>
         </section>
 
         <!-- Seção Contas -->
@@ -77,6 +65,7 @@
                 <label for="valor">Valor:</label>
                 <input type="number" name="valor" id="valor" required>
                 <button type="submit">Adicionar Conta</button>
+                <button type="button" id="alterarConta" style="display: none;">Alterar</button>
             </form>
 
             <!-- Campo de Busca e botão "Todas as Contas" -->
@@ -98,7 +87,7 @@
                 <input type="text" name="empresa" id="empresa" required>
                 <label for="valor">Valor:</label>
                 <input type="number" name="valor" id="valor" required>
-                <label for="dataInicio">Data de Início:</label>
+                <label for="dataInicio">Data de                 Início:</label>
                 <input type="date" name="dataInicio" id="dataInicio" required>
                 <label for="dataVencimento">Data de Vencimento:</label>
                 <input type="date" name="dataVencimento" id="dataVencimento" required>
@@ -108,6 +97,7 @@
                     <option value="aVencer">A Vencer</option>
                 </select>
                 <button type="submit">Adicionar Recebimento</button>
+                <button type="button" id="alterarRecebimento" style="display: none;">Alterar</button>
             </form>
 
             <!-- Campo de Busca e botão "Todos os Recebimentos" -->
@@ -142,6 +132,7 @@
                 <label for="operador">Operador:</label>
                 <input type="text" name="operador" id="operador" required>
                 <button type="submit">Adicionar Contrato</button>
+                <button type="button" id="alterarContrato" style="display: none;">Alterar</button>
             </form>
 
             <!-- Campo de Busca e botão "Todos os Contratos" -->
@@ -172,6 +163,7 @@
                 <label for="email">E-mail:</label>
                 <input type="email" name="email" id="email" required>
                 <button type="submit">Adicionar Empresa</button>
+                <button type="button" id="alterarEmpresa" style="display: none;">Alterar</button>
             </form>
 
             <!-- Campo de Busca e botão "Todas as Empresas" -->
