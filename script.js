@@ -7,7 +7,7 @@ function loadFromLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key)) || [];
 }
 
-// Função para adicionar um novo botão ou salvar edição no Local Storage
+// Função para adicionar ou salvar edição e atualizar Local Storage
 function addButton(containerId, form, storageKey, editIndex = null) {
     const formData = {};
     for (let i = 0; i < form.elements.length; i++) {
@@ -18,23 +18,23 @@ function addButton(containerId, form, storageKey, editIndex = null) {
 
     const dataList = loadFromLocalStorage(storageKey);
     if (editIndex === null) {
-        dataList.push(formData); // Adiciona novo item
+        dataList.push(formData); // Adiciona um novo item
     } else {
-        dataList[editIndex] = formData; // Atualiza item
+        dataList[editIndex] = formData; // Atualiza item no índice de edição
     }
     saveToLocalStorage(storageKey, dataList);
-    
+
     updateButtons(containerId, storageKey);
     form.reset();
-    form.removeAttribute('data-edit-index'); // Remove índice de edição
+    form.removeAttribute('data-edit-index'); // Remove índice de edição após salvar
     document.getElementById(`alterar${containerId.replace('Container', '')}`).style.display = 'none';
 }
 
-// Função para atualizar os botões no contêiner com os dados salvos
+// Função para atualizar os botões no contêiner
 function updateButtons(containerId, storageKey) {
     const container = document.getElementById(containerId);
     const dataList = loadFromLocalStorage(storageKey);
-    
+
     container.innerHTML = ''; // Limpa contêiner
 
     dataList.forEach((data, index) => {
@@ -42,23 +42,23 @@ function updateButtons(containerId, storageKey) {
         button.classList.add('data-button');
         button.textContent = data[Object.keys(data)[0]]; // Usa o primeiro campo como rótulo
         button.onclick = () => showDetails(data);
-        
+
         const actionsContainer = document.createElement('div');
         actionsContainer.classList.add('actions');
         actionsContainer.innerHTML = `
             <button class="button-edit" onclick="editItem('${containerId}', '${storageKey}', ${index})">Alterar</button>
             <button class="button-delete" onclick="deleteItem('${containerId}', '${storageKey}', ${index})">Excluir</button>`;
-        
+
         const itemActions = document.createElement('div');
         itemActions.classList.add('item-actions');
         itemActions.appendChild(button);
         itemActions.appendChild(actionsContainer);
-        
+
         container.appendChild(itemActions);
     });
 }
 
-// Função para exibir detalhes do item
+// Função para exibir detalhes de um item
 function showDetails(data) {
     let details = '';
     Object.entries(data).forEach(([key, value]) => {
@@ -73,10 +73,13 @@ function editItem(containerId, storageKey, index) {
     const form = document.querySelector(`#${containerId.replace('Container', 'Form')}`);
     const data = dataList[index];
 
+    // Preenche o formulário com os dados do item selecionado
     Object.keys(data).forEach(key => {
-        form.querySelector(`[name="${key}"]`).value = data[key];
+        const input = form.querySelector(`[name="${key}"]`);
+        if (input) input.value = data[key];
     });
 
+    // Define índice de edição
     form.setAttribute('data-edit-index', index);
     document.getElementById(`alterar${containerId.replace('Container', '')}`).style.display = 'inline';
 }
@@ -89,7 +92,7 @@ function deleteItem(containerId, storageKey, index) {
     updateButtons(containerId, storageKey);
 }
 
-// Função para mostrar uma seção específica
+// Função para mostrar seção específica
 function showSection(sectionId) {
     const sections = document.querySelectorAll('.section');
     sections.forEach(section => {
@@ -98,7 +101,7 @@ function showSection(sectionId) {
     document.getElementById(sectionId).style.display = 'block';
 }
 
-// Carregar os botões com dados salvos ao carregar a página
+// Carregar botões salvos ao carregar a página
 window.onload = function() {
     updateButtons('maquinasContainer', 'maquinas');
     updateButtons('recebimentosContainer', 'recebimentos');
@@ -138,7 +141,7 @@ document.getElementById('empresaForm').addEventListener('submit', function(event
     addButton('empresasContainer', this, 'empresas', editIndex !== null ? Number(editIndex) : null);
 });
 
-// Função para buscar entre os botões
+// Função para busca nos botões
 function searchInButtons(containerId, searchInputId) {
     const input = document.getElementById(searchInputId);
     const filter = input.value.toLowerCase();
@@ -151,7 +154,7 @@ function searchInButtons(containerId, searchInputId) {
     });
 }
 
-// Confirmar busca
+// Função para confirmar busca
 function confirmSearch(containerId, searchInputId) {
     searchInButtons(containerId, searchInputId);
 }
