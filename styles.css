@@ -14,7 +14,7 @@ header {
 }
 
 .logo {
-    width: 150px; /* Ajuste o tamanho da logo conforme necessário */
+    width: 150px;
 }
 
 .container {
@@ -43,16 +43,16 @@ header {
 
 /* Estilo das Seções */
 .section {
-    display: none; /* Esconde as seções por padrão */
+    display: none;
     padding: 20px;
-    flex-grow: 1; /* Permite que a seção ocupe o restante do espaço */
+    flex-grow: 1;
     background-color: white;
     border-radius: 5px;
     margin-left: 20px;
 }
 
 .section h2 {
-    color: #4caf50; /* Cor verde musgo */
+    color: #4caf50;
 }
 
 /* Estilos dos Formulários */
@@ -65,8 +65,7 @@ form label {
     margin: 10px 0 5px;
 }
 
-form input,
-form select {
+form input {
     width: calc(100% - 22px);
     padding: 10px;
     border: 1px solid #ccc;
@@ -74,7 +73,7 @@ form select {
 }
 
 form button {
-    background-color: #4caf50; /* Cor verde musgo */
+    background-color: #4caf50;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -104,7 +103,7 @@ th, td {
 }
 
 th {
-    background-color: #4caf50; /* Cor verde musgo */
+    background-color: #4caf50;
     color: white;
 }
 
@@ -116,7 +115,7 @@ th {
 
 .button-edit,
 .button-delete {
-    background-color: #f44336; /* Vermelho para excluir */
+    background-color: #f44336;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -126,7 +125,7 @@ th {
 }
 
 .button-edit {
-    background-color: #2196F3; /* Azul para editar */
+    background-color: #2196F3;
 }
 
 .button-edit:hover {
@@ -137,9 +136,11 @@ th {
     background-color: #d32f2f;
 }
 
-/* Estilos do Campo de Busca */
+/* Campo de busca */
 .search-container {
-    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .search-container input {
@@ -150,7 +151,7 @@ th {
 }
 
 .search-container button {
-    background-color: #4caf50; /* Cor verde musgo */
+    background-color: #4caf50;
     color: white;
     padding: 10px 15px;
     border: none;
