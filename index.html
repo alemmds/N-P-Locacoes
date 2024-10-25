@@ -40,27 +40,18 @@
                 <button type="submit">Adicionar Máquina</button>
             </form>
 
-            <!-- Campo de Busca -->
+            <!-- Campo de Busca e botão "Todas as Máquinas" -->
             <div class="search-container">
                 <input class="search-input" id="maquinaSearch" placeholder="Pesquisar máquina...">
-                <button onclick="confirmSearch('maquinaList', 'maquinaSearch')">Confirmar</button>
+                <button onclick="confirmSearch('maquinasContainer', 'maquinaSearch')">Confirmar</button>
             </div>
+            <button onclick="showAllItems('maquinas')">Todas as Máquinas</button>
 
-            <!-- Tabela de Máquinas -->
-            <table id="maquinaList">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Série</th>
-                        <th>Anos de Uso</th>
-                        <th>Horas Trabalhadas</th>
-                        <th>Horímetro</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <!-- Container de Máquinas -->
+            <div id="maquinasContainer" class="items-container"></div>
         </section>
+
+        <!-- Estrutura semelhante para as outras seções (Contas, Recebimentos, Contratos, Empresas) -->
 
         <!-- Seção Contas -->
         <section id="contaSection" class="section">
@@ -77,23 +68,15 @@
                 <button type="submit">Adicionar Conta</button>
             </form>
 
+            <!-- Campo de Busca e botão "Todas as Contas" -->
             <div class="search-container">
                 <input class="search-input" id="contaSearch" placeholder="Pesquisar conta...">
-                <button onclick="confirmSearch('contaList', 'contaSearch')">Confirmar</button>
+                <button onclick="confirmSearch('contasContainer', 'contaSearch')">Confirmar</button>
             </div>
+            <button onclick="showAllItems('contas')">Todas as Contas</button>
 
-            <table id="contaList">
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Data de Emissão</th>
-                        <th>Data de Vencimento</th>
-                        <th>Valor</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <!-- Container de Contas -->
+            <div id="contasContainer" class="items-container"></div>
         </section>
 
         <!-- Seção Recebimentos -->
@@ -116,24 +99,15 @@
                 <button type="submit">Adicionar Recebimento</button>
             </form>
 
+            <!-- Campo de Busca e botão "Todos os Recebimentos" -->
             <div class="search-container">
                 <input class="search-input" id="recebimentoSearch" placeholder="Pesquisar recebimento...">
-                <button onclick="confirmSearch('recebimentoList', 'recebimentoSearch')">Confirmar</button>
+                <button onclick="confirmSearch('recebimentosContainer', 'recebimentoSearch')">Confirmar</button>
             </div>
+            <button onclick="showAllItems('recebimentos')">Todos os Recebimentos</button>
 
-            <table id="recebimentoList">
-                <thead>
-                    <tr>
-                        <th>Empresa</th>
-                        <th>Valor</th>
-                        <th>Data de Início</th>
-                        <th>Data de Vencimento</th>
-                        <th>Status</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <!-- Container de Recebimentos -->
+            <div id="recebimentosContainer" class="items-container"></div>
         </section>
 
         <!-- Seção Contratos -->
@@ -159,27 +133,15 @@
                 <button type="submit">Adicionar Contrato</button>
             </form>
 
+            <!-- Campo de Busca e botão "Todos os Contratos" -->
             <div class="search-container">
                 <input class="search-input" id="contratoSearch" placeholder="Pesquisar contrato...">
-                <button onclick="confirmSearch('contratoList', 'contratoSearch')">Confirmar</button>
+                <button onclick="confirmSearch('contratosContainer', 'contratoSearch')">Confirmar</button>
             </div>
+            <button onclick="showAllItems('contratos')">Todos os Contratos</button>
 
-            <table id="contratoList">
-                <thead>
-                    <tr>
-                        <th>Empresa</th>
-                        <th>Data de Início</th>
-                        <th>Data de Vencimento</th>
-                        <th>Valor</th>
-                        <th>Cláusulas</th>
-                        <th>Nome do Contratante</th>
-                        <th>Máquina</th>
-                        <th>Operador</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <!-- Container de Contratos -->
+            <div id="contratosContainer" class="items-container"></div>
         </section>
 
         <!-- Seção Empresas -->
@@ -191,7 +153,6 @@
                 <label for="cnpj">CNPJ:</label>
                 <input type="text" name="cnpj" id="cnpj" required>
                 <label for="areaAtuacao">Área de Atuação:</label>
-                <label for="areaAtuacao">Área de Atuação:</label>
                 <input type="text" name="areaAtuacao" id="areaAtuacao" required>
                 <label for="representante">Representante:</label>
                 <input type="text" name="representante" id="representante" required>
@@ -202,25 +163,15 @@
                 <button type="submit">Adicionar Empresa</button>
             </form>
 
+            <!-- Campo de Busca e botão "Todas as Empresas" -->
             <div class="search-container">
                 <input class="search-input" id="empresaSearch" placeholder="Pesquisar empresa...">
-                <button onclick="confirmSearch('empresaList', 'empresaSearch')">Confirmar</button>
+                <button onclick="confirmSearch('empresasContainer', 'empresaSearch')">Confirmar</button>
             </div>
+            <button onclick="showAllItems('empresas')">Todas as Empresas</button>
 
-            <table id="empresaList">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>CNPJ</th>
-                        <th>Área de Atuação</th>
-                        <th>Representante</th>
-                        <th>Telefone</th>
-                        <th>E-mail</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <!-- Container de Empresas -->
+            <div id="empresasContainer" class="items-container"></div>
         </section>
     </div>
 
