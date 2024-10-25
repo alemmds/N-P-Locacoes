@@ -1,13 +1,14 @@
-// Função para salvar dados no Local Storage e carregar os dados salvos
+// Função para salvar dados no Local Storage
 function saveToLocalStorage(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
 }
 
+// Função para carregar dados do Local Storage
 function loadFromLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key)) || [];
 }
 
-// Função para adicionar um novo botão à lista ou salvar edição, e salvar no Local Storage
+// Função para adicionar um novo item ou atualizar um existente
 function addButton(containerId, form, storageKey, editIndex = null) {
     const formData = {};
     for (let i = 0; i < form.elements.length; i++) {
