@@ -7,8 +7,8 @@ function loadFromLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key)) || [];
 }
 
-// Função para adicionar um novo botão à lista e salvar no Local Storage
-function addButton(containerId, form, storageKey) {
+// Função para adicionar ou editar um botão à lista e salvar no Local Storage
+function addButton(containerId, form, storageKey, editIndex = null) {
     const formData = {};
     for (let i = 0; i < form.elements.length; i++) {
         if (form.elements[i].name) {
@@ -17,11 +17,16 @@ function addButton(containerId, form, storageKey) {
     }
 
     const dataList = loadFromLocalStorage(storageKey);
-    dataList.push(formData);
+    if (editIndex === null) {
+        dataList.push(formData); // Adiciona um novo item se editIndex não estiver definido
+    } else {
+        dataList[editIndex] = formData; // Atualiza o item em editIndex
+    }
     saveToLocalStorage(storageKey, dataList);
     
     updateButtons(containerId, storageKey);
     form.reset();
+    form.removeAttribute('data-edit-index'); // Remove o índice de edição após confirmar
 }
 
 // Função para atualizar os botões no contêiner com os dados salvos
@@ -72,33 +77,21 @@ function editItem(containerId, storageKey, index) {
         form.querySelector(`[name="${key}"]`).value = data[key];
     });
 
-    // Atualiza o botão "Confirmar" para salvar as edições
-    form.onsubmit = function(event) {
-        event.preventDefault();
-        saveEditedItem(containerId, form, storageKey, index);
-    };
+    // Armazena o índice do item em edição no atributo do formulário
+    form.setAttribute('data-edit-index', index);
 }
 
-// Função para salvar a edição de um item
-function saveEditedItem(containerId, form, storageKey, index) {
-    const dataList = loadFromLocalStorage(storageKey);
-    const updatedData = {};
-    for (let i = 0; i < form.elements.length; i++) {
-        if (form.elements[i].name) {
-            updatedData[form.elements[i].name] = form.elements[i].value;
-        }
-    }
-    dataList[index] = updatedData;
-    saveToLocalStorage(storageKey, dataList);
-    updateButtons(containerId, storageKey);
-    form.reset();
-
-    // Reseta o comportamento do botão "Confirmar"
-    form.onsubmit = function(event) {
+// Evento de envio para adicionar ou editar item com base no atributo data-edit-index
+document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', function(event) {
         event.preventDefault();
-        addButton(containerId, form, storageKey);
-    };
-}
+        const containerId = form.id.replace('Form', 'Container');
+        const storageKey = containerId.replace('Container', '').toLowerCase();
+        const editIndex = form.getAttribute('data-edit-index');
+
+        addButton(containerId, form, storageKey, editIndex !== null ? parseInt(editIndex) : null);
+    });
+});
 
 // Função para excluir um item
 function deleteItem(containerId, storageKey, index) {
