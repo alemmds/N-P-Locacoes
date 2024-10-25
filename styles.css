@@ -138,7 +138,6 @@ th {
 .button-delete {
     padding: 10px 15px; /* Aumentando o padding para botões maiores */
     width: 100px; /* Definindo uma largura fixa para os botões de editar e excluir */
-    margin-left: 10px; /* Espaçamento entre os botões de item e de ação */
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -208,6 +207,13 @@ th {
 }
 
 .item-actions .data-button {
-    flex: 1; /* Faz o botão de item ocupar todo o espaço disponível */
+    flex: 2; /* O botão de item ocupa mais espaço */
     margin-right: 10px; /* Margem à direita para espaçamento */
+}
+
+/* Alinhamento dos botões de ação "Alterar" e "Excluir" */
+.item-actions .button-edit,
+.item-actions .button-delete {
+    margin-left: 10px; /* Margem à esquerda para espaçamento */
+    flex: 1; /* Para que tenham uma largura igual */
 }
