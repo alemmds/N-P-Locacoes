@@ -111,31 +111,32 @@ window.onload = function() {
 document.getElementById('maquinaForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const editIndex = this.getAttribute('data-edit-index');
-    addButton('maquinasContainer', this, 'maquinas', editIndex ? Number(editIndex) : null);
+    // Converte o índice de edição para número, se existir, ou passa como `null` para adicionar um novo item
+    addButton('maquinasContainer', this, 'maquinas', editIndex !== null ? Number(editIndex) : null);
 });
 
 document.getElementById('recebimentoForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const editIndex = this.getAttribute('data-edit-index');
-    addButton('recebimentosContainer', this, 'recebimentos', editIndex ? Number(editIndex) : null);
+    addButton('recebimentosContainer', this, 'recebimentos', editIndex !== null ? Number(editIndex) : null);
 });
 
 document.getElementById('contratoForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const editIndex = this.getAttribute('data-edit-index');
-    addButton('contratosContainer', this, 'contratos', editIndex ? Number(editIndex) : null);
+    addButton('contratosContainer', this, 'contratos', editIndex !== null ? Number(editIndex) : null);
 });
 
 document.getElementById('contaForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const editIndex = this.getAttribute('data-edit-index');
-    addButton('contasContainer', this, 'contas', editIndex ? Number(editIndex) : null);
+    addButton('contasContainer', this, 'contas', editIndex !== null ? Number(editIndex) : null);
 });
 
 document.getElementById('empresaForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const editIndex = this.getAttribute('data-edit-index');
-    addButton('empresasContainer', this, 'empresas', editIndex ? Number(editIndex) : null);
+    addButton('empresasContainer', this, 'empresas', editIndex !== null ? Number(editIndex) : null);
 });
 
 // Função para buscar entre os botões
