@@ -27,6 +27,7 @@ function addButton(containerId, form, storageKey, editIndex = null) {
     updateButtons(containerId, storageKey);
     form.reset();
     form.removeAttribute('data-edit-index'); // Remove o índice de edição após salvar
+    document.getElementById(`alterar${containerId.replace('Container', '')}`).style.display = 'none'; // Oculta o botão de edição
 }
 
 // Função para atualizar os botões no contêiner com os dados salvos
@@ -79,6 +80,9 @@ function editItem(containerId, storageKey, index) {
 
     // Define o índice de edição no formulário
     form.setAttribute('data-edit-index', index);
+    
+    // Exibe o botão de edição
+    document.getElementById(`alterar${containerId.replace('Container', '')}`).style.display = 'inline';
 }
 
 // Função para excluir um item
@@ -111,7 +115,6 @@ window.onload = function() {
 document.getElementById('maquinaForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const editIndex = this.getAttribute('data-edit-index');
-    // Converte o índice de edição para número, se existir, ou passa como `null` para adicionar um novo item
     addButton('maquinasContainer', this, 'maquinas', editIndex !== null ? Number(editIndex) : null);
 });
 
