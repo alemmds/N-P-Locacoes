@@ -124,7 +124,7 @@ th {
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.3s;
-    width: calc(100% - 20px); /* Faz o botão ocupar toda a largura disponível */
+    flex: 1; /* Faz o botão ocupar toda a largura disponível */
     text-align: center; /* Centraliza o texto no botão */
     font-size: 16px; /* Aumenta o tamanho da fonte para melhor legibilidade */
 }
@@ -134,10 +134,14 @@ th {
 }
 
 /* Estilo específico para os botões de ação de editar e excluir */
-.button-edit {
-    background-color: #2196F3;
+.button-edit,
+.button-delete {
     padding: 10px 15px; /* Aumentando o padding para botões maiores */
     width: 100px; /* Definindo uma largura fixa para os botões de editar */
+}
+
+.button-edit {
+    background-color: #2196F3;
 }
 
 .button-edit:hover {
@@ -146,8 +150,6 @@ th {
 
 .button-delete {
     background-color: #f44336;
-    padding: 10px 15px; /* Aumentando o padding para botões maiores */
-    width: 100px; /* Definindo uma largura fixa para os botões de deletar */
 }
 
 .button-delete:hover {
@@ -190,4 +192,17 @@ th {
     .menu {
         width: 100%;
     }
+}
+
+/* Estilos para os botões de itens e informações */
+.item-actions {
+    display: flex;
+    justify-content: space-between; /* Espaça os botões de item e os de ação */
+    align-items: center; /* Alinha verticalmente os botões */
+    margin-bottom: 10px; /* Espaçamento entre os grupos de botões */
+}
+
+.item-actions .data-button {
+    flex: 2; /* O botão de item ocupa mais espaço */
+    margin-right: 10px; /* Margem à direita para espaçamento */
 }
