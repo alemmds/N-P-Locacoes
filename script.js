@@ -9,11 +9,11 @@ function loadFromLocalStorage(key) {
 
 // Função para adicionar uma nova linha à tabela e salvar no Local Storage
 function addRow(listId, form, storageKey) {
-    const table = document.getElementById(listId).querySelector('tbody');
     const formData = {};
     for (let i = 0; i < form.elements.length; i++) {
-        if (form.elements[i].name) {
-            formData[form.elements[i].name] = form.elements[i].value;
+        const element = form.elements[i];
+        if (element.name) {
+            formData[element.name] = element.value;
         }
     }
 
@@ -40,8 +40,9 @@ function updateTable(listId, storageKey) {
         });
         const actionCell = newRow.insertCell();
         actionCell.classList.add('actions');
-        actionCell.innerHTML = `<button class="data-button button-edit" onclick="editRow('${listId}', '${storageKey}', ${index})">Alterar</button>
-                                <button class="data-button button-delete" onclick="deleteRow('${listId}', '${storageKey}', ${index})">Excluir</button>`;
+        actionCell.innerHTML = `
+            <button class="data-button button-edit" onclick="editRow('${listId}', '${storageKey}', ${index})">Alterar</button>
+            <button class="data-button button-delete" onclick="deleteRow('${listId}', '${storageKey}', ${index})">Excluir</button>`;
     });
 }
 
@@ -71,8 +72,9 @@ function saveEditedRow(listId, form, storageKey, index) {
     const dataList = loadFromLocalStorage(storageKey);
     const updatedData = {};
     for (let i = 0; i < form.elements.length; i++) {
-        if (form.elements[i].name) {
-            updatedData[form.elements[i].name] = form.elements[i].value;
+        const element = form.elements[i];
+        if (element.name) {
+            updatedData[element.name] = element.value;
         }
     }
     dataList[index] = updatedData;
