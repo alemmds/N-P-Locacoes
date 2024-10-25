@@ -38,7 +38,6 @@
                 <label for="horimetro">Horímetro:</label>
                 <input type="number" name="horimetro" id="horimetro" required>
                 <button type="submit">Adicionar Máquina</button>
-                <button type="button" id="alterarMaquina" style="display: none;">Alterar</button>
             </form>
 
             <!-- Campo de Busca e botão "Todas as Máquinas" -->
@@ -48,8 +47,10 @@
             </div>
             <button onclick="showAllItems('maquinas')">Todas as Máquinas</button>
 
-            <!-- Container de Máquinas -->
-            <div id="maquinasContainer" class="items-container"></div>
+            <!-- Container de Máquinas com botão "Alterar" -->
+            <div id="maquinasContainer" class="items-container">
+                <!-- Os itens cadastrados serão adicionados aqui dinamicamente -->
+            </div>
         </section>
 
         <!-- Seção Contas -->
@@ -65,7 +66,6 @@
                 <label for="valor">Valor:</label>
                 <input type="number" name="valor" id="valor" required>
                 <button type="submit">Adicionar Conta</button>
-                <button type="button" id="alterarConta" style="display: none;">Alterar</button>
             </form>
 
             <!-- Campo de Busca e botão "Todas as Contas" -->
@@ -75,8 +75,10 @@
             </div>
             <button onclick="showAllItems('contas')">Todas as Contas</button>
 
-            <!-- Container de Contas -->
-            <div id="contasContainer" class="items-container"></div>
+            <!-- Container de Contas com botão "Alterar" -->
+            <div id="contasContainer" class="items-container">
+                <!-- Os itens cadastrados serão adicionados aqui dinamicamente -->
+            </div>
         </section>
 
         <!-- Seção Recebimentos -->
@@ -87,7 +89,7 @@
                 <input type="text" name="empresa" id="empresa" required>
                 <label for="valor">Valor:</label>
                 <input type="number" name="valor" id="valor" required>
-                <label for="dataInicio">Data de                 Início:</label>
+                <label for="dataInicio">Data de Início:</label>
                 <input type="date" name="dataInicio" id="dataInicio" required>
                 <label for="dataVencimento">Data de Vencimento:</label>
                 <input type="date" name="dataVencimento" id="dataVencimento" required>
@@ -97,7 +99,6 @@
                     <option value="aVencer">A Vencer</option>
                 </select>
                 <button type="submit">Adicionar Recebimento</button>
-                <button type="button" id="alterarRecebimento" style="display: none;">Alterar</button>
             </form>
 
             <!-- Campo de Busca e botão "Todos os Recebimentos" -->
@@ -107,8 +108,10 @@
             </div>
             <button onclick="showAllItems('recebimentos')">Todos os Recebimentos</button>
 
-            <!-- Container de Recebimentos -->
-            <div id="recebimentosContainer" class="items-container"></div>
+            <!-- Container de Recebimentos com botão "Alterar" -->
+            <div id="recebimentosContainer" class="items-container">
+                <!-- Os itens cadastrados serão adicionados aqui dinamicamente -->
+            </div>
         </section>
 
         <!-- Seção Contratos -->
@@ -132,7 +135,6 @@
                 <label for="operador">Operador:</label>
                 <input type="text" name="operador" id="operador" required>
                 <button type="submit">Adicionar Contrato</button>
-                <button type="button" id="alterarContrato" style="display: none;">Alterar</button>
             </form>
 
             <!-- Campo de Busca e botão "Todos os Contratos" -->
@@ -142,8 +144,10 @@
             </div>
             <button onclick="showAllItems('contratos')">Todos os Contratos</button>
 
-            <!-- Container de Contratos -->
-            <div id="contratosContainer" class="items-container"></div>
+            <!-- Container de Contratos com botão "Alterar" -->
+            <div id="contratosContainer" class="items-container">
+                <!-- Os itens cadastrados serão adicionados aqui dinamicamente -->
+            </div>
         </section>
 
         <!-- Seção Empresas -->
@@ -154,16 +158,9 @@
                 <input type="text" name="nome" id="nome" required>
                 <label for="cnpj">CNPJ:</label>
                 <input type="text" name="cnpj" id="cnpj" required>
-                <label for="areaAtuacao">Área de Atuação:</label>
-                <input type="text" name="areaAtuacao" id="areaAtuacao" required>
-                <label for="representante">Representante:</label>
-                <input type="text" name="representante" id="representante" required>
-                <label for="telefone">Telefone:</label>
-                <input type="tel" name="telefone" id="telefone" required>
-                <label for="email">E-mail:</label>
-                <input type="email" name="email" id="email" required>
+                <label for="endereco">Endereço:</label>
+                <input type="text" name="endereco" id="endereco" required>
                 <button type="submit">Adicionar Empresa</button>
-                <button type="button" id="alterarEmpresa" style="display: none;">Alterar</button>
             </form>
 
             <!-- Campo de Busca e botão "Todas as Empresas" -->
@@ -173,8 +170,10 @@
             </div>
             <button onclick="showAllItems('empresas')">Todas as Empresas</button>
 
-            <!-- Container de Empresas -->
-            <div id="empresasContainer" class="items-container"></div>
+            <!-- Container de Empresas com botão "Alterar" -->
+            <div id="empresasContainer" class="items-container">
+                <!-- Os itens cadastrados serão adicionados aqui dinamicamente -->
+            </div>
         </section>
     </div>
 
