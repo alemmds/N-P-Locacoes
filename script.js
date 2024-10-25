@@ -42,8 +42,13 @@ function updateButtons(containerId, storageKey) {
         actionsContainer.innerHTML = `<button class="button-edit" onclick="editItem('${containerId}', '${storageKey}', ${index})">Alterar</button>
                                       <button class="button-delete" onclick="deleteItem('${containerId}', '${storageKey}', ${index})">Excluir</button>`;
         
-        container.appendChild(button);
-        container.appendChild(actionsContainer);
+        // Agrupa o botão e as ações
+        const itemActions = document.createElement('div');
+        itemActions.classList.add('item-actions');
+        itemActions.appendChild(button);
+        itemActions.appendChild(actionsContainer);
+        
+        container.appendChild(itemActions);
     });
 }
 
