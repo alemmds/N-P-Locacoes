@@ -1,211 +1,233 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gerenciamento</title>
     <link rel="stylesheet" href="styles.css">
-    <title>Sistema de Cadastro</title>
 </head>
 <body>
     <header>
-        <img src="logo.png" alt="Logo" class="logo">
-        <h1>Sistema de Cadastro</h1>
+        <img src="logo.png" alt="Logo da Empresa" class="logo">
+        <h1>Sistema de Gerenciamento</h1>
     </header>
+    
     <div class="container">
-        <div class="menu">
+        <!-- Menu Lateral -->
+        <nav class="menu">
             <a href="#" onclick="showSection('maquinaSection')">Máquinas</a>
             <a href="#" onclick="showSection('recebimentoSection')">Recebimentos</a>
             <a href="#" onclick="showSection('contratoSection')">Contratos</a>
             <a href="#" onclick="showSection('contaSection')">Contas</a>
             <a href="#" onclick="showSection('empresaSection')">Empresas</a>
-        </div>
-        <div class="section" id="maquinaSection">
-            <h2>Cadastro de Máquinas</h2>
-            <div class="search-container">
-                <input type="text" placeholder="Buscar..." oninput="searchInTable('maquinaList', this.value)">
-            </div>
+        </nav>
+
+        <!-- Seção Máquinas -->
+        <section id="maquinaSection" class="section">
+            <h2>Gerenciamento de Máquinas</h2>
             <form id="maquinaForm">
-                <label for="maquinaNome">Nome da Máquina:</label>
-                <input type="text" name="maquinaNome" required>
-                <label for="maquinaSerie">Série:</label>
-                <input type="text" name="maquinaSerie" required>
-                <label for="maquinaAnosUso">Anos de Uso:</label>
-                <input type="number" name="maquinaAnosUso" required>
-                <label for="maquinaHorasTrabalhadas">Horas Trabalhadas:</label>
-                <input type="number" name="maquinaHorasTrabalhadas" required>
-                <label for="maquinaHorimetro">Horímetro:</label>
-                <input type="number" name="maquinaHorimetro" required>
-                <button type="submit">Cadastrar</button>
+                <label for="nome">Nome da Máquina:</label>
+                <input type="text" name="nome" id="nome" required>
+                
+                <label for="serie">Série:</label>
+                <input type="text" name="serie" id="serie" required>
+                
+                <label for="modelo">Modelo:</label>
+                <input type="text" name="modelo" id="modelo" required>
+                
+                <label for="fabricante">Fabricante:</label>
+                <input type="text" name="fabricante" id="fabricante" required>
+                
+                <!-- Outros campos conforme necessário -->
+                <button type="submit">Adicionar Máquina</button>
             </form>
+
+            <!-- Campo de Busca -->
+            <div class="search-container">
+                <input class="search-input" id="maquinaSearch" placeholder="Pesquisar máquina...">
+                <button onclick="confirmSearch('maquinaList', 'maquinaSearch')">Confirmar</button>
+            </div>
+
+            <!-- Tabela de Máquinas -->
             <table id="maquinaList">
                 <thead>
                     <tr>
                         <th>Nome</th>
                         <th>Série</th>
-                        <th>Anos de Uso</th>
-                        <th>Horas Trabalhadas</th>
-                        <th>Horímetro</th>
+                        <th>Modelo</th>
+                        <th>Fabricante</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Linhas da tabela serão geradas aqui -->
-                </tbody>
+                <tbody></tbody>
             </table>
-        </div>
-        
-        <div class="section" id="recebimentoSection" style="display:none;">
-            <h2>Cadastro de Recebimentos</h2>
-            <div class="search-container">
-                <input type="text" placeholder="Buscar..." oninput="searchInTable('recebimentoList', this.value)">
-            </div>
+        </section>
+
+        <!-- Seção Recebimentos -->
+        <section id="recebimentoSection" class="section">
+            <h2>Gerenciamento de Recebimentos</h2>
             <form id="recebimentoForm">
-                <label for="recebimentoEmpresa">Empresa:</label>
-                <input type="text" name="recebimentoEmpresa" required>
-                <label for="recebimentoValor">Valor:</label>
-                <input type="number" name="recebimentoValor" required>
-                <label for="recebimentoDataInicio">Data de Início:</label>
-                <input type="date" name="recebimentoDataInicio" required>
-                <label for="recebimentoDataVencimento">Data de Vencimento:</label>
-                <input type="date" name="recebimentoDataVencimento" required>
-                <label for="recebimentoStatus">Status:</label>
-                <select name="recebimentoStatus">
-                    <option value="pago">Pago</option>
-                    <option value="a vencer">A Vencer</option>
-                </select>
-                <button type="submit">Cadastrar</button>
+                <label for="nome">Nome do Recebimento:</label>
+                <input type="text" name="nome" id="nome" required>
+
+                <label for="valor">Valor:</label>
+                <input type="text" name="valor" id="valor" required>
+
+                <label for="dataRecebimento">Data de Recebimento:</label>
+                <input type="date" name="dataRecebimento" id="dataRecebimento" required>
+
+                <label for="tipo">Tipo de Recebimento:</label>
+                <input type="text" name="tipo" id="tipo" required>
+
+                <button type="submit">Adicionar Recebimento</button>
             </form>
+
+            <!-- Campo de Busca -->
+            <div class="search-container">
+                <input class="search-input" id="recebimentoSearch" placeholder="Pesquisar recebimento...">
+                <button onclick="confirmSearch('recebimentoList', 'recebimentoSearch')">Confirmar</button>
+            </div>
+
+            <!-- Tabela de Recebimentos -->
             <table id="recebimentoList">
                 <thead>
                     <tr>
-                        <th>Empresa</th>
+                        <th>Nome</th>
+                        <th>Valor</th>
+                        <th>Data</th>
+                        <th>Tipo</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <!-- Seção Contratos -->
+        <section id="contratoSection" class="section">
+            <h2>Gerenciamento de Contratos</h2>
+            <form id="contratoForm">
+                <label for="contratoNome">Nome do Contrato:</label>
+                <input type="text" name="nome" id="contratoNome" required>
+
+                <label for="valorContrato">Valor do Contrato:</label>
+                <input type="text" name="valorContrato" id="valorContrato" required>
+
+                <label for="dataInicio">Data de Início:</label>
+                <input type="date" name="dataInicio" id="dataInicio" required>
+
+                <label for="dataFim">Data de Fim:</label>
+                <input type="date" name="dataFim" id="dataFim" required>
+
+                <button type="submit">Adicionar Contrato</button>
+            </form>
+
+            <!-- Campo de Busca -->
+            <div class="search-container">
+                <input class="search-input" id="contratoSearch" placeholder="Pesquisar contrato...">
+                <button onclick="confirmSearch('contratoList', 'contratoSearch')">Confirmar</button>
+            </div>
+
+            <!-- Tabela de Contratos -->
+            <table id="contratoList">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
                         <th>Valor</th>
                         <th>Data de Início</th>
-                        <th>Data de Vencimento</th>
+                        <th>Data de Fim</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <!-- Seção Contas -->
+        <section id="contaSection" class="section">
+            <h2>Gerenciamento de Contas</h2>
+            <form id="contaForm">
+                <label for="contaNome">Nome da Conta:</label>
+                <input type="text" name="nome" id="contaNome" required>
+
+                <label for="valorConta">Valor da Conta:</label>
+                <input type="text" name="valorConta" id="valorConta" required>
+
+                <label for="vencimento">Data de Vencimento:</label>
+                <input type="date" name="vencimento" id="vencimento" required>
+
+                <label for="statusConta">Status da Conta:</label>
+                <select name="statusConta" id="statusConta" required>
+                    <option value="Paga">Paga</option>
+                    <option value="Pendente">Pendente</option>
+                </select>
+
+                <button type="submit">Adicionar Conta</button>
+            </form>
+
+            <!-- Campo de Busca -->
+            <div class="search-container">
+                <input class="search-input" id="contaSearch" placeholder="Pesquisar conta...">
+                <button onclick="confirmSearch('contaList', 'contaSearch')">Confirmar</button>
+            </div>
+
+            <!-- Tabela de Contas -->
+            <table id="contaList">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Valor</th>
+                        <th>Vencimento</th>
                         <th>Status</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Linhas da tabela serão geradas aqui -->
-                </tbody>
+                <tbody></tbody>
             </table>
-        </div>
+        </section>
 
-        <div class="section" id="contratoSection" style="display:none;">
-            <h2>Cadastro de Contratos</h2>
-            <div class="search-container">
-                <input type="text" placeholder="Buscar..." oninput="searchInTable('contratoList', this.value)">
-            </div>
-            <form id="contratoForm">
-                <label for="contratoEmpresa">Empresa:</label>
-                <input type="text" name="contratoEmpresa" required>
-                <label for="contratoDataInicio">Data de Início:</label>
-                <input type="date" name="contratoDataInicio" required>
-                <label for="contratoDataVencimento">Data de Vencimento:</label>
-                <input type="date" name="contratoDataVencimento" required>
-                <label for="contratoValor">Valor:</label>
-                <input type="number" name="contratoValor" required>
-                <label for="contratoClausulas">Cláusulas:</label>
-                <textarea name="contratoClausulas" required></textarea>
-                <label for="contratoNomeContratante">Nome do Contratante:</label>
-                <input type="text" name="contratoNomeContratante" required>
-                <label for="contratoMaquina">Máquina:</label>
-                <input type="text" name="contratoMaquina" required>
-                <label for="contratoOperador">Operador:</label>
-                <input type="text" name="contratoOperador" required>
-                <button type="submit">Cadastrar</button>
-            </form>
-            <table id="contratoList">
-                <thead>
-                    <tr>
-                        <th>Empresa</th>
-                        <th>Data de Início</th>
-                        <th>Data de Vencimento</th>
-                        <th>Valor</th>
-                        <th>Cláusulas</th>
-                        <th>Nome do Contratante</th>
-                        <th>Máquina</th>
-                        <th>Operador</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Linhas da tabela serão geradas aqui -->
-                </tbody>
-            </table>
-        </div>
-
-        <div class="section" id="contaSection" style="display:none;">
-            <h2>Cadastro de Contas</h2>
-            <div class="search-container">
-                <input type="text" placeholder="Buscar..." oninput="searchInTable('contaList', this.value)">
-            </div>
-            <form id="contaForm">
-                <label for="contaTipo">Tipo:</label>
-                <input type="text" name="contaTipo" required>
-                <label for="contaDataEmissao">Data de Emissão:</label>
-                <input type="date" name="contaDataEmissao" required>
-                <label for="contaDataVencimento">Data de Vencimento:</label>
-                <input type="date" name="contaDataVencimento" required>
-                <label for="contaValor">Valor:</label>
-                <input type="number" name="contaValor" required>
-                <button type="submit">Cadastrar</button>
-            </form>
-            <table id="contaList">
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Data de Emissão</th>
-                        <th>Data de Vencimento</th>
-                        <th>Valor</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Linhas da tabela serão geradas aqui -->
-                </tbody>
-            </table>
-        </div>
-
-        <div class="section" id="empresaSection" style="display:none;">
-            <h2>Cadastro de Empresas</h2>
-            <div class="search-container">
-                <input type="text" placeholder="Buscar..." oninput="searchInTable('empresaList', this.value)">
-            </div>
+        <!-- Seção Empresas -->
+        <section id="empresaSection" class="section">
+            <h2>Gerenciamento de Empresas</h2>
             <form id="empresaForm">
-                <label for="empresaNome">Nome:</label>
-                <input type="text" name="empresaNome" required>
-                <label for="empresaCNPJ">CNPJ:</label>
-                <input type="text" name="empresaCNPJ" required>
-                <label for="empresaAreaAtuacao">Área de Atuação:</label>
-                <input type="text" name="empresaAreaAtuacao" required>
-                <label for="empresaRepresentante">Representante:</label>
-                <input type="text" name="empresaRepresentante" required>
-                <label for="empresaTelefone">Telefone:</label>
-                <input type="text" name="empresaTelefone" required>
-                <label for="empresaEmail">E-mail:</label>
-                <input type="email" name="empresaEmail" required>
-                <button type="submit">Cadastrar</button>
+                <label for="empresaNome">Nome da Empresa:</label>
+                <input type="text" name="nome" id="empresaNome" required>
+
+                <label for="cnpj">CNPJ:</label>
+                <input type="text" name="cnpj" id="cnpj" required>
+
+                <label for="telefone">Telefone:</label>
+                <input type="text" name="telefone" id="telefone" required>
+
+                <label for="email">E-mail:</label>
+                <input type="email" name="email" id="email" required>
+
+                <button type="submit">Adicionar Empresa</button>
             </form>
+
+            <!-- Campo de Busca -->
+            <div class="search-container">
+                <input class="search-input" id="empresaSearch" placeholder="Pesquisar empresa...">
+                <button onclick="confirmSearch('empresaList', 'empresaSearch')">Confirmar</button>
+            </div>
+
+            <!-- Tabela de Empresas -->
             <table id="empresaList">
                 <thead>
                     <tr>
                         <th>Nome</th>
                         <th>CNPJ</th>
-                        <th>Área de Atuação</th>
-                        <th>Representante</th>
                         <th>Telefone</th>
                         <th>E-mail</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Linhas da tabela serão geradas aqui -->
-                </tbody>
+                <tbody></tbody>
             </table>
-        </div>
+            </section>
     </div>
+
+    <!-- Scripts -->
     <script src="script.js"></script>
 </body>
 </html>
