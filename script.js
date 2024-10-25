@@ -1,4 +1,4 @@
-// Função para salvar dados no Local Storage
+// Função para salvar dados no Local Storage e carregar os dados salvos
 function saveToLocalStorage(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
 }
@@ -7,7 +7,7 @@ function loadFromLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key)) || [];
 }
 
-// Função para adicionar ou editar um botão à lista e salvar no Local Storage
+// Função para adicionar um novo botão à lista ou salvar edição, e salvar no Local Storage
 function addButton(containerId, form, storageKey, editIndex = null) {
     const formData = {};
     for (let i = 0; i < form.elements.length; i++) {
@@ -18,15 +18,15 @@ function addButton(containerId, form, storageKey, editIndex = null) {
 
     const dataList = loadFromLocalStorage(storageKey);
     if (editIndex === null) {
-        dataList.push(formData); // Adiciona um novo item se editIndex não estiver definido
+        dataList.push(formData); // Adiciona um novo item se não houver índice de edição
     } else {
-        dataList[editIndex] = formData; // Atualiza o item em editIndex
+        dataList[editIndex] = formData; // Atualiza o item no índice especificado
     }
     saveToLocalStorage(storageKey, dataList);
     
     updateButtons(containerId, storageKey);
     form.reset();
-    form.removeAttribute('data-edit-index'); // Remove o índice de edição após confirmar
+    form.removeAttribute('data-edit-index'); // Remove o índice de edição após salvar
 }
 
 // Função para atualizar os botões no contêiner com os dados salvos
@@ -77,21 +77,9 @@ function editItem(containerId, storageKey, index) {
         form.querySelector(`[name="${key}"]`).value = data[key];
     });
 
-    // Define o índice de edição
+    // Define o índice de edição no formulário
     form.setAttribute('data-edit-index', index);
 }
-
-// Função de envio do formulário para adicionar ou editar o item
-document.querySelectorAll('form').forEach(form => {
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const containerId = form.id.replace('Form', 'Container');
-        const storageKey = containerId.replace('Container', '').toLowerCase();
-        const editIndex = form.getAttribute('data-edit-index');
-        // Converte o índice de edição para número, se existir, ou passa como `null` para adicionar um novo item
-        addButton(containerId, form, storageKey, editIndex !== null ? Number(editIndex) : null);
-    });
-});
 
 // Função para excluir um item
 function deleteItem(containerId, storageKey, index) {
@@ -118,6 +106,37 @@ window.onload = function() {
     updateButtons('contasContainer', 'contas');
     updateButtons('empresasContainer', 'empresas');
 };
+
+// Configuração dos eventos de envio de formulário para cada seção
+document.getElementById('maquinaForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const editIndex = this.getAttribute('data-edit-index');
+    addButton('maquinasContainer', this, 'maquinas', editIndex ? Number(editIndex) : null);
+});
+
+document.getElementById('recebimentoForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const editIndex = this.getAttribute('data-edit-index');
+    addButton('recebimentosContainer', this, 'recebimentos', editIndex ? Number(editIndex) : null);
+});
+
+document.getElementById('contratoForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const editIndex = this.getAttribute('data-edit-index');
+    addButton('contratosContainer', this, 'contratos', editIndex ? Number(editIndex) : null);
+});
+
+document.getElementById('contaForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const editIndex = this.getAttribute('data-edit-index');
+    addButton('contasContainer', this, 'contas', editIndex ? Number(editIndex) : null);
+});
+
+document.getElementById('empresaForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const editIndex = this.getAttribute('data-edit-index');
+    addButton('empresasContainer', this, 'empresas', editIndex ? Number(editIndex) : null);
+});
 
 // Função para buscar entre os botões
 function searchInButtons(containerId, searchInputId) {
@@ -149,4 +168,3 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
-       
