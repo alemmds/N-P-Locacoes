@@ -119,32 +119,6 @@ window.onload = function() {
     updateButtons('empresasContainer', 'empresas');
 };
 
-// Configuração dos eventos de envio de formulário para cada seção
-document.getElementById('maquinaForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    addButton('maquinasContainer', this, 'maquinas');
-});
-
-document.getElementById('recebimentoForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    addButton('recebimentosContainer', this, 'recebimentos');
-});
-
-document.getElementById('contratoForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    addButton('contratosContainer', this, 'contratos');
-});
-
-document.getElementById('contaForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    addButton('contasContainer', this, 'contas');
-});
-
-document.getElementById('empresaForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    addButton('empresasContainer', this, 'empresas');
-});
-
 // Função para buscar entre os botões
 function searchInButtons(containerId, searchInputId) {
     const input = document.getElementById(searchInputId);
