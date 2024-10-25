@@ -202,18 +202,20 @@ th {
 .item-actions {
     display: flex;
     align-items: center; /* Alinha verticalmente os botões */
-    margin-bottom: 10px; /* Espaçamento entre os grupos de botões */
     justify-content: space-between; /* Espaça os botões de item e os de ação */
+    margin-bottom: 10px; /* Espaçamento entre os grupos de botões */
 }
 
+/* Botão de item */
 .item-actions .data-button {
-    flex: 2; /* O botão de item ocupa mais espaço */
+    flex-grow: 2; /* O botão de item ocupa mais espaço */
     margin-right: 10px; /* Margem à direita para espaçamento */
 }
 
-/* Alinhamento dos botões de ação "Alterar" e "Excluir" */
+/* Botões de editar e excluir */
 .item-actions .button-edit,
 .item-actions .button-delete {
     margin-left: 10px; /* Margem à esquerda para espaçamento */
     flex: 1; /* Para que tenham uma largura igual */
+    text-align: center; /* Centraliza o texto nos botões */
 }
