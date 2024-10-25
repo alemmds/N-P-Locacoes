@@ -135,3 +135,26 @@ document.getElementById('empresaForm').addEventListener('submit', function(event
     event.preventDefault();
     addRow('empresaList', this, 'empresas');
 });
+
+// Função para buscar na tabela
+function searchInTable(listId, searchInputId) {
+    const input = document.getElementById(searchInputId);
+    const filter = input.value.toLowerCase();
+    const table = document.getElementById(listId);
+    const tbody = table.querySelector('tbody');
+    const rows = tbody.querySelectorAll('tr');
+
+    rows.forEach(row => {
+        const cells = row.getElementsByTagName('td');
+        let rowContainsSearch = false;
+
+        for (let i = 0; i < cells.length; i++) {
+            const cell = cells[i];
+            if (cell.textContent.toLowerCase().includes(filter)) {
+                rowContainsSearch = true;
+                break;
+            }
+        }
+        row.style.display = rowContainsSearch ? '' : 'none';
+    });
+}
