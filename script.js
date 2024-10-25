@@ -158,3 +158,8 @@ function searchInTable(listId, searchInputId) {
         row.style.display = rowContainsSearch ? '' : 'none';
     });
 }
+
+// Função para confirmar busca ao clicar no botão "Confirmar"
+function confirmSearch(listId, searchInputId) {
+    searchInTable(listId, searchInputId);
+}
