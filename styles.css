@@ -7,14 +7,10 @@ body {
 }
 
 header {
-    background-color: #4caf50; /* Cor verde musgo */
+    background-color: #4caf50;
     color: white;
     padding: 10px 0;
     text-align: center;
-}
-
-.logo {
-    width: 150px;
 }
 
 .container {
@@ -56,10 +52,6 @@ header {
 }
 
 /* Estilos dos Formulários */
-form {
-    margin-bottom: 20px;
-}
-
 form label {
     display: block;
     margin: 10px 0 5px;
@@ -110,10 +102,20 @@ th {
 /* Estilos dos Botões de Ação */
 .actions {
     display: flex;
-    gap: 10px;
+    gap: 5px;
+    margin-top: 10px;
 }
 
-.button-edit,
+.button-edit {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
 .button-delete {
     background-color: #f44336;
     color: white;
@@ -124,90 +126,11 @@ th {
     transition: background 0.3s;
 }
 
-.button-edit {
-    background-color: #2196F3;
-}
-
 .button-edit:hover {
     background-color: #1976D2;
 }
 
 .button-delete:hover {
-    background-color: #d32f2f;
-}
-
-/* Campo de busca */
-.search-container {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.search-container input {
-    width: calc(100% - 22px);
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.search-container button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.search-container button:hover {
-    background-color: #45a049;
-}
-
-/* Estilos dos Botões de Dados */
-.data-button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px;
-    margin: 5px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s;
-    display: inline-block; /* Para organizar horizontalmente */
-    width: calc(33.33% - 10px); /* Ajuste para layout responsivo */
-}
-
-.data-button:hover {
-    background-color: #45a049;
-}
-
-/* Contêiner de Ações */
-.actions {
-    display: flex;
-    gap: 5px;
-    margin-top: 10px;
-}
-
-.actions button {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.actions .button-edit {
-    background-color: #2196F3;
-}
-
-.actions .button-edit:hover {
-    background-color: #1976D2;
-}
-
-.actions .button-delete:hover {
     background-color: #d32f2f;
 }
 
@@ -218,8 +141,5 @@ th {
     }
     .menu {
         width: 100%;
-    }
-    .data-button {
-        width: 100%; /* Ajuste para pilha em telas menores */
     }
 }
