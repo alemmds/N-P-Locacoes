@@ -4,38 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Cadastro</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        /* Estilos básicos para tabela e botões */
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
         }
 
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
-
-        .actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .search-input {
-            margin-bottom: 10px;
-            padding: 5px;
-            width: 200px;
-        }
-
-        /* Estilo para header com logo */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px;
-            background-color: #f8f9fa;
-            border-bottom: 2px solid #ddd;
+            background-color: #4a9f4d; /* Verde musgo */
+            color: white;
+            border-bottom: 2px solid #ccc;
         }
 
         header img {
@@ -46,6 +31,67 @@
         h1 {
             margin: 0;
         }
+
+        .section {
+            padding: 20px;
+            margin: 10px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #4a9f4d; /* Verde musgo */
+        }
+
+        input[type="text"], input[type="number"], input[type="date"], select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4a9f4d; /* Verde musgo */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3c7a3c; /* Tom mais escuro de verde musgo */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4a9f4d; /* Verde musgo */
+            color: white;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .search-input {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: calc(100% - 10px);
+        }
     </style>
 </head>
 <body>
@@ -53,302 +99,149 @@
 <header>
     <img src="logo.png" alt="Logo do Sistema">
     <h1>Sistema de Cadastro</h1>
-</header
+</header>
 
-    <!-- Seções do sistema -->
+<!-- Seções do sistema -->
+<section id="maquinaSection" class="section">
+    <h2>Máquinas</h2>
+    <form id="maquinaForm">
+        <input type="text" name="nome" placeholder="Nome da Máquina" required>
+        <input type="text" name="serie" placeholder="Série" required>
+        <input type="number" name="anosUso" placeholder="Anos de Uso" required>
+        <input type="number" name="horasTrabalhadas" placeholder="Horas Trabalhadas" required>
+        <input type="number" name="horimetro" placeholder="Horímetro" required>
+        <button type="submit">Confirmar</button>
+    </form>
+    <input class="search-input" id="maquinaSearch" placeholder="Pesquisar..." oninput="searchInTable('maquinaList', 'maquinaSearch')" />
+    <table id="maquinaList">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Série</th>
+                <th>Anos de Uso</th>
+                <th>Horas Trabalhadas</th>
+                <th>Horímetro</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</section>
 
-    <!-- Máquinas -->
-    <section id="maquinaSection" class="section">
-        <h2>Máquinas</h2>
-        <form id="maquinaForm">
-            <input type="text" name="nome" placeholder="Nome da Máquina">
-            <input type="text" name="serie" placeholder="Série">
-            <input type="number" name="anosUso" placeholder="Anos de Uso">
-            <input type="number" name="horasTrabalhadas" placeholder="Horas Trabalhadas">
-            <input type="number" name="horimetro" placeholder="Horímetro">
-            <button type="submit">Confirmar</button>
-        </form>
-        <input class="search-input" id="maquinaSearch" placeholder="Pesquisar..." oninput="searchInTable('maquinaList', 'maquinaSearch')" />
-        <table id="maquinaList">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Série</th>
-                    <th>Anos de Uso</th>
-                    <th>Horas Trabalhadas</th>
-                    <th>Horímetro</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </section>
+<section id="recebimentoSection" class="section">
+    <h2>Recebimentos</h2>
+    <form id="recebimentoForm">
+        <input type="text" name="empresa" placeholder="Empresa" required>
+        <input type="number" name="valor" placeholder="Valor" required>
+        <input type="date" name="dataInicio" required>
+        <input type="date" name="dataVencimento" required>
+        <label>Status:</label>
+        <select name="status" required>
+            <option value="pago">Pago</option>
+            <option value="aVencer">A Vencer</option>
+        </select>
+        <button type="submit">Confirmar</button>
+    </form>
+    <input class="search-input" id="recebimentoSearch" placeholder="Pesquisar..." oninput="searchInTable('recebimentoList', 'recebimentoSearch')" />
+    <table id="recebimentoList">
+        <thead>
+            <tr>
+                <th>Empresa</th>
+                <th>Valor</th>
+                <th>Data de Início</th>
+                <th>Data de Vencimento</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</section>
 
-    <!-- Recebimentos -->
-    <section id="recebimentoSection" class="section">
-        <h2>Recebimentos</h2>
-        <form id="recebimentoForm">
-            <input type="text" name="empresa" placeholder="Empresa">
-            <input type="number" name="valor" placeholder="Valor">
-            <input type="date" name="dataInicio" placeholder="Data de Início">
-            <input type="date" name="dataVencimento" placeholder="Data de Vencimento">
-            <select name="status">
-                <option value="Pago">Pago</option>
-                <option value="A Vencer">A Vencer</option>
-            </select>
-            <button type="submit">Confirmar</button>
-        </form>
-        <input class="search-input" id="recebimentoSearch" placeholder="Pesquisar..." oninput="searchInTable('recebimentoList', 'recebimentoSearch')" />
-        <table id="recebimentoList">
-            <thead>
-                <tr>
-                    <th>Empresa</th>
-                    <th>Valor</th>
-                    <th>Data de Início</th>
-                    <th>Data de Vencimento</th>
-                    <th>Status</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </section>
+<section id="contratoSection" class="section">
+    <h2>Contratos</h2>
+    <form id="contratoForm">
+        <input type="text" name="empresa" placeholder="Empresa" required>
+        <input type="date" name="dataInicio" required>
+        <input type="date" name="dataVencimento" required>
+        <input type="number" name="valor" placeholder="Valor" required>
+        <input type="text" name="clauses" placeholder="Cláusulas" required>
+        <input type="text" name="nomeContratante" placeholder="Nome do Contratante" required>
+        <input type="text" name="maquina" placeholder="Máquina" required>
+        <input type="text" name="operador" placeholder="Operador" required>
+        <button type="submit">Confirmar</button>
+    </form>
+    <input class="search-input" id="contratoSearch" placeholder="Pesquisar..." oninput="searchInTable('contratoList', 'contratoSearch')" />
+    <table id="contratoList">
+        <thead>
+            <tr>
+                <th>Empresa</th>
+                <th>Data de Início</th>
+                <th>Data de Vencimento</th>
+                <th>Valor</th>
+                <th>Cláusulas</th>
+                <th>Nome do Contratante</th>
+                <th>Máquina</th>
+                <th>Operador</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</section>
 
-    <!-- Contratos -->
-    <section id="contratoSection" class="section">
-        <h2>Contratos</h2>
-        <form id="contratoForm">
-            <input type="text" name="empresa" placeholder="Empresa">
-            <input type="date" name="dataInicio" placeholder="Data de Início">
-            <input type="date" name="dataVencimento" placeholder="Data de Vencimento">
-            <input type="number" name="valor" placeholder="Valor">
-            <textarea name="clausulas" placeholder="Cláusulas"></textarea>
-            <input type="text" name="nomeContratante" placeholder="Nome do Contratante">
-            <input type="text" name="maquina" placeholder="Máquina">
-            <input type="text" name="operador" placeholder="Operador">
-            <button type="submit">Confirmar</button>
-        </form>
-        <input class="search-input" id="contratoSearch" placeholder="Pesquisar..." oninput="searchInTable('contratoList', 'contratoSearch')" />
-        <table id="contratoList">
-            <thead>
-                <tr>
-                    <th>Empresa</th>
-                    <th>Data de Início</th>
-                    <th>Data de Vencimento</th>
-                    <th>Valor</th>
-                    <th>Cláusulas</th>
-                    <th>Nome do Contratante</th>
-                    <th>Máquina</th>
-                    <th>Operador</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </section>
+<section id="contaSection" class="section">
+    <h2>Contas</h2>
+    <form id="contaForm">
+        <input type="text" name="tipo" placeholder="Tipo" required>
+        <input type="date" name="dataEmissao" required>
+        <input type="date" name="dataVencimento" required>
+        <input type="number" name="valor" placeholder="Valor" required>
+        <button type="submit">Confirmar</button>
+    </form>
+    <input class="search-input" id="contaSearch" placeholder="Pesquisar..." oninput="searchInTable('contaList', 'contaSearch')" />
+    <table id="contaList">
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Data de Emissão</th>
+                <th>Data de Vencimento</th>
+                <th>Valor</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</section>
 
-    <!-- Contas -->
-    <section id="contaSection" class="section">
-        <h2>Contas</h2>
-        <form id="contaForm">
-            <input type="text" name="tipo" placeholder="Tipo">
-            <input type="date" name="dataEmissao" placeholder="Data de Emissão">
-            <input type="date" name="dataVencimento" placeholder="Data de Vencimento">
-            <input type="number" name="valor" placeholder="Valor">
-            <button type="submit">Confirmar</button>
-        </form>
-        <input class="search-input" id="contaSearch" placeholder="Pesquisar..." oninput="searchInTable('contaList', 'contaSearch')" />
-        <table id="contaList">
-            <thead>
-                <tr>
-                    <th>Tipo</th>
-                    <th>Data de Emissão</th>
-                    <th>Data de Vencimento</th>
-                    <th>Valor</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </section>
+<section id="empresaSection" class="section">
+    <h2>Empresas</h2>
+    <form id="empresaForm">
+        <input type="text" name="nome" placeholder="Nome" required>
+        <input type="text" name="cnpj" placeholder="CNPJ" required>
+        <input type="text" name="areaAtuacao" placeholder="Área de Atuação" required>
+        <input type="text" name="representante" placeholder="Representante" required>
+        <input type="text" name="telefone" placeholder="Telefone" required>
+        <input type="email" name="email" placeholder="E-mail" required>
+        <button type="submit">Confirmar</button>
+    </form>
+    <input class="search-input" id="empresaSearch" placeholder="Pesquisar..." oninput="searchInTable('empresaList', 'empresaSearch')" />
+    <table id="empresaList">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CNPJ</th>
+                <th>Área de Atuação</th>
+                <th>Representante</th>
+                <th>Telefone</th>
+                <th>E-mail</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</section>
 
-    <!-- Empresas -->
-    <section id="empresaSection" class="section">
-        <h2>Empresas</h2>
-        <form id="empresaForm">
-            <input type="text" name="nome" placeholder="Nome">
-            <input type="text" name="cnpj" placeholder="CNPJ">
-            <input type="text" name="areaAtuacao" placeholder="Área de Atuação">
-            <input type="text" name="representante" placeholder="Representante">
-            <input type="tel" name="telefone" placeholder="Telefone">
-            <input type="email" name="email" placeholder="E-mail">
-            <button type="submit">Confirmar</button>
-        </form>
-        <input class="search-input" id="empresaSearch" placeholder="Pesquisar..." oninput="searchInTable('empresaList', 'empresaSearch')" />
-        <table id="empresaList">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>CNPJ</th>
-                    <th>Área de Atuação</th>
-                    <th>Representante</th>
-                    <th>Telefone</th>
-                    <th>E-mail</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </section>
-
-    <script>
-        // Função para salvar dados no Local Storage e carregar os dados salvos
-        function saveToLocalStorage(key, data) {
-            localStorage.setItem(key, JSON.stringify(data));
-        }
-
-        function loadFromLocalStorage(key) {
-            return JSON.parse(localStorage.getItem(key)) || [];
-        }
-
-        // Função para adicionar uma nova linha à tabela e salvar no Local Storage
-        function addRow(listId, form, storageKey) {
-            const table = document.getElementById(listId).querySelector('tbody');
-            const formData = {};
-            for (let i = 0; i < form.elements.length; i++) {
-                if (form.elements[i].name) {
-                    formData[form.elements[i].name] = form.elements[i].value;
-                }
-            }
-
-            const dataList = loadFromLocalStorage(storageKey);
-            dataList.push(formData);
-            saveToLocalStorage(storageKey, dataList);
-            
-            updateTable(listId, storageKey);
-            form.reset();
-        }
-
-        // Função para carregar os dados salvos no Local Storage e preencher a tabela
-        function updateTable(listId, storageKey) {
-            const table = document.getElementById(listId).querySelector('tbody');
-            const dataList = loadFromLocalStorage(storageKey);
-            
-            table.innerHTML = ''; // Limpa a tabela
-
-            dataList.forEach((data, index) => {
-                const newRow = table.insertRow();
-                Object.values(data).forEach(value => {
-                    const newCell = newRow.insertCell();
-                    newCell.textContent = value;
-                });
-                const actionCell = newRow.insertCell();
-                actionCell.classList.add('actions');
-                actionCell.innerHTML = `<button class="button-edit" onclick="editRow('${listId}', '${storageKey}', ${index})">Alterar</button>
-                                        <button class="button-delete" onclick="deleteRow('${listId}', '${storageKey}', ${index})">Excluir</button>`;
-            });
-        }
-
-        // Função para editar uma linha
-        function editRow(listId, storageKey, index) {
-            const dataList = loadFromLocalStorage(storageKey);
-            const form = document.querySelector(`#${listId.replace('List', 'Form')}`);
-            const data = dataList[index];
-
-            // Preenche o formulário com os dados da linha
-            Object.keys(data).forEach(key => {
-                form.querySelector(`[name="${key}"]`).value = data[key];
-            });
-
-            // Atualiza o botão "Confirmar" para salvar as edições
-            form.onsubmit = function(event) {
-                event.preventDefault();
-                saveEditedRow(listId, form, storageKey, index);
-            };
-        }
-
-        // Função para salvar a edição de uma linha
-        function saveEditedRow(listId, form, storageKey, index) {
-            const dataList = loadFromLocalStorage(storageKey);
-            const updatedData = {};
-            for (let i = 0; i < form.elements.length; i++) {
-                if (form.elements[i].name) {
-                    updatedData[form.elements[i].name] = form.elements[i].value;
-                }
-            }
-            dataList[index] = updatedData;
-            saveToLocalStorage(storageKey, dataList);
-            updateTable(listId, storageKey);
-            form.reset();
-
-            // Reseta o comportamento do botão "Confirmar"
-            form.onsubmit = function(event) {
-                event.preventDefault();
-                addRow(listId, form, storageKey);
-            };
-        }
-
-        // Função para excluir uma linha
-        function deleteRow(listId, storageKey, index) {
-            const dataList = loadFromLocalStorage(storageKey);
-            dataList.splice(index, 1);
-            saveToLocalStorage(storageKey, dataList);
-            updateTable(listId, storageKey);
-        }
-
-        // Função para pesquisar na tabela
-        function searchInTable(listId, searchId) {
-            const input = document.getElementById(searchId).value.toLowerCase();
-            const rows = document.querySelector(`#${listId} tbody`).rows;
-            for (let i = 0; i < rows.length; i++) {
-                const rowText = rows[i].textContent.toLowerCase();
-                rows[i].style.display = rowText.includes(input) ? '' : 'none';
-            }
-        }
-
-        // Função para mostrar uma seção específica
-        function showSection(sectionId) {
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
-                section.style.display = 'none';
-            });
-            document.getElementById(sectionId).style.display = 'block';
-        }
-
-        // Função para carregar as tabelas com os dados salvos ao carregar a página
-        window.onload = function() {
-            updateTable('maquinaList', 'maquinas');
-            updateTable('recebimentoList', 'recebimentos');
-            updateTable('contratoList', 'contratos');
-            updateTable('contaList', 'contas');
-            updateTable('empresaList', 'empresas');
-        };
-
-        // Configuração dos eventos de envio de formulário para cada seção
-        document.getElementById('maquinaForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            addRow('maquinaList', this, 'maquinas');
-        });
-
-        document.getElementById('recebimentoForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            addRow('recebimentoList', this, 'recebimentos');
-        });
-
-        document.getElementById('contratoForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            addRow('contratoList', this, 'contratos');
-        });
-
-        document.getElementById('contaForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            addRow('contaList', this, 'contas');
-        });
-
-        document.getElementById('empresaForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            addRow('empresaList', this, 'empresas');
-        });
-    </script>
+<script src="script.js"></script>
 </body>
 </html>
