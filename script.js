@@ -1,4 +1,4 @@
-// Função para salvar dados no Local Storage e carregar os dados salvos
+// Função para salvar dados no Local Storage
 function saveToLocalStorage(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
 }
@@ -77,19 +77,19 @@ function editItem(containerId, storageKey, index) {
         form.querySelector(`[name="${key}"]`).value = data[key];
     });
 
-    // Armazena o índice do item em edição no atributo do formulário
+    // Define o índice de edição
     form.setAttribute('data-edit-index', index);
 }
 
-// Evento de envio para adicionar ou editar item com base no atributo data-edit-index
+// Função de envio do formulário para adicionar ou editar o item
 document.querySelectorAll('form').forEach(form => {
     form.addEventListener('submit', function(event) {
         event.preventDefault();
         const containerId = form.id.replace('Form', 'Container');
         const storageKey = containerId.replace('Container', '').toLowerCase();
         const editIndex = form.getAttribute('data-edit-index');
-
-        addButton(containerId, form, storageKey, editIndex !== null ? parseInt(editIndex) : null);
+        // Converte o índice de edição para número, se existir, ou passa como `null` para adicionar um novo item
+        addButton(containerId, form, storageKey, editIndex !== null ? Number(editIndex) : null);
     });
 });
 
@@ -149,3 +149,4 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
+       
