@@ -110,26 +110,38 @@ th {
 /* Estilos dos Botões de Ação */
 .actions {
     display: flex;
-    gap: 10px;
+    gap: 10px; /* Espaçamento entre os botões */
+    margin-top: 10px; /* Margem superior para separar dos dados */
 }
 
-.button-edit,
-.button-delete {
-    background-color: #f44336;
+.data-button {
+    background-color: #4caf50;
     color: white;
+    padding: 10px 15px; /* Aumentando o padding para botões mais visíveis */
+    margin: 5px; /* Margem para melhor espaçamento */
     border: none;
-    padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.3s;
+    flex: 1; /* Faz com que os botões se estendam para ocupar espaço horizontal */
+    text-align: center; /* Centraliza o texto no botão */
 }
 
+.data-button:hover {
+    background-color: #45a049;
+}
+
+/* Estilo específico para os botões de ação de editar e excluir */
 .button-edit {
     background-color: #2196F3;
 }
 
 .button-edit:hover {
     background-color: #1976D2;
+}
+
+.button-delete {
+    background-color: #f44336;
 }
 
 .button-delete:hover {
@@ -162,51 +174,6 @@ th {
 
 .search-container button:hover {
     background-color: #45a049;
-}
-
-/* Estilos dos Botões de Dados */
-.data-button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px;
-    margin: 5px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.data-button:hover {
-    background-color: #45a049;
-}
-
-/* Contêiner de Ações */
-.actions {
-    display: flex;
-    gap: 5px;
-    margin-top: 10px;
-}
-
-.actions button {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.actions .button-edit {
-    background-color: #2196F3;
-}
-
-.actions .button-edit:hover {
-    background-color: #1976D2;
-}
-
-.actions .button-delete:hover {
-    background-color: #d32f2f;
 }
 
 /* Estilos Responsivos */
