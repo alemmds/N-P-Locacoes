@@ -150,7 +150,7 @@ th {
     border-radius: 4px;
 }
 
-search-container button {
+.search-container button {
     background-color: #4caf50;
     color: white;
     padding: 10px 15px;
@@ -174,6 +174,8 @@ search-container button {
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.3s;
+    display: inline-block; /* Para organizar horizontalmente */
+    width: calc(33.33% - 10px); /* Ajuste para layout responsivo */
 }
 
 .data-button:hover {
@@ -216,5 +218,8 @@ search-container button {
     }
     .menu {
         width: 100%;
+    }
+    .data-button {
+        width: 100%; /* Ajuste para pilha em telas menores */
     }
 }
