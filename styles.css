@@ -1,142 +1,174 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
+/* Estilos Gerais */
 body {
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
     background-color: #f4f4f4;
-    display: flex;
-    height: 100vh;
+}
+
+header {
+    background-color: #4caf50; /* Cor verde musgo */
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.logo {
+    width: 150px; /* Ajuste o tamanho da logo conforme necessário */
 }
 
 .container {
     display: flex;
-    width: 100%;
 }
 
-.sidebar {
-    width: 250px;
-    background-color: #556B2F; /* Verde musgo */
+/* Menu Lateral */
+.menu {
+    width: 200px;
+    background-color: #333;
     color: white;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 15px 0;
 }
 
-.logo {
-    width: 80%;
-    margin-bottom: 20px;
-}
-
-.sidebar button {
-    background-color: transparent;
-    border: none;
+.menu a {
+    display: block;
     color: white;
+    text-decoration: none;
     padding: 10px;
-    cursor: pointer;
-    text-align: left;
-    width: 100%;
-    font-size: 16px;
+    transition: background 0.3s;
 }
 
-.sidebar button:hover {
-    background-color: #2E8B57; /* Verde musgo mais escuro */
+.menu a:hover {
+    background-color: #575757;
 }
 
-.content {
-    flex: 1;
-    padding: 20px;
-    background-color: white;
-    overflow-y: auto;
-}
-
+/* Estilo das Seções */
 .section {
-    display: none;
+    display: none; /* Esconde as seções por padrão */
+    padding: 20px;
+    flex-grow: 1; /* Permite que a seção ocupe o restante do espaço */
+    background-color: white;
+    border-radius: 5px;
+    margin-left: 20px;
 }
 
 .section h2 {
+    color: #4caf50; /* Cor verde musgo */
+}
+
+/* Estilos dos Formulários */
+form {
     margin-bottom: 20px;
 }
 
-input, select, button {
-    width: 100%;
+form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+form input,
+form select {
+    width: calc(100% - 22px);
     padding: 10px;
-    margin: 10px 0;
-}
-
-input, select {
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 4px;
 }
 
-button {
-    background-color: #3498db;
+form button {
+    background-color: #4caf50; /* Cor verde musgo */
     color: white;
+    padding: 10px 15px;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
+    transition: background 0.3s;
 }
 
-button:hover {
-    background-color: #2980b9;
+form button:hover {
+    background-color: #45a049;
 }
 
+/* Estilos da Tabela */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
+table, th, td {
+    border: 1px solid #ccc;
+}
+
 th, td {
     padding: 10px;
-    border: 1px solid #ddd;
     text-align: left;
 }
 
 th {
-    background-color: #3498db;
+    background-color: #4caf50; /* Cor verde musgo */
     color: white;
 }
 
-/* Aumentando o tamanho da coluna "Cláusulas" e permitindo quebra de linha */
-th.clausulas, td.clausulas {
-    width: 400px; /* Aumenta o espaço da coluna de cláusulas */
-    white-space: pre-wrap; /* Permite quebra de linha */
-}
-
-td button {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-/* Ajuste para alinhar os botões de "Excluir" e "Alterar" lado a lado */
+/* Estilos dos Botões de Ação */
 .actions {
     display: flex;
-    justify-content: flex-start; /* Alinha os botões à esquerda */
-    gap: 10px; /* Espaçamento entre os botões */
+    gap: 10px;
 }
 
-td button:hover {
-    background-color: #c0392b;
-}
-
-/* Estilos para os botões de "alterar" e "excluir" */
-.button-edit {
-    background-color: #4CAF50; /* Verde para o botão de alterar */
-    color: white;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-}
-
+.button-edit,
 .button-delete {
-    background-color: #f44336; /* Vermelho para o botão de excluir */
+    background-color: #f44336; /* Vermelho para excluir */
     color: white;
     border: none;
-    padding: 5px;
+    padding: 5px 10px;
+    border-radius: 4px;
     cursor: pointer;
+    transition: background 0.3s;
+}
+
+.button-edit {
+    background-color: #2196F3; /* Azul para editar */
+}
+
+.button-edit:hover {
+    background-color: #1976D2;
+}
+
+.button-delete:hover {
+    background-color: #d32f2f;
+}
+
+/* Estilos do Campo de Busca */
+.search-container {
+    margin: 20px 0;
+}
+
+.search-container input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-container button {
+    background-color: #4caf50; /* Cor verde musgo */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.search-container button:hover {
+    background-color: #45a049;
+}
+
+/* Estilos Responsivos */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .menu {
+        width: 100%;
+    }
 }
