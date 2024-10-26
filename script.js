@@ -33,6 +33,19 @@ function showDetails(data, containerId) {
         }
     }
 
+    // Criar botões de alterar e excluir
+    const editButton = document.createElement('button');
+    editButton.textContent = 'Alterar';
+    editButton.onclick = () => editItem(containerId, containerId.replace('Container', ''), index);
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Excluir';
+    deleteButton.onclick = () => deleteItem(containerId, containerId.replace('Container', ''), index);
+
+    // Adicionar os botões de ação ao contêiner de detalhes
+    detailsDiv.appendChild(editButton);
+    detailsDiv.appendChild(deleteButton);
+
     // Exibir o div de detalhes
     detailsContainer.appendChild(detailsDiv);
 }
