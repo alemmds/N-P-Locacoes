@@ -33,7 +33,7 @@ function showDetails(data, containerId, index) {
         }
     }
 
-    // Criar botões de alterar e excluir
+    // Criar botões de editar e excluir
     const editButton = document.createElement('button');
     editButton.textContent = 'Editar';
     editButton.onclick = () => editItem(containerId, containerId.replace('Container', ''), index);
@@ -129,14 +129,20 @@ function editItem(containerId, storageKey, index) {
 
     // Preenche o formulário com os dados existentes para edição
     Object.keys(data).forEach(key => {
-        form.querySelector(`[name="${key}"]`).value = data[key];
+        const input = form.querySelector(`[name="${key}"]`);
+        if (input) {
+            input.value = data[key];
+        }
     });
 
     // Define o índice de edição no formulário
     form.setAttribute('data-edit-index', index);
     
     // Exibe o botão "Confirmar Alteração" ao iniciar a edição
-    document.getElementById(`alterar${containerId.replace('Container', '')}`).style.display = 'inline';
+    const confirmButton = document.getElementById(`alterar${containerId.replace('Container', '')}`);
+    if (confirmButton) {
+        confirmButton.style.display = 'inline';
+    }
 }
 
 // Função para excluir um item existente
@@ -195,24 +201,6 @@ document.getElementById('empresaForm').addEventListener('submit', function(event
     const editIndex = this.getAttribute('data-edit-index');
     addButton('empresasContainer', this, 'empresas', editIndex !== null ? Number(editIndex) : null);
 });
-
-// Função para buscar entre os botões
-function searchInButtons(containerId, searchInputId) {
-    const input = document.getElementById(searchInputId);
-    const filter = input.value.toLowerCase();
-    const container = document.getElementById(containerId);
-    const buttons = container.querySelectorAll('.data-button');
-
-    buttons.forEach(button => {
-        const text = button.textContent.toLowerCase();
-        button.style.display = text.includes(filter) ? '' : 'none';
-    });
-}
-
-// Função para confirmar busca ao clicar no botão "Confirmar"
-function confirmSearch(containerId, searchInputId) {
-    searchInButtons(containerId, searchInputId);
-}
 
 // Registrar o Service Worker
 if ('serviceWorker' in navigator) {
