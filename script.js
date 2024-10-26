@@ -11,6 +11,12 @@ function loadFromLocalStorage(key) {
 function showDetails(data, containerId) {
     const detailsContainer = document.getElementById(containerId + 'Details');
 
+    // Verifica se o contêiner de detalhes existe
+    if (!detailsContainer) {
+        console.error(`O contêiner de detalhes para ${containerId} não foi encontrado.`);
+        return;
+    }
+
     // Limpar o conteúdo anterior
     detailsContainer.innerHTML = '';
 
