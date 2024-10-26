@@ -78,7 +78,19 @@ function updateButtons(containerId, storageKey) {
         button.textContent = data[Object.keys(data)[0]]; // Usa o primeiro campo como rótulo do botão
         button.onclick = () => showDetails(data, containerId); // Exibe os detalhes ao clicar no botão
 
+        // Adiciona botão de edição e exclusão
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Editar';
+        editButton.onclick = () => editItem(containerId, storageKey, index);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Excluir';
+        deleteButton.onclick = () => deleteItem(containerId, storageKey, index);
+
+        // Adiciona os botões ao contêiner
         container.appendChild(button);
+        container.appendChild(editButton);
+        container.appendChild(deleteButton);
     });
 }
 
