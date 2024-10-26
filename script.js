@@ -7,6 +7,42 @@ function loadFromLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key)) || [];
 }
 
+// Função para exibir detalhes diretamente na página ao invés de alert
+function showDetails(data, containerId, storageKey, index) {
+    const container = document.getElementById(containerId);
+
+    // Limpar o conteúdo anterior
+    container.innerHTML = '';
+
+    // Criar um div para exibir os detalhes do item
+    const detailsDiv = document.createElement('div');
+    detailsDiv.classList.add('item-details');
+    detailsDiv.innerHTML = `
+        <p><strong>Nome:</strong> ${data.nome}</p>
+        <p><strong>CNPJ:</strong> ${data.cnpj}</p>
+        <p><strong>Endereço:</strong> ${data.endereco}</p>
+    `;
+
+    // Botões de Editar e Excluir
+    const editButton = document.createElement('button');
+    editButton.textContent = 'Editar';
+    editButton.onclick = () => editItem(containerId, storageKey, index);
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Excluir';
+    deleteButton.onclick = () => deleteItem(containerId, storageKey, index);
+
+    // Adicionar os botões ao div
+    const actionsDiv = document.createElement('div');
+    actionsDiv.classList.add('item-actions');
+    actionsDiv.appendChild(editButton);
+    actionsDiv.appendChild(deleteButton);
+
+    // Anexar detalhes e ações ao container
+    container.appendChild(detailsDiv);
+    container.appendChild(actionsDiv);
+}
+
 // Função para adicionar ou editar um novo botão à lista e salvar no Local Storage
 function addButton(containerId, form, storageKey, editIndex = null) {
     const formData = {};
@@ -46,30 +82,10 @@ function updateButtons(containerId, storageKey) {
         const button = document.createElement('button');
         button.classList.add('data-button');
         button.textContent = data[Object.keys(data)[0]]; // Usa o primeiro campo como rótulo do botão
-        button.onclick = () => showDetails(data);
-        
-        const actionsContainer = document.createElement('div');
-        actionsContainer.classList.add('actions');
-        actionsContainer.innerHTML = `<button class="button-edit" onclick="editItem('${containerId}', '${storageKey}', ${index})">Editar</button>
-                                      <button class="button-delete" onclick="deleteItem('${containerId}', '${storageKey}', ${index})">Excluir</button>`;
-        
-        // Agrupa o botão e as ações
-        const itemActions = document.createElement('div');
-        itemActions.classList.add('item-actions');
-        itemActions.appendChild(button);
-        itemActions.appendChild(actionsContainer);
-        
-        container.appendChild(itemActions);
-    });
-}
+        button.onclick = () => showDetails(data, containerId, storageKey, index); // Exibe os detalhes ao clicar no botão
 
-// Função para exibir os detalhes do item selecionado
-function showDetails(data) {
-    let details = '';
-    Object.entries(data).forEach(([key, value]) => {
-        details += `${key}: ${value}\n`;
+        container.appendChild(button);
     });
-    alert(details);
 }
 
 // Função para editar um item existente
