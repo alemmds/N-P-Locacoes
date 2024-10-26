@@ -118,7 +118,7 @@ th {
 }
 
 .data-button {
-    background-color: #2196F3; /* Cor azul forte */
+    background-color: #1a73e8; /* Cor azul mais escura */
     color: white;
     padding: 12px 20px; /* Padding maior */
     border: none;
@@ -131,7 +131,7 @@ th {
 }
 
 .data-button:hover {
-    background-color: #1976D2; /* Efeito hover azul escuro */
+    background-color: #135cb2; /* Efeito hover azul mais escuro */
 }
 
 /* Estilo específico para os botões de ação de editar e excluir */
