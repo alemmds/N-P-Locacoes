@@ -1,8 +1,9 @@
-// Função para salvar dados no Local Storage e carregar os dados salvos
+// Função para salvar dados no Local Storage
 function saveToLocalStorage(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
 }
 
+// Função para carregar os dados salvos no Local Storage
 function loadFromLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key)) || [];
 }
@@ -17,7 +18,7 @@ function showDetails(data, containerId, index) {
         return;
     }
 
-    // Limpar o conteúdo anterior
+    // Limpa o conteúdo anterior
     detailsContainer.innerHTML = '';
 
     // Criar um div para exibir os detalhes do item
