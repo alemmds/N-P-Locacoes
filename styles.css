@@ -75,13 +75,12 @@ form input {
 form button {
     background-color: #4caf50; /* Cor do botão de adicionar */
     color: white;
-    padding: 12px 20px; /* Aumentar o padding para um botão mais destacado */
+    padding: 10px 15px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.3s;
     font-size: 16px; /* Tamanho da fonte aumentado para melhor legibilidade */
-    width: 100%; /* Botão ocupa a largura total do formulário */
 }
 
 form button:hover {
@@ -137,7 +136,7 @@ th {
 /* Estilo específico para os botões de ação de editar e excluir */
 .button-edit,
 .button-delete {
-    padding: 12px 15px; /* Aumentando o padding para botões maiores */
+    padding: 10px 15px; /* Aumentando o padding para botões maiores */
     flex: 1; /* Para que tenham uma largura igual */
     border: none;
     border-radius: 4px;
@@ -149,7 +148,6 @@ th {
 .button-edit {
     background-color: #4caf50; /* Cor verde para editar */
     color: white;
-    width: 100%; /* Botão ocupa a largura total */
 }
 
 .button-edit:hover {
@@ -159,7 +157,6 @@ th {
 .button-delete {
     background-color: #f44336; /* Cor vermelha para excluir */
     color: white;
-    width: 100%; /* Botão ocupa a largura total */
 }
 
 .button-delete:hover {
@@ -183,7 +180,7 @@ th {
 .search-container button {
     background-color: #4caf50; /* Cor do botão de busca */
     color: white;
-    padding: 12px 20px; /* Aumentando o padding para maior destaque */
+    padding: 10px 15px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
