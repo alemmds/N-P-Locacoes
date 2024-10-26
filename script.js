@@ -8,39 +8,27 @@ function loadFromLocalStorage(key) {
 }
 
 // Função para exibir detalhes diretamente na página ao invés de alert
-function showDetails(data, containerId, storageKey, index) {
-    const container = document.getElementById(containerId);
+function showDetails(data, containerId) {
+    const detailsContainer = document.getElementById(containerId + 'Details');
 
     // Limpar o conteúdo anterior
-    container.innerHTML = '';
+    detailsContainer.innerHTML = '';
 
     // Criar um div para exibir os detalhes do item
     const detailsDiv = document.createElement('div');
     detailsDiv.classList.add('item-details');
-    detailsDiv.innerHTML = `
-        <p><strong>Nome:</strong> ${data.nome}</p>
-        <p><strong>CNPJ:</strong> ${data.cnpj}</p>
-        <p><strong>Endereço:</strong> ${data.endereco}</p>
-    `;
 
-    // Botões de Editar e Excluir
-    const editButton = document.createElement('button');
-    editButton.textContent = 'Editar';
-    editButton.onclick = () => editItem(containerId, storageKey, index);
+    // Percorrer os dados e exibi-los
+    for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+            const p = document.createElement('p');
+            p.innerHTML = `<strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${data[key]}`;
+            detailsDiv.appendChild(p);
+        }
+    }
 
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Excluir';
-    deleteButton.onclick = () => deleteItem(containerId, storageKey, index);
-
-    // Adicionar os botões ao div
-    const actionsDiv = document.createElement('div');
-    actionsDiv.classList.add('item-actions');
-    actionsDiv.appendChild(editButton);
-    actionsDiv.appendChild(deleteButton);
-
-    // Anexar detalhes e ações ao container
-    container.appendChild(detailsDiv);
-    container.appendChild(actionsDiv);
+    // Exibir o div de detalhes
+    detailsContainer.appendChild(detailsDiv);
 }
 
 // Função para adicionar ou editar um novo botão à lista e salvar no Local Storage
@@ -82,7 +70,7 @@ function updateButtons(containerId, storageKey) {
         const button = document.createElement('button');
         button.classList.add('data-button');
         button.textContent = data[Object.keys(data)[0]]; // Usa o primeiro campo como rótulo do botão
-        button.onclick = () => showDetails(data, containerId, storageKey, index); // Exibe os detalhes ao clicar no botão
+        button.onclick = () => showDetails(data, containerId); // Exibe os detalhes ao clicar no botão
 
         container.appendChild(button);
     });
