@@ -8,8 +8,8 @@ function loadFromLocalStorage(key) {
 }
 
 // Função para exibir detalhes diretamente na página ao invés de alert
-function showDetails(data, containerId) {
-    const detailsContainer = document.getElementById(containerId + 'Details');
+function showDetails(data, containerId, index) {
+    const detailsContainer = document.getElementById(containerId + 'Details' + index);
 
     // Verifica se o contêiner de detalhes existe
     if (!detailsContainer) {
@@ -86,25 +86,39 @@ function updateButtons(containerId, storageKey) {
     container.innerHTML = ''; // Limpa o contêiner
 
     dataList.forEach((data, index) => {
-        const button = document.createElement('button');
-        button.classList.add('data-button');
-        button.textContent = data[Object.keys(data)[0]]; // Usa o primeiro campo como rótulo do botão
-        button.onclick = () => showDetails(data, containerId); // Exibe os detalhes ao clicar no botão
+        const accordionButton = document.createElement('button');
+        accordionButton.classList.add('data-button');
+        accordionButton.textContent = data[Object.keys(data)[0]]; // Usa o primeiro campo como rótulo do botão
+        accordionButton.onclick = () => toggleDetails(containerId, index); // Exibe os detalhes ao clicar no botão
 
-        // Adiciona botão de edição e exclusão
-        const editButton = document.createElement('button');
-        editButton.textContent = 'Editar';
-        editButton.onclick = () => editItem(containerId, storageKey, index);
+        // Criar o contêiner para detalhes
+        const detailsContainer = document.createElement('div');
+        detailsContainer.id = `${containerId}Details${index}`;
+        detailsContainer.classList.add('details-container');
 
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Excluir';
-        deleteButton.onclick = () => deleteItem(containerId, storageKey, index);
+        // Adiciona os botões de editar e excluir inicialmente ocultos
+        detailsContainer.style.display = 'none';
 
-        // Adiciona os botões ao contêiner
-        container.appendChild(button);
-        container.appendChild(editButton);
-        container.appendChild(deleteButton);
+        // Adiciona o botão do acordeão e o contêiner de detalhes ao contêiner principal
+        container.appendChild(accordionButton);
+        container.appendChild(detailsContainer);
     });
+}
+
+// Função para alternar a exibição dos detalhes
+function toggleDetails(containerId, index) {
+    const detailsContainer = document.getElementById(containerId + 'Details' + index);
+    const dataList = loadFromLocalStorage(containerId.replace('Container', ''));
+
+    // Se o contêiner estiver oculto, exibe os detalhes e os botões de "Alterar" e "Excluir"
+    if (detailsContainer.style.display === 'none' || detailsContainer.style.display === '') {
+        showDetails(dataList[index], containerId, index);
+        detailsContainer.style.display = 'block';
+    } else {
+        // Caso contrário, oculta os detalhes
+        detailsContainer.innerHTML = ''; // Limpa o conteúdo ao esconder
+        detailsContainer.style.display = 'none';
+    }
 }
 
 // Função para editar um item existente
