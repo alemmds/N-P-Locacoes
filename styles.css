@@ -80,7 +80,6 @@ form button {
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.3s;
-    font-size: 16px; /* Tamanho da fonte aumentado para melhor legibilidade */
 }
 
 form button:hover {
@@ -142,21 +141,18 @@ th {
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.3s;
-    font-size: 16px; /* Aumenta o tamanho da fonte para melhor legibilidade */
 }
 
 .button-edit {
-    background-color: #4caf50; /* Cor verde para editar */
-    color: white;
+    background-color: #2196F3; /* Cor azul forte */
 }
 
 .button-edit:hover {
-    background-color: #45a049; /* Efeito hover para o botão editar */
+    background-color: #1976D2; /* Efeito hover para o botão editar */
 }
 
 .button-delete {
     background-color: #f44336; /* Cor vermelha para excluir */
-    color: white;
 }
 
 .button-delete:hover {
@@ -185,7 +181,6 @@ th {
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.3s;
-    font-size: 16px; /* Tamanho da fonte aumentado para melhor legibilidade */
 }
 
 .search-container button:hover {
@@ -195,7 +190,7 @@ th {
 /* Estilos Responsivos */
 @media (max-width: 768px) {
     .container {
-        flex-direction: column; /* Muda a direção do layout em telas menores */
+        flex-direction: column;
     }
     .menu {
         width: 100%; /* Menu ocupa toda a largura na tela menor */
