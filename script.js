@@ -35,7 +35,7 @@ function showDetails(data, containerId, index) {
 
     // Criar botões de alterar e excluir
     const editButton = document.createElement('button');
-    editButton.textContent = 'Alterar';
+    editButton.textContent = 'Editar';
     editButton.onclick = () => editItem(containerId, containerId.replace('Container', ''), index);
 
     const deleteButton = document.createElement('button');
@@ -110,7 +110,7 @@ function toggleDetails(containerId, index) {
     const detailsContainer = document.getElementById(containerId + 'Details' + index);
     const dataList = loadFromLocalStorage(containerId.replace('Container', ''));
 
-    // Se o contêiner estiver oculto, exibe os detalhes e os botões de "Alterar" e "Excluir"
+    // Se o contêiner estiver oculto, exibe os detalhes e os botões de "Editar" e "Excluir"
     if (detailsContainer.style.display === 'none' || detailsContainer.style.display === '') {
         showDetails(dataList[index], containerId, index);
         detailsContainer.style.display = 'block';
