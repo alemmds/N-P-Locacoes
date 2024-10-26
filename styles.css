@@ -75,11 +75,13 @@ form input {
 form button {
     background-color: #4caf50; /* Cor do botão de adicionar */
     color: white;
-    padding: 10px 15px;
+    padding: 12px 20px; /* Aumentar o padding para um botão mais destacado */
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.3s;
+    font-size: 16px; /* Tamanho da fonte aumentado para melhor legibilidade */
+    width: 100%; /* Botão ocupa a largura total do formulário */
 }
 
 form button:hover {
@@ -118,14 +120,14 @@ th {
 .data-button {
     background-color: #2196F3; /* Cor azul forte */
     color: white;
-    padding: 15px 20px; /* Aumentando o padding para botões mais visíveis */
+    padding: 12px 20px; /* Padding maior */
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.3s;
-    flex: 2; /* Faz o botão ocupar mais espaço na linha */
-    text-align: center; /* Centraliza o texto no botão */
-    font-size: 16px; /* Aumenta o tamanho da fonte para melhor legibilidade */
+    width: 100%; /* Ocupa a largura total do container */
+    text-align: center;
+    font-size: 16px; /* Aumenta o tamanho da fonte */
 }
 
 .data-button:hover {
@@ -135,24 +137,28 @@ th {
 /* Estilo específico para os botões de ação de editar e excluir */
 .button-edit,
 .button-delete {
-    padding: 10px 15px; /* Aumentando o padding para botões maiores */
-    flex: 1; /* Para que tenham uma largura igual */
+    padding: 12px 20px; /* Aumentando o padding para botões maiores */
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.3s;
+    font-size: 16px; /* Aumenta o tamanho da fonte */
+    width: 100%; /* Ocupa toda a largura */
+    text-align: center;
 }
 
 .button-edit {
-    background-color: #2196F3; /* Cor azul forte */
+    background-color: #4caf50; /* Cor verde para editar */
+    color: white;
 }
 
 .button-edit:hover {
-    background-color: #1976D2; /* Efeito hover para o botão editar */
+    background-color: #45a049; /* Efeito hover para o botão editar */
 }
 
 .button-delete {
     background-color: #f44336; /* Cor vermelha para excluir */
+    color: white;
 }
 
 .button-delete:hover {
@@ -176,11 +182,12 @@ th {
 .search-container button {
     background-color: #4caf50; /* Cor do botão de busca */
     color: white;
-    padding: 10px 15px;
+    padding: 12px 20px; /* Aumentando o padding para maior destaque */
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.3s;
+    font-size: 16px; /* Tamanho da fonte aumentado para melhor legibilidade */
 }
 
 .search-container button:hover {
@@ -190,7 +197,7 @@ th {
 /* Estilos Responsivos */
 @media (max-width: 768px) {
     .container {
-        flex-direction: column;
+        flex-direction: column; /* Muda a direção do layout em telas menores */
     }
     .menu {
         width: 100%; /* Menu ocupa toda a largura na tela menor */
@@ -200,20 +207,19 @@ th {
 /* Estilos para os botões de itens e informações */
 .item-actions {
     display: flex;
-    align-items: center; /* Alinha verticalmente os botões */
-    justify-content: space-between; /* Espaça os botões de item e os de ação */
+    flex-direction: column; /* Botões em coluna */
     margin-bottom: 10px; /* Espaçamento entre os grupos de botões */
 }
 
 /* Botão de item */
 .item-actions .data-button {
-    flex: 2; /* O botão de item ocupa mais espaço */
-    margin-right: 10px; /* Margem à direita para espaçamento */
+    width: 100%; /* Ocupa a largura total */
+    margin-bottom: 10px; /* Espaçamento entre botões */
 }
 
 /* Botões de editar e excluir */
 .item-actions .button-edit,
 .item-actions .button-delete {
-    margin-left: 10px; /* Margem à esquerda para espaçamento */
-    text-align: center; /* Centraliza o texto nos botões */
+    width: 100%; /* Botões ocupam 100% da largura */
+    margin-bottom: 10px; /* Espaçamento entre os botões */
 }
