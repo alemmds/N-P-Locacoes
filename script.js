@@ -7,7 +7,7 @@ function loadFromLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key)) || [];
 }
 
-// Função para adicionar um novo botão à lista ou salvar edição, e salvar no Local Storage
+// Função para adicionar ou editar um novo botão à lista e salvar no Local Storage
 function addButton(containerId, form, storageKey, editIndex = null) {
     const formData = {};
     for (let i = 0; i < form.elements.length; i++) {
@@ -17,17 +17,22 @@ function addButton(containerId, form, storageKey, editIndex = null) {
     }
 
     const dataList = loadFromLocalStorage(storageKey);
+    
+    // Verifica se estamos adicionando ou editando
     if (editIndex === null) {
         dataList.push(formData); // Adiciona um novo item se não houver índice de edição
     } else {
         dataList[editIndex] = formData; // Atualiza o item no índice especificado
     }
+    
     saveToLocalStorage(storageKey, dataList);
     
-    updateButtons(containerId, storageKey);
-    form.reset();
+    updateButtons(containerId, storageKey); // Atualiza os botões
+    form.reset(); // Reseta o formulário após adicionar ou editar
     form.removeAttribute('data-edit-index'); // Remove o índice de edição após salvar
-    document.getElementById(`alterar${containerId.replace('Container', '')}`).style.display = 'none'; // Oculta o botão de edição
+
+    // Oculta o botão "Confirmar Alteração" após a edição
+    document.getElementById(`alterar${containerId.replace('Container', '')}`).style.display = 'none';
 }
 
 // Função para atualizar os botões no contêiner com os dados salvos
@@ -45,7 +50,7 @@ function updateButtons(containerId, storageKey) {
         
         const actionsContainer = document.createElement('div');
         actionsContainer.classList.add('actions');
-        actionsContainer.innerHTML = `<button class="button-edit" onclick="editItem('${containerId}', '${storageKey}', ${index})">Alterar</button>
+        actionsContainer.innerHTML = `<button class="button-edit" onclick="editItem('${containerId}', '${storageKey}', ${index})">Editar</button>
                                       <button class="button-delete" onclick="deleteItem('${containerId}', '${storageKey}', ${index})">Excluir</button>`;
         
         // Agrupa o botão e as ações
@@ -58,7 +63,7 @@ function updateButtons(containerId, storageKey) {
     });
 }
 
-// Função para exibir detalhes do item
+// Função para exibir os detalhes do item selecionado
 function showDetails(data) {
     let details = '';
     Object.entries(data).forEach(([key, value]) => {
@@ -67,13 +72,13 @@ function showDetails(data) {
     alert(details);
 }
 
-// Função para editar um item
+// Função para editar um item existente
 function editItem(containerId, storageKey, index) {
     const dataList = loadFromLocalStorage(storageKey);
     const form = document.querySelector(`#${containerId.replace('Container', 'Form')}`);
     const data = dataList[index];
 
-    // Preenche o formulário com os dados do item
+    // Preenche o formulário com os dados existentes para edição
     Object.keys(data).forEach(key => {
         form.querySelector(`[name="${key}"]`).value = data[key];
     });
@@ -81,19 +86,19 @@ function editItem(containerId, storageKey, index) {
     // Define o índice de edição no formulário
     form.setAttribute('data-edit-index', index);
     
-    // Exibe o botão de edição
+    // Exibe o botão "Confirmar Alteração" ao iniciar a edição
     document.getElementById(`alterar${containerId.replace('Container', '')}`).style.display = 'inline';
 }
 
-// Função para excluir um item
+// Função para excluir um item existente
 function deleteItem(containerId, storageKey, index) {
     const dataList = loadFromLocalStorage(storageKey);
-    dataList.splice(index, 1);
+    dataList.splice(index, 1); // Remove o item selecionado
     saveToLocalStorage(storageKey, dataList);
-    updateButtons(containerId, storageKey);
+    updateButtons(containerId, storageKey); // Atualiza a lista de botões após exclusão
 }
 
-// Função para mostrar uma seção específica
+// Função para mostrar uma seção específica ao clicar nos botões de navegação
 function showSection(sectionId) {
     const sections = document.querySelectorAll('.section');
     sections.forEach(section => {
