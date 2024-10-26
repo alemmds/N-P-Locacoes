@@ -26,7 +26,7 @@
         <!-- Seção Máquinas -->
         <section id="maquinaSection" class="section">
             <h2>Gerenciamento de Máquinas</h2>
-            <form id="maquinaForm" onsubmit="addItem('maquinasContainer', 'maquinaForm'); return false;">
+            <form id="maquinaForm" onsubmit="event.preventDefault(); addItem('maquinasContainer', this);">
                 <label for="nomeMaquina">Nome da Máquina:</label>
                 <input type="text" name="nome" id="nomeMaquina" required>
                 <label for="serie">Série:</label>
@@ -54,7 +54,7 @@
         <!-- Seção Contas -->
         <section id="contaSection" class="section">
             <h2>Gerenciamento de Contas</h2>
-            <form id="contaForm" onsubmit="addItem('contasContainer', 'contaForm'); return false;">
+            <form id="contaForm" onsubmit="event.preventDefault(); addItem('contasContainer', this);">
                 <label for="tipo">Tipo de Conta:</label>
                 <input type="text" name="tipo" id="tipo" required>
                 <label for="dataEmissao">Data de Emissão:</label>
@@ -80,7 +80,7 @@
         <!-- Seção Recebimentos -->
         <section id="recebimentoSection" class="section">
             <h2>Gerenciamento de Recebimentos</h2>
-            <form id="recebimentoForm" onsubmit="addItem('recebimentosContainer', 'recebimentoForm'); return false;">
+            <form id="recebimentoForm" onsubmit="event.preventDefault(); addItem('recebimentosContainer', this);">
                 <label for="empresaRecebimento">Empresa:</label>
                 <input type="text" name="empresa" id="empresaRecebimento" required>
                 <label for="valorRecebimento">Valor:</label>
@@ -111,7 +111,7 @@
         <!-- Seção Contratos -->
         <section id="contratoSection" class="section">
             <h2>Gerenciamento de Contratos</h2>
-            <form id="contratoForm" onsubmit="addItem('contratosContainer', 'contratoForm'); return false;">
+            <form id="contratoForm" onsubmit="event.preventDefault(); addItem('contratosContainer', this);">
                 <label for="empresaContrato">Empresa:</label>
                 <input type="text" name="empresa" id="empresaContrato" required>
                 <label for="dataInicioContrato">Data de Início:</label>
@@ -145,7 +145,7 @@
         <!-- Seção Empresas -->
         <section id="empresaSection" class="section">
             <h2>Gerenciamento de Empresas</h2>
-            <form id="empresaForm" onsubmit="addItem('empresasContainer', 'empresaForm'); return false;">
+            <form id="empresaForm" onsubmit="event.preventDefault(); addItem('empresasContainer', this);">
                 <label for="nomeEmpresa">Nome da Empresa:</label>
                 <input type="text" name="nome" id="nomeEmpresa" required>
                 <label for="cnpj">CNPJ:</label>
@@ -171,39 +171,10 @@
         </section>
     </div>
 
+    <footer>
+        <p>&copy; 2024 Sistema de Gerenciamento</p>
+    </footer>
+
     <script src="script.js"></script>
-    <script>
-        // Função para adicionar item
-        function addItem(containerId, formId) {
-            const form = document.getElementById(formId);
-            const values = [...form.elements].map(input => input.value).filter(value => value);
-            const itemHtml = `
-                <div class="item-details">
-                    ${values.map((value, index) => `<p>${form.elements[index].name.charAt(0).toUpperCase() + form.elements[index].name.slice(1)}: ${value}</p>`).join('')}
-                    <button onclick="editItem(this.parentNode)">Alterar</button>
-                    <button onclick="deleteItem(this.parentNode)">Excluir</button>
-                </div>
-            `;
-            document.getElementById(containerId).insertAdjacentHTML('beforeend', itemHtml);
-            form.reset();
-        }
-
-        // Função para editar item
-        function editItem(item) {
-            const values = [...item.getElementsByTagName('p')].map(p => p.innerText.split(': ')[1]);
-            const form = document.getElementById(`${item.parentNode.id}Form`);
-            [...form.elements].forEach((input, index) => {
-                if (input.name) {
-                    input.value = values[index];
-                }
-            });
-            deleteItem(item);
-        }
-
-        // Função para excluir item
-        function deleteItem(item) {
-            item.remove();
-        }
-    </script>
 </body>
 </html>
