@@ -116,7 +116,7 @@ th {
 }
 
 .data-button {
-    background-color: #4caf50;
+    background-color: #2196F3; /* Cor azul forte */
     color: white;
     padding: 15px 20px; /* Aumentando o padding para botões mais visíveis */
     margin: 5px; /* Margem para melhor espaçamento */
@@ -130,7 +130,7 @@ th {
 }
 
 .data-button:hover {
-    background-color: #45a049;
+    background-color: #1976D2; /* Efeito hover azul escuro */
 }
 
 /* Estilo específico para os botões de ação de editar e excluir */
@@ -145,11 +145,11 @@ th {
 }
 
 .button-edit {
-    background-color: #2196F3;
+    background-color: #2196F3; /* Cor azul forte */
 }
 
 .button-edit:hover {
-    background-color: #1976D2;
+    background-color: #1976D2; /* Efeito hover para o botão editar */
 }
 
 .button-delete {
