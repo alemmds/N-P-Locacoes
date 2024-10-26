@@ -27,8 +27,8 @@
         <section id="maquinaSection" class="section">
             <h2>Gerenciamento de Máquinas</h2>
             <form id="maquinaForm">
-                <label for="nome">Nome da Máquina:</label>
-                <input type="text" name="nome" id="nome" required>
+                <label for="nomeMaquina">Nome da Máquina:</label>
+                <input type="text" name="nome" id="nomeMaquina" required>
                 <label for="serie">Série:</label>
                 <input type="text" name="serie" id="serie" required>
                 <label for="anosDeUso">Anos de Uso:</label>
@@ -46,21 +46,20 @@
             </div>
             <button onclick="showAllItems('maquinas')">Todas as Máquinas</button>
 
-            <div id="maquinasContainer" class="items-container"></div>
-
-            <!-- Container de Detalhes de Máquinas -->
-            <div id="maquinasContainerDetails" class="details-container">
-                <!-- Exemplo de item com botões "Alterar" e "Excluir" -->
-                <div class="item-details" id="item1">
-                    <p>Nome: Máquina 1</p>
-                    <p>Série: ABC123</p>
+            <div id="maquinasContainer" class="items-container">
+                <!-- Exemplo de item -->
+                <div class="item-details" id="maquina1">
+                    <p>Nome: Máquina A</p>
+                    <p>Série: 1234</p>
                     <p>Anos de Uso: 5</p>
-                    <p>Horas Trabalhadas: 1200</p>
-                    <p>Horímetro: 300</p>
-                    <button onclick="editItem('item1')">Alterar</button>
-                    <button onclick="deleteItem('item1')">Excluir</button>
+                    <p>Horas Trabalhadas: 500</p>
+                    <p>Horímetro: 1000</p>
+                    <button onclick="editItem('maquina1', 'nomeMaquina', 'serie', 'anosDeUso', 'horasTrabalhadas', 'horimetro')">Alterar</button>
+                    <button onclick="deleteItem('maquina1')">Excluir</button>
                 </div>
             </div>
+
+            <div id="maquinasContainerDetails" class="details-container"></div>
         </section>
 
         <!-- Seção Contas -->
@@ -73,8 +72,8 @@
                 <input type="date" name="dataEmissao" id="dataEmissao" required>
                 <label for="dataVencimento">Data de Vencimento:</label>
                 <input type="date" name="dataVencimento" id="dataVencimento" required>
-                <label for="valor">Valor:</label>
-                <input type="number" name="valor" id="valor" required>
+                <label for="valorConta">Valor:</label>
+                <input type="number" name="valor" id="valorConta" required>
                 <button type="submit">Adicionar Conta</button>
             </form>
 
@@ -84,33 +83,33 @@
             </div>
             <button onclick="showAllItems('contas')">Todas as Contas</button>
 
-            <div id="contasContainer" class="items-container"></div>
-
-            <!-- Container de Detalhes de Contas -->
-            <div id="contasContainerDetails" class="details-container">
+            <div id="contasContainer" class="items-container">
+                <!-- Exemplo de item -->
                 <div class="item-details" id="conta1">
                     <p>Tipo: Conta de Luz</p>
                     <p>Data de Emissão: 01/10/2024</p>
-                    <p>Data de Vencimento: 30/10/2024</p>
-                    <p>Valor: R$ 100,00</p>
-                    <button onclick="editItem('conta1')">Alterar</button>
+                    <p>Data de Vencimento: 01/11/2024</p>
+                    <p>Valor: R$ 150,00</p>
+                    <button onclick="editItem('conta1', 'tipo', 'dataEmissao', 'dataVencimento', 'valorConta')">Alterar</button>
                     <button onclick="deleteItem('conta1')">Excluir</button>
                 </div>
             </div>
+
+            <div id="contasContainerDetails" class="details-container"></div>
         </section>
 
         <!-- Seção Recebimentos -->
         <section id="recebimentoSection" class="section">
             <h2>Gerenciamento de Recebimentos</h2>
             <form id="recebimentoForm">
-                <label for="empresa">Empresa:</label>
-                <input type="text" name="empresa" id="empresa" required>
-                <label for="valor">Valor:</label>
-                <input type="number" name="valor" id="valor" required>
+                <label for="empresaRecebimento">Empresa:</label>
+                <input type="text" name="empresa" id="empresaRecebimento" required>
+                <label for="valorRecebimento">Valor:</label>
+                <input type="number" name="valor" id="valorRecebimento" required>
                 <label for="dataInicio">Data de Início:</label>
                 <input type="date" name="dataInicio" id="dataInicio" required>
-                <label for="dataVencimento">Data de Vencimento:</label>
-                <input type="date" name="dataVencimento" id="dataVencimento" required>
+                <label for="dataVencimentoRecebimento">Data de Vencimento:</label>
+                <input type="date" name="dataVencimento" id="dataVencimentoRecebimento" required>
                 <label for="status">Status:</label>
                 <select name="status" id="status" required>
                     <option value="pago">Pago</option>
@@ -125,40 +124,42 @@
             </div>
             <button onclick="showAllItems('recebimentos')">Todos os Recebimentos</button>
 
-            <div id="recebimentosContainer" class="items-container"></div>
-
-            <!-- Container de Detalhes de Recebimentos -->
-            <div id="recebimentosContainerDetails" class="details-container">
+            <div id="recebimentosContainer" class="items-container">
+                <!-- Exemplo de item -->
                 <div class="item-details" id="recebimento1">
                     <p>Empresa: Empresa X</p>
-                    <p>Valor: R$ 500,00</p>
+                    <p>Valor: R$ 300,00</p>
                     <p>Data de Início: 01/10/2024</p>
-                    <p>Data de Vencimento: 31/10/2024</p>
+                    <p>Data de Vencimento: 01/11/2024</p>
                     <p>Status: Pago</p>
-                    <button onclick="editItem('recebimento1')">Alterar</button>
+                    <button onclick="editItem('recebimento1', 'empresaRecebimento', 'valorRecebimento', 'dataInicio', 'dataVencimentoRecebimento', 'status')">Alterar</button>
                     <button onclick="deleteItem('recebimento1')">Excluir</button>
                 </div>
             </div>
+
+            <div id="recebimentosContainerDetails" class="details-container"></div>
         </section>
 
         <!-- Seção Contratos -->
         <section id="contratoSection" class="section">
             <h2>Gerenciamento de Contratos</h2>
             <form id="contratoForm">
-                <label for="empresa">Empresa:</label>
-                <input type="text" name="empresa" id="empresa" required>
-                <label for="dataInicio">Data de Início:</label>
-                <input type="date" name="dataInicio" id="dataInicio" required>
-                <label for="dataVencimento">Data de Vencimento:</label>
-                <input type="date" name="dataVencimento" id="dataVencimento" required>
-                <label for="valor">Valor:</label>
-                <input type="number" name="valor" id="valor" required>
+                <label for="empresaContrato">Empresa:</label>
+                <input type="text" name="empresa" id="empresaContrato" required>
+                <label for="dataInicioContrato">Data de Início:</label>
+                <input type="date" name="dataInicio" id="dataInicioContrato" required>
+                <label for="dataVencimentoContrato">Data de Vencimento:</label>
+                <input type="date" name="dataVencimento" id="dataVencimentoContrato" required>
+                <label for="valorContrato">Valor:</label>
+                <input type="number" name="valor" id="valorContrato" required>
                 <label for="clausulas">Cláusulas:</label>
-                <textarea name="clausulas" id="clausulas" required></textarea>
+                <textarea name="clausulas" id
+
+="clausulas" required></textarea>
                 <label for="contratante">Nome do Contratante:</label>
                 <input type="text" name="contratante" id="contratante" required>
-                <label for="maquina">Máquina:</label>
-                <input type="text" name="maquina" id="maquina" required>
+                <label for="maquinaContrato">Máquina:</label>
+                <input type="text" name="maquina" id="maquinaContrato" required>
                 <label for="operador">Operador:</label>
                 <input type="text" name="operador" id="operador" required>
                 <button type="submit">Adicionar Contrato</button>
@@ -170,28 +171,27 @@
             </div>
             <button onclick="showAllItems('contratos')">Todos os Contratos</button>
 
-            <div id="contratosContainer" class="items-container"></div>
-
-            <!-- Container de Detalhes de Contratos -->
-            <div id="contratosContainerDetails" class="details-container">
+            <div id="contratosContainer" class="items-container">
+                <!-- Exemplo de item -->
                 <div class="item-details" id="contrato1">
                     <p>Empresa: Empresa Y</p>
-                    <p>Data de Início: 01/11/2024</p>
-                    <p>Data de Vencimento: 01/12/2024</p>
-                    <p>Valor: R$ 2000,00</p>
-                    <p>Cláusulas: Lorem ipsum...</p>
-                    <button onclick="editItem('contrato1')">Alterar</button>
+                    <p>Data de Início: 01/10/2024</p>
+                    <p>Data de Vencimento: 01/11/2024</p>
+                    <p>Valor: R$ 500,00</p>
+                    <button onclick="editItem('contrato1', 'empresaContrato', 'dataInicioContrato', 'dataVencimentoContrato', 'valorContrato', 'clausulas', 'contratante', 'maquinaContrato', 'operador')">Alterar</button>
                     <button onclick="deleteItem('contrato1')">Excluir</button>
                 </div>
             </div>
+
+            <div id="contratosContainerDetails" class="details-container"></div>
         </section>
 
         <!-- Seção Empresas -->
         <section id="empresaSection" class="section">
             <h2>Gerenciamento de Empresas</h2>
             <form id="empresaForm">
-                <label for="nome">Nome da Empresa:</label>
-                <input type="text" name="nome" id="nome" required>
+                <label for="nomeEmpresa">Nome da Empresa:</label>
+                <input type="text" name="nome" id="nomeEmpresa" required>
                 <label for="cnpj">CNPJ:</label>
                 <input type="text" name="cnpj" id="cnpj" required>
                 <label for="areaAtuacao">Área de Atuação:</label>
@@ -209,23 +209,41 @@
             </div>
             <button onclick="showAllItems('empresas')">Todas as Empresas</button>
 
-            <div id="empresasContainer" class="items-container"></div>
-
-            <!-- Container de Detalhes de Empresas -->
-            <div id="empresasContainerDetails" class="details-container">
+            <div id="empresasContainer" class="items-container">
+                <!-- Exemplo de item -->
                 <div class="item-details" id="empresa1">
                     <p>Nome: Empresa Z</p>
-                    <p>CNPJ: 12.345.678/0001-90</p>
-                    <p>Área de Atuação: Construção</p>
-                    <p>Telefone: (11) 99999-9999</p>
-                    <p>E-mail: contato@empresa.com</p>
-                    <button onclick="editItem('empresa1')">Alterar</button>
+                    <p>CNPJ: 00.000.000/0000-00</p>
+                    <p>Área de Atuação: Tecnologia</p>
+                    <p>Telefone: (11) 0000-0000</p>
+                    <button onclick="editItem('empresa1', 'nomeEmpresa', 'cnpj', 'areaAtuacao', 'telefone', 'email')">Alterar</button>
                     <button onclick="deleteItem('empresa1')">Excluir</button>
                 </div>
             </div>
+
+            <div id="empresasContainerDetails" class="details-container"></div>
         </section>
     </div>
 
     <script src="script.js"></script>
+    <script>
+        // Função para editar item
+        function editItem(itemId, ...fields) {
+            const item = document.getElementById(itemId);
+            const values = [...item.getElementsByTagName('p')].map(p => p.innerText.split(': ')[1]);
+
+            fields.forEach((fieldId, index) => {
+                document.getElementById(fieldId).value = values[index];
+            });
+        }
+
+        // Função para excluir item
+        function deleteItem(itemId) {
+            const item = document.getElementById(itemId);
+            if (item) {
+                item.remove();
+            }
+        }
+    </script>
 </body>
 </html>
