@@ -40,18 +40,27 @@
                 <button type="submit">Adicionar Máquina</button>
             </form>
 
-            <!-- Campo de Busca e botão "Todas as Máquinas" -->
             <div class="search-container">
                 <input class="search-input" id="maquinaSearch" placeholder="Pesquisar máquina...">
                 <button onclick="confirmSearch('maquinasContainer', 'maquinaSearch')">Confirmar</button>
             </div>
             <button onclick="showAllItems('maquinas')">Todas as Máquinas</button>
 
-            <!-- Container de Máquinas -->
             <div id="maquinasContainer" class="items-container"></div>
 
             <!-- Container de Detalhes de Máquinas -->
-            <div id="maquinasContainerDetails" class="details-container"></div>
+            <div id="maquinasContainerDetails" class="details-container">
+                <!-- Exemplo de item com botões "Alterar" e "Excluir" -->
+                <div class="item-details" id="item1">
+                    <p>Nome: Máquina 1</p>
+                    <p>Série: ABC123</p>
+                    <p>Anos de Uso: 5</p>
+                    <p>Horas Trabalhadas: 1200</p>
+                    <p>Horímetro: 300</p>
+                    <button onclick="editItem('item1')">Alterar</button>
+                    <button onclick="deleteItem('item1')">Excluir</button>
+                </div>
+            </div>
         </section>
 
         <!-- Seção Contas -->
@@ -69,18 +78,25 @@
                 <button type="submit">Adicionar Conta</button>
             </form>
 
-            <!-- Campo de Busca e botão "Todas as Contas" -->
             <div class="search-container">
                 <input class="search-input" id="contaSearch" placeholder="Pesquisar conta...">
                 <button onclick="confirmSearch('contasContainer', 'contaSearch')">Confirmar</button>
             </div>
             <button onclick="showAllItems('contas')">Todas as Contas</button>
 
-            <!-- Container de Contas -->
             <div id="contasContainer" class="items-container"></div>
 
             <!-- Container de Detalhes de Contas -->
-            <div id="contasContainerDetails" class="details-container"></div>
+            <div id="contasContainerDetails" class="details-container">
+                <div class="item-details" id="conta1">
+                    <p>Tipo: Conta de Luz</p>
+                    <p>Data de Emissão: 01/10/2024</p>
+                    <p>Data de Vencimento: 30/10/2024</p>
+                    <p>Valor: R$ 100,00</p>
+                    <button onclick="editItem('conta1')">Alterar</button>
+                    <button onclick="deleteItem('conta1')">Excluir</button>
+                </div>
+            </div>
         </section>
 
         <!-- Seção Recebimentos -->
@@ -103,18 +119,26 @@
                 <button type="submit">Adicionar Recebimento</button>
             </form>
 
-            <!-- Campo de Busca e botão "Todos os Recebimentos" -->
             <div class="search-container">
                 <input class="search-input" id="recebimentoSearch" placeholder="Pesquisar recebimento...">
                 <button onclick="confirmSearch('recebimentosContainer', 'recebimentoSearch')">Confirmar</button>
             </div>
             <button onclick="showAllItems('recebimentos')">Todos os Recebimentos</button>
 
-            <!-- Container de Recebimentos -->
             <div id="recebimentosContainer" class="items-container"></div>
 
             <!-- Container de Detalhes de Recebimentos -->
-            <div id="recebimentosContainerDetails" class="details-container"></div>
+            <div id="recebimentosContainerDetails" class="details-container">
+                <div class="item-details" id="recebimento1">
+                    <p>Empresa: Empresa X</p>
+                    <p>Valor: R$ 500,00</p>
+                    <p>Data de Início: 01/10/2024</p>
+                    <p>Data de Vencimento: 31/10/2024</p>
+                    <p>Status: Pago</p>
+                    <button onclick="editItem('recebimento1')">Alterar</button>
+                    <button onclick="deleteItem('recebimento1')">Excluir</button>
+                </div>
+            </div>
         </section>
 
         <!-- Seção Contratos -->
@@ -140,18 +164,26 @@
                 <button type="submit">Adicionar Contrato</button>
             </form>
 
-            <!-- Campo de Busca e botão "Todos os Contratos" -->
             <div class="search-container">
                 <input class="search-input" id="contratoSearch" placeholder="Pesquisar contrato...">
                 <button onclick="confirmSearch('contratosContainer', 'contratoSearch')">Confirmar</button>
             </div>
             <button onclick="showAllItems('contratos')">Todos os Contratos</button>
 
-            <!-- Container de Contratos -->
             <div id="contratosContainer" class="items-container"></div>
 
             <!-- Container de Detalhes de Contratos -->
-            <div id="contratosContainerDetails" class="details-container"></div>
+            <div id="contratosContainerDetails" class="details-container">
+                <div class="item-details" id="contrato1">
+                    <p>Empresa: Empresa Y</p>
+                    <p>Data de Início: 01/11/2024</p>
+                    <p>Data de Vencimento: 01/12/2024</p>
+                    <p>Valor: R$ 2000,00</p>
+                    <p>Cláusulas: Lorem ipsum...</p>
+                    <button onclick="editItem('contrato1')">Alterar</button>
+                    <button onclick="deleteItem('contrato1')">Excluir</button>
+                </div>
+            </div>
         </section>
 
         <!-- Seção Empresas -->
@@ -171,18 +203,26 @@
                 <button type="submit">Adicionar Empresa</button>
             </form>
 
-            <!-- Campo de Busca e botão "Todas as Empresas" -->
             <div class="search-container">
                 <input class="search-input" id="empresaSearch" placeholder="Pesquisar empresa...">
                 <button onclick="confirmSearch('empresasContainer', 'empresaSearch')">Confirmar</button>
             </div>
             <button onclick="showAllItems('empresas')">Todas as Empresas</button>
 
-            <!-- Container de Empresas -->
             <div id="empresasContainer" class="items-container"></div>
 
             <!-- Container de Detalhes de Empresas -->
-            <div id="empresasContainerDetails" class="details-container"></div>
+            <div id="empresasContainerDetails" class="details-container">
+                <div class="item-details" id="empresa1">
+                    <p>Nome: Empresa Z</p>
+                    <p>CNPJ: 12.345.678/0001-90</p>
+                    <p>Área de Atuação: Construção</p>
+                    <p>Telefone: (11) 99999-9999</p>
+                    <p>E-mail: contato@empresa.com</p>
+                    <button onclick="editItem('empresa1')">Alterar</button>
+                    <button onclick="deleteItem('empresa1')">Excluir</button>
+                </div>
+            </div>
         </section>
     </div>
 
