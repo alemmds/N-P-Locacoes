@@ -75,8 +75,8 @@ function addButton(containerId, form, storageKey, editIndex = null) {
     form.reset(); // Reseta o formulário após adicionar ou editar
     form.removeAttribute('data-edit-index'); // Remove o índice de edição após salvar
 
-    // Oculta o botão "Confirmar Alteração" após a edição
-    document.getElementById(`alterar${containerId.replace('Container', '')}`).style.display = 'none';
+    // Oculta o botão "Confirmar Edição" após a edição
+    document.getElementById(`editar${containerId.replace('Container', '')}`).style.display = 'none';
 }
 
 // Função para atualizar os botões no contêiner com os dados salvos
@@ -139,8 +139,8 @@ function editItem(containerId, storageKey, index) {
     // Define o índice de edição no formulário
     form.setAttribute('data-edit-index', index);
     
-    // Exibe o botão "Confirmar Alteração" ao iniciar a edição
-    const confirmButton = document.getElementById(`alterar${containerId.replace('Container', '')}`);
+    // Exibe o botão "Confirmar Edição" ao iniciar a edição
+    const confirmButton = document.getElementById(`editar${containerId.replace('Container', '')}`);
     if (confirmButton) {
         confirmButton.style.display = 'inline';
     }
