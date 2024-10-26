@@ -26,7 +26,7 @@
         <!-- Seção Máquinas -->
         <section id="maquinaSection" class="section">
             <h2>Gerenciamento de Máquinas</h2>
-            <form id="maquinaForm">
+            <form id="maquinaForm" onsubmit="addMaquina(event)">
                 <label for="nome">Nome da Máquina:</label>
                 <input type="text" name="nome" id="nome" required>
                 <label for="serie">Série:</label>
@@ -54,7 +54,7 @@
         <!-- Seção Contas -->
         <section id="contaSection" class="section">
             <h2>Gerenciamento de Contas</h2>
-            <form id="contaForm">
+            <form id="contaForm" onsubmit="addConta(event)">
                 <label for="tipo">Tipo de Conta:</label>
                 <input type="text" name="tipo" id="tipo" required>
                 <label for="dataEmissao">Data de Emissão:</label>
@@ -80,7 +80,7 @@
         <!-- Seção Recebimentos -->
         <section id="recebimentoSection" class="section">
             <h2>Gerenciamento de Recebimentos</h2>
-            <form id="recebimentoForm">
+            <form id="recebimentoForm" onsubmit="addRecebimento(event)">
                 <label for="empresa">Empresa:</label>
                 <input type="text" name="empresa" id="empresa" required>
                 <label for="valor">Valor:</label>
@@ -111,7 +111,7 @@
         <!-- Seção Contratos -->
         <section id="contratoSection" class="section">
             <h2>Gerenciamento de Contratos</h2>
-            <form id="contratoForm">
+            <form id="contratoForm" onsubmit="addContrato(event)">
                 <label for="empresa">Empresa:</label>
                 <input type="text" name="empresa" id="empresa" required>
                 <label for="dataInicio">Data de Início:</label>
@@ -145,7 +145,7 @@
         <!-- Seção Empresas -->
         <section id="empresaSection" class="section">
             <h2>Gerenciamento de Empresas</h2>
-            <form id="empresaForm">
+            <form id="empresaForm" onsubmit="addEmpresa(event)">
                 <label for="nome">Nome da Empresa:</label>
                 <input type="text" name="nome" id="nome" required>
                 <label for="cnpj">CNPJ:</label>
