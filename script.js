@@ -236,4 +236,3 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
-
