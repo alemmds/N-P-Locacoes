@@ -203,17 +203,24 @@ document.getElementById('empresaForm').addEventListener('submit', function(event
     addButton('empresasContainer', this, 'empresas', editIndex !== null ? Number(editIndex) : null);
 });
 
+// Função para buscar os botões
 document.getElementById("searchButton").addEventListener("click", function() {
     const input = document.getElementById("searchInput").value.toLowerCase();
-    const buttons = document.querySelectorAll("#itemList .data-button");
+    
+    // Atualiza a busca para cada contêiner de itens
+    const containers = ['maquinasContainer', 'recebimentosContainer', 'contratosContainer', 'contasContainer', 'empresasContainer'];
+    
+    containers.forEach(containerId => {
+        const buttons = document.querySelectorAll(`#${containerId} .data-button`);
 
-    buttons.forEach(button => {
-        const buttonText = button.textContent.toLowerCase();
-        if (buttonText.includes(input)) {
-            button.style.display = ""; // Mostra o botão
-        } else {
-            button.style.display = "none"; // Esconde o botão
-        }
+        buttons.forEach(button => {
+            const buttonText = button.textContent.toLowerCase();
+            if (buttonText.includes(input)) {
+                button.style.display = ""; // Mostra o botão
+            } else {
+                button.style.display = "none"; // Esconde o botão
+            }
+        });
     });
 });
 
