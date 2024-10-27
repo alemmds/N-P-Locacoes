@@ -215,4 +215,3 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
-
