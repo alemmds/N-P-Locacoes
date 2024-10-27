@@ -88,6 +88,11 @@ form button:hover {
     background-color: #45a049;
 }
 
+/* Estilo para botões de envio em modo de edição */
+button[type="submit"].editing {
+    background-color: orange;
+}
+
 /* Estilos da Tabela */
 table {
     width: 100%;
