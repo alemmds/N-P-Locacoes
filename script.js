@@ -75,8 +75,8 @@ function addButton(containerId, form, storageKey, editIndex = null) {
     form.reset(); // Reseta o formulário após adicionar ou editar
     form.removeAttribute('data-edit-index'); // Remove o índice de edição após salvar
 
-    // Oculta o botão "Confirmar Edição" após a edição
-    document.getElementById(`editar${containerId.replace('Container', '')}`).style.display = 'none';
+    // Oculta o botão "Confirmar Alteração" após a edição
+    document.getElementById(`alterar${containerId.replace('Container', '')}`).style.display = 'none';
 }
 
 // Função para atualizar os botões no contêiner com os dados salvos
@@ -139,8 +139,8 @@ function editItem(containerId, storageKey, index) {
     // Define o índice de edição no formulário
     form.setAttribute('data-edit-index', index);
     
-    // Exibe o botão "Confirmar Edição" ao iniciar a edição
-    const confirmButton = document.getElementById(`editar${containerId.replace('Container', '')}`);
+    // Exibe o botão "Confirmar Alteração" ao iniciar a edição
+    const confirmButton = document.getElementById(`alterar${containerId.replace('Container', '')}`);
     if (confirmButton) {
         confirmButton.style.display = 'inline';
     }
@@ -201,27 +201,6 @@ document.getElementById('empresaForm').addEventListener('submit', function(event
     event.preventDefault();
     const editIndex = this.getAttribute('data-edit-index');
     addButton('empresasContainer', this, 'empresas', editIndex !== null ? Number(editIndex) : null);
-});
-
-// Função para buscar os botões
-document.getElementById("searchButton").addEventListener("click", function() {
-    const input = document.getElementById("searchInput").value.toLowerCase();
-    
-    // Atualiza a busca para cada contêiner de itens
-    const containers = ['maquinasContainer', 'recebimentosContainer', 'contratosContainer', 'contasContainer', 'empresasContainer'];
-    
-    containers.forEach(containerId => {
-        const buttons = document.querySelectorAll(`#${containerId} .data-button`);
-
-        buttons.forEach(button => {
-            const buttonText = button.textContent.toLowerCase();
-            if (buttonText.includes(input)) {
-                button.style.display = ""; // Mostra o botão
-            } else {
-                button.style.display = "none"; // Esconde o botão
-            }
-        });
-    });
 });
 
 // Registrar o Service Worker
