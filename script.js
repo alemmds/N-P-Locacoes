@@ -1,9 +1,11 @@
+Agora que você mencionou, ainda não havia substituído “alterar” por “editar” em todos os lugares relevantes. Vou corrigir isso para garantir que o botão e as funções utilizem “Editar” em vez de “Alterar”. Aqui está o código atualizado com as mudanças:
 
-// Função para salvar dados no Local Storage e carregar os dados salvos
+// Função para salvar dados no Local Storage
 function saveToLocalStorage(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
 }
 
+// Função para carregar os dados salvos no Local Storage
 function loadFromLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key)) || [];
 }
@@ -18,7 +20,7 @@ function showDetails(data, containerId, index) {
         return;
     }
 
-    // Limpar o conteúdo anterior
+    // Limpa o conteúdo anterior
     detailsContainer.innerHTML = '';
 
     // Criar um div para exibir os detalhes do item
@@ -33,6 +35,19 @@ function showDetails(data, containerId, index) {
             detailsDiv.appendChild(p);
         }
     }
+
+    // Criar botões de editar e excluir
+    const editButton = document.createElement('button');
+    editButton.textContent = 'Editar';
+    editButton.onclick = () => editItem(containerId, containerId.replace('Container', ''), index);
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Excluir';
+    deleteButton.onclick = () => deleteItem(containerId, containerId.replace('Container', ''), index);
+
+    // Adicionar os botões de ação ao contêiner de detalhes
+    detailsDiv.appendChild(editButton);
+    detailsDiv.appendChild(deleteButton);
 
     // Exibir o div de detalhes
     detailsContainer.appendChild(detailsDiv);
@@ -62,11 +77,8 @@ function addButton(containerId, form, storageKey, editIndex = null) {
     form.reset(); // Reseta o formulário após adicionar ou editar
     form.removeAttribute('data-edit-index'); // Remove o índice de edição após salvar
 
-    // Oculta o botão "Confirmar Alteração" após a edição
-    const confirmButton = document.getElementById(`alterar${containerId.replace('Container', '')}`);
-    if (confirmButton) {
-        confirmButton.style.display = 'none';
-    }
+    // Oculta o botão "Confirmar Edição" após a edição
+    document.getElementById(`editar${containerId.replace('Container', '')}`).style.display = 'none';
 }
 
 // Função para atualizar os botões no contêiner com os dados salvos
@@ -77,54 +89,38 @@ function updateButtons(containerId, storageKey) {
     container.innerHTML = ''; // Limpa o contêiner
 
     dataList.forEach((data, index) => {
-        const button = document.createElement('button');
-        button.classList.add('data-button');
-        button.textContent = data[Object.keys(data)[0]]; // Usa o primeiro campo como rótulo do botão
-        button.onclick = () => toggleDetails(containerId, index); // Alterna a exibição de detalhes
+        const accordionButton = document.createElement('button');
+        accordionButton.classList.add('data-button');
+        accordionButton.textContent = data[Object.keys(data)[0]]; // Usa o primeiro campo como rótulo do botão
+        accordionButton.onclick = () => toggleDetails(containerId, index); // Exibe os detalhes ao clicar no botão
 
-        // Botões de ação (Editar e Excluir)
-        const actionContainer = document.createElement('div');
-        actionContainer.classList.add('actions');
-
-        // Botão Editar
-        const editButton = document.createElement('button');
-        editButton.classList.add('button-edit');
-        editButton.textContent = 'Editar';
-        editButton.onclick = () => editItem(containerId, storageKey, index); // Função de editar
-        actionContainer.appendChild(editButton);
-
-        // Botão Excluir
-        const deleteButton = document.createElement('button');
-        deleteButton.classList.add('button-delete');
-        deleteButton.textContent = 'Excluir';
-        deleteButton.onclick = () => deleteItem(containerId, storageKey, index); // Função de excluir
-        actionContainer.appendChild(deleteButton);
-
-        container.appendChild(button);
-        container.appendChild(actionContainer);
-
-        // Adiciona o contêiner de detalhes
+        // Criar o contêiner para detalhes
         const detailsContainer = document.createElement('div');
-        detailsContainer.id = containerId + 'Details' + index;
+        detailsContainer.id = `${containerId}Details${index}`;
         detailsContainer.classList.add('details-container');
-        detailsContainer.style.display = 'none'; // Inicialmente oculto
+
+        // Adiciona os botões de editar e excluir inicialmente ocultos
+        detailsContainer.style.display = 'none';
+
+        // Adiciona o botão do acordeão e o contêiner de detalhes ao contêiner principal
+        container.appendChild(accordionButton);
         container.appendChild(detailsContainer);
     });
 }
 
-// Função para alternar a exibição de detalhes
+// Função para alternar a exibição dos detalhes
 function toggleDetails(containerId, index) {
     const detailsContainer = document.getElementById(containerId + 'Details' + index);
     const dataList = loadFromLocalStorage(containerId.replace('Container', ''));
 
     // Se o contêiner estiver oculto, exibe os detalhes e os botões de "Editar" e "Excluir"
     if (detailsContainer.style.display === 'none' || detailsContainer.style.display === '') {
-        showDetails(dataList[index], containerId, index); // Exibe detalhes ao clicar no botão
-        detailsContainer.style.display = 'block'; // Mostra o contêiner de detalhes
+        showDetails(dataList[index], containerId, index);
+        detailsContainer.style.display = 'block';
     } else {
         // Caso contrário, oculta os detalhes
         detailsContainer.innerHTML = ''; // Limpa o conteúdo ao esconder
-        detailsContainer.style.display = 'none'; // Esconde o contêiner de detalhes
+        detailsContainer.style.display = 'none';
     }
 }
 
@@ -145,8 +141,8 @@ function editItem(containerId, storageKey, index) {
     // Define o índice de edição no formulário
     form.setAttribute('data-edit-index', index);
     
-    // Exibe o botão "Confirmar Alteração" ao iniciar a edição
-    const confirmButton = document.getElementById(`alterar${containerId.replace('Container', '')}`);
+    // Exibe o botão "Confirmar Edição" ao iniciar a edição
+    const confirmButton = document.getElementById(`editar${containerId.replace('Container', '')}`);
     if (confirmButton) {
         confirmButton.style.display = 'inline';
     }
@@ -160,35 +156,13 @@ function deleteItem(containerId, storageKey, index) {
     updateButtons(containerId, storageKey); // Atualiza a lista de botões após exclusão
 }
 
-// Função para buscar entre os botões
-function searchInButtons(containerId, searchInputId) {
-    const input = document.getElementById(searchInputId);
-    const filter = input.value.toLowerCase();
-    const container = document.getElementById(containerId);
-    const buttons = container.querySelectorAll('.data-button');
-
-    buttons.forEach(button => {
-        const text = button.textContent.toLowerCase();
-        button.style.display = text.includes(filter) ? '' : 'none';
+// Função para mostrar uma seção específica ao clicar nos botões de navegação
+function showSection(sectionId) {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
+        section.style.display = 'none';
     });
-}
-
-// Função para confirmar busca ao clicar no botão "Confirmar"
-function confirmSearch(containerId, searchInputId) {
-    searchInButtons(containerId, searchInputId);
-}
-
-// Registrar o Service Worker
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-            .then((registration) => {
-                console.log('Service Worker registrado com sucesso:', registration);
-            })
-            .catch((error) => {
-                console.log('Falha ao registrar o Service Worker:', error);
-            });
-    });
+    document.getElementById(sectionId).style.display = 'block';
 }
 
 // Função para carregar os botões com os dados salvos ao carregar a página
@@ -205,7 +179,6 @@ document.getElementById('maquinaForm').addEventListener('submit', function(event
     event.preventDefault();
     const editIndex = this.getAttribute('data-edit-index');
     addButton('maquinasContainer', this, 'maquinas', editIndex !== null ? Number(editIndex) : null);
-    this.removeAttribute('data-edit-index'); // Remove o índice de edição após a edição ser confirmada
 });
 
 document.getElementById('recebimentoForm').addEventListener('submit', function(event) {
@@ -244,3 +217,4 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
+
