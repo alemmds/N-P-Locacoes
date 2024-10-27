@@ -109,6 +109,34 @@ th {
     color: white;
 }
 
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.button-edit,
+.button-delete {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.button-edit {
+    background-color: #2196F3;
+}
+
+.button-edit:hover {
+    background-color: #1976D2;
+}
+
+.button-delete:hover {
+    background-color: #d32f2f;
+}
+
 /* Estilos dos Botões de Ação */
 .actions {
     display: flex;
