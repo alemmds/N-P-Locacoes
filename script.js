@@ -203,6 +203,20 @@ document.getElementById('empresaForm').addEventListener('submit', function(event
     addButton('empresasContainer', this, 'empresas', editIndex !== null ? Number(editIndex) : null);
 });
 
+document.getElementById("searchButton").addEventListener("click", function() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const buttons = document.querySelectorAll("#itemList .data-button");
+
+    buttons.forEach(button => {
+        const buttonText = button.textContent.toLowerCase();
+        if (buttonText.includes(input)) {
+            button.style.display = ""; // Mostra o botão
+        } else {
+            button.style.display = "none"; // Esconde o botão
+        }
+    });
+});
+
 // Registrar o Service Worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
