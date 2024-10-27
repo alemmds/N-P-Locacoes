@@ -26,9 +26,9 @@
         <!-- Seção Máquinas -->
         <section id="maquinaSection" class="section">
             <h2>Gerenciamento de Máquinas</h2>
-            <form id="maquinaForm" onsubmit="event.preventDefault(); addItem('maquinasContainer', this);">
-                <label for="nomeMaquina">Nome da Máquina:</label>
-                <input type="text" name="nome" id="nomeMaquina" required>
+            <form id="maquinaForm">
+                <label for="nome">Nome da Máquina:</label>
+                <input type="text" name="nome" id="nome" required>
                 <label for="serie">Série:</label>
                 <input type="text" name="serie" id="serie" required>
                 <label for="anosDeUso">Anos de Uso:</label>
@@ -38,120 +38,128 @@
                 <label for="horimetro">Horímetro:</label>
                 <input type="number" name="horimetro" id="horimetro" required>
                 <button type="submit">Adicionar Máquina</button>
-                <button id="alterarMaquina" style="display:none;">Confirmar Alteração</button> <!-- Botão para Confirmar Alteração -->
             </form>
 
+            <!-- Campo de Busca e botão "Todas as Máquinas" -->
             <div class="search-container">
                 <input class="search-input" id="maquinaSearch" placeholder="Pesquisar máquina...">
                 <button onclick="confirmSearch('maquinasContainer', 'maquinaSearch')">Confirmar</button>
             </div>
             <button onclick="showAllItems('maquinas')">Todas as Máquinas</button>
 
-            <div id="maquinasContainer" class="items-container">
-                <!-- Itens cadastrados serão exibidos aqui -->
-            </div>
+            <!-- Container de Máquinas -->
+            <div id="maquinasContainer" class="items-container"></div>
+
+            <!-- Container de Detalhes de Máquinas -->
+            <div id="maquinasContainerDetails" class="details-container"></div>
         </section>
 
         <!-- Seção Contas -->
         <section id="contaSection" class="section">
             <h2>Gerenciamento de Contas</h2>
-            <form id="contaForm" onsubmit="event.preventDefault(); addItem('contasContainer', this);">
+            <form id="contaForm">
                 <label for="tipo">Tipo de Conta:</label>
                 <input type="text" name="tipo" id="tipo" required>
                 <label for="dataEmissao">Data de Emissão:</label>
                 <input type="date" name="dataEmissao" id="dataEmissao" required>
                 <label for="dataVencimento">Data de Vencimento:</label>
                 <input type="date" name="dataVencimento" id="dataVencimento" required>
-                <label for="valorConta">Valor:</label>
-                <input type="number" name="valor" id="valorConta" required>
+                <label for="valor">Valor:</label>
+                <input type="number" name="valor" id="valor" required>
                 <button type="submit">Adicionar Conta</button>
-                <button id="alterarConta" style="display:none;">Confirmar Alteração</button> <!-- Botão para Confirmar Alteração -->
             </form>
 
+            <!-- Campo de Busca e botão "Todas as Contas" -->
             <div class="search-container">
                 <input class="search-input" id="contaSearch" placeholder="Pesquisar conta...">
                 <button onclick="confirmSearch('contasContainer', 'contaSearch')">Confirmar</button>
             </div>
             <button onclick="showAllItems('contas')">Todas as Contas</button>
 
-            <div id="contasContainer" class="items-container">
-                <!-- Itens cadastrados serão exibidos aqui -->
-            </div>
+            <!-- Container de Contas -->
+            <div id="contasContainer" class="items-container"></div>
+
+            <!-- Container de Detalhes de Contas -->
+            <div id="contasContainerDetails" class="details-container"></div>
         </section>
 
         <!-- Seção Recebimentos -->
         <section id="recebimentoSection" class="section">
             <h2>Gerenciamento de Recebimentos</h2>
-            <form id="recebimentoForm" onsubmit="event.preventDefault(); addItem('recebimentosContainer', this);">
-                <label for="empresaRecebimento">Empresa:</label>
-                <input type="text" name="empresa" id="empresaRecebimento" required>
-                <label for="valorRecebimento">Valor:</label>
-                <input type="number" name="valor" id="valorRecebimento" required>
+            <form id="recebimentoForm">
+                <label for="empresa">Empresa:</label>
+                <input type="text" name="empresa" id="empresa" required>
+                <label for="valor">Valor:</label>
+                <input type="number" name="valor" id="valor" required>
                 <label for="dataInicio">Data de Início:</label>
                 <input type="date" name="dataInicio" id="dataInicio" required>
-                <label for="dataVencimentoRecebimento">Data de Vencimento:</label>
-                <input type="date" name="dataVencimento" id="dataVencimentoRecebimento" required>
+                <label for="dataVencimento">Data de Vencimento:</label>
+                <input type="date" name="dataVencimento" id="dataVencimento" required>
                 <label for="status">Status:</label>
                 <select name="status" id="status" required>
                     <option value="pago">Pago</option>
                     <option value="aVencer">A Vencer</option>
                 </select>
                 <button type="submit">Adicionar Recebimento</button>
-                <button id="alterarRecebimento" style="display:none;">Confirmar Alteração</button> <!-- Botão para Confirmar Alteração -->
             </form>
 
+            <!-- Campo de Busca e botão "Todos os Recebimentos" -->
             <div class="search-container">
                 <input class="search-input" id="recebimentoSearch" placeholder="Pesquisar recebimento...">
                 <button onclick="confirmSearch('recebimentosContainer', 'recebimentoSearch')">Confirmar</button>
             </div>
             <button onclick="showAllItems('recebimentos')">Todos os Recebimentos</button>
 
-            <div id="recebimentosContainer" class="items-container">
-                <!-- Itens cadastrados serão exibidos aqui -->
-            </div>
+            <!-- Container de Recebimentos -->
+            <div id="recebimentosContainer" class="items-container"></div>
+
+            <!-- Container de Detalhes de Recebimentos -->
+            <div id="recebimentosContainerDetails" class="details-container"></div>
         </section>
 
         <!-- Seção Contratos -->
         <section id="contratoSection" class="section">
             <h2>Gerenciamento de Contratos</h2>
-            <form id="contratoForm" onsubmit="event.preventDefault(); addItem('contratosContainer', this);">
-                <label for="empresaContrato">Empresa:</label>
-                <input type="text" name="empresa" id="empresaContrato" required>
-                <label for="dataInicioContrato">Data de Início:</label>
-                <input type="date" name="dataInicio" id="dataInicioContrato" required>
-                <label for="dataVencimentoContrato">Data de Vencimento:</label>
-                <input type="date" name="dataVencimento" id="dataVencimentoContrato" required>
-                <label for="valorContrato">Valor:</label>
-                <input type="number" name="valor" id="valorContrato" required>
+            <form id="contratoForm">
+                <label for="empresa">Empresa:</label>
+                <input type="text" name="empresa" id="empresa" required>
+                <label for="dataInicio">Data de Início:</label>
+                <input type="date" name="dataInicio" id="dataInicio" required>
+                <label for="dataVencimento">Data de Vencimento:</label>
+                <input type="date" name="dataVencimento" id="dataVencimento" required>
+                <label for="valor">Valor:</label>
+                <input type="number" name="valor" id="valor" required>
                 <label for="clausulas">Cláusulas:</label>
                 <textarea name="clausulas" id="clausulas" required></textarea>
                 <label for="contratante">Nome do Contratante:</label>
                 <input type="text" name="contratante" id="contratante" required>
-                <label for="maquinaContrato">Máquina:</label>
-                <input type="text" name="maquina" id="maquinaContrato" required>
+                <label for="maquina">Máquina:</label>
+                <input type="text" name="maquina" id="maquina" required>
                 <label for="operador">Operador:</label>
                 <input type="text" name="operador" id="operador" required>
                 <button type="submit">Adicionar Contrato</button>
-                <button id="alterarContrato" style="display:none;">Confirmar Alteração</button> <!-- Botão para Confirmar Alteração -->
             </form>
 
+            <!-- Campo de Busca e botão "Todos os Contratos" -->
             <div class="search-container">
                 <input class="search-input" id="contratoSearch" placeholder="Pesquisar contrato...">
                 <button onclick="confirmSearch('contratosContainer', 'contratoSearch')">Confirmar</button>
             </div>
             <button onclick="showAllItems('contratos')">Todos os Contratos</button>
 
-            <div id="contratosContainer" class="items-container">
-                <!-- Itens cadastrados serão exibidos aqui -->
-            </div>
+            <!-- Container de Contratos -->
+            <div id="contratosContainer" class="items-container"></div>
+
+            <!-- Container de Detalhes de Contratos -->
+            <div id="contratosContainerDetails" class="details-container"></div>
         </section>
 
         <!-- Seção Empresas -->
         <section id="empresaSection" class="section">
             <h2>Gerenciamento de Empresas</h2>
-            <form id="empresaForm" onsubmit="event.preventDefault(); addItem('empresasContainer', this);">
-                <label for="nomeEmpresa">Nome da Empresa:</label>
-                <input type="text" name="nome" id="nomeEmpresa" required>
+            <form id="empresaForm">
+                <label for="nome">Nome da Empresa:</label>
+                <input type="text" name="nome" id="nome" required>
                 <label for="cnpj">CNPJ:</label>
                 <input type="text" name="cnpj" id="cnpj" required>
                 <label for="areaAtuacao">Área de Atuação:</label>
@@ -161,24 +169,22 @@
                 <label for="email">E-mail:</label>
                 <input type="email" name="email" id="email" required>
                 <button type="submit">Adicionar Empresa</button>
-                <button id="alterarEmpresa" style="display:none;">Confirmar Alteração</button> <!-- Botão para Confirmar Alteração -->
             </form>
 
+            <!-- Campo de Busca e botão "Todas as Empresas" -->
             <div class="search-container">
                 <input class="search-input" id="empresaSearch" placeholder="Pesquisar empresa...">
                 <button onclick="confirmSearch('empresasContainer', 'empresaSearch')">Confirmar</button>
             </div>
             <button onclick="showAllItems('empresas')">Todas as Empresas</button>
 
-            <div id="empresasContainer" class="items-container">
-                <!-- Itens cadastrados serão exibidos aqui -->
-            </div>
+            <!-- Container de Empresas -->
+            <div id="empresasContainer" class="items-container"></div>
+
+            <!-- Container de Detalhes de Empresas -->
+            <div id="empresasContainerDetails" class="details-container"></div>
         </section>
     </div>
-
-    <footer>
-        <p>&copy; 2024 Sistema de Gerenciamento</p>
-    </footer>
 
     <script src="script.js"></script>
 </body>
