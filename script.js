@@ -1,5 +1,3 @@
-Agora que você mencionou, ainda não havia substituído “alterar” por “editar” em todos os lugares relevantes. Vou corrigir isso para garantir que o botão e as funções utilizem “Editar” em vez de “Alterar”. Aqui está o código atualizado com as mudanças:
-
 // Função para salvar dados no Local Storage
 function saveToLocalStorage(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
