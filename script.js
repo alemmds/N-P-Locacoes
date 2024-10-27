@@ -8,8 +8,8 @@ function loadFromLocalStorage(key) {
 }
 
 // Função para exibir detalhes diretamente na página ao invés de alert
-function showDetails(data, containerId) {
-    const detailsContainer = document.getElementById(containerId + 'Details');
+function showDetails(data, containerId, index) {
+    const detailsContainer = document.getElementById(containerId + 'Details' + index);
 
     // Verifica se o contêiner de detalhes existe
     if (!detailsContainer) {
@@ -76,7 +76,7 @@ function updateButtons(containerId, storageKey) {
         const button = document.createElement('button');
         button.classList.add('data-button');
         button.textContent = data[Object.keys(data)[0]]; // Usa o primeiro campo como rótulo do botão
-        button.onclick = () => showDetails(data, containerId); // Exibe os detalhes ao clicar no botão
+        button.onclick = () => toggleDetails(containerId, index); // Alterna a exibição de detalhes
 
         // Botões de ação (Editar e Excluir)
         const actionContainer = document.createElement('div');
@@ -98,7 +98,30 @@ function updateButtons(containerId, storageKey) {
 
         container.appendChild(button);
         container.appendChild(actionContainer);
+
+        // Adiciona o contêiner de detalhes
+        const detailsContainer = document.createElement('div');
+        detailsContainer.id = containerId + 'Details' + index;
+        detailsContainer.classList.add('details-container');
+        detailsContainer.style.display = 'none'; // Inicialmente oculto
+        container.appendChild(detailsContainer);
     });
+}
+
+// Função para alternar a exibição de detalhes
+function toggleDetails(containerId, index) {
+    const detailsContainer = document.getElementById(containerId + 'Details' + index);
+    const dataList = loadFromLocalStorage(containerId.replace('Container', ''));
+
+    // Se o contêiner estiver oculto, exibe os detalhes e os botões de "Editar" e "Excluir"
+    if (detailsContainer.style.display === 'none' || detailsContainer.style.display === '') {
+        showDetails(dataList[index], containerId, index); // Exibe detalhes ao clicar no botão
+        detailsContainer.style.display = 'block'; // Mostra o contêiner de detalhes
+    } else {
+        // Caso contrário, oculta os detalhes
+        detailsContainer.innerHTML = ''; // Limpa o conteúdo ao esconder
+        detailsContainer.style.display = 'none'; // Esconde o contêiner de detalhes
+    }
 }
 
 // Função para editar um item existente
@@ -109,14 +132,20 @@ function editItem(containerId, storageKey, index) {
 
     // Preenche o formulário com os dados existentes para edição
     Object.keys(data).forEach(key => {
-        form.querySelector(`[name="${key}"]`).value = data[key];
+        const input = form.querySelector(`[name="${key}"]`);
+        if (input) {
+            input.value = data[key];
+        }
     });
 
     // Define o índice de edição no formulário
     form.setAttribute('data-edit-index', index);
     
     // Exibe o botão "Confirmar Alteração" ao iniciar a edição
-    document.getElementById(`alterar${containerId.replace('Container', '')}`).style.display = 'inline';
+    const confirmButton = document.getElementById(`alterar${containerId.replace('Container', '')}`);
+    if (confirmButton) {
+        confirmButton.style.display = 'inline';
+    }
 }
 
 // Função para excluir um item existente
@@ -150,6 +179,7 @@ document.getElementById('maquinaForm').addEventListener('submit', function(event
     event.preventDefault();
     const editIndex = this.getAttribute('data-edit-index');
     addButton('maquinasContainer', this, 'maquinas', editIndex !== null ? Number(editIndex) : null);
+    this.removeAttribute('data-edit-index'); // Remove o índice de edição após a edição ser confirmada
 });
 
 document.getElementById('recebimentoForm').addEventListener('submit', function(event) {
@@ -206,3 +236,4 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
+
