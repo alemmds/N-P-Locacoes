@@ -26,7 +26,7 @@
         <!-- Seção Máquinas -->
         <section id="maquinaSection" class="section">
             <h2>Gerenciamento de Máquinas</h2>
-            <form id="maquinaForm" onsubmit="event.preventDefault(); addButton('maquinasContainer', this, 'maquinas');">
+            <form id="maquinaForm" onsubmit="event.preventDefault(); addItem('maquinasContainer', this);">
                 <label for="nomeMaquina">Nome da Máquina:</label>
                 <input type="text" name="nome" id="nomeMaquina" required>
                 <label for="serie">Série:</label>
@@ -38,7 +38,7 @@
                 <label for="horimetro">Horímetro:</label>
                 <input type="number" name="horimetro" id="horimetro" required>
                 <button type="submit">Adicionar Máquina</button>
-                <button id="editarmaquinas" style="display:none;">Confirmar Edição</button>
+                <button id="editarmaquinas" style="display:none;">Confirmar Edição</button> <!-- Botão para Confirmar Edição -->
             </form>
 
             <div class="search-container">
@@ -55,7 +55,7 @@
         <!-- Seção Contas -->
         <section id="contaSection" class="section">
             <h2>Gerenciamento de Contas</h2>
-            <form id="contaForm" onsubmit="event.preventDefault(); addButton('contasContainer', this, 'contas');">
+            <form id="contaForm" onsubmit="event.preventDefault(); addItem('contasContainer', this);">
                 <label for="tipo">Tipo de Conta:</label>
                 <input type="text" name="tipo" id="tipo" required>
                 <label for="dataEmissao">Data de Emissão:</label>
@@ -65,7 +65,7 @@
                 <label for="valorConta">Valor:</label>
                 <input type="number" name="valor" id="valorConta" required>
                 <button type="submit">Adicionar Conta</button>
-                <button id="editarcontas" style="display:none;">Confirmar Edição</button>
+                <button id="editarcontas" style="display:none;">Confirmar Edição</button> <!-- Botão para Confirmar Edição -->
             </form>
 
             <div class="search-container">
@@ -82,7 +82,7 @@
         <!-- Seção Recebimentos -->
         <section id="recebimentoSection" class="section">
             <h2>Gerenciamento de Recebimentos</h2>
-            <form id="recebimentoForm" onsubmit="event.preventDefault(); addButton('recebimentosContainer', this, 'recebimentos');">
+            <form id="recebimentoForm" onsubmit="event.preventDefault(); addItem('recebimentosContainer', this);">
                 <label for="empresaRecebimento">Empresa:</label>
                 <input type="text" name="empresa" id="empresaRecebimento" required>
                 <label for="valorRecebimento">Valor:</label>
@@ -97,7 +97,7 @@
                     <option value="aVencer">A Vencer</option>
                 </select>
                 <button type="submit">Adicionar Recebimento</button>
-                <button id="editarrecebimentos" style="display:none;">Confirmar Edição</button>
+                <button id="editarrecebimentos" style="display:none;">Confirmar Edição</button> <!-- Botão para Confirmar Edição -->
             </form>
 
             <div class="search-container">
@@ -114,7 +114,7 @@
         <!-- Seção Contratos -->
         <section id="contratoSection" class="section">
             <h2>Gerenciamento de Contratos</h2>
-            <form id="contratoForm" onsubmit="event.preventDefault(); addButton('contratosContainer', this, 'contratos');">
+            <form id="contratoForm" onsubmit="event.preventDefault(); addItem('contratosContainer', this);">
                 <label for="empresaContrato">Empresa:</label>
                 <input type="text" name="empresa" id="empresaContrato" required>
                 <label for="dataInicioContrato">Data de Início:</label>
@@ -132,7 +132,7 @@
                 <label for="operador">Operador:</label>
                 <input type="text" name="operador" id="operador" required>
                 <button type="submit">Adicionar Contrato</button>
-                <button id="editarcontratos" style="display:none;">Confirmar Edição</button>
+                <button id="editarcontratos" style="display:none;">Confirmar Edição</button> <!-- Botão para Confirmar Edição -->
             </form>
 
             <div class="search-container">
@@ -149,7 +149,7 @@
         <!-- Seção Empresas -->
         <section id="empresaSection" class="section">
             <h2>Gerenciamento de Empresas</h2>
-            <form id="empresaForm" onsubmit="event.preventDefault(); addButton('empresasContainer', this, 'empresas');">
+            <form id="empresaForm" onsubmit="event.preventDefault(); addItem('empresasContainer', this);">
                 <label for="nomeEmpresa">Nome da Empresa:</label>
                 <input type="text" name="nome" id="nomeEmpresa" required>
                 <label for="cnpj">CNPJ:</label>
@@ -161,7 +161,7 @@
                 <label for="email">E-mail:</label>
                 <input type="email" name="email" id="email" required>
                 <button type="submit">Adicionar Empresa</button>
-                <button id="editarempresas" style="display:none;">Confirmar Edição</button>
+                <button id="editarempresas" style="display:none;">Confirmar Edição</button> <!-- Botão para Confirmar Edição -->
             </form>
 
             <div class="search-container">
