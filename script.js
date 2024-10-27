@@ -1,217 +1,273 @@
+let maquinas = JSON.parse(localStorage.getItem('maquinas')) || [];
+let contas = JSON.parse(localStorage.getItem('contas')) || [];
+let recebimentos = JSON.parse(localStorage.getItem('recebimentos')) || [];
+let contratos = JSON.parse(localStorage.getItem('contratos')) || [];
+let empresas = JSON.parse(localStorage.getItem('empresas')) || [];
+
+// Remover "MAQUINA 1" (caso exista)
+if (maquinas.length > 0 && maquinas[0].nome === "MAQUINA 1") {
+    maquinas.splice(0, 1);
+    saveToLocalStorage();
+}
+
+// Função para carregar dados do Local Storage com verificação de validade
+function loadFromLocalStorage() {
+    try {
+        maquinas = JSON.parse(localStorage.getItem('maquinas')) || [];
+        contas = JSON.parse(localStorage.getItem('contas')) || [];
+        recebimentos = JSON.parse(localStorage.getItem('recebimentos')) || [];
+        contratos = JSON.parse(localStorage.getItem('contratos')) || [];
+        empresas = JSON.parse(localStorage.getItem('empresas')) || [];
+        
+        // Verificando se os dados carregados são arrays válidos
+        if (!Array.isArray(maquinas)) maquinas = [];
+        if (!Array.isArray(contas)) contas = [];
+        if (!Array.isArray(recebimentos)) recebimentos = [];
+        if (!Array.isArray(contratos)) contratos = [];
+        if (!Array.isArray(empresas)) empresas = [];
+
+        console.log("Dados carregados:", { maquinas, contas, recebimentos, contratos, empresas });
+    } catch (error) {
+        console.error("Erro ao carregar dados do Local Storage:", error);
+        // Se ocorrer erro ao carregar os dados, inicializa como arrays vazios
+        maquinas = [];
+        contas = [];
+        recebimentos = [];
+        contratos = [];
+        empresas = [];
+    }
+}
+
 // Função para salvar dados no Local Storage
-function saveToLocalStorage(key, data) {
-    localStorage.setItem(key, JSON.stringify(data));
-}
-
-// Função para carregar os dados salvos no Local Storage
-function loadFromLocalStorage(key) {
-    return JSON.parse(localStorage.getItem(key)) || [];
-}
-
-// Função para exibir detalhes diretamente na página ao invés de alert
-function showDetails(data, containerId, index) {
-    const detailsContainer = document.getElementById(containerId + 'Details' + index);
-
-    // Verifica se o contêiner de detalhes existe
-    if (!detailsContainer) {
-        console.error(`O contêiner de detalhes para ${containerId} não foi encontrado.`);
-        return;
-    }
-
-    // Limpa o conteúdo anterior
-    detailsContainer.innerHTML = '';
-
-    // Criar um div para exibir os detalhes do item
-    const detailsDiv = document.createElement('div');
-    detailsDiv.classList.add('item-details');
-
-    // Percorrer os dados e exibi-los
-    for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-            const p = document.createElement('p');
-            p.innerHTML = `<strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${data[key]}`;
-            detailsDiv.appendChild(p);
-        }
-    }
-
-    // Criar botões de editar e excluir
-    const editButton = document.createElement('button');
-    editButton.textContent = 'Editar';
-    editButton.onclick = () => editItem(containerId, containerId.replace('Container', ''), index);
-
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Excluir';
-    deleteButton.onclick = () => deleteItem(containerId, containerId.replace('Container', ''), index);
-
-    // Adicionar os botões de ação ao contêiner de detalhes
-    detailsDiv.appendChild(editButton);
-    detailsDiv.appendChild(deleteButton);
-
-    // Exibir o div de detalhes
-    detailsContainer.appendChild(detailsDiv);
-}
-
-// Função para adicionar ou editar um novo botão à lista e salvar no Local Storage
-function addButton(containerId, form, storageKey, editIndex = null) {
-    const formData = {};
-    for (let i = 0; i < form.elements.length; i++) {
-        if (form.elements[i].name) {
-            formData[form.elements[i].name] = form.elements[i].value;
-        }
-    }
-
-    const dataList = loadFromLocalStorage(storageKey);
-    
-    // Verifica se estamos adicionando ou editando
-    if (editIndex === null) {
-        dataList.push(formData); // Adiciona um novo item se não houver índice de edição
-    } else {
-        dataList[editIndex] = formData; // Atualiza o item no índice especificado
-    }
-    
-    saveToLocalStorage(storageKey, dataList);
-    
-    updateButtons(containerId, storageKey); // Atualiza os botões
-    form.reset(); // Reseta o formulário após adicionar ou editar
-    form.removeAttribute('data-edit-index'); // Remove o índice de edição após salvar
-
-    // Oculta o botão "Confirmar Edição" após a edição
-    document.getElementById(`editar${containerId.replace('Container', '')}`).style.display = 'none';
-}
-
-// Função para atualizar os botões no contêiner com os dados salvos
-function updateButtons(containerId, storageKey) {
-    const container = document.getElementById(containerId);
-    const dataList = loadFromLocalStorage(storageKey);
-    
-    container.innerHTML = ''; // Limpa o contêiner
-
-    dataList.forEach((data, index) => {
-        const accordionButton = document.createElement('button');
-        accordionButton.classList.add('data-button');
-        accordionButton.textContent = data[Object.keys(data)[0]]; // Usa o primeiro campo como rótulo do botão
-        accordionButton.onclick = () => toggleDetails(containerId, index); // Exibe os detalhes ao clicar no botão
-
-        // Criar o contêiner para detalhes
-        const detailsContainer = document.createElement('div');
-        detailsContainer.id = `${containerId}Details${index}`;
-        detailsContainer.classList.add('details-container');
-
-        // Adiciona os botões de editar e excluir inicialmente ocultos
-        detailsContainer.style.display = 'none';
-
-        // Adiciona o botão do acordeão e o contêiner de detalhes ao contêiner principal
-        container.appendChild(accordionButton);
-        container.appendChild(detailsContainer);
-    });
-}
-
-// Função para alternar a exibição dos detalhes
-function toggleDetails(containerId, index) {
-    const detailsContainer = document.getElementById(containerId + 'Details' + index);
-    const dataList = loadFromLocalStorage(containerId.replace('Container', ''));
-
-    // Se o contêiner estiver oculto, exibe os detalhes e os botões de "Editar" e "Excluir"
-    if (detailsContainer.style.display === 'none' || detailsContainer.style.display === '') {
-        showDetails(dataList[index], containerId, index);
-        detailsContainer.style.display = 'block';
-    } else {
-        // Caso contrário, oculta os detalhes
-        detailsContainer.innerHTML = ''; // Limpa o conteúdo ao esconder
-        detailsContainer.style.display = 'none';
+function saveToLocalStorage() {
+    try {
+        localStorage.setItem('maquinas', JSON.stringify(maquinas));
+        localStorage.setItem('contas', JSON.stringify(contas));
+        localStorage.setItem('recebimentos', JSON.stringify(recebimentos));
+        localStorage.setItem('contratos', JSON.stringify(contratos));
+        localStorage.setItem('empresas', JSON.stringify(empresas));
+        console.log("Dados salvos com sucesso no Local Storage.");
+    } catch (error) {
+        console.error("Erro ao salvar dados no Local Storage:", error);
     }
 }
 
-// Função para editar um item existente
-function editItem(containerId, storageKey, index) {
-    const dataList = loadFromLocalStorage(storageKey);
-    const form = document.querySelector(`#${containerId.replace('Container', 'Form')}`);
-    const data = dataList[index];
-
-    // Preenche o formulário com os dados existentes para edição
-    Object.keys(data).forEach(key => {
-        const input = form.querySelector(`[name="${key}"]`);
-        if (input) {
-            input.value = data[key];
-        }
-    });
-
-    // Define o índice de edição no formulário
-    form.setAttribute('data-edit-index', index);
-    
-    // Exibe o botão "Confirmar Edição" ao iniciar a edição
-    const confirmButton = document.getElementById(`editar${containerId.replace('Container', '')}`);
-    if (confirmButton) {
-        confirmButton.style.display = 'inline';
-    }
-}
-
-// Função para excluir um item existente
-function deleteItem(containerId, storageKey, index) {
-    const dataList = loadFromLocalStorage(storageKey);
-    dataList.splice(index, 1); // Remove o item selecionado
-    saveToLocalStorage(storageKey, dataList);
-    updateButtons(containerId, storageKey); // Atualiza a lista de botões após exclusão
-}
-
-// Função para mostrar uma seção específica ao clicar nos botões de navegação
-function showSection(sectionId) {
-    const sections = document.querySelectorAll('.section');
-    sections.forEach(section => {
-        section.style.display = 'none';
-    });
-    document.getElementById(sectionId).style.display = 'block';
-}
-
-// Função para carregar os botões com os dados salvos ao carregar a página
+// Carregar os dados ao iniciar a página
 window.onload = function() {
-    updateButtons('maquinasContainer', 'maquinas');
-    updateButtons('recebimentosContainer', 'recebimentos');
-    updateButtons('contratosContainer', 'contratos');
-    updateButtons('contasContainer', 'contas');
-    updateButtons('empresasContainer', 'empresas');
+    loadFromLocalStorage();
+    showList('maquinas');  // Ou qualquer outra aba padrão
 };
 
-// Configuração dos eventos de envio de formulário para cada seção
-document.getElementById('maquinaForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const editIndex = this.getAttribute('data-edit-index');
-    addButton('maquinasContainer', this, 'maquinas', editIndex !== null ? Number(editIndex) : null);
-});
-
-document.getElementById('recebimentoForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const editIndex = this.getAttribute('data-edit-index');
-    addButton('recebimentosContainer', this, 'recebimentos', editIndex !== null ? Number(editIndex) : null);
-});
-
-document.getElementById('contratoForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const editIndex = this.getAttribute('data-edit-index');
-    addButton('contratosContainer', this, 'contratos', editIndex !== null ? Number(editIndex) : null);
-});
-
-document.getElementById('contaForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const editIndex = this.getAttribute('data-edit-index');
-    addButton('contasContainer', this, 'contas', editIndex !== null ? Number(editIndex) : null);
-});
-
-document.getElementById('empresaForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const editIndex = this.getAttribute('data-edit-index');
-    addButton('empresasContainer', this, 'empresas', editIndex !== null ? Number(editIndex) : null);
-});
-
-// Registrar o Service Worker
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-            .then((registration) => {
-                console.log('Service Worker registrado com sucesso:', registration);
-            })
-            .catch((error) => {
-                console.log('Falha ao registrar o Service Worker:', error);
-            });
-    });
+// Função para limpar e resetar o Local Storage manualmente (pode ser chamada para depuração)
+function resetLocalStorage() {
+    if (confirm("Tem certeza que deseja resetar o Local Storage? Todos os dados serão perdidos.")) {
+        localStorage.removeItem('maquinas');
+        localStorage.removeItem('contas');
+        localStorage.removeItem('recebimentos');
+        localStorage.removeItem('contratos');
+        localStorage.removeItem('empresas');
+        
+        // Inicializa novamente como arrays vazios
+        maquinas = [];
+        contas = [];
+        recebimentos = [];
+        contratos = [];
+        empresas = [];
+        
+        saveToLocalStorage(); // Salva os arrays vazios
+        console.log("Local Storage resetado.");
+    }
 }
+
+// Função para exibir a aba correspondente do menu
+function showSection(section) {
+    document.querySelectorAll('.section').forEach(sec => {
+        sec.style.display = 'none';
+    });
+    
+    const currentSection = document.getElementById(section);
+    currentSection.style.display = 'block';
+
+    const buttonsSection = document.querySelector(`#${section} .buttons`);
+    if (buttonsSection) {
+        buttonsSection.style.display = 'block';
+    }
+}
+
+// Função para exibir a lista com base no tipo
+function showList(type) {
+    let data, listId;
+
+    switch (type) {
+        case 'maquinas':
+            data = maquinas;
+            listId = '#maquinasList';
+            break;
+        case 'contas':
+            data = contas;
+            listId = '#contasList';
+            break;
+        case 'recebimentos':
+            data = recebimentos;
+            listId = '#recebimentosList';
+            break;
+        case 'contratos':
+            data = contratos;
+            listId = '#contratosList';
+            break;
+        case 'empresas':
+            data = empresas;
+            listId = '#empresasList';
+            break;
+    }
+
+    const listElement = document.querySelector(listId);
+    listElement.innerHTML = ''; // Limpar lista
+
+    data.forEach((item, index) => {
+        const itemHTML = `
+            <div class="item">
+                <div class="header" onclick="toggleAccordion(this)">
+                    <span>${item.nome || item.tipo || item.empresa}</span>
+                    <div class="arrow">▼</div>
+                </div>
+                <div class="details" style="display:none;">
+                    ${Object.keys(item).map(key => `<p><strong>${key}:</strong> ${item[key]}</p>`).join('')}
+                    <div class="buttons">
+                        <button onclick="editItem('${type}', ${index})">Alterar</button>
+                        <button onclick="deleteItem('${type}', ${index})" class="delete">Excluir</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        listElement.innerHTML += itemHTML;
+    });
+
+    ativarAccordion(); // Reativar funcionalidade do accordion
+}
+
+// Função para exibir/ocultar detalhes do item
+function toggleAccordion(header) {
+    const details = header.nextElementSibling;
+    const arrow = header.querySelector('.arrow');
+
+    if (details.style.display === 'block') {
+        details.style.display = 'none';
+        arrow.textContent = '▼';
+    } else {
+        details.style.display = 'block';
+        arrow.textContent = '▲';
+    }
+}
+
+// Função de edição de um item
+function editItem(type, index) {
+    let item;
+    switch (type) {
+        case 'maquinas':
+            item = maquinas[index];
+            break;
+        case 'contas':
+            item = contas[index];
+            break;
+        case 'recebimentos':
+            item = recebimentos[index];
+            break;
+        case 'contratos':
+            item = contratos[index];
+            break;
+        case 'empresas':
+            item = empresas[index];
+            break;
+    }
+
+    const fields = Object.keys(item);
+    fields.forEach(field => {
+        const inputField = document.getElementById(`edit${capitalizeFirstLetter(field)}`);
+        if (inputField) {
+            inputField.value = item[field];
+        }
+    });
+
+    document.getElementById('currentEditType').value = type;
+    document.getElementById('currentEditIndex').value = index;
+
+    // Mudar a visibilidade do formulário de edição
+    document.getElementById('editForm').style.display = 'block';
+}
+
+// Função para confirmar a edição de um item
+document.getElementById('editForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const type = document.getElementById('currentEditType').value;
+    const index = document.getElementById('currentEditIndex').value;
+
+    const fields = Array.from(document.querySelectorAll('#editForm input'));
+    const editedItem = { ...maquinas[index], ...contas[index], ...recebimentos[index], ...contratos[index], ...empresas[index] };  // Clonar o item original
+
+    fields.forEach(input => {
+        if (input.value) {
+            editedItem[input.name] = input.value;
+        }
+    });
+
+    switch (type) {
+        case 'maquinas':
+            maquinas[index] = editedItem;
+            break;
+        case 'contas':
+            contas[index] = editedItem;
+            break;
+        case 'recebimentos':
+            recebimentos[index] = editedItem;
+            break;
+        case 'contratos':
+            contratos[index] = editedItem;
+            break;
+        case 'empresas':
+            empresas[index] = editedItem;
+            break;
+    }
+
+    saveToLocalStorage();
+    document.getElementById('editForm').style.display = 'none';
+    showList(type);
+});
+
+// Função de exclusão de um item
+function deleteItem(type, index) {
+    if (confirm('Tem certeza que deseja excluir este item?')) {
+        switch (type) {
+            case 'maquinas':
+                maquinas.splice(index, 1);
+                break;
+            case 'contas':
+                contas.splice(index, 1);
+                break;
+            case 'recebimentos':
+                recebimentos.splice(index, 1);
+                break;
+            case 'contratos':
+                contratos.splice(index, 1);
+                break;
+            case 'empresas':
+                empresas.splice(index, 1);
+                break;
+        }
+
+        saveToLocalStorage();
+        showList(type);
+    }
+}
+
+// Função para capitalizar a primeira letra
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', function() {
+    loadFromLocalStorage(); // Carregar dados do LocalStorage
+    showSection('maquinasSection'); // Mostrar a seção inicial
+    showList('maquinas'); // Mostrar a lista inicial
+});
