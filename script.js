@@ -1,3 +1,4 @@
+
 // Função para salvar dados no Local Storage e carregar os dados salvos
 function saveToLocalStorage(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
@@ -62,7 +63,10 @@ function addButton(containerId, form, storageKey, editIndex = null) {
     form.removeAttribute('data-edit-index'); // Remove o índice de edição após salvar
 
     // Oculta o botão "Confirmar Alteração" após a edição
-    document.getElementById(`alterar${containerId.replace('Container', '')}`).style.display = 'none';
+    const confirmButton = document.getElementById(`alterar${containerId.replace('Container', '')}`);
+    if (confirmButton) {
+        confirmButton.style.display = 'none';
+    }
 }
 
 // Função para atualizar os botões no contêiner com os dados salvos
@@ -156,13 +160,35 @@ function deleteItem(containerId, storageKey, index) {
     updateButtons(containerId, storageKey); // Atualiza a lista de botões após exclusão
 }
 
-// Função para mostrar uma seção específica ao clicar nos botões de navegação
-function showSection(sectionId) {
-    const sections = document.querySelectorAll('.section');
-    sections.forEach(section => {
-        section.style.display = 'none';
+// Função para buscar entre os botões
+function searchInButtons(containerId, searchInputId) {
+    const input = document.getElementById(searchInputId);
+    const filter = input.value.toLowerCase();
+    const container = document.getElementById(containerId);
+    const buttons = container.querySelectorAll('.data-button');
+
+    buttons.forEach(button => {
+        const text = button.textContent.toLowerCase();
+        button.style.display = text.includes(filter) ? '' : 'none';
     });
-    document.getElementById(sectionId).style.display = 'block';
+}
+
+// Função para confirmar busca ao clicar no botão "Confirmar"
+function confirmSearch(containerId, searchInputId) {
+    searchInButtons(containerId, searchInputId);
+}
+
+// Registrar o Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then((registration) => {
+                console.log('Service Worker registrado com sucesso:', registration);
+            })
+            .catch((error) => {
+                console.log('Falha ao registrar o Service Worker:', error);
+            });
+    });
 }
 
 // Função para carregar os botões com os dados salvos ao carregar a página
@@ -205,24 +231,6 @@ document.getElementById('empresaForm').addEventListener('submit', function(event
     const editIndex = this.getAttribute('data-edit-index');
     addButton('empresasContainer', this, 'empresas', editIndex !== null ? Number(editIndex) : null);
 });
-
-// Função para buscar entre os botões
-function searchInButtons(containerId, searchInputId) {
-    const input = document.getElementById(searchInputId);
-    const filter = input.value.toLowerCase();
-    const container = document.getElementById(containerId);
-    const buttons = container.querySelectorAll('.data-button');
-
-    buttons.forEach(button => {
-        const text = button.textContent.toLowerCase();
-        button.style.display = text.includes(filter) ? '' : 'none';
-    });
-}
-
-// Função para confirmar busca ao clicar no botão "Confirmar"
-function confirmSearch(containerId, searchInputId) {
-    searchInButtons(containerId, searchInputId);
-}
 
 // Registrar o Service Worker
 if ('serviceWorker' in navigator) {
